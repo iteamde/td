@@ -1,0 +1,16 @@
+<div class="form-group has-feedback">
+    <form name="search" ng-submit="vm.submit()">
+
+        <input type="text"
+               class="form-control form-control-small"
+               placeholder="{{ getTranslation('search_the_system_in_natural_language') }}"
+               ng-model="vm.selected"
+               ng-change="vm.onChange()"
+               uib-typeahead="query for query in vm.match($viewValue)"
+               typeahead-on-select="vm.addToString($item)"
+               >
+
+        <button type="submit" class="btn search-button-icon"><i class="fa fa-search"></i></button>
+
+    </form>
+</div>

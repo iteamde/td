@@ -1,0 +1,55 @@
+<div id="login-block-parent">
+
+    <div id="login-block"
+         ng-class="{'login-panel-opened':vm.isLoginPanelActive, 'forgot-panel-opened':!vm.isLoginPanelActive}">
+        <div class="main-logo"></div>
+
+        <!-- Login Panel -->
+        <div id="login-panel">
+            <form role="form" method="post" name="loginform" ng-submit="vm.login(loginform, vm.credentials)" ng-validate="validationOptions">
+                <div class="form-group text-left">
+                    <input type="email" class="form-control text-input" placeholder="{{ getTranslation('username_or_email') }}" name="loginemail" id="loginemail" ng-model="vm.credentials.email">
+                </div>
+                <div class="form-group password-container text-left">
+                    <input type="{{vm.isPasswordVisible ? 'text' : 'password'}}" class="form-control text-input" placeholder="{{ getTranslation('password') }}" name="loginpassword" id="loginpassword" ng-model="vm.credentials.password">
+                    <span class="fa fa-eye login-password-eye" data-ng-class="{'login-password-eye-active' : vm.isPasswordVisible}" data-ng-click="vm.togglePasswordVisibility();" aria-hidden="true"></span>
+                </div>
+                <div class="form-group text-center">
+
+                   <!-- <div class="btn-group login-keep-signed">
+                        <label class="login-keep-signed-check" ng-model="vm.canKeepSignedIn" uib-btn-checkbox>
+                            <i class="fa fa-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            Keep me signed in
+                        </label>
+                    </div>-->
+
+                    <div class="clearfix"></div>
+                    <button class="btn btn-success btn-lg login-btn-go" type="submit">{{ getTranslation('sign_in') }}</button>
+                    <div class="clearfix"></div>
+                    <a class="btn-link-primary-decorated" href="#/login" role="button" data-ng-click="vm.showForgotPanel();">{{ getTranslation('forgot_your_password?') }}</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Login Panel -->
+        <div id="login-forgot-panel">
+            <form role="form" name="registerFPForm" ng-submit="registerFpForm(registerFPForm, vm.loginforgotemail)" ng-validate="validationOptionsForFp">
+                <p>{{ getTranslation('enter_your_email_below_to_recieve_te') }}</p>
+
+                <div class="form-group text-left">
+                    <input type="email" class="form-control text-input" placeholder="{{ getTranslation('email') }}" name="loginforgotemail" id="loginforgotemail" ng-model="vm.loginforgotemail" ng-required="true">
+                </div>
+                <div class="form-group text-center login-ew">
+                    <button class="btn btn-success btn-lg login-btn-go clearfix" type="submit">{{ getTranslation('send') }}</button>
+                    <br>
+                    {{ getTranslation('didnt_recieved_password?') }} <a href="#" ng-click="registerFpForm(registerFPForm, vm.loginforgotemail)" class="btn-link-primary-decorated">{{ getTranslation('resend') }}</a>
+                    <br>
+                    <br>
+                    <a class="btn-link-primary-decorated" href="#/login" role="button" data-ng-click="vm.showLoginPanel();">{{ getTranslation('sign_in_here') }}</a>
+                </div>
+            </form>
+        </div>
+        <div id="login-app-version">v. {{getCommonData('app_version')}}</div>
+    </div>
+</div>

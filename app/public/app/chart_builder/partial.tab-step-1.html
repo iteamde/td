@@ -1,0 +1,47 @@
+<div class="form-group">
+    <ui-select multiple ng-model="vm.selectedAttributes" class="angselect-control-primary-multiple">
+        <ui-select-match placeholder="{{ getTranslation('select_person') }}...">{{$item.name}}</ui-select-match>
+        <ui-select-choices repeat="item in (vm.attributes | filter: $select.search) track by item.id">
+            <span ng-bind="item.value"></span>
+        </ui-select-choices>
+    </ui-select>
+
+</div>
+
+<div class="form-group">
+    <ui-select ng-model="vm.selectedDimension" class="angselect-control-primary">
+        <ui-select-match placeholder="{{ getTranslation('choose_dimension') }}">
+            <span ng-bind="$select.selected.value"></span>
+        </ui-select-match>
+        <ui-select-choices repeat="item in (vm.dimensions | filter: $select.search) track by item.id">
+            <span ng-bind="item.value"></span>
+        </ui-select-choices>
+    </ui-select>
+</div>
+
+<p class="input-group datepicker-primary">
+
+    <input type="text" class="form-control form-control-primary" uib-datepicker-popup="{{format}}" placeholder="{{ getTranslation('from') }}:"
+           ng-model="dt" is-open="popup1.opened"
+           datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="{{ getTranslation('close') }}"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-icon" ng-click="open1($event)"><i
+                        class="fa fa-calendar"></i></button>
+              </span>
+</p>
+
+<p class="input-group datepicker-primary">
+    <input type="text" class="form-control form-control-primary" uib-datepicker-popup="{{format}}" placeholder="{{ getTranslation('to') }}:"
+           ng-model="toDt" is-open="popup2.opened"
+           datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="{{ getTranslation('close') }}"/>
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-icon" ng-click="open2($event)"><i class="fa fa-calendar"></i></button>
+    </span>
+</p>
+
+<div class="button-group form-group">
+    <button class="btn btn-xlpad btn-danger btn-bordered">{{ getTranslation('cancel') }}</button>
+    <button class="btn btn-xlpad btn-success  btn-bordered">{{ getTranslation('continue') }}</button>
+</div>
+
+

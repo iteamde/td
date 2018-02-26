@@ -1,0 +1,30 @@
+<div class="ui-grid-cell-contents flex-cell">
+   <!-- <div class="flex-cell" ng-if="rowRenderIndex < 3" ng-class="{'hide-block': !grid.appScope.vm.modelingMode}">
+        <input class="form-control"
+               type="number"
+               min="0"
+               ng-model="grid.appScope.gridOptions2.data[rowRenderIndex][col.field]"
+               ng-keyup="grid.appScope.vm.updateOnChange(rowRenderIndex, colRenderIndex)"
+               model-view-format="{{rowRenderIndex > 0 && rowRenderIndex < 3}}"
+               ng-value="{{grid.getCellValue(row, col)}}">
+        <span ng-show="grid.appScope.vm.isPercent(grid.getCellValue(row, col))">%</span>
+    </div>-->
+
+    <div ng-class="{'hide-block': grid.appScope.vm.modelingMode && rowRenderIndex < 3}">
+        {{grid.getCellValue(row, col)}}
+    </div>
+
+    <div ng-if="grid.appScope.vm.modelingMode && rowRenderIndex < 3">
+        <i class="fa"
+           ng-class="{'fa-arrow-up': grid.appScope.summaryGrid.isGreater(rowRenderIndex, col.field),
+                      'fa-arrow-down': grid.appScope.summaryGrid.isLower(rowRenderIndex, col.field)}"
+           title="Original Value: {{grid.appScope.summaryGrid.getStartValue(rowRenderIndex, col.field)}}">
+        </i>
+
+        <i class="fa"
+           ng-class="{'fa-refresh': grid.appScope.summaryGrid.isLower(rowRenderIndex, col.field) || grid.appScope.summaryGrid.isGreater(rowRenderIndex, col.field)}"
+           title="Reset to original value: {{grid.appScope.summaryGrid.getStartValue(rowRenderIndex, col.field)}}"
+           ng-click="grid.appScope.vm.setOriginalValue(rowRenderIndex, col.field)">
+        </i>
+    </div>
+</div>

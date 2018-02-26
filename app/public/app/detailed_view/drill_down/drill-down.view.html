@@ -1,0 +1,191 @@
+<div class="chart-loader" ng-show="vm.showSpinner" style="margin: 40vh 35vw;">
+    <i class="fa fa-spinner fa-5x fa-spin"></i>
+</div>
+<div id="drill-down" ng-show="vm.showData">
+    <!--<h3 class="gi-heading-spacing-1">{{ getTranslation('turnover_drilldown_view') }}</h3>-->
+
+    <!-- Gridstack -->
+    <div gridstack class="grid-stack grid1" is-chart-resizing="isChartResizing" options="options"
+         on-window-resize="onWindowResize(gridstack)" on-change="onChange(event,items)"
+         on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)"
+         on-resize-start="onResizeStart(event,ui)"
+         on-resize-stop="onResizeStop(event,ui)">
+
+        <!-- item -->
+        <div gridstack-item data-grid-item-index="{{$index}}" ng-repeat="w in widgets" class="grid-stack-item"
+             gs-item-x="w.x"
+             gs-item-y="w.y"
+             gs-item-width="w.width"
+             gs-item-height="w.height"
+             gs-item-min-width="vm.TILE_MIN_WIDTH"
+             gs-item-min-height="vm.TILE_MIN_HEIGHT_WITH_FILTERS"
+             gs-item-autopos="1"
+             on-item-added="onItemAdded(item)"
+             on-item-removed="onItemRemoved(item)">
+
+            <div class="grid-stack-item-content">
+
+                <div class="chart">
+                    <div class="chart-header">
+                        <h2>{{w.title}}</h2>
+
+                        <!--<p class="inline-block">{{getTranslation(vm.createToken(w.title, 'drilldown')) || ''}}</p>-->
+
+                        <!-- Chart filters -->
+                        <div class="chart-filters well well-sm" ng-class="{expanded: vm.activeTab > 0}">
+                            <div class="chart-header-tab-title pull-left">
+                                <span ng-if="vm.activeTab === 1">Settings</span>
+                                <span ng-if="vm.activeTab === 2">Filters</span>
+                            </div>
+
+                            <div class="chart-header-buttons">
+
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" uib-tooltip="Settings"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" uib-tooltip="Filters"></span>
+                                <span class="fa fa-bell" ng-click="vm.openAlertsModal()" uib-tooltip="{{ getTranslation('alerts') }}"></span>
+                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Drilldown')" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
+                                <span class="fa fa-download" ng-click="vm.exportChart($index)" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
+                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                            </div>
+
+                            <div class="chart-header-tab" ng-show="vm.activeTab === 1">
+                                <div class="chart-filter">
+                                    <label >{{ getTranslation('chart_view') }}:</label>
+                                    <select ng-model="vm.view"
+                                            ng-change="vm.updateChart()">
+                                        <option ng-repeat="option in chartViews"
+                                                value="{{option}}">
+                                            {{ vm.getFilterName(option) }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="chart-filter">
+                                    <label >
+                                        <input type="checkbox" ng-model="hideEmpty" ng-change="vm.hideEmptyValues(hideEmpty)">
+                                        Hide bars with no values
+                                    </label>
+                                </div>
+
+                                <div class="chart-filter">
+                                    <label >{{ getTranslation('vertical_axis') }}:</label>
+                                    <select ng-model="vm.axis"
+                                            ng-change="vm.updateChart()">
+                                        <option ng-repeat="option in verticalAxis"
+                                                value="{{option}}">
+                                            {{ vm.getFilterName(option) }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="chart-header-tab" ng-show="vm.activeTab === 2">
+                                <div class="btn-group"
+                                     ng-repeat="(key, filter) in filters"
+                                     uib-dropdown
+                                     auto-close="outsideClick"
+                                     ng-hide="key.split(' ')[0].toLowerCase() === 'custom' && !vm.showCustom">
+
+                                    <label for="{{key + $index}}" class="btn btn-default">
+                                        <input type="checkbox" id="{{key + $index}}" ng-model="filters[key].all" ng-change="vm.toggleCheckbox(filter, filters[key].all)">
+                                        {{ vm.getFilterName(key) | capitalizeFilter }}
+                                    </label>
+
+                                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                        <li>
+                                            <input class="form-control" type="text" placeholder="{{ getTranslation('filter_by_label') }}" ng-model="filter.label">
+                                        </li>
+                                        <li ng-repeat="(name, value) in filter.values">
+                                            <label for="{{name + $index}}">{{ name }}
+                                                <input type="checkbox" id="{{name + $index}}" ng-model="filters[key].values[name]" ng-change="vm.toggleCheckbox(filter)">
+                                            </label>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <div class="chart-filter-settings" ng-click="vm.showCustom = !vm.showCustom">
+                                    <input type="checkbox" ng-checked="vm.showCustom">
+                                    <span>Show Custom Fields</span>
+                                </div>
+
+                                <div class="chart-filter-group">
+                                    <div ng-repeat="(key, filter) in filters" ng-hide="key.split(' ')[0].toLowerCase() === 'custom' && !vm.showCustom">
+                                        <label class="filter-group">{{vm.getFilterName(key) | capitalizeFilter}} :</label>
+                                        <span class="filter-value"
+                                              ng-repeat="(name, value) in vm.filteredValues(filter.values) track by $index"
+                                              ng-show="value&& (filter.expanded || $index < vm.maxFiltersCount)">{{name || 'Empty'}};
+                                        </span>
+                                        <span ng-if="vm.showMoreLessLink(filter.values)">
+                                            <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>Show More ...</b></a>
+                                        <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>Show Less ...</b></a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="chart-content">
+                        <div class="chart-loader" ng-show="vm.isLoading">
+                            <i class="fa chart-loader-icon"></i>
+                        </div>
+
+                        <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
+
+                        <!-- Chart navigation buttons -->
+                        <div class="chart-button-group">
+                            <a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>
+                            <a class="" href="#/predictive/{{w.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <!--<div class="chart chart-recommended-charts">
+        &lt;!&ndash; Chart Header &ndash;&gt;
+        <div class="chart-header clearfix">
+            <h2>{{ getTranslation('recommended_charts') }}</h2>
+            <button class="btn btn-icon" ng-click="isRCCollapsed = !isRCCollapsed ">
+                <i class="fa {{isRCCollapsed ? 'fa-angle-down' : 'fa-angle-up'}}"></i>
+            </button>
+        </div>
+        &lt;!&ndash; Chart content &ndash;&gt;
+        <div class="chart-content clearfix" uib-collapse="isRCCollapsed">
+            &lt;!&ndash; List of recommended charts &ndash;&gt;
+            <div class="container-fluid container-gutter-10 rc-list">
+                <div class="gallery-charts-wrap">
+                    <div class="row gallery">
+                        <div class="gallery-item" ng-repeat="chart in vm.recommendedCharts">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <div class="{{chart.img}} inline-block"></div>
+                                        &lt;!&ndash;<img class="media-object" ng-src="content/images/drill_down/{{chart.img}}">&ndash;&gt;
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{chart.title}}</h4>
+                                    <p>{{chart.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="chart chart-grid">
+        <common-grid users="users" total-users="totalUsers" chart-id="chartId" custom-fields="customFields"></common-grid>
+    </div>
+
+
+</div>

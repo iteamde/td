@@ -1,0 +1,14 @@
+[
+  {"name":"Avg. Salary","December":85123,"January":88519,"February":88671,"March":89029,"April":88932,"May":88745},
+  {"name":"Remote Employees","December":0.0772,"January":0.0735,"February":0.07,"March":0.08,"April":0.09,"May":0.1},
+  {"name":"HP in Prof Dev","December":0.05,"January":0.049,"February":0.0505,"March":0.0495,"April":0.051,"May":0.05},
+  {"name":"Recruiting","December":32,"January":40,"February":39,"March":36,"April":37,"May":38, "June":32,"July":40,"August":39,"September":36,"October":37,"November":38},
+  {"name":"Total Turnover","December":0.1735,"January":0.1662,"February":0.1589,"March":0.1518,"April":0.1454,"May":0.145 , "June": 0.875},
+  {"name":"HP Turnover","December":0.149,"January":0.151,"February":0.15,"March":0.148,"April":0.149,"May":0.151},
+  {"name":"Non-HP Turnover","December":0.1762,"January":0.1679,"February":0.1599,"March":0.1523,"April":0.145,"May":0.1445},
+  {"name":"Turnover Prod Loss % of Rev","December":0.0868,"January":0.0827,"February":0.0788,"March":0.0777,"April":0.0782,"May":0.0782},
+  {"name":"Total Recruiting Cost","December":168760,"January":210950,"February":126570,"March":189855,"April":295330,"May":295330},
+  {"name":"Turnover Productivity Loss","December":14268743,"January":15220800,"February":15220800,"March":15384600,"April":15723225,"May": 2290446},
+  {"name":"Number of Employees","December":1500,"January":1518,"February":1547,"March":1557,"April":1582,"May":237},
+  {"name":"Company Rev(Annualized)","December":18900000,"January":19200000,"February":19600000,"March":19800000,"April":20100000,"May":21000000}
+]

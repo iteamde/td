@@ -1,0 +1,45 @@
+<style type="text/css">
+    table{
+        border-collapse: collapse;
+        border: 1px solid black;
+        width: 50%;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+    table td{
+        border: 1px solid black;
+    }
+    p {
+        margin: 1px;
+        padding: 1px;
+    }
+</style>
+
+{% for stat in statList %}
+    <table>
+        <tr>
+            <td>Date</td>
+            <td>{{ stat.date }}</td>
+        </tr>
+        <tr>
+            <td>Page call count</td>
+            <td>{{ stat.page_call_count }}</td>
+        </tr>
+        <tr>
+            <td>API call count</td>
+            <td>{{ stat.api_call_count }}</td>
+        </tr>
+        <tr>
+            <td>Page call browsers</td>
+            <td>
+                {% for browser in stat.page_call_browsers %}
+                    <p>{{ browser.browser }} [{{ browser.count }}]</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Average API execution time</td>
+            <td>{{ stat.average_api_execution_time }} ms</td>
+        </tr>
+    </table>
+{% endfor %}

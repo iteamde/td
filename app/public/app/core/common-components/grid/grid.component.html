@@ -1,0 +1,42 @@
+<div id="grid">
+    <div class="grid-row first">
+        <div class="grid-cell" ng-repeat="(key, val) in $ctrl.users[0]" ng-click="sort(key)">
+            {{key | capitalizeFilter}}
+            <span class="pull-right"
+                  ng-if="pagination.sort_column == key && pagination.sort_type == 'ASC'">ASC</span>
+            <span class="pull-right"
+                  ng-if="pagination.sort_column == key && pagination.sort_type == 'DESC'">DESC</span>
+        </div>
+    </div>
+
+    <div class="grid-row" ng-repeat="user in $ctrl.users">
+        <div class="grid-cell" ng-repeat="(key, val) in user">{{val}}</div>
+    </div>
+
+    <div class="grid-bottom">
+        <div>
+            <span>Limit grid to:</span>
+
+            <select ng-model="pagination.page_size" ng-options="x for x in [10,25,50,100]"></select>
+
+            <span>employees</span>
+        </div>
+
+        <span class="grid-manage" ng-click="manageColumns()">
+            Manage Columns
+        </span>
+
+        <ul class="pull-right" uib-pagination
+            boundary-link-numbers="true"
+            items-per-page="pagination.page_size"
+            total-items="$ctrl.totalUsers"
+            ng-model="pagination.page_number"
+            max-size="5"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;">
+        </ul>
+
+    </div>
+
+
+</div>

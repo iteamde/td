@@ -1,0 +1,55 @@
+<!-- Chart -->
+<div id="connectorDetailed">
+    <div class="chart-2 chart-grid margin-negative-20">
+        <!-- Chart Header -->
+        <div class="chart-header clearfix">
+            <h2>{{ getTranslation('tuff') }} ({{ getTranslation('trendata_universal_file_format')}})</h2>
+
+            <div class="chart-filters well well-sm" ng-if="videoUrl">
+                <div class="chart-header-buttons">
+                    <span class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row connector-btns">
+            <div class="col-md-4 text-center">
+                <button class="btn btn-xlpad btn-primary" ng-click="vm.uploadData()">
+                    <i class="fa fa-cloud-upload"></i>
+                    {{ getTranslation('upload_file') }}
+                </button>
+            </div>
+            <div class="col-md-4 text-center">
+                <a class="btn btn-xlpad btn-primary" href="/static-content/users_tuff.csv" download="users_tuff.csv">
+                    <i class="fa fa-cloud-download"></i>
+                    {{ getTranslation('download_sample_file') }}
+                </a>
+            </div>
+            <div class="col-md-4 text-center">
+                <a class="btn btn-xlpad btn-primary" href="{{BASE_URL}}connector-csv/last-uploaded-file/tuff/users" download="last_users_tuff.csv">
+                    <i class="fa fa-eye"></i>
+                    {{ getTranslation('view_last_uploaded_file') }}
+                </a>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>{{ getTranslation('tuff_data_dictionary') }}</h3>
+
+        <p class="text-center">Fields in red with * sign are required fields and cannot be empty</p>
+        <div class="flex-table" dnd-list="vm.dictionary">
+            <div class="flex-row" ng-repeat="item in vm.dictionary" dnd-draggable="item" ng-class="{dragging: item.dragging}" dnd-moved="vm.dictionary.splice($index, 1)" dnd-dragend="vm.dragEnd(item)" dnd-dragstart="item.dragging = true;">
+                <div class="flex-item" ng-class="{required: item.required}">
+                    <i class="fa fa-sort" uib-tooltip="{{getTranslation('reorder')}}"></i>
+                    <i ng-show="item.editing" class="fa fa-check" ng-click="vm.changeEditing(item)" uib-tooltip="{{getTranslation('save_field_name')}}"></i>
+                    <i ng-hide="item.editing" class="fa fa-pencil" ng-click="vm.changeEditing(item)" uib-tooltip="{{getTranslation('edit_field_name')}}"></i>
+                    <input type="checkbox" ng-model="item.use" ng-disabled="item.required" ng-change="vm.saveSettings()" uib-tooltip="{{getTranslation(item.use ? 'disable' : 'enable')}}">
+                    <span ng-hide="item.editing">{{item.title}} {{item.required ? '*' : ''}}</span>
+                    <input type="text" ng-model="item.title" ng-show="item.editing" ng-blur="vm.changeEditing(item)" class="dictionary-item-input">
+                </div>
+                <div class="flex-item">{{ getTranslation(item.description) }}</div>
+            </div>
+        </div>
+    </div>
+</div>

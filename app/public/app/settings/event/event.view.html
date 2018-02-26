@@ -1,0 +1,48 @@
+<div class="container-fluid container-gutter-10 connector">
+    <div class="event-management row">
+        <div class="col-md-6" ng-repeat="eventType in vm.eventTypes">
+            <div class="chart clearfix">
+                <div class="chart-header">
+                    <h2>{{eventType.title}}</h2>
+                    <p ng-show="w.description">{{w.description}}</p>
+                    <!-- Chart option menu -->
+                </div>
+
+                <div class="chart-content event-content">
+                    <div class="scroll-box">
+                        <div class="event-text-holder" ng-show="!eventType.events.length">
+                            <h4 class="event-text">{{ getTranslation('no_existing_events') }}</h4>
+                        </div>
+                        <div class="media" ng-repeat="event in eventType.events">
+                            <div class="media-left">
+                                <div class="date-wrapper">
+                                    <span>{{event.start_on | date : "d"}}</span>
+                                    <small>{{event.start_on | date : "MMM yyyy"}}</small>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"> {{event.title}}</h4>
+                                <small> {{ getTranslation('starting_date') }}: {{event.start_on | date :"M/d/yyyy"}} <span>|</span> {{ getTranslation('ending_date') }}: {{ event.end_on | date :"M/d/yyyy" }}</small>
+                                <p>{{event.description}}</p>
+
+                                <div class="icon-wrapper">
+                                    <i class="fa fa-user" ng-class="{'fa-user': !event.is_public, 'fa-users': event.is_public}"></i>
+                                    <button class="delete-event" ng-disabled="! vm.checkPermissions(event)" title="{{vm.checkPermissions(event) ? getTranslation('delete') : getTranslation('delete_disabled')}}" ng-click="vm.deleteEvent(event.id, $parent.$index, $index)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button class="btn btn-xlpad btn-success" ng-click="vm.addNewEvent(eventType.id, $index)">{{ getTranslation('add_event') }}</button>
+                    </div>
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <!--<button class="btn btn-xlpad btn-primary pull-right" ng-click="vm.addNewCategory()">{{ getTranslation('add_event_category') }}</button>-->
+    </div>
+</div>

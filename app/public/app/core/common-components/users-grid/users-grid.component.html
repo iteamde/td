@@ -1,0 +1,65 @@
+<div id="users-grid">
+    <div class="grid-row first">
+        <div class="grid-cell check">
+            <i class="fa" ng-class="{'fa-square-o' : !selectedAll, 'fa-check-square-o': selectedAll}" ng-click="selectAll(selectedAll)"></i>
+        </div>
+        <div class="grid-cell"> <!--ng-click="sort('name')"-->
+            Full Name
+            <span class="pull-right"
+                  ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'ASC'">ASC</span>
+            <span class="pull-right"
+                  ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'DESC'">DESC</span>
+        </div>
+        <div class="grid-cell"> <!--ng-click="sort('email')"-->
+            Email
+            <span class="pull-right"
+                  ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'ASC'">ASC</span>
+            <span class="pull-right"
+                  ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'DESC'">DESC</span>
+        </div>
+        <div class="grid-cell">Actions</div>
+    </div>
+
+    <div class="grid-row" ng-repeat="user in $ctrl.users" ng-if="user.status == '1' || $ctrl.inactive && user.status == '0'">
+        <div class="grid-cell check">
+            <i class="fa" ng-class="{'fa-square-o' : !user.selected, 'fa-check-square-o': user.selected}" ng-click="selectUser(user)"></i>
+        </div>
+        <div class="grid-cell">{{user.name}}</div>
+        <div class="grid-cell">{{user.email}}</div>
+        <div class="grid-cell">
+            <i class="fa fa-pencil" title="Edit User" ng-click="editUser(user)"></i>
+            <i class="fa fa-key" title="Reset Password" ng-click="resetPassword(user)"></i></button>
+            <i class="fa {{user.status=='1' ? 'fa-power-off text-success' : 'fa-power-off text-danger'}}" title="{{user.status=='1' ? 'Deactivate User' : 'Activate User'}}" ng-click="showConfirm(user)"></i>
+            <i class="fa fa-trash" title="Delete User" ng-click="showConfirm(user, true)"></i>
+        </div>
+    </div>
+
+    <!--<div class="grid-limit">
+        <span>Limit grid to:</span>
+
+        <input type="radio" value=10 ng-model="pagination.page_size" id="10"/>
+        <label for="10">10</label>
+
+        <input type="radio" value=25 ng-model="pagination.page_size" id="25"/>
+        <label for="25">25</label>
+
+        <input type="radio" value=50 ng-model="pagination.page_size" id="50"/>
+        <label for="50">50</label>
+
+        <input type="radio" value=100 ng-model="pagination.page_size" id="100"/>
+        <label for="100">100</label>
+
+        <span>users</span>
+    </div>-->
+
+    <!--<ul class="pull-right" uib-pagination
+        boundary-link-numbers="true"
+        items-per-page="pagination.page_size"
+        total-items="$ctrl.totalUsers"
+        ng-model="pagination.page_number"
+        max-size="5"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;">
+    </ul>-->
+
+</div>

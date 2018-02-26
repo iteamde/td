@@ -1,0 +1,198 @@
+<!-- wrapper to shift child containers to -10px on left and right -->
+<div class="chart-loader" ng-show="vm.showSpinner" style="margin: 40vh 35vw;">
+    <i class="fa fa-spinner fa-5x fa-spin"></i>
+</div>
+<div id="drill-down" class="analytical-view" ng-show="vm.showData">
+    <!--<h3 class="gi-heading-spacing-1">{{ getTranslation('turnover_analytical_view') }}</h3>-->
+    <!--<h1>Revenue Analysis for Aug'16
+        <button class="btn btn-icon" ng-click="goBack();"  title="{{vm.TOOLTIP_BACK_BUTTON}}">
+            <i class="lnr lnr-chevron-left"></i>
+        </button>
+    </h1>-->
+
+    <!-- Gridstack Markup -->
+    <div gridstack class="grid-stack grid1" is-chart-resizing="isChartResizing" options="options"
+         on-window-resize="onWindowResize(gridstack)" on-change="onChange(event,items)"
+         on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)"
+         on-resize-start="onResizeStart(event,ui)"
+         on-resize-stop="onResizeStop(event,ui)">
+
+        <!-- item -->
+        <div gridstack-item data-grid-item-index="{{$index}}" ng-repeat="w in widgets" class="grid-stack-item"
+             gs-item-x="w.x"
+             gs-item-y="w.y"
+             gs-item-width="w.width"
+             gs-item-height="w.height"
+             gs-item-min-width="vm.TILE_MIN_WIDTH"
+             gs-item-min-height="vm.TILE_MIN_HEIGHT_WITH_FILTERS"
+             gs-item-autopos="1"
+             on-item-added="onItemAdded(item)"
+             on-item-removed="onItemRemoved(item)">
+
+            <div class="grid-stack-item-content">
+                <div class="chart">
+                    <div class="chart-header">
+                        <h2>{{ w.title }}</h2>
+
+                        <!--<p class="inline-block">{{getTranslation(vm.createToken(w.title, 'predictive')) || ''}}</p>-->
+
+                        <!-- Chart filters -->
+                        <div class="chart-filters well well-sm" ng-class="{expanded: vm.activeTab > 0}">
+
+                            <div class="chart-header-tab-title pull-left">
+                                <span ng-if="vm.activeTab === 1">Settings</span>
+                                <span ng-if="vm.activeTab === 2">Filters</span>
+                            </div>
+
+                            <div class="chart-header-buttons">
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" uib-tooltip="Settings"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" uib-tooltip="Filters"></span>
+                                <span class="fa fa-download" ng-click="vm.exportChart($index)" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
+                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                            </div>
+
+                            <div class="chart-header-tab"  ng-show="vm.activeTab === 1">
+                                <div class="chart-filter">
+                                    <label >{{ getTranslation('chart_view') }}:</label>
+                                    <select ng-model="w.chartView"
+                                            ng-change="vm.update()">
+                                        <option ng-repeat="option in vm.chartView"
+                                                value="{{option}}">
+                                            {{option}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="chart-filter">
+                                    <label >{{ getTranslation('time_span') }}:</label>
+                                    <select ng-model="w.range"
+                                            ng-change="vm.update()">
+                                        <option ng-repeat="option in vm.yearRange"
+                                                value="{{option}}">
+                                            {{option}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="chart-filter-checkbox">
+                                    <label for="eventsOverlay">
+                                        <input type="checkbox" ng-model="w.annotation" ng-change="vm.toggleAnnotations()" id="eventsOverlay">
+                                        {{ getTranslation('events_overlay') }}
+                                    </label>
+                                </div>
+
+                                <div class="chart-filter-checkbox">
+                                    <label for="regressionAnalysis">
+                                        <input type="checkbox" ng-model="w.trendline" ng-change="vm.update()" id="regressionAnalysis">
+                                        {{ getTranslation('regression_analysis') }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="chart-header-tab" ng-show="vm.activeTab === 2">
+                                <div class="btn-group"
+                                     ng-repeat="filter in gridFilter"
+                                     uib-dropdown
+                                     auto-close="outsideClick">
+
+                                    <label for="{{filter.name + $index}}" class="btn btn-default">
+                                        <input type="checkbox" id="{{filter.name + $index}}" ng-model="filter.all" ng-change="vm.toggleCheckbox(filter)">
+                                        {{ filter.name }}
+                                    </label>
+
+                                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                        <li>
+                                            <input class="form-control" type="text" placeholder="{{ getTranslation('filter_by_label') }}" ng-model="filter.label">
+                                        </li>
+                                        <li ng-repeat="(key, value) in filter.values | filterObjectKeys:filter.label">
+                                            <label for="{{value + $index}}">{{ value }}
+                                                <input type="checkbox" id="{{value + $index}}" ng-model="filter.values[value]" ng-change="vm.update()">
+                                            </label>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <div class="chart-filter-group">
+                                    <div ng-repeat="filter in gridFilter">
+                                        <label class="filter-group">{{filter.name}} :</label>
+                                        <span class="filter-value"
+                                              ng-repeat="(key, value) in filter.values"
+                                              ng-show="value">{{key}};
+                                        </span>
+                                        <a class="text-danger" ng-show="filter.loadMore" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, 1)"><b>Show More ...</b></a>
+                                        <a class="text-danger" ng-show="filter.loadLess" style="cursor:pointer;" ng-click="vm.showMoreLess(filter)"><b>Show Less ...</b></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Chart option menu -->
+                        <!--<div uib-dropdown class="dropdown chart-option-dropdown">
+                            <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
+                                    id="chart-dropdown-{{ $index }}"
+                                    aria-haspopup="true" aria-expanded="true"
+                                    title="{{ getTranslation('chart_options') }}">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
+                                aria-labelledby="chart-dropdown-{{ $index }}">
+                                <li ng-repeat="chartType in vm.ALLOWED_CHART_TYPES | filterChartTypes:w.default_chart_display_type">
+                                    <button ng-click="vm.changeChartType($parent.$index, chartType.type);"
+                                            type="button"
+                                            class="dropdown-item-btn"
+                                            title="{{ chartType.tooltip }}">
+                                        <span class="{{ chartType.icon }}"></span>
+                                    </button>
+                                </li>
+
+                            </ul>
+                        </div>-->
+                    </div>
+
+                    <div class="chart-content with-loader">
+
+                        <div class="chart-loader" ng-show="vm.isLoading">
+                            <i class="fa chart-loader-icon"></i>
+                        </div>
+
+                        <div add-chart id="fschart0" status="isGridItemReady"></div>
+
+                        <!-- Chart navigation buttons -->
+                        <div class="chart-button-group">
+                            <a class="" href="#/drill-down/{{w.id}}">{{ getTranslation('drilldown') }}</a>
+                            <a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart UI Grid -->
+    <div class="chart chart-grid">
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{active: vm.activeGrid == 0}" ng-click="vm.setValue('activeGrid', 0)"><a>{{ getTranslation('individual') }}</a></li>
+            <li role="presentation" ng-class="{active: vm.activeGrid == 1}" ng-click="vm.setValue('activeGrid', 1)"><a>{{ getTranslation('summary') }}</a></li>
+        </ul>
+        <!-- Chart content -->
+        <div class="chart-content clearfix tren-ui-grid-pagination" ng-show="vm.activeGrid == 0">
+
+        <common-grid users="users" total-users="totalUsers" chart-id="chartId" custom-fields="customFields"></common-grid>
+
+        </div>
+
+        <div class="chart-content clearfix tren-ui-grid-pagination" ng-show="vm.activeGrid == 1">
+
+            <predictive-summary data="summary"></predictive-summary>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<!-- Chart -->
+<div class="chart-2 chart-grid margin-negative-20">
+    <!-- Chart Header -->
+    <div class="chart-header clearfix">
+
+        <h2>{{ getTranslation('languages') }}</h2>
+
+    </div>
+
+    <!-- Chart content -->
+    <div class="chart-content tren-ui-grid-pagination clearfix">
+
+        <div class="chart-row">
+
+            <label>{{ getTranslation('select_language') }}</label>
+            <select>
+                <option value="English">{{ getTranslation('english') }}</option>
+            </select>
+
+            <div class="search-bar">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="vm.defaultSearch" placeholder="{{ getTranslation('search_for_token') }}">
+                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">{{ getTranslation('search') }}</button>
+                        </span>
+                </div>
+            </div>
+
+            </div>
+
+        <!--UI Grid-->
+        <div ui-grid="gridOptions" ui-grid-selection class="tren-ui-grid-1 user-management-grid"></div>
+
+        <ul class="pagination pull-right" ng-if="vm.userPagination.lastPage > 0">
+            <li><a ng-click="vm.userPagination.goToPrev()">&laquo;</a></li>
+            <li ng-repeat="page in vm.userPagination.getPageNumbers()" ng-class="{active: vm.userPagination.currentPage == page}" ng-click="vm.userPagination.goToPage(page)">
+                <a>{{ page + 1 }}</a>
+            </li>
+            <li><a ng-click="vm.userPagination.goToNext()">&raquo;</a></li>
+        </ul>
+    </div>
+</div>

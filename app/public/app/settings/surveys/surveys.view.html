@@ -1,0 +1,30 @@
+<!-- Chart -->
+<div class="chart-2 chart-grid margin-negative-20">
+    <!-- Chart Header -->
+    <div class="chart-header clearfix">
+
+        <h2>{{ getTranslation('surveys') }}</h2>
+
+    </div>
+
+        <!--UI Grid-->
+        <div ui-grid="gridOptions" class="tren-ui-grid-1 user-management-grid"></div>
+
+    <div style="text-align: center; margin: 20px 0">
+    <label >{{ getTranslation('recipients') }}</label>
+    <select ng-model="vm.recipient"
+            ng-change="vm.update()">
+        <option ng-repeat="option in vm.recipients"
+                value="{{option}}">
+            {{option}}
+        </option>
+    </select>
+
+    <button class="btn btn-success" style="margin-left: 20px">
+        {{ getTranslation('send_survey') }}
+    </button>
+
+    </div>
+
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<!-- Top Bar Start -->
+<div class="topbar">
+
+    <!-- Tool Bar Left : Logo -->
+    <div class="topbar-left">
+        <a href="">
+            <!--<span class="main-logo inline-block {{getCommonData('is_client_logo') ? 'client-logo' : ''}}" alt="Logo"> </span>-->
+            <img class="logo" ng-src="../../content/images/logo/{{getCommonData('is_client_logo') ? 'client_logo' : 'main_logo'}}.png" alt="">
+        </a>
+    </div>
+
+    <nav class="navbar navbar-custom">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <button class="button-menu-mobile open-left waves-light waves-effect" title="{{ getTranslation('toggle_menu') }}">
+                    <span class="fa fa-navicon"></span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <span class="date-holder" ng-bind="vm.getDate()"></span>
+            </li>
+        </ul>
+
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <li class="search-form hidden-xs">
+                <search-bar></search-bar>
+            </li>
+
+            <!--<li class="hidden-xs">
+                <a class="custom-fa" href="#/chart-builder"  tooltip-placement="left"  title="{{ getTranslation('create_custom_chart') }}">
+                    <i class="fa fa-line-chart"></i>
+
+                    &lt;!&ndash;<span class="lnr lnr-chart-bars"></span>&ndash;&gt;
+                </a>
+            </li>-->
+
+            <!--<li class="hidden-xs">
+                <a href="#/charts-library" tooltip-placement="left"  title="{{vm.TOOLTIP_MESSAGES.ADD_TILES}}">
+                    <span class="lnr lnr-cross el-rotate-45"></span>
+                </a>
+            </li>-->
+
+          <!--  <li class="hidden-xs">
+                <a href="#/event" tooltip-placement="left"  title="{{vm.TOOLTIP_MESSAGES.EVENT_MANAGEMENT}}">
+                    <span class="lnr lnr-clock"></span>
+                </a>
+            </li>-->
+
+            <!-- "dropdown hide-when-non-enlarged" use this class to hide on mobile when siderbar is enlarged-->
+            <li uib-dropdown class="">
+                <a uib-dropdown-toggle class="custom-link" href="#" role="button"
+                   aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user-circle-o fa-2x" title="{{user.firstname | capitalize}} {{user.lastname | capitalize}}"></i>
+                    <!--<span class="rounded-image topbar-profile-image"><img
+                            src="content/images/users/icon-person-128.png"></span>-->
+                </a>
+
+                <i class="fa fa-caret-up"></i>
+                <ul class="dropdown-menu top-dropdown-menu" uib-dropdown-menu>
+                    <li><a href="#/profile">{{ getTranslation('my_profile') }}</a></li>
+                    <!--<li><a href="#">Change Password</a></li>-->
+                    <li><a href="#/event">Event Manager</a></li>
+                    <!--<li><a href="#">Account Settings</a></li>-->
+                    <li><a href="#/login" ng-click="vm.logout();">Logout</a></li>
+                </ul>
+            </li>
+
+
+        </ul>
+
+
+    </nav>
+</div>
+<!-- Top Bar End -->

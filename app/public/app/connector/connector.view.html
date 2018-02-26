@@ -1,0 +1,66 @@
+<div class="container-fluid container-gutter-10 connector">
+    <div class="row">
+        <div class="col-md-4" ng-repeat="connector in vm.connectors">
+            <div class="chart">
+                <div class="chart-header">
+                    <h2>{{connector.title}}</h2>
+                    <!-- Chart option menu -->
+                    <div uib-dropdown class="dropdown connector-option-dropdown hidden">
+                        <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
+                                id=""
+                                aria-haspopup="true" aria-expanded="true"
+                                title="{{ getTranslation('chart_options') }}">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
+                            aria-labelledby="">
+
+                            <li><a href="#">{{ getTranslation('configure') }}</a></li>
+                            <li><a href="#">{{ getTranslation('test_connection') }}</a></li>
+                            <li><a href="#">{{ getTranslation('notify_on_failure') }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="chart-content">
+                    <div class="connector-info" ng-class="{'connector-active' : vm.getClassForConnectorStatus(1, connector)}">
+
+                        <h2><span class="{{connector.logo}} logo-holder" alt="">
+                        </span></h2>
+
+                        <a ui-sref="layout.connector.detailed({{connector.id ? {id: connector.id} : false}})" class="btn btn-padding-xl"
+                                ng-class="{
+                                'btn-success' : vm.getClassForConnectorStatus(1, connector),
+                                'btn-gray' : vm.getClassForConnectorStatus(0, connector),
+                                'btn-warning' : vm.getClassForConnectorStatus(2, connector)}">
+                            <i class="fa"
+                               ng-class="{'fa-link' : vm.getClassForConnectorStatus(1, connector), 'fa-rocket' : vm.getClassForConnectorStatus(0, connector)}"></i>
+                            {{connector.status === 0 ? 'Contact Us to Activate' : ''}}
+                            {{connector.status === 1 ? 'Connect' : ''}}
+                            {{connector.status === 2 ? 'Disconnect' : ''}}
+                        </a>
+
+                        <div class="clearfix"></div>
+                        <div class="error-status" ng-class="{'has-error': connector.error.status}"
+                             ng-if="connector.status && connector.error.status">
+                            <i class="fa fa-exclamation-triangle"></i> {{connector.error.status ?
+                            (connector.error.count + " Errors") : "No Errors"}}
+                        </div>
+
+                    </div>
+
+                    <div class="sync-info" ng-bind="connector.syncInfo"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+

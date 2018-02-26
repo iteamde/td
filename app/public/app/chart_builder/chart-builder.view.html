@@ -1,0 +1,29 @@
+
+
+<!-- Chart -->
+<div class="chart chart-builder" id="chart-builder">
+    <!-- Chart Header -->
+    <div class="chart-header">
+        <h2>{{ getTranslation('create_new_chart') }}</h2>
+        <small>Here you can Create New Chart</small>
+    </div>
+    <!-- Chart content -->
+    <div class="chart-content clearfix">
+        <div class="tab-container">
+            <!-- Progress bar -->
+            <div class="progressbar-container">
+                <uib-progressbar value="vm.progressValue"></uib-progressbar>
+            </div>
+
+            <!-- Tabs -->
+            <uib-tabset type="pills" justified="true">
+                <uib-tab ng-repeat="tab in tabs" heading="{{ tab.heading }}" active="tab.active" classes="btn-sm" select="!vm.onTabClick($index)">
+                    <div class="form-control-container" ng-include="tab.template"></div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
+
+
+

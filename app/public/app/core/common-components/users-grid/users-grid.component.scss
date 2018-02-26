@@ -1,0 +1,77 @@
+#users-grid {
+  background-color: $white;
+
+  .grid-row {
+    display: flex;
+
+    border-bottom: 1px solid $gray;
+
+    &.first {
+      border-top: 1px solid $gray;
+      background-color: $blue;
+      text-align: left;
+      color: $white;
+      font-weight: 600;
+
+      /*.grid-cell {
+        cursor: pointer;
+      }*/
+    }
+
+    &:nth-child(even) {
+      background-color: $beige;
+    }
+  }
+
+  .grid-cell {
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    flex: 2;
+    border-right: 1px solid $gray;
+
+    &:first-child {
+      border-left: 1px solid $gray;
+    }
+
+    &:last-child {
+      flex: 1;
+    }
+  }
+
+  .grid-limit {
+    margin: 10px;
+
+    span {
+      font-size: 16px;
+      padding-right: 10px;
+    }
+  }
+
+  label {
+    padding: 5px;
+    cursor: pointer;
+    color: #005075;
+  }
+
+  input {
+    display: none;
+
+    &:checked + label {
+      background-color: #005075;
+      color: #fff;
+    }
+  }
+
+  .check {
+    justify-content: center;
+    flex: 0;
+    flex-basis: 40px;
+  }
+
+  .fa {
+    cursor: pointer;
+  }
+}

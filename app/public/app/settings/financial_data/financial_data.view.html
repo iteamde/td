@@ -1,0 +1,29 @@
+<!-- Chart -->
+<div class="chart-2 financial-data margin-negative-20">
+    <div class="chart-header clearfix">
+        <div class="pull-right" year-drop offset="0" range="5"></div>
+        <h2>{{ getTranslation('financial_data_input') }}</h2>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered financial-data">
+            <tr>
+                <th>Terms</th>
+                <th ng-repeat="m in months">{{ m }} {{ selectedYear | limitTo :-2 }}</th>
+            </tr>
+            <tr ng-repeat="d in data">
+                <td>{{getTranslation(d.title)}}</td>
+                <td ng-repeat="r in d.data">
+                    <input ng-model="r.value" type="text" placeholder=""/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="button-group clearfix">
+        <button class="btn btn-xlpad btn-primary pull-right" ng-click="saveData()">{{ getTranslation('save') }}</button>
+        <button class="btn btn-default btn-bordered pull-right" ng-click="resetData()">{{ getTranslation('cancel') }}</button>
+    </div>
+</div>

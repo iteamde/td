@@ -1,0 +1,37 @@
+<div class="chart-2 chart-grid margin-negative-20">
+    <h2>{{ getTranslation('alerts') }}</h2>
+
+    <div id="grid" ng-if="vm.alerts.length">
+        <div class="grid-row first">
+            <div class="grid-cell">{{ getTranslation('name') }}</div>
+            <div class="grid-cell">{{ getTranslation('trigger') }}</div>
+            <div class="grid-cell">{{ getTranslation('filters') }}</div>
+            <div class="grid-cell">{{ getTranslation('actions') }}</div>
+        </div>
+
+        <div class="grid-row" ng-repeat="alert in vm.alerts">
+            <div class="grid-cell">{{alert.name}}</div>
+            <div class="grid-cell" ng-bind-html="alert.trigger"></div>
+            <div class="grid-cell" ng-class="{'filters-cell': alert.filters}">
+                <span ng-if="! alert.filters">None</span>
+                <div ng-repeat="(name, filter) in alert.filters">
+                    <strong>{{name | capitalizeFilter}}:</strong>
+                    <span ng-show="(filter.expanded || $index < vm.maxFiltersCount)" ng-repeat="value in filter.values track by $index">{{value}}; </span>
+
+                    <span ng-if="vm.showMoreLessLink(filter.values)">
+                        <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>Show More ...</b></a>
+                        <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>Show Less ...</b></a>
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid-cell">
+                <i class="fa fa-power-off text-success" ng-class="{'text-danger': alert.status}" title="{{alert.status == 1 ? getTranslation('deactivate') : getTranslation('activate')}}" ng-click="vm.toggleAlert(alert)"></i>
+                <i class="fa fa-trash" title="{{getTranslation('delete')}}" ng-click="vm.deleteAlert(alert.id)"></i>
+            </div>
+        </div>
+    </div>
+
+    <h3 ng-if="! vm.alerts.length">{{getTranslation('no_alerts')}}</h3>
+
+</div>

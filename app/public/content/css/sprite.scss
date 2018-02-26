@@ -1,0 +1,156 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites;
+$-deltek-name: 'Deltek';
+$-deltek-x: 0px;
+$-deltek-y: 151px;
+$-deltek-offset-x: 0px;
+$-deltek-offset-y: -151px;
+$-deltek-width: 178px;
+$-deltek-height: 45px;
+$-deltek-total-width: 391px;
+$-deltek-total-height: 244px;
+$-deltek-image: 'sprite.png';
+$-deltek: (0px, 151px, 0px, -151px, 178px, 45px, 391px, 244px, 'sprite.png', 'Deltek', );
+$-exponent-h-r-name: 'ExponentHR';
+$-exponent-h-r-x: 0px;
+$-exponent-h-r-y: 103px;
+$-exponent-h-r-offset-x: 0px;
+$-exponent-h-r-offset-y: -103px;
+$-exponent-h-r-width: 199px;
+$-exponent-h-r-height: 45px;
+$-exponent-h-r-total-width: 391px;
+$-exponent-h-r-total-height: 244px;
+$-exponent-h-r-image: 'sprite.png';
+$-exponent-h-r: (0px, 103px, 0px, -103px, 199px, 45px, 391px, 244px, 'sprite.png', 'ExponentHR', );
+$-people-soft-name: 'PeopleSoft';
+$-people-soft-x: 253px;
+$-people-soft-y: 0px;
+$-people-soft-offset-x: -253px;
+$-people-soft-offset-y: 0px;
+$-people-soft-width: 138px;
+$-people-soft-height: 45px;
+$-people-soft-total-width: 391px;
+$-people-soft-total-height: 244px;
+$-people-soft-image: 'sprite.png';
+$-people-soft: (253px, 0px, -253px, 0px, 138px, 45px, 391px, 244px, 'sprite.png', 'PeopleSoft', );
+$-s-a-p-h-r-name: 'SAP_HR';
+$-s-a-p-h-r-x: 253px;
+$-s-a-p-h-r-y: 48px;
+$-s-a-p-h-r-offset-x: -253px;
+$-s-a-p-h-r-offset-y: -48px;
+$-s-a-p-h-r-width: 138px;
+$-s-a-p-h-r-height: 45px;
+$-s-a-p-h-r-total-width: 391px;
+$-s-a-p-h-r-total-height: 244px;
+$-s-a-p-h-r-image: 'sprite.png';
+$-s-a-p-h-r: (253px, 48px, -253px, -48px, 138px, 45px, 391px, 244px, 'sprite.png', 'SAP_HR', );
+$-t-u-f-f-name: 'TUFF';
+$-t-u-f-f-x: 0px;
+$-t-u-f-f-y: 199px;
+$-t-u-f-f-offset-x: 0px;
+$-t-u-f-f-offset-y: -199px;
+$-t-u-f-f-width: 169px;
+$-t-u-f-f-height: 45px;
+$-t-u-f-f-total-width: 391px;
+$-t-u-f-f-total-height: 244px;
+$-t-u-f-f-image: 'sprite.png';
+$-t-u-f-f: (0px, 199px, 0px, -199px, 169px, 45px, 391px, 244px, 'sprite.png', 'TUFF', );
+$-workday-name: 'Workday';
+$-workday-x: 253px;
+$-workday-y: 96px;
+$-workday-offset-x: -253px;
+$-workday-offset-y: -96px;
+$-workday-width: 138px;
+$-workday-height: 45px;
+$-workday-total-width: 391px;
+$-workday-total-height: 244px;
+$-workday-image: 'sprite.png';
+$-workday: (253px, 96px, -253px, -96px, 138px, 45px, 391px, 244px, 'sprite.png', 'Workday', );
+$main-logo-name: 'main-logo';
+$main-logo-x: 0px;
+$main-logo-y: 0px;
+$main-logo-offset-x: 0px;
+$main-logo-offset-y: 0px;
+$main-logo-width: 250px;
+$main-logo-height: 100px;
+$main-logo-total-width: 391px;
+$main-logo-total-height: 244px;
+$main-logo-image: 'sprite.png';
+$main-logo: (0px, 0px, 0px, 0px, 250px, 100px, 391px, 244px, 'sprite.png', 'main-logo', );
+$spritesheet-width: 391px;
+$spritesheet-height: 244px;
+$spritesheet-image: 'sprite.png';
+$spritesheet-sprites: ($-deltek, $-exponent-h-r, $-people-soft, $-s-a-p-h-r, $-t-u-f-f, $-workday, $main-logo, );
+$spritesheet: (391px, 244px, 'sprite.png', $spritesheet-sprites, );
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites);
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

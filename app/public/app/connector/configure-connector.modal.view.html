@@ -1,0 +1,37 @@
+<div>
+    <div class="modal-body configure-connector-modal">
+        <h4>{{ getTranslation('configure_kpi') }}</h4>
+
+        <br>
+        <br>
+
+        <form name="">
+            <div class="form-group">
+                <input type="text" class="form-control form-control-primary" placeholder="ID" ng-model="vm.title" name="title" id="id">
+            </div>
+
+            <div class="form-group password-container">
+                <input type="{{vm.isPasswordVisible ? 'text' : 'password'}}" class="form-control form-control-primary"
+                       placeholder="Password" name="loginpassword"
+                       id="loginpassword" ng-model="vm.credentials.password">
+
+                    <span class="fa fa-eye login-password-eye"
+                          data-ng-class="{'login-password-eye-active' : vm.isPasswordVisible}"
+                          data-ng-click="vm.togglePasswordVisibility();" aria-hidden="true"></span>
+            </div>
+
+            <div class="btn-group login-keep-signed">
+                <label class="login-keep-signed-check" ng-model="vm.canKeepSignedIn" uib-btn-checkbox>
+                    <i class="fa fa-square-o" aria-hidden="true"></i>
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    {{ getTranslation('keep_me_signed_in') }}
+                </label>
+            </div>
+
+            <div class="button-group form-group">
+                <button class="btn btn-xlpad btn-warning btn-sm" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+                <button class="btn btn-xlpad btn-success btn-sm" ng-click="vm.save()">{{ getTranslation('sign_in') }}</button>
+            </div>
+        </form>
+    </div>
+</div>

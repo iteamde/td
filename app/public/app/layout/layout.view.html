@@ -1,0 +1,34 @@
+<div id="wrapper" jq-toggle-sidebar>
+    <!-- Top Bar Start -->
+    <div ui-view="top"></div>
+
+    <div ui-view="sidebar"></div>
+
+
+    <!-- Start right content -->
+    <div class="content-page">
+        <!-- ============================================================== -->
+        <!-- Start Content here -->
+        <!-- ============================================================== -->
+        <div class="content">
+            <div ui-view="container"></div>
+        </div>
+
+        <!-- Footer Start -->
+        <footer id="footer">
+            TrenData © 2017 | <a href="#/release_notes">Version {{ getCommonData('app_version') }}</a>
+            <!--<div class="footer-links pull-right">
+                <a href="#">{{ getTranslation('support') }}</a>
+                <a href="#">{{ getTranslation('help') }}</a>
+                <a href="#">{{ getTranslation('about') }}</a>
+                <a href="#">{{ getTranslation('terms_of_service') }}</a>
+                <a href="#">{{ getTranslation('legal') }}</a>22
+                <a href="#">{{ getTranslation('contact_us') }}</a>
+            </div>-->
+        </footer>
+    </div>
+
+    <div ui-view="video"></div>
+
+    <div ui-view="share"></div>
+</div>

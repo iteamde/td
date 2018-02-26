@@ -1,0 +1,19 @@
+<!-- Chart -->
+<div class="chart-preview-wrapper">
+    <div class="chart chart-preview">
+        <!-- Chart Header -->
+        <div class="chart-header">
+            <h2>{{vm.title}}</h2>
+            <small>{{vm.description}}</small>
+        </div>
+        <!-- Chart content -->
+        <div class="chart-content tren-ui-grid-pagination clearfix">
+            <div render-chart status="isGridItemReady"></div>
+        </div>
+    </div>
+</div>
+
+<div class="button-group form-group">
+    <button class="btn btn-xlpad btn-danger btn-bordered">{{ getTranslation('cancel') }}</button>
+    <button class="btn btn-xlpad btn-success  btn-bordered">{{ getTranslation('add_chart') }}</button>
+</div>

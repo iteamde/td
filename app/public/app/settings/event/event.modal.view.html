@@ -1,0 +1,70 @@
+<div xmlns="http://www.w3.org/1999/html">
+    <div class="modal-body event-modal">
+        <form  method="post" name="addEventForm"
+               ng-submit="vm.addNewEvent(addEventForm, vm.addEventFields)" novalidate>
+
+            <div class="form-group">
+                <label for="title">{{ getTranslation('event_title') }} <sup>*</sup></label>
+                <input type="text" class="form-control"
+                       ng-model="vm.addEventFields.title" name="title" id="title" ng-required="true"
+                       uib-tooltip="This field is required" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'title')">
+            </div>
+
+            <div class="form-group">
+                <label for="description">{{ getTranslation('description') }}</label>
+                <textarea type="text" class="form-control" is-open="popup1.opened"
+                       ng-model="vm.addEventFields.description" name="description" id="description">
+                </textarea>
+            </div>
+
+            <div class="group-flex">
+
+                <div class="input-group">
+
+                    <span class="input-group-addon">{{ getTranslation('from') }}<sup>*</sup> :</span>
+
+                    <input type="text" class="form-control" uib-datepicker-popup name="startDate"
+                           ng-model="vm.addEventFields.start_date" is-open="vm.opened0" ng-click="vm.toggleDatePicker(0)"
+                           datepicker-options="vm.datePickerOptions" ng-required="true" close-text="{{ getTranslation('close') }}"
+                           uib-tooltip="This field is required" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'startDate')">
+
+                    <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker(0)">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+
+                </div>
+
+                <div class="input-group">
+
+                    <span class="input-group-addon">{{ getTranslation('to') }}<sup>*</sup> :</span>
+
+                    <input type="text" class="form-control" uib-datepicker-popup name="endDate"
+                           ng-model="vm.addEventFields.end_date" is-open="vm.opened1" ng-click="vm.toggleDatePicker(1)"
+                           datepicker-options="vm.datePickerOptions" ng-required="true" close-text="{{ getTranslation('close') }}"
+                           uib-tooltip="This field is required" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'endDate')">
+
+                    <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker(1)">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+
+                </div>
+
+                <div class="btn-group">
+                    <label class="btn btn-success" ng-model="vm.addEventFields.is_public" uib-btn-radio="0" title="{{ getTranslation('private') }}">
+                        <i class="fa fa-user"> {{ getTranslation('private') }}</i>
+                    </label>
+                    <label class="btn btn-success" ng-model="vm.addEventFields.is_public" uib-btn-radio="1" title="{{ getTranslation('public') }}">
+                        <i class="fa fa-users"> {{ getTranslation('public') }}</i>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="button-group form-group">
+                <button class="btn btn-xlpad btn-default" type="reset" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+                <button class="btn btn-xlpad btn-primary" type="submit">{{ getTranslation('add') }}</button>
+            </div>
+        </form>
+
+    </div>
+</div>

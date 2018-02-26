@@ -1,0 +1,50 @@
+<div>
+    <div class="modal-body user-management-modal">
+        <form role="form" method="post" name="userRowEditForm" ng-submit="vm.addUser(userRowEditForm, vm.addUserFields)" ng-validate="validationOptions">
+            <div ng-show="vm.errorMsg.type" uib-alert  ng-class="'alert-' + (vm.errorMsg.type || 'warning')" close="closeAlert($index)">{{vm.errorMsg.msg}}</div>
+
+            <div class="form-group" ng-show="vm.newUser">
+                <label>{{ getTranslation('add_profile_picture') }}</label>
+                <input type="file">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control form-control-primary" placeholder="{{ getTranslation('first_name') }}" ng-model="vm.addUserFields.firstname" name="first_name" id="first_name" ng-required="true">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control form-control-primary" placeholder="{{ getTranslation('last_name') }}" ng-model="vm.addUserFields.lastname" name="last_name" id="last_name">
+            </div>
+
+            <div class="form-group">
+                <input type="email" class="form-control form-control-primary" placeholder="{{ getTranslation('email') }}" ng-model="vm.addUserFields.email" name="Email" id="email" ng-required="true">
+            </div>
+
+           <!-- <div class="form-group">
+                <ui-select ng-model="vm.addUserFields.designation" class="angselect-control-primary">
+                    <ui-select-match placeholder="{{ getTranslation('choose_designation') }}">
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in (vm.designations | filter: $select.search) track by item.id">
+                        <span ng-bind="item.value"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>-->
+
+            <!-- <div class="form-group">
+                <ui-select ng-model="vm.addUserFields.status" class="angselect-control-primary">
+                    <ui-select-match placeholder="{{ getTranslation('choose_status') }}">
+                        <span ng-bind="$select.selected.text"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="statusItem in (vm.userStatus | filter: $select.search) track by statusItem.value">
+                        <span ng-bind="statusItem.text"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div> -->
+
+            <div class="button-group form-group">
+                <button class="btn btn-xlpad btn-default" type="button" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+                <button class="btn btn-xlpad btn-primary" type="submit">{{ getTranslation('save') }}</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+.modal-manage-columns {
+  padding-bottom: 20px;
+  text-align: center;
+
+  .manage-header {
+    padding: 15px 0;
+    background-color: beige;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    text-align: center;
+    margin-bottom: 30px;
+
+    h3 {
+      margin-top: 0;
+    }
+  }
+
+  .manage-columns select {
+    width: 200px;
+    height: 250px;
+    overflow: auto;
+    text-transform: capitalize;
+
+    option {
+      cursor: pointer;
+      padding: 0 10px;
+    }
+  }
+
+  .manage-columns-buttons {
+    padding-top: 120px;
+
+    button {
+      margin-bottom: 10px;
+    }
+  }
+
+  .manage-save-option {
+    margin-top: 20px;
+
+    select {
+      background: none;
+      border-radius: 3px;
+      padding-top: 3px 5px;
+      margin-left: 5px;
+    }
+  }
+
+  .manage-buttons {
+    margin-top: 40px;
+
+    button {
+      margin: 0 10px;
+    }
+  }
+}

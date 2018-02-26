@@ -1,0 +1,14 @@
+[
+  {"name":"Avg. Salary", "April":85123,"May":88519,"June":88671,"July":89029,"August":88932,"September":88745,"October":85123,"November":88519,"December":88671,"January":89029,"February":88932,"March":88745},
+  {"name":"Remote Employees", "April":0.0771,"May":0.077,"June":0.075,"July":0.073,"August":0.075,"September":0.077,"October":0.0772,"November":0.0735,"December":0.07,"January":0.08,"February":0.09,"March":0.1},
+  {"name":"HP in Prof Dev", "April":0.049,"May":0.0492,"June":0.0493,"July":0.0495,"August":0.0494,"September":0.0492,"October":0.0408,"November":0.0431,"December":0.0454,"January":0.0478,"February":0.0489,"March":0.05},
+  {"name":"Recruiting", "April":35,"May":35,"June":36,"July":37,"August":38,"September":37,"October":32,"November":40,"December":39,"January":36,"February":37,"March":38},
+  {"name":"Total Turnover", "April":0.17,"May":0.172,"June":0.1732,"July":0.171,"August":0.1735,"September":0.178,"October":0.1735,"November":0.1662,"December":0.1589,"January":0.1518,"February":0.1454,"March":0.1452},
+  {"name":"HP Turnover", "April":0.14911,"May":0.1492,"June":0.1495,"July":0.1492,"August":0.1495,"September":0.1493,"October":0.149,"November":0.148,"December":0.1445,"January":0.1425,"February":0.1421,"March":0.142},
+  {"name":"Non-HP Turnover", "April":0.17622,"May":0.17621,"June":0.172,"July":0.173,"August":0.1723,"September":0.1765,"October":0.1195,"November":0.1198,"December":0.1112,"January":0.1127,"February":0.1076,"March":0.1017},
+  {"name":"Turnover Prod Loss % of Rev", "April":0.0862,"May":0.0861,"June":0.08666,"July":0.0863,"August":0.0862,"September":0.0861,"October":0.0868,"November":0.0827,"December":0.0788,"January":0.0777,"February":0.0782,"March":0.0782},
+  {"name":"Total Recruiting Cost", "April":168111,"May":169230,"June":168720,"July":168712,"August":168764,"September":168788,"October":168760,"November":210950,"December":126570,"January":189855,"February":295330,"March":295330},
+  {"name":"Turnover Productivity Loss", "April":14268712,"May":14268754,"June":14268745,"July":14268711,"August":14268788,"September":14268775,"October":14268743,"November":15220800,"December":15220800,"January":15384600,"February":15723225,"March":16411579},
+  {"name":"Number of Employees", "April":1300,"May":1350,"June":1380,"July":1415,"August":1450,"September":1478,"October":179,"November":186,"December":201,"January":214,"February":224,"March":237},
+  {"name":"Company Rev(Annualized)", "April":18400000,"May":18500000,"June":18950000,"July":18500000,"August":19900000,"September":19200000,"October":18900000,"November":19200000,"December":19600000,"January":19800000,"February":20100000,"March":21000000}
+]

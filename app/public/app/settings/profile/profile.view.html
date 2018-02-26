@@ -1,0 +1,119 @@
+<div id="profile" ng-cloak>
+    <div class="margin-negative-10">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Chart -->
+                <div class="chart">
+                    <div class="chart-header">
+                        <h4>{{ getTranslation('my_profile') }}</h4>
+                        <div class="toolbar">
+                            <i class="fa fa-key"
+                               title="{{ getTranslation('change_my_password') }}"
+                               ng-click="vm.showChangePasswordModal()"></i>  <!--{{ getTranslation('reset_my_password') }}-->
+                            <i class="fa fa-pencil"
+                               title="{{ getTranslation('edit_profile') }}"
+                               data-ng-click="vm.cancel()"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chart content -->
+                    <div class="chart-content">
+                        <form name="profileForm"
+                              ng-submit="vm.submit(profileForm, vm.user)"
+                              ng-class="{'read-mode': vm.isReadMode}"
+                              novalidate>
+                            <div class="form-group with-error-field">
+                                <label>{{ getTranslation('first_name') }} <em>*</em></label>
+                                <div class="form-input-wrap">
+                                    <input class="form-control"
+                                           ng-class="{'has-error': profileForm.firstname.$invalid }"
+                                           ng-model="vm.user.firstname"
+                                           ng-readonly="vm.isReadMode"
+                                           type="text"
+                                           name="firstname"
+                                           required>
+
+                                    <div class="form-error" ng-show="profileForm.firstname.$invalid"> {{ getTranslation('please_enter') }} {{ getTranslation('first_name') }}</div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group with-error-field">
+                                <label>{{ getTranslation('last_name') }}<em>*</em></label>
+                                <div class="form-input-wrap">
+                                    <input class="form-control"
+                                           type="text"
+                                           name="lastname"
+                                           ng-class="{'has-error': profileForm.lastname.$invalid }"
+                                           ng-readonly="vm.isReadMode"
+                                           ng-model="vm.user.lastname"
+                                           required>
+
+                                    <div class="form-error" ng-show="profileForm.lastname.$invalid"> {{ getTranslation('please_enter') }} {{ getTranslation('last_name') }}</div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group with-error-field">
+                                <label>{{ getTranslation('email') }}<em>*</em></label>
+                                <div class="form-input-wrap">
+                                    <input class="form-control"
+                                           type="email"
+                                           name="email"
+                                           ng-model="::vm.user.email"
+                                           required>
+                                    <div class="form-error" ng-show="profileForm.email.$invalid"> {{ getTranslation('please_enter') }} {{ getTranslation('email') }}</div>
+                                </div>
+                            </div>
+
+                            <div class="btn-wrap" ng-hide="vm.isReadMode">
+                                <span class="btn btn-xlpad btn-default btn-bordered" data-ng-click="vm.cancel()">{{ getTranslation('cancel') }}</span>
+                                <button class="btn btn-xlpad btn-primary btn-bordered" type="submit">{{ getTranslation('save') }}</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{ getTranslation('change_password') }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>{{ getTranslation('current_password') }}</label>
+          <input type="password" class="form-control inline-block" ng-model="vm.password.current">
+        </div>
+        <div class="form-group form-group-password">
+          <label>{{ getTranslation('new_password') }}</label>
+          <input type="password" class="form-control" ng-change="vm.validatePassword(vm.password.new);" ng-model="vm.password.new">
+          <span tooltip-placement="left" uib-tooltip="{{getTranslation('password_is_invalid')}}" class="badge custom-badge-tooltip">?</span>
+          <span class="text-danger error-label animate-if" ng-if="!vm.isValid">{{getTranslation('password_must_contains')}}:</span>
+            <ul class="text-danger error-label animate-if" ng-if="!vm.isValid">
+                <li ng-if="!vm.isMinLength(vm.password.new)" class="animate-if">{{getTranslation('minimum_6_character')}}</li>
+                <li ng-if="!vm.isLowerUpperCase(vm.password.new)" class="animate-if">{{getTranslation('uppercase_and_lowercase_letter')}}</li>
+                <li ng-if="!vm.hasNumber(vm.password.new)" class="animate-if">{{getTranslation('a_number')}}</li>
+            </ul>
+        </div>
+        <div class="form-group">
+          <label>{{ getTranslation('retype_new_password') }}</label>
+          <input type="password" class="form-control" ng-model="vm.password.confirm">
+          <div class="text-danger error-label animate-if" ng-if="!vm.isMatch(vm.password.new, vm.password.confirm)">
+              {{getTranslation('passwords_does_not_match')}}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-xlpad btn-default" data-dismiss="modal">{{ getTranslation('cancel') }}</button>
+        <button type="button" class="btn btn-xlpad btn-primary" ng-disabled="!vm.isValid || !vm.isMatch(vm.password.new, vm.password.confirm)" ng-click="vm.changePassword(vm.password)">{{ getTranslation('save') }}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

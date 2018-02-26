@@ -1,0 +1,7853 @@
+{
+    "hiring_cycle_time": {
+    "type": "value_box",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "",
+            "value": "42 Days"
+          }
+        ]
+      }
+    ]
+  },
+  "acceptance_rate": {
+    "type": "value_box",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "",
+            "value": "59%"
+          }
+        ]
+      }
+    ]
+  },
+  "average_salary": {
+    "type": "value_box",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "",
+            "value": "$2.2K"
+          }
+        ]
+      }
+    ]
+  },
+  "hr_cost": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "job_offer_yield_ratio": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2001"
+              },
+              {
+                "label": "2002"
+              },
+              {
+                "label": "2003"
+              },
+              {
+                "label": "2004"
+              },
+              {
+                "label": "2005"
+              },
+              {
+                "label": "2006"
+              },
+              {
+                "label": "2007"
+              },
+              {
+                "label": "2008"
+              },
+              {
+                "label": "2009"
+              },
+              {
+                "label": "2010"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "hr_cost_vs_employee": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "human_resource_ratio": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2007"
+              },
+              {
+                "label": "2008"
+              },
+              {
+                "label": "2009"
+              },
+              {
+                "label": "2010"
+              },
+              {
+                "label": "2011"
+              },
+              {
+                "label": "2012"
+              },
+              {
+                "label": "2013"
+              },
+              {
+                "label": "2014"
+              },
+              {
+                "label": "2015"
+              },
+              {
+                "label": "2016"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "new_hires_performance": {
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "Jan"
+              },
+              {
+                "label": "Feb"
+              },
+              {
+                "label": "Mar"
+              },
+              {
+                "label": "Apr"
+              },
+              {
+                "label": "May"
+              },
+              {
+                "label": "Jun"
+              },
+              {
+                "label": "Jul"
+              },
+              {
+                "label": "Aug"
+              },
+              {
+                "label": "Sep"
+              },
+              {
+                "label": "Oct"
+              },
+              {
+                "label": "Nov"
+              },
+              {
+                "label": "Dec"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+          {
+            "seriesname": "2013",
+            "data": [
+              {
+                "value": "22400"
+              },
+              {
+                "value": "24800"
+              },
+              {
+                "value": "21800"
+              },
+              {
+                "value": "21800"
+              },
+              {
+                "value": "24600"
+              },
+              {
+                "value": "27600"
+              },
+              {
+                "value": "26800"
+              },
+              {
+                "value": "27700"
+              },
+              {
+                "value": "23700"
+              },
+              {
+                "value": "25900"
+              },
+              {
+                "value": "26800"
+              },
+              {
+                "value": "24800"
+              }
+            ]
+          },
+          {
+            "seriesname": "2012",
+            "data": [
+              {
+                "value": "10000"
+              },
+              {
+                "value": "11500"
+              },
+              {
+                "value": "12500"
+              },
+              {
+                "value": "15000"
+              },
+              {
+                "value": "16000"
+              },
+              {
+                "value": "17600"
+              },
+              {
+                "value": "18800"
+              },
+              {
+                "value": "19700"
+              },
+              {
+                "value": "21700"
+              },
+              {
+                "value": "21900"
+              },
+              {
+                "value": "22900"
+              },
+              {
+                "value": "20800"
+              }
+            ]
+          },
+          {
+            "seriesname": "2011",
+            "data": [
+              {
+                "value": "7000"
+              },
+              {
+                "value": "8000"
+              },
+              {
+                "value": "12500"
+              },
+              {
+                "value": "8500"
+              },
+              {
+                "value": "14000"
+              },
+              {
+                "value": "13600"
+              },
+              {
+                "value": "19800"
+              },
+              {
+                "value": "16700"
+              },
+              {
+                "value": "11700"
+              },
+              {
+                "value": "18900"
+              },
+              {
+                "value": "16900"
+              },
+              {
+                "value": "10800"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  
+  "manager_performance": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "All",
+            "value": "7500"
+          },
+          {
+            "label": "New",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "health_care_costs": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "All",
+            "value": "7500"
+          },
+          {
+            "label": "New",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "workers_compensation_cost_per_employee ": {
+    "type": "column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "NZ"
+              },
+              {
+                "label": "SA"
+              },
+              {
+                "label": "IND"
+              },
+              {
+                "label": "USA"
+              },
+              {
+                "label": "UK"
+              },
+              {
+                "label": "FR"
+              },
+              {
+                "label": "IT"
+              },
+              {
+                "label": "UAE"
+              },
+              {
+                "label": "GER"
+              },
+              {
+                "label": "JAP"
+              },
+              {
+                "label": "RUS"
+              },
+              {
+                "label": "BAN"
+              },
+              {
+                "label": "PAK"
+              },
+              {
+                "label": "CHN"
+              },
+              {
+                "label": "BRA"
+              },
+              {
+                "label": "AUS"
+              },
+              {
+                "label": "VZ"
+              },
+              {
+                "label": "CAN"
+              },
+              {
+                "label": "PH"
+              },
+              {
+                "label": "ZW"
+              },
+              {
+                "label": "IZ"
+              },
+              {}
+            ]
+          }
+        ],
+        "dataset": [
+          {
+            "seriesname": "developer",
+            "data": [
+              {
+                "value": "27400"
+              },
+              {
+                "value": "29800"
+              },
+              {
+                "value": "25800"
+              },
+              {
+                "value": "26800"
+              },
+              {
+                "value": "29600"
+              },
+              {
+                "value": "32600"
+              },
+              {
+                "value": "31800"
+              },
+              {
+                "value": "36700"
+              },
+              {
+                "value": "29700"
+              },
+              {
+                "value": "31900"
+              },
+              {
+                "value": "34800"
+              },
+              {
+                "value": "24800"
+              },
+              {
+                "value": "31800"
+              },
+              {
+                "value": "36700"
+              },
+              {
+                "value": "29700"
+              },
+              {
+                "value": "31900"
+              },
+              {
+                "value": "34800"
+              },
+              {
+                "value": "24800"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "recruitment_cost_over_location": {
+    "type": "column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "NZ"
+              },
+              {
+                "label": "SA"
+              },
+              {
+                "label": "IND"
+              },
+              {
+                "label": "USA"
+              },
+              {
+                "label": "UK"
+              },
+              {
+                "label": "FR"
+              },
+              {
+                "label": "IT"
+              },
+              {
+                "label": "UAE"
+              },
+              {
+                "label": "GER"
+              },
+              {
+                "label": "JAP"
+              },
+              {
+                "label": "RUS"
+              },
+              {
+                "label": "BAN"
+              },
+              {
+                "label": "PAK"
+              },
+              {
+                "label": "CHN"
+              },
+              {
+                "label": "BRA"
+              },
+              {
+                "label": "AUS"
+              },
+              {
+                "label": "VZ"
+              },
+              {
+                "label": "CAN"
+              },
+              {
+                "label": "PH"
+              },
+              {
+                "label": "ZW"
+              },
+              {
+                "label": "IZ"
+              },
+              {}
+            ]
+          }
+        ],
+        "dataset": [
+          {
+            "seriesname": "developer",
+            "data": [
+              {
+                "value": "27400"
+              },
+              {
+                "value": "29800"
+              },
+              {
+                "value": "25800"
+              },
+              {
+                "value": "26800"
+              },
+              {
+                "value": "29600"
+              },
+              {
+                "value": "32600"
+              },
+              {
+                "value": "31800"
+              },
+              {
+                "value": "36700"
+              },
+              {
+                "value": "29700"
+              },
+              {
+                "value": "31900"
+              },
+              {
+                "value": "34800"
+              },
+              {
+                "value": "24800"
+              },
+              {
+                "value": "31800"
+              },
+              {
+                "value": "36700"
+              },
+              {
+                "value": "29700"
+              },
+              {
+                "value": "31900"
+              },
+              {
+                "value": "34800"
+              },
+              {
+                "value": "24800"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "source_of_hire": {
+    "type": "stacked",
+    "chart_charts": [{
+      "categories": [
+        {
+          "category": [
+            {
+              "label": "sales"
+            },
+            {
+              "label": "android dev"
+            },
+            {
+              "label": "ios dev "
+            },
+            {
+              "label": "backend"
+            },
+            {
+              "label": "frontend"
+            },
+            {
+              "label": "UI/UX"
+            },
+            {
+              "label": "QA"
+            },
+            {
+              "label": "project manager"
+            },
+            {
+              "label": "architect"
+            },
+            {
+              "label": "digital marketing"
+            }
+          ]
+        }
+      ],
+       "dataset": [
+            {
+              "seriesname": "inhouse",
+              "data": [
+                {
+                  "value": "27400"
+                },
+                {
+                  "value": "29800"
+                },
+                {
+                  "value": "25800"
+                },
+                {
+                  "value": "26800"
+                },
+                {
+                  "value": "29600"
+                },
+                {
+                  "value": "32600"
+                },
+                {
+                  "value": "31800"
+                },
+                {
+                  "value": "36700"
+                },
+                {
+                  "value": "29700"
+                },
+                {
+                  "value": "31900"
+                },
+                {
+                  "value": "34800"
+                },
+                {
+                  "value": "24800"
+                },
+                {
+                  "value": "25400"
+                },
+                {
+                  "value": "27800"
+                },
+                {
+                  "value": "23800"
+                },
+                {
+                  "value": "23800"
+                },
+                {
+                  "value": "21600"
+                },
+                {
+                  "value": "30600"
+                },
+                {
+                  "value": "24800"
+                },
+                {
+                  "value": "30700"
+                },
+                {
+                  "value": "27400"
+                },
+                {
+                  "value": "28200"
+                },
+                {
+                  "value": "31500"
+                },
+                {
+                  "value": "24300"
+                }
+              ]
+            },
+            {
+              "seriesname": "outsource",
+              "data": [
+                {
+                  "value": "10000"
+                },
+                {
+                  "value": "11500"
+                },
+                {
+                  "value": "12500"
+                },
+                {
+                  "value": "15000"
+                },
+                {
+                  "value": "11000"
+                },
+                {
+                  "value": "9800"
+                },
+                {
+                  "value": "11800"
+                },
+                {
+                  "value": "19700"
+                },
+                {
+                  "value": "21700"
+                },
+                {
+                  "value": "21900"
+                },
+                {
+                  "value": "22900"
+                },
+                {
+                  "value": "20800"
+                },
+                {
+                  "value": "12000"
+                },
+                {
+                  "value": "10300"
+                },
+                {
+                  "value": "11200"
+                },
+                {
+                  "value": "13000"
+                },
+                {
+                  "value": "15000"
+                },
+                {
+                  "value": "11800"
+                },
+                {
+                  "value": "9800"
+                },
+                {
+                  "value": "14600"
+                },
+                {
+                  "value": "19200"
+                },
+                {
+                  "value": "20100"
+                },
+                {
+                  "value": "21200"
+                },
+                {
+                  "value": "19500"
+                }
+              ]
+            }
+          ]
+    }]
+  },
+  "revenue_per_employee": {
+    "type": "stacked",
+    "chart_charts": [{
+      "categories": [
+        {
+          "category": [
+            {
+              "label": "sales"
+            },
+            {
+              "label": "android dev"
+            },
+            {
+              "label": "ios dev "
+            },
+            {
+              "label": "backend"
+            },
+            {
+              "label": "frontend"
+            },
+            {
+              "label": "UI/UX"
+            },
+            {
+              "label": "QA"
+            },
+            {
+              "label": "project manager"
+            },
+            {
+              "label": "architect"
+            },
+            {
+              "label": "digital marketing"
+            }
+          ]
+        }
+      ],
+      "dataset": [
+            {
+              "seriesname": "inhouse",
+              "data": [
+                {
+                  "value": "27400"
+                },
+                {
+                  "value": "29800"
+                },
+                {
+                  "value": "25800"
+                },
+                {
+                  "value": "26800"
+                },
+                {
+                  "value": "29600"
+                },
+                {
+                  "value": "32600"
+                },
+                {
+                  "value": "31800"
+                },
+                {
+                  "value": "36700"
+                },
+                {
+                  "value": "29700"
+                },
+                {
+                  "value": "31900"
+                },
+                {
+                  "value": "34800"
+                },
+                {
+                  "value": "24800"
+                },
+                {
+                  "value": "25400"
+                },
+                {
+                  "value": "27800"
+                },
+                {
+                  "value": "23800"
+                },
+                {
+                  "value": "23800"
+                },
+                {
+                  "value": "21600"
+                },
+                {
+                  "value": "30600"
+                },
+                {
+                  "value": "24800"
+                },
+                {
+                  "value": "30700"
+                },
+                {
+                  "value": "27400"
+                },
+                {
+                  "value": "28200"
+                },
+                {
+                  "value": "31500"
+                },
+                {
+                  "value": "24300"
+                }
+              ]
+            },
+            {
+              "seriesname": "outsource",
+              "data": [
+                {
+                  "value": "10000"
+                },
+                {
+                  "value": "11500"
+                },
+                {
+                  "value": "12500"
+                },
+                {
+                  "value": "15000"
+                },
+                {
+                  "value": "11000"
+                },
+                {
+                  "value": "9800"
+                },
+                {
+                  "value": "11800"
+                },
+                {
+                  "value": "19700"
+                },
+                {
+                  "value": "21700"
+                },
+                {
+                  "value": "21900"
+                },
+                {
+                  "value": "22900"
+                },
+                {
+                  "value": "20800"
+                },
+                {
+                  "value": "12000"
+                },
+                {
+                  "value": "10300"
+                },
+                {
+                  "value": "11200"
+                },
+                {
+                  "value": "13000"
+                },
+                {
+                  "value": "15000"
+                },
+                {
+                  "value": "11800"
+                },
+                {
+                  "value": "9800"
+                },
+                {
+                  "value": "14600"
+                },
+                {
+                  "value": "19200"
+                },
+                {
+                  "value": "20100"
+                },
+                {
+                  "value": "21200"
+                },
+                {
+                  "value": "19500"
+                }
+              ]
+            }
+          ]
+    }]
+  },
+  
+  "job_empowerment": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "QA"
+              },
+              {
+                "label": "Developer"
+              },
+              {
+                "label": "Designer"
+              },
+              {
+                "label": "PM"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "Food Products",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "Non-Food Products",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "net_promoter_rate": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "promoters"
+              },
+              {
+                "label": "passives"
+              },
+              {
+                "label": "detractors"
+              },
+              {
+                "label": "all"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "Present",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "previous",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "gender_equality": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "HR"
+              },
+              {
+                "label": "Sales"
+              },
+              {
+                "label": "Marketing "
+              },
+              {
+                "label": "Accounts"
+              },
+              {
+                "label": "Admin"
+              }
+            ]
+          }
+        ],
+         "dataset": [
+              {
+                "seriesname": "he",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "she",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "average_tenure": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "designer"
+              },
+              {
+                "label": "developer"
+              },
+              {
+                "label": "manager"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "Admin"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "old",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "new",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "salary_deviation": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "designer"
+              },
+              {
+                "label": "dev"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "PM"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "1",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "2",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "attrition_rate": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "design"
+              },
+              {
+                "label": "PM"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "development"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "new",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "old",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "global_presence": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "USA"
+              },
+              {
+                "label": "UK"
+              },
+              {
+                "label": "UAE"
+              },
+              {
+                "label": "India"
+              },
+              {
+                "label": "France"
+              },
+              {
+                "label": "SA"
+              },
+              {
+                "label": "Italy"
+              }
+            ]
+          }
+        ],
+         "dataset": [
+              {
+                "seriesname": "head",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "Branch",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "equal_opportunities": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "All",
+            "value": "7500"
+          },
+          {
+            "label": "New",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  
+  "work_life_balance": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "She",
+            "value": "7500"
+          },
+          {
+            "label": "HE",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  
+  "profit_per_employee": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "design"
+              },
+              {
+                "label": "PM"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "development"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "newhires",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "oldhires",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              },
+              {
+                "seriesname": "all_employees",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+ "cost_breakup": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "salary",
+            "value": "5500"
+          },
+          {
+            "label": "medical",
+            "value": "1000"
+          },
+          {
+            "label": "incentive",
+            "value": "500"
+          },
+          {
+            "label": "PF",
+            "value": "1500"
+          },
+          {
+            "label": "paidleaves",
+            "value": "1500"
+          }
+        ]
+      }
+    ]
+  },
+  
+    "hr_processess_cost_per_employee": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "policy"
+              },
+              {
+                "label": "planning"
+              },
+              {
+                "label": "recruitment"
+              },
+              {
+                "label": "management"
+              },
+              {
+                "label": "payroll"
+              },
+              {
+                "label": "legal"
+              },
+              {
+                "label": "training"
+              },
+              {
+                "label": "travel"
+              },
+              {
+                "label": "jobfair"
+              },
+              {
+                "label": "onboarding"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "revenue_growth": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "designer"
+              },
+              {
+                "label": "developer"
+              },
+              {
+                "label": "manager"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "Admin"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "old",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "new",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "departments_revenue": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2013"
+              },
+              {
+                "label": "2014"
+              },
+              {
+                "label": "2015"
+              },
+              {
+                "label": "2016"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "1",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "2",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              },
+              {
+                "seriesname": "3",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              },
+              {
+                "seriesname": "4",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+    "metrics_revenue_per_employee": {
+    "type": "column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "JAN'15"
+              },
+              {
+                "label": "FEB'15"
+              },
+              {
+                "label": "MAR'15"
+              },
+              {
+                "label": "APR'15"
+              },
+              {
+                "label": "MAY'15"
+              },
+              {
+                "label": "JUNE'15"
+              },
+              {
+                "label": "JULY'15"
+              },
+              {
+                "label": "AUG'15"
+              },
+              {
+                "label": "SEPT'15"
+              },
+              {
+                "label": "OCT'15"
+              },
+              {
+                "label": "NOV'15"
+              },
+              {
+                "label": "DEC'15"
+              },
+              {
+                "label": "JAN'16"
+              },
+              {
+                "label": "FEB'16"
+              },
+              {
+                "label": "MAR'16"
+              },
+              {
+                "label": "APR'16"
+              },
+              {
+                "label": "MAY'16"
+              },
+              {
+                "label": "JUNE'16"
+              },
+              {
+                "label": "JULY'16"
+              },
+              {
+                "label": "AUG'16"
+              },
+              {}
+            ]
+          }
+        ],
+        "dataset": [
+          {
+            "seriesname": "developer",
+            "data": [
+              {
+                "value": "27400"
+              },
+              {
+                "value": "29800"
+              },
+              {
+                "value": "25800"
+              },
+              {
+                "value": "26800"
+              },
+              {
+                "value": "29600"
+              },
+              {
+                "value": "32600"
+              },
+              {
+                "value": "31800"
+              },
+              {
+                "value": "36700"
+              },
+              {
+                "value": "29700"
+              },
+              {
+                "value": "31900"
+              },
+              {
+                "value": "34800"
+              },
+              {
+                "value": "24800"
+              },
+              {
+                "value": "31800"
+              },
+              {
+                "value": "36700"
+              },
+              {
+                "value": "29700"
+              },
+              {
+                "value": "31900"
+              },
+              {
+                "value": "34800"
+              },
+              {
+                "value": "24800"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  
+  "revenue_vs_salary": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2010"
+              },
+              {
+                "label": "2011"
+              },
+              {
+                "label": "2012"
+              },
+              {
+                "label": "2013"
+              },
+              {
+                "label": "2014"
+              },
+              {
+                "label": "2015"
+              },
+              {
+                "label": "2016"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "head",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "Branch",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "revenue_rate": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2013"
+              },
+              {
+                "label": "2014"
+              },
+              {
+                "label": "2015"
+              },
+              {
+                "label": "2016"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "new",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "old",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "full_time_equivalents": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "design"
+              },
+              {
+                "label": "PM"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "development"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "new",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "old",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "employee_vs_revenue": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "design"
+              },
+              {
+                "label": "PM"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "development"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "new",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "old",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  
+  "metrics_global_presence": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2010"
+              },
+              {
+                "label": "2011"
+              },
+              {
+                "label": "2012"
+              },
+              {
+                "label": "2013"
+              },
+              {
+                "label": "2014"
+              },
+              {
+                "label": "2015"
+              },
+              {
+                "label": "2016"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "head",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "Branch",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+ },
+
+"headcount_vs_location": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "headcount_vs_departments": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "headcount_vs_Time": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "headcount_vs_designations": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2007"
+              },
+              {
+                "label": "2008"
+              },
+              {
+                "label": "2009"
+              },
+              {
+                "label": "2010"
+              },
+              {
+                "label": "2011"
+              },
+              {
+                "label": "2012"
+              },
+              {
+                "label": "2013"
+              },
+              {
+                "label": "2014"
+              },
+              {
+                "label": "2015"
+              },
+              {
+                "label": "2016"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "talent_vs_potential": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "employee_turnover_overall": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "employee_turnover_by_department": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+         "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "employee_turnover_by_manager": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+         "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "average_tenure_vs_department": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "holiday_by_departments": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "sickness_by_departments": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "job_offer_yield_ratio": {
+    "type": "multiseries column",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "2001"
+              },
+              {
+                "label": "2002"
+              },
+              {
+                "label": "2003"
+              },
+              {
+                "label": "2004"
+              },
+              {
+                "label": "2005"
+              },
+              {
+                "label": "2006"
+              },
+              {
+                "label": "2007"
+              },
+              {
+                "label": "2008"
+              },
+              {
+                "label": "2009"
+              },
+              {
+                "label": "2010"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "global_presence1": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "workers_compensation_cost_per_employee": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "workers_compensation_incident_rate": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "workers_compensation_severity_rate": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "training_cost_per_employee_vs_time": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "training_cost_vs_departments": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "time_to_fill_open_positions": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "on_boarding_cost": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+         "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "on_boarding_time": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "employee_vs_monthly_salary_slab": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "hiring_process": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "hr_expenses": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "progress_of_objectives": {
+    "type": "multiseriescolumn",
+    "chart_charts": [
+      {
+        "categories": [
+          {
+            "category": [
+              {
+                "label": "sales"
+              },
+              {
+                "label": "android dev"
+              },
+              {
+                "label": "ios dev"
+              },
+              {
+                "label": "backend"
+              },
+              {
+                "label": "frontend"
+              },
+              {
+                "label": "UI/UX"
+              },
+              {
+                "label": "QA"
+              },
+              {
+                "label": "project management"
+              },
+              {
+                "label": "architech"
+              },
+              {
+                "label": "digital marketing"
+              }
+            ]
+          }
+        ],
+        "dataset": [
+              {
+                "seriesname": "cost",
+                "data": [
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "11000"
+                  },
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "13500"
+                  },
+                  {
+                    "value": "15000"
+                  }
+                ]
+              },
+              {
+                "seriesname": "revenue",
+                "data": [
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  },
+                  {
+                    "value": "11400"
+                  },
+                  {
+                    "value": "14800"
+                  },
+                  {
+                    "value": "8300"
+                  },
+                  {
+                    "value": "11800"
+                  }
+                ]
+              }
+            ]
+      }
+    ]
+  },
+  "performance_rating": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+ "above_average_performer_yield_ratio": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "attrition_rate_vs_reasons": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "department_expenses": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "absence_rate": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "compa_ratio_calculation": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "interview_accept_yield_ratio": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "interview_offer_yield_ratio": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "employee_satisfaction": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "employee_engagement_score": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "employees_training_factor": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "recruiting_expenses": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "quality_of_new_hires": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "hrcost",
+            "value": "7500"
+          },
+          {
+            "label": "others",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "employee_vs_nationality": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "India",
+            "value": "7500"
+          },
+          {
+            "label": "US",
+            "value": "2500"
+          },
+          {
+            "label": "UK",
+            "value": "7500"
+          },
+          {
+            "label": "Japan",
+            "value": "2500"
+          }
+        ]
+      }
+    ]
+  },
+  "new_joining_vs_resignation": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "New Joining",
+            "value": "500"
+          },
+          {
+            "label": "Registration",
+            "value": "700"
+          }
+        ]
+      }
+    ]
+  },
+  "roi": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "New Joining",
+            "value": "500"
+          },
+          {
+            "label": "Registration",
+            "value": "700"
+          }
+        ]
+      }
+    ]
+  },
+  "cost_vs_revenue": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "Cost",
+            "value": "500"
+          },
+          {
+            "label": "Revenue",
+            "value": "700"
+          }
+        ]
+      }
+    ]
+  },
+  "labor_cost_as_percent_of_revenue": {
+    "type": "doughnut",
+    "chart_charts": [
+      {
+        "data": [
+          {
+            "label": "Cost",
+            "value": "500"
+          },
+          {
+            "label": "Revenue",
+            "value": "700"
+          }
+        ]
+      }
+    ]
+  },
+  
+
+ "employees_cost_with_revenue_details": {
+    "type": "doughnut",
+    "chart_charts": [
+        {
+        "data": [
+            {
+                "_id": "57f6170a3166c9e978c66927",
+                "name": "Sharlene Morse",
+                "position": "Java Developer",
+                "office": "Wyoming",
+                "age": 39,
+                "cost": "3,937.15",
+                "revenue": "2,941.21"
+            },
+            {
+                "_id": "57f6170a941385f0fb018ff8",
+                "name": "Jennie Donaldson",
+                "position": "Java Developer",
+                "office": "Alabama",
+                "age": 28,
+                "cost": "1,519.96",
+                "revenue": "7,964.61"
+            },
+            {
+                "_id": "57f6170a205ea396c2582034",
+                "name": "Weaver Daugherty",
+                "position": "QA",
+                "office": "Tennessee",
+                "age": 27,
+                "cost": "2,434.50",
+                "revenue": "5,652.38"
+            },
+            {
+                "_id": "57f6170a419e8da62f74e00d",
+                "name": "Essie Castro",
+                "position": "Art Director",
+                "office": "Utah",
+                "age": 22,
+                "cost": "1,890.06",
+                "revenue": "3,238.65"
+            },
+            {
+                "_id": "57f6170a485ef6992a886c94",
+                "name": "Isabelle Love",
+                "position": "PM",
+                "office": "Missouri",
+                "age": 28,
+                "cost": "3,848.03",
+                "revenue": "4,526.52"
+            },
+            {
+                "_id": "57f6170abf5277fd49368ad3",
+                "name": "Massey Shepherd",
+                "position": "CEO",
+                "office": "New Mexico",
+                "age": 33,
+                "cost": "3,777.47",
+                "revenue": "5,237.87"
+            },
+            {
+                "_id": "57f6170a2140b3036be9b9e4",
+                "name": "Franklin Bond",
+                "position": "CEO",
+                "office": "Georgia",
+                "age": 26,
+                "cost": "1,220.81",
+                "revenue": "7,126.60"
+            },
+            {
+                "_id": "57f6170a0963f1e349afba65",
+                "name": "Leticia Mercado",
+                "position": "iOS Developer",
+                "office": "Minnesota",
+                "age": 27,
+                "cost": "1,115.57",
+                "revenue": "7,086.86"
+            },
+            {
+                "_id": "57f6170ab6adf468599b9d35",
+                "name": "Erna Mcintyre",
+                "position": "Java Developer",
+                "office": "American Samoa",
+                "age": 38,
+                "cost": "2,000.83",
+                "revenue": "3,022.91"
+            },
+            {
+                "_id": "57f6170a1b0bc90ca28314ec",
+                "name": "Carol Spence",
+                "position": "Android Developer",
+                "office": "Marshall Islands",
+                "age": 29,
+                "cost": "1,708.92",
+                "revenue": "7,980.86"
+            },
+            {
+                "_id": "57f6170a8d8abe5fe7da98bd",
+                "name": "Fry Crawford",
+                "position": "Designer",
+                "office": "North Dakota",
+                "age": 24,
+                "cost": "1,876.95",
+                "revenue": "4,912.54"
+            },
+            {
+                "_id": "57f6170a0459c9c829541e62",
+                "name": "Odonnell Jones",
+                "position": "PM",
+                "office": "Maryland",
+                "age": 20,
+                "cost": "2,908.23",
+                "revenue": "6,662.13"
+            },
+            {
+                "_id": "57f6170a7df54883ecb59966",
+                "name": "Margie Hopkins",
+                "position": "Android Developer",
+                "office": "Hawaii",
+                "age": 31,
+                "cost": "1,719.01",
+                "revenue": "5,863.72"
+            },
+            {
+                "_id": "57f6170af84292588ee17993",
+                "name": "Dean Hamilton",
+                "position": "Android Developer",
+                "office": "Massachusetts",
+                "age": 31,
+                "cost": "2,862.08",
+                "revenue": "7,214.82"
+            },
+            {
+                "_id": "57f6170ab2835ac33ab06475",
+                "name": "Munoz Miller",
+                "position": "CEO",
+                "office": "California",
+                "age": 29,
+                "cost": "2,221.31",
+                "revenue": "7,223.41"
+            },
+            {
+                "_id": "57f6170ad19b650423013edb",
+                "name": "Myra Patterson",
+                "position": "iOS Developer",
+                "office": "Northern Mariana Islands",
+                "age": 28,
+                "cost": "1,384.95",
+                "revenue": "6,466.59"
+            },
+            {
+                "_id": "57f6170a06ca9eda455e8578",
+                "name": "Olga Vazquez",
+                "position": "iOS Developer",
+                "office": "Nebraska",
+                "age": 23,
+                "cost": "1,603.80",
+                "revenue": "6,366.73"
+            },
+            {
+                "_id": "57f6170ad860c10876f742b6",
+                "name": "Saunders Hill",
+                "position": "Java Developer",
+                "office": "Virginia",
+                "age": 25,
+                "cost": "1,778.81",
+                "revenue": "6,218.98"
+            },
+            {
+                "_id": "57f6170ad45a872d7e8b47c7",
+                "name": "Tamera Cabrera",
+                "position": "CEO",
+                "office": "Florida",
+                "age": 39,
+                "cost": "1,250.79",
+                "revenue": "5,930.07"
+            },
+            {
+                "_id": "57f6170add27313a047063e7",
+                "name": "Katherine Lamb",
+                "position": "CEO",
+                "office": "Virgin Islands",
+                "age": 22,
+                "cost": "1,208.22",
+                "revenue": "2,751.06"
+            },
+            {
+                "_id": "57f6170a32d83db7b56aa89b",
+                "name": "Karina Robles",
+                "position": "iOS Developer",
+                "office": "Kentucky",
+                "age": 31,
+                "cost": "2,868.10",
+                "revenue": "6,037.26"
+            },
+            {
+                "_id": "57f6170a7fcb217d47586c92",
+                "name": "Whitfield Britt",
+                "position": "iOS Developer",
+                "office": "Mississippi",
+                "age": 25,
+                "cost": "2,269.64",
+                "revenue": "3,514.37"
+            },
+            {
+                "_id": "57f6170ad65c4223e14a2c2f",
+                "name": "Mcleod Scott",
+                "position": "iOS Developer",
+                "office": "South Dakota",
+                "age": 36,
+                "cost": "2,142.04",
+                "revenue": "3,901.07"
+            },
+            {
+                "_id": "57f6170a93073a3927415ad7",
+                "name": "Bentley Chase",
+                "position": "CEO",
+                "office": "Wisconsin",
+                "age": 26,
+                "cost": "1,884.55",
+                "revenue": "6,760.43"
+            },
+            {
+                "_id": "57f6170acdf37dcf5b16bfb1",
+                "name": "Rosalie Simpson",
+                "position": "Art Director",
+                "office": "North Carolina",
+                "age": 37,
+                "cost": "3,528.63",
+                "revenue": "7,459.88"
+            },
+            {
+                "_id": "57f6170a2b610765b11246c7",
+                "name": "Millicent Romero",
+                "position": "Android Developer",
+                "office": "Ohio",
+                "age": 36,
+                "cost": "3,223.00",
+                "revenue": "4,782.65"
+            },
+            {
+                "_id": "57f6170a7c8c6d31a4a769dc",
+                "name": "Campbell Ramirez",
+                "position": "Java Developer",
+                "office": "Kansas",
+                "age": 35,
+                "cost": "1,400.16",
+                "revenue": "4,449.59"
+            },
+            {
+                "_id": "57f6170a328475da97a7e8d2",
+                "name": "Barker Hess",
+                "position": "iOS Developer",
+                "office": "Louisiana",
+                "age": 38,
+                "cost": "3,304.82",
+                "revenue": "6,492.39"
+            },
+            {
+                "_id": "57f6170a866af1dffbba8ae1",
+                "name": "Summer Washington",
+                "position": "Designer",
+                "office": "Idaho",
+                "age": 33,
+                "cost": "2,777.21",
+                "revenue": "7,714.79"
+            },
+            {
+                "_id": "57f6170a57cbf9ba443ad40e",
+                "name": "Avila Lambert",
+                "position": "Java Developer",
+                "office": "Federated States Of Micronesia",
+                "age": 31,
+                "cost": "1,104.21",
+                "revenue": "6,521.13"
+            },
+            {
+                "_id": "57f6170aedf7f2a6b9f663e9",
+                "name": "Kirby Dominguez",
+                "position": "QA",
+                "office": "New Jersey",
+                "age": 24,
+                "cost": "2,425.34",
+                "revenue": "6,781.70"
+            },
+            {
+                "_id": "57f6170a848ce4da336fe628",
+                "name": "Mckay Griffin",
+                "position": "CEO",
+                "office": "Delaware",
+                "age": 27,
+                "cost": "1,254.49",
+                "revenue": "2,466.78"
+            },
+            {
+                "_id": "57f6170a7680a5329784a980",
+                "name": "Leann Leblanc",
+                "position": "Java Developer",
+                "office": "Washington",
+                "age": 38,
+                "cost": "2,208.78",
+                "revenue": "7,203.90"
+            },
+            {
+                "_id": "57f6170a7ea1f681bfe78d00",
+                "name": "Pace Henderson",
+                "position": "CEO",
+                "office": "Illinois",
+                "age": 21,
+                "cost": "2,847.69",
+                "revenue": "3,151.06"
+            },
+            {
+                "_id": "57f6170a86a8ca38df190f0e",
+                "name": "Hull Mcgowan",
+                "position": "Java Developer",
+                "office": "Puerto Rico",
+                "age": 24,
+                "cost": "3,698.16",
+                "revenue": "4,947.58"
+            },
+            {
+                "_id": "57f6170af7ebc7dae1707870",
+                "name": "Dixon Martinez",
+                "position": "Java Developer",
+                "office": "Oregon",
+                "age": 27,
+                "cost": "2,024.18",
+                "revenue": "3,348.69"
+            },
+            {
+                "_id": "57f6170a72754a20af9752c3",
+                "name": "Janet Workman",
+                "position": "Designer",
+                "office": "Iowa",
+                "age": 26,
+                "cost": "2,170.71",
+                "revenue": "6,339.50"
+            },
+            {
+                "_id": "57f6170acb12796a606997a9",
+                "name": "Bryan Vincent",
+                "position": "iOS Developer",
+                "office": "Palau",
+                "age": 23,
+                "cost": "2,079.85",
+                "revenue": "3,320.56"
+            },
+            {
+                "_id": "57f6170ad8001b96b89585f4",
+                "name": "Boyer Reeves",
+                "position": "PM",
+                "office": "Texas",
+                "age": 34,
+                "cost": "1,406.92",
+                "revenue": "5,928.67"
+            },
+            {
+                "_id": "57f6170aac20c70e6cac5a24",
+                "name": "Trevino Charles",
+                "position": "Designer",
+                "office": "Nevada",
+                "age": 33,
+                "cost": "2,006.62",
+                "revenue": "3,421.47"
+            },
+            {
+                "_id": "57f6170a12f1d0d098ac304a",
+                "name": "Randall Long",
+                "position": "Android Developer",
+                "office": "Oklahoma",
+                "age": 33,
+                "cost": "2,409.93",
+                "revenue": "7,731.55"
+            },
+            {
+                "_id": "57f6170a54c4e81881d645cc",
+                "name": "Knight Manning",
+                "position": "iOS Developer",
+                "office": "Rhode Island",
+                "age": 21,
+                "cost": "3,353.08",
+                "revenue": "4,432.48"
+            },
+            {
+                "_id": "57f6170a477b76253047964f",
+                "name": "Summers Garner",
+                "position": "Android Developer",
+                "office": "Alaska",
+                "age": 34,
+                "cost": "1,938.16",
+                "revenue": "4,480.86"
+            },
+            {
+                "_id": "57f6170a63c8638b5a2a712a",
+                "name": "Bernadette Boyle",
+                "position": "iOS Developer",
+                "office": "Vermont",
+                "age": 21,
+                "cost": "3,782.68",
+                "revenue": "2,986.65"
+            },
+            {
+                "_id": "57f6170ad47942a10318efaf",
+                "name": "Harrington Higgins",
+                "position": "Designer",
+                "office": "Connecticut",
+                "age": 29,
+                "cost": "2,094.25",
+                "revenue": "2,791.11"
+            },
+            {
+                "_id": "57f6170a6444311e371c71fb",
+                "name": "Schneider Gentry",
+                "position": "Android Developer",
+                "office": "Arizona",
+                "age": 24,
+                "cost": "2,103.69",
+                "revenue": "4,993.93"
+            },
+            {
+                "_id": "57f6170ae5e4379bf6abac60",
+                "name": "Vargas Jackson",
+                "position": "Java Developer",
+                "office": "Indiana",
+                "age": 29,
+                "cost": "2,591.38",
+                "revenue": "2,942.05"
+            },
+            {
+                "_id": "57f6170af47b13c6099179da",
+                "name": "Jackie Norman",
+                "position": "Designer",
+                "office": "Pennsylvania",
+                "age": 33,
+                "cost": "1,206.98",
+                "revenue": "6,487.15"
+            },
+            {
+                "_id": "57f6170a792052f233271aaf",
+                "name": "Renee Rice",
+                "position": "Art Director",
+                "office": "Maine",
+                "age": 38,
+                "cost": "2,461.40",
+                "revenue": "4,495.90"
+            },
+            {
+                "_id": "57f6170a250d9a49fb4bbfd5",
+                "name": "Hester Stout",
+                "position": "PM",
+                "office": "South Carolina",
+                "age": 31,
+                "cost": "2,861.54",
+                "revenue": "5,185.55"
+            },
+            {
+                "_id": "57f6170a91b91adc7c1eef43",
+                "name": "Tillman Gilmore",
+                "position": "PM",
+                "office": "District Of Columbia",
+                "age": 28,
+                "cost": "3,910.28",
+                "revenue": "4,026.90"
+            },
+            {
+                "_id": "57f6170a2fafe4e5b108e630",
+                "name": "Wright Vang",
+                "position": "Designer",
+                "office": "Guam",
+                "age": 34,
+                "cost": "1,115.02",
+                "revenue": "5,609.15"
+            },
+            {
+                "_id": "57f6170a89c2a1509c37d1bf",
+                "name": "Paige Huff",
+                "position": "Android Developer",
+                "office": "New Hampshire",
+                "age": 26,
+                "cost": "2,724.04",
+                "revenue": "2,863.53"
+            },
+            {
+                "_id": "57f6170a0e6ae9ac3c74584e",
+                "name": "Rhonda Snow",
+                "position": "QA",
+                "office": "Montana",
+                "age": 25,
+                "cost": "3,754.33",
+                "revenue": "5,781.08"
+            },
+            {
+                "_id": "57f6170a6ca80b0bcfd7631e",
+                "name": "Hinton Osborne",
+                "position": "Designer",
+                "office": "Michigan",
+                "age": 21,
+                "cost": "2,050.04",
+                "revenue": "6,091.52"
+            },
+            {
+                "_id": "57f6170abe14e052a6d2fd19",
+                "name": "Wiggins Richardson",
+                "position": "Java Developer",
+                "office": "New York",
+                "age": 35,
+                "cost": "3,164.44",
+                "revenue": "5,334.00"
+            },
+            {
+                "_id": "57f6170adad69b13d1a59fd0",
+                "name": "Sheri Sanders",
+                "position": "Art Director",
+                "office": "Colorado",
+                "age": 25,
+                "cost": "2,221.87",
+                "revenue": "4,632.60"
+            },
+            {
+                "_id": "57f6170a657927b0c11cac59",
+                "name": "Silva Harrington",
+                "position": "QA",
+                "office": "Arkansas",
+                "age": 20,
+                "cost": "3,257.16",
+                "revenue": "3,533.79"
+            },
+            {
+                "_id": "57f6170a57f0237be838c0e0",
+                "name": "Hyde Haley",
+                "position": "Android Developer",
+                "office": "Wyoming",
+                "age": 37,
+                "cost": "1,034.87",
+                "revenue": "4,464.16"
+            },
+            {
+                "_id": "57f6170a89c951ed89be7570",
+                "name": "Frieda Phelps",
+                "position": "iOS Developer",
+                "office": "Alabama",
+                "age": 32,
+                "cost": "2,936.29",
+                "revenue": "7,113.59"
+            },
+            {
+                "_id": "57f6170a56f7a841237aa2fc",
+                "name": "Sparks Garrison",
+                "position": "CEO",
+                "office": "Tennessee",
+                "age": 20,
+                "cost": "3,994.31",
+                "revenue": "2,956.80"
+            },
+            {
+                "_id": "57f6170af8b04481612425f1",
+                "name": "Maggie Puckett",
+                "position": "QA",
+                "office": "Utah",
+                "age": 39,
+                "cost": "3,283.49",
+                "revenue": "6,938.82"
+            },
+            {
+                "_id": "57f6170a5d590f5628d36f89",
+                "name": "Sonia Dejesus",
+                "position": "Android Developer",
+                "office": "Missouri",
+                "age": 31,
+                "cost": "2,260.62",
+                "revenue": "4,459.93"
+            },
+            {
+                "_id": "57f6170a8bfa26fd94ddc1e2",
+                "name": "Kennedy Hernandez",
+                "position": "Java Developer",
+                "office": "New Mexico",
+                "age": 30,
+                "cost": "3,312.30",
+                "revenue": "2,501.47"
+            },
+            {
+                "_id": "57f6170a59267159433d312c",
+                "name": "Madelyn Pacheco",
+                "position": "Java Developer",
+                "office": "Georgia",
+                "age": 22,
+                "cost": "3,487.59",
+                "revenue": "7,310.26"
+            },
+            {
+                "_id": "57f6170a98b6d6025086e153",
+                "name": "Briana Curtis",
+                "position": "Java Developer",
+                "office": "Minnesota",
+                "age": 28,
+                "cost": "2,660.30",
+                "revenue": "6,676.08"
+            },
+            {
+                "_id": "57f6170a1ec5f291ea819067",
+                "name": "Scott Arnold",
+                "position": "Java Developer",
+                "office": "American Samoa",
+                "age": 31,
+                "cost": "2,972.72",
+                "revenue": "6,737.63"
+            },
+            {
+                "_id": "57f6170a7c2ad963171dc22c",
+                "name": "Bartlett White",
+                "position": "PM",
+                "office": "Marshall Islands",
+                "age": 24,
+                "cost": "1,304.37",
+                "revenue": "7,772.89"
+            },
+            {
+                "_id": "57f6170a4414c7c11bf1c3db",
+                "name": "Sybil Fulton",
+                "position": "CEO",
+                "office": "North Dakota",
+                "age": 33,
+                "cost": "3,352.35",
+                "revenue": "2,604.77"
+            },
+            {
+                "_id": "57f6170ad492eefdd6da0816",
+                "name": "Robbie Merritt",
+                "position": "Java Developer",
+                "office": "Maryland",
+                "age": 29,
+                "cost": "3,375.17",
+                "revenue": "3,062.38"
+            },
+            {
+                "_id": "57f6170ab52147bcd205f423",
+                "name": "Latonya Carney",
+                "position": "Java Developer",
+                "office": "Hawaii",
+                "age": 32,
+                "cost": "1,672.46",
+                "revenue": "2,520.42"
+            },
+            {
+                "_id": "57f6170aef3a28f4f927e6d4",
+                "name": "Velma Figueroa",
+                "position": "Designer",
+                "office": "Massachusetts",
+                "age": 33,
+                "cost": "2,495.68",
+                "revenue": "3,152.75"
+            },
+            {
+                "_id": "57f6170acab05553dd122362",
+                "name": "Aida Holt",
+                "position": "Java Developer",
+                "office": "California",
+                "age": 40,
+                "cost": "2,895.09",
+                "revenue": "2,108.24"
+            },
+            {
+                "_id": "57f6170ab487d43c4d1337a2",
+                "name": "Rena Mccormick",
+                "position": "Java Developer",
+                "office": "Northern Mariana Islands",
+                "age": 29,
+                "cost": "3,700.31",
+                "revenue": "5,962.80"
+            },
+            {
+                "_id": "57f6170ad601f2f4b56c7c32",
+                "name": "Kaitlin Mosley",
+                "position": "Android Developer",
+                "office": "Nebraska",
+                "age": 34,
+                "cost": "1,108.66",
+                "revenue": "7,025.41"
+            },
+            {
+                "_id": "57f6170aa6942c2083fc79a6",
+                "name": "Roach Carr",
+                "position": "CEO",
+                "office": "Virginia",
+                "age": 39,
+                "cost": "1,418.82",
+                "revenue": "3,288.64"
+            },
+            {
+                "_id": "57f6170a71c698bcf1d377d5",
+                "name": "Aguirre Harvey",
+                "position": "iOS Developer",
+                "office": "Florida",
+                "age": 37,
+                "cost": "3,354.74",
+                "revenue": "5,894.19"
+            },
+            {
+                "_id": "57f6170ab46645e393e4ac59",
+                "name": "Pitts Bray",
+                "position": "Java Developer",
+                "office": "Virgin Islands",
+                "age": 36,
+                "cost": "1,233.71",
+                "revenue": "5,693.91"
+            },
+            {
+                "_id": "57f6170ab4125e921e80f1f8",
+                "name": "Barrera Ramos",
+                "position": "Java Developer",
+                "office": "Kentucky",
+                "age": 22,
+                "cost": "1,637.45",
+                "revenue": "5,925.82"
+            },
+            {
+                "_id": "57f6170a0d53c0564f50ef72",
+                "name": "Harriet Marquez",
+                "position": "Java Developer",
+                "office": "Mississippi",
+                "age": 38,
+                "cost": "1,420.43",
+                "revenue": "7,820.56"
+            },
+            {
+                "_id": "57f6170a483b064f49197c5b",
+                "name": "Regina Berger",
+                "position": "CEO",
+                "office": "South Dakota",
+                "age": 34,
+                "cost": "3,618.65",
+                "revenue": "3,869.11"
+            },
+            {
+                "_id": "57f6170a6024154d42a13fb2",
+                "name": "Pittman Holmes",
+                "position": "iOS Developer",
+                "office": "Wisconsin",
+                "age": 37,
+                "cost": "1,634.48",
+                "revenue": "6,400.91"
+            },
+            {
+                "_id": "57f6170ad550e00c43b1b813",
+                "name": "Paula Colon",
+                "position": "Android Developer",
+                "office": "North Carolina",
+                "age": 28,
+                "cost": "3,149.27",
+                "revenue": "3,013.88"
+            },
+            {
+                "_id": "57f6170ae2b181c9b3663b59",
+                "name": "Gamble Thomas",
+                "position": "Android Developer",
+                "office": "Ohio",
+                "age": 23,
+                "cost": "3,555.16",
+                "revenue": "4,614.36"
+            },
+            {
+                "_id": "57f6170a0fb9b4502b9487dd",
+                "name": "Frye Wyatt",
+                "position": "QA",
+                "office": "Kansas",
+                "age": 39,
+                "cost": "1,026.30",
+                "revenue": "3,842.52"
+            },
+            {
+                "_id": "57f6170a5625ad7c28f23856",
+                "name": "Lynnette Guy",
+                "position": "Java Developer",
+                "office": "Louisiana",
+                "age": 23,
+                "cost": "3,794.33",
+                "revenue": "3,748.25"
+            },
+            {
+                "_id": "57f6170a6a3903e88e9c7917",
+                "name": "Bennett Shaw",
+                "position": "Art Director",
+                "office": "Idaho",
+                "age": 21,
+                "cost": "1,931.20",
+                "revenue": "7,115.27"
+            },
+            {
+                "_id": "57f6170a87d9f863c8616dfe",
+                "name": "Woodward Maynard",
+                "position": "QA",
+                "office": "Federated States Of Micronesia",
+                "age": 27,
+                "cost": "3,630.48",
+                "revenue": "2,890.51"
+            },
+            {
+                "_id": "57f6170a11098888faa64367",
+                "name": "Deanna Clay",
+                "position": "PM",
+                "office": "New Jersey",
+                "age": 40,
+                "cost": "1,044.47",
+                "revenue": "2,096.95"
+            },
+            {
+                "_id": "57f6170a4c9f2a779afad6d6",
+                "name": "Madden Burgess",
+                "position": "Android Developer",
+                "office": "Delaware",
+                "age": 22,
+                "cost": "1,589.64",
+                "revenue": "5,383.76"
+            },
+            {
+                "_id": "57f6170a1053c9f5069a6a1b",
+                "name": "Chrystal Johnston",
+                "position": "QA",
+                "office": "Washington",
+                "age": 34,
+                "cost": "1,797.65",
+                "revenue": "4,480.92"
+            },
+            {
+                "_id": "57f6170aa8afd4fe946b95da",
+                "name": "Marshall Marshall",
+                "position": "Art Director",
+                "office": "Illinois",
+                "age": 27,
+                "cost": "2,626.44",
+                "revenue": "6,260.04"
+            },
+            {
+                "_id": "57f6170a196e1fc02c5ba049",
+                "name": "Marianne Cook",
+                "position": "Android Developer",
+                "office": "Puerto Rico",
+                "age": 33,
+                "cost": "3,437.47",
+                "revenue": "6,306.56"
+            },
+            {
+                "_id": "57f6170adb870755ecfa42aa",
+                "name": "Dickson Merrill",
+                "position": "iOS Developer",
+                "office": "Oregon",
+                "age": 23,
+                "cost": "3,917.10",
+                "revenue": "6,924.86"
+            },
+            {
+                "_id": "57f6170acc03b2bf163093c1",
+                "name": "Lesa Davis",
+                "position": "Java Developer",
+                "office": "Iowa",
+                "age": 21,
+                "cost": "3,387.87",
+                "revenue": "3,821.75"
+            },
+            {
+                "_id": "57f6170a4be5ab32f8c41a9c",
+                "name": "Kitty Cross",
+                "position": "CEO",
+                "office": "Palau",
+                "age": 22,
+                "cost": "1,813.10",
+                "revenue": "5,029.53"
+            },
+            {
+                "_id": "57f6170a5b737da076e9e4f5",
+                "name": "Elisabeth Sharpe",
+                "position": "Java Developer",
+                "office": "Texas",
+                "age": 23,
+                "cost": "1,548.71",
+                "revenue": "2,164.02"
+            },
+            {
+                "_id": "57f6170a62befe6e02bb3b64",
+                "name": "Betsy Garza",
+                "position": "QA",
+                "office": "Nevada",
+                "age": 29,
+                "cost": "1,527.08",
+                "revenue": "5,010.25"
+            },
+            {
+                "_id": "57f6170a7ef55263d0c5ae3f",
+                "name": "Shelia Strong",
+                "position": "CEO",
+                "office": "Oklahoma",
+                "age": 25,
+                "cost": "3,639.64",
+                "revenue": "7,369.23"
+            },
+            {
+                "_id": "57f6170a263ae4b9c2b61107",
+                "name": "Rose Jacobson",
+                "position": "Java Developer",
+                "office": "Rhode Island",
+                "age": 37,
+                "cost": "2,108.84",
+                "revenue": "7,390.07"
+            }
+        ]}
+        ]}
+    }

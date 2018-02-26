@@ -1,0 +1,52 @@
+<div>
+    <div class="modal-body user-management-modal">
+        <form name="addEventForm">
+            <div class="form-group">
+                <input type="text" class="form-control form-control-primary" placeholder="{{ getTranslation('event_title') }}" ng-model="vm.entity.title" name="title" id="name">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control form-control-primary" placeholder="{{ getTranslation('description') }}" ng-model="vm.entity.description" name="description" id="description">
+            </div>
+
+            <div class="col-md-12" >
+                <div class="row"  style="border-bottom:1px solid #CCC;padding-bottom:5px;margin-bottom:10px;">
+                    <div class="col-md-6">{{ getTranslation('from') }}: </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" >
+                <div class="row"  style="border-bottom:1px solid #CCC;padding-bottom:5px;margin-bottom:10px;">
+                    <div class="col-md-6">{{ getTranslation('to') }}: </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" >
+                <div class="row"  style="border-bottom:1px solid #CCC;padding-bottom:5px;margin-bottom:10px;">
+                    <div class="col-md-6">{{ getTranslation('share') }}: </div>
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right" data-toggle="buttons">
+                            <label class="btn btn-primary active" title="{{ getTranslation('private') }}">
+                                <input type="radio" name="options" id="public" autocomplete="off" checked> 
+                                <i class="fa fa-user"></i>
+                            </label>
+                            <label class="btn btn-primary" title="{{ getTranslation('public') }}">
+                                <input type="radio" name="options" id="private" autocomplete="off"> 
+                                <i class="fa fa-users"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group form-group">
+                <button class="btn btn-xlpad btn-warning" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+                <button class="btn btn-xlpad btn-success" ng-click="vm.save()">{{ getTranslation('save') }}</button>
+            </div>
+        </form>
+    </div>
+</div>

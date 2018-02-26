@@ -1,0 +1,103 @@
+<form class="alerts-modal" name="addAlertForm">
+    <div class="alerts-modal-header">
+        <label>{{getTranslation('alert_name')}}</label>
+        <input type="text" class="form-control"
+               ng-model="vm.selected.name"
+               ng-required="true"
+               name="name"
+               uib-tooltip="This field is required"
+               tooltip-class="error-tooltip"
+               tooltip-trigger="{none: none}"
+               tooltip-is-open="vm.fieldValid(addAlertForm.name)">
+    </div>
+    <div class="alerts-modal-body">
+        <span class="alerts-type">
+            <label>
+                <input type="radio" value="0" ng-model="vm.selected.type">
+                {{getTranslation('threshold_based')}}
+            </label>
+
+            <label>
+                <input type="radio" value="1" ng-class="{'drilldown-alert': vm.selected.chartType == 2, 'metric-alert': vm.selected.chartType == 1}" ng-model="vm.selected.type">
+                {{getTranslation('periodic')}}
+            </label>
+        </span>
+        <div>
+            <span class="alerts-link red">
+                {{getTranslation('criteria')}}
+            </span>
+
+            <div class="alerts-option" ng-if="vm.selected.type == 1">
+                <span>
+                    {{getTranslation('notify_on')}}
+                </span>
+
+                <select ng-options="option for option in vm.dataset" ng-model="vm.selected.criteria">
+                </select>
+
+                <select ng-model="vm.selected.date">
+                    <option value="{{key}}" ng-repeat="(key, label) in vm.periods" required>{{label}}</option>
+                </select>
+
+                <div class="input-group calendar" ng-if="vm.selected.date == 'custom'">
+                    <input type="text" class="form-control" uib-datepicker-popup name="startDate"
+                           ng-model="vm.customDate" is-open="vm.opened" ng-click="vm.toggleDatePicker()"
+                           ng-required="true" close-text="{{ getTranslation('close') }}"
+                           uib-tooltip="This field is required" tooltip-class="error-tooltip"
+                           tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addAlertForm.startDate)">
+
+                    <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker()">
+                            <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="alerts-option" ng-class="{'drilldown-alert': vm.selected.chartType == 2, 'metric-alert': vm.selected.chartType == 1}" ng-if="vm.selected.type == 0">
+                <span>
+                    {{getTranslation('notify_when')}}
+                </span>
+
+                <select ng-options="option for option in vm.dataset" ng-model="vm.selected.criteria"></select>
+
+                <select ng-if="vm.chartViewItems.length" ng-options="('in ' + item) for item in vm.chartViewItems" ng-model="vm.selected.chartViewItem"></select>
+
+                <select ng-model="vm.selected.condition">
+                    <option value="{{key}}" ng-repeat="(key, label) in vm.conditions">{{label}}</option>
+                </select>
+
+                <input type="text" class="form-control alerts-condition"
+                       ng-model="vm.selected.value" name="value"
+                       ng-required="true"
+                       uib-tooltip="This field is required"
+                       tooltip-class="error-tooltip"
+                       tooltip-trigger="{none: none}"
+                       tooltip-is-open="vm.fieldValid(addAlertForm.value)">
+
+                <select ng-if="vm.selected.chartType > 1" ng-model="vm.selected.points">
+                    <option value="{{key}}" ng-repeat="(key, label) in vm.points">{{label}}</option>
+                </select>
+            </div>
+
+            <hr>
+
+            <span class="alerts-link red" ng-if="vm.selected.chartType > 1">
+                {{getTranslation('filters')}}
+            </span>
+
+            <div ng-repeat="(key, filter) in vm.filters" ng-hide="filter.all">
+                <strong>{{key | capitalizeFilter}}:</strong>
+                <span ng-show="value && (filter.expanded || $index < vm.maxFiltersCount)" ng-repeat="(name, value) in vm.filteredValues(filter.values) track by $index">{{name}}; </span>
+
+                <span ng-if="vm.showMoreLessLink(filter.values)">
+                    <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>Show More ...</b></a>
+                    <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>Show Less ...</b></a>
+                </span>
+            </div>
+
+            <div class="flex-container">
+                <button class="btn btn-xlpad btn-success" ng-click="vm.createAlert()" ng-disabled="addAlertForm.$invalid">{{ getTranslation('save') }}</button>
+                <a class="alerts-link blue" href='#/alerts'>{{getTranslation('manage_alerts')}}</a>
+            </div>
+
+        </div>
+    </div>
+</form>
