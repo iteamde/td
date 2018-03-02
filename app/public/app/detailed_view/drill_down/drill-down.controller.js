@@ -13,8 +13,7 @@
         'drillDownService',
         'mockDataService',
         'commonService',
-        'videoService',
-        'alertsService'
+        'videoService'
     ];
 
     function DrillDownController($scope,
@@ -23,8 +22,7 @@
                                  drillDownService,
                                  mockDataService,
                                  commonService,
-                                 videoService,
-                                 alertsService) {
+                                 videoService) {
 
         var vm = this;
         var originalChartData,
@@ -42,7 +40,6 @@
         vm.shareChart = commonService.shareChart;
         vm.hideEmptyValues = hideEmptyValues;
         vm.createToken = commonService.createToken;
-        vm.openAlertsModal = openAlertsModal;
 
         vm.activeTab = 0;
         vm.showCustom = 0;
@@ -219,10 +216,6 @@
             } else {
                 $scope.widgets[0].chart_data = _.cloneDeep(originalChartData);
             }
-        }
-
-        function openAlertsModal() {
-            alertsService.openModal($scope, $stateParams.id, $scope.widgets[0], 2, $scope.filters, vm.view);
         }
     }
 })();

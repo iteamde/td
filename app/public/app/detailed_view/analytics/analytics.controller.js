@@ -17,8 +17,7 @@
         'commonChartService',
         'eventService',
         'ANALYTICS_CHART_CORRECTION',
-        'videoService',
-        'alertsService'
+        'videoService'
     ];
 
     function AnalyticsController($scope,
@@ -31,8 +30,7 @@
                                  commonChartService,
                                  eventService,
                                  ANALYTICS_CHART_CORRECTION,
-                                 videoService,
-                                 alertsService) {
+                                 videoService) {
 
         var vm = this;
 
@@ -49,7 +47,6 @@
         vm.shareChart = commonService.shareChart;
         vm.getMonths = analyticsService.getMonths;
         vm.createToken = commonService.createToken;
-        vm.openAlertsModal = openAlertsModal;
 
         // grid configuration
         commonService.chartConfig($scope, vm);
@@ -124,7 +121,6 @@
             vm.axis = $scope.verticalAxis[1];
             vm.view = $scope.chartViews[0];
             vm.timeSpan = vm.timeSpans[0];
-            vm.availableFilters = res[0].data.chart_data.available_filters;
 
             $scope.users = res[0].data.chart_data.users;
             $scope.totalUsers = res[0].data.chart_data.users_count;
@@ -274,10 +270,6 @@
 
         vm.toggleDatePicker = function(key) {
             vm.open[key] = !vm.open[key];
-        }
-
-        function openAlertsModal() {
-            alertsService.openModal($scope, $stateParams.id, $scope.widgets[0], 3, $scope.filters);
         }
     }
 })();

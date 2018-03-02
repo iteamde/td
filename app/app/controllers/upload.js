@@ -8,7 +8,6 @@ var csvParser = require('../components/csv-parser/parser');
 var ConnectorCsvModel = require('../models/orm-models').ConnectorCsv;
 var HttpResponse = require('../components/http-response');
 var cache = require('../components/cache');
-var alert = require('./alert');
 
 module.exports = {
     /**
@@ -109,7 +108,6 @@ module.exports = {
                     success: true,
                     errors: []
                 });
-                alert.checkAlerts(0);
             }).catch(HttpResponse, function (err) {
                 trackApi(req);
                 err.json(res);

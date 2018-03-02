@@ -10,9 +10,6 @@ var passport = require('passport');
 var config = require('./config').config;
 var http_status = require('./app/config/constant').HTTP_STATUS;
 var routes = require('./app/routes/index');
-var cron = require('node-cron');
-var alert = require('./app/controllers/alert');
-var moment = require('moment');
 var app = express();
 
 require('./app/models/orm-models');
@@ -164,24 +161,3 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-
-// day
-cron.schedule('0 0 * * *', function() {
-    let today = moment().format('YYYY-MM-DD');
-    alert.checkAlerts(1, moment(today).startOf('day').utc().format('X'));
-});
-
-// week
-cron.schedule('0 0 * * Mon', function() {
-    alert.checkAlerts(1, 'week');
-});
-
-// month
-cron.schedule('0 0 1 * *', function() {
-    alert.checkAlerts(1, 'month');
-});
-
-// quarter
-cron.schedule('0 0 1 */3 *', function() {
-    alert.checkAlerts(1, 'quarter');
-});

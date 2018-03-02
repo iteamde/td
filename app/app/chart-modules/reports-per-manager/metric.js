@@ -36,7 +36,7 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
 }).then(function (data) {
     _resolve({
         data: [{
-            label: 'Reports',
+            label: '',
             value: _.chain(data).meanBy('count').round(2).value()
         }],
         legendItemFontSize: '8',

@@ -42,7 +42,6 @@
 
                                 <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" uib-tooltip="Settings"></span>
                                 <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" uib-tooltip="Filters"></span>
-                                <span class="fa fa-bell" ng-click="vm.openAlertsModal()" uib-tooltip="{{ getTranslation('alerts') }}"></span>
                                 <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Drilldown')" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
                                 <span class="fa fa-download" ng-click="vm.exportChart($index)" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
                                 <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>

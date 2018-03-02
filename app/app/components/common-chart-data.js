@@ -555,7 +555,7 @@ module.exports = {
                 '`trendata_bigdata_user_position` as `tbup` ' +
                 'ON ' +
                 '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-                'LEFT JOIN ' +
+                'INNER JOIN ' +
                 '`trendata_bigdata_hire_source` as `tbhs` ' +
                 'ON ' +
                 '`tbu`.`trendata_bigdata_hire_source_id` = `tbhs`.`trendata_bigdata_hire_source_id` ' +

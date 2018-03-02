@@ -16,12 +16,9 @@
         'metricService',
         'commonService',
         'ALLOWED_CHART_TYPES',
-        'TOOLTIP_MESSAGES',
-        '$http',
-        'BASE_URL',
-        'alertsService'];
+        'TOOLTIP_MESSAGES'];
 
-    function MetricController($scope, $rootScope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, metricService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES, $http, BASE_URL, alertsService) {
+    function MetricController($scope, $rootScope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, metricService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES) {
 
         var vm = this;
 
@@ -36,7 +33,6 @@
         vm.changeChartType = commonService.changeChartType;
         vm.addToDashboard = addToDashboard;
         vm.shareChart = commonService.shareChart;
-        vm.openAlertsModal = openAlertsModal;
 
         activate();
 
@@ -65,6 +61,7 @@
 
 
         function getMetricChartsComplete(data) {
+            
             /**
             * HIDE "Quality of Hires" Metric From Source Of Hire Page for now
             */
@@ -86,6 +83,7 @@
             if (data.table.length > 0) {
                 commonService.configGrid(data.table[0]);
             }
+
         }
 
         function setChartsOrder() {
@@ -122,10 +120,7 @@
             commonService.notification(vm.TOOLTIP_TILES_MESSAGES.ADD_TO_DASHBOARD_NOTY, "success");
         }
 
-        function openAlertsModal(chart) {
-            alertsService.openModal($scope, chart.id, chart, 1);
-        }
-
     }
+
 
 })();

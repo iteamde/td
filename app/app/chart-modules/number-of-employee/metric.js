@@ -29,7 +29,7 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
     _resolve({
         data: [
             {
-                label: '',
+                labes: '',
                 value: rows[0]['total_number_of_employees']
             }
         ]

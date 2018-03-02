@@ -5,10 +5,9 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
+    DashboardController.$inject = ['$rootScope','$scope', '$window', '$log', '$timeout', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'ALLOWED_CHART_TYPES', 'TOOLTIP_MESSAGES', 'videoService', '$uibModal'];
 
-    DashboardController.$inject = ['$rootScope','$scope', '$window', '$log', '$timeout', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'ALLOWED_CHART_TYPES', 'TOOLTIP_MESSAGES', 'videoService', 'alertsService', '$uibModal'];
-
-    function DashboardController($rootScope, $scope, $window, $log, $timeout, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES, videoService, alertsService, $uibModal) {
+    function DashboardController($rootScope, $scope, $window, $log, $timeout, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES, videoService, $uibModal) {
 
         var vm;
 
@@ -25,7 +24,6 @@
         vm.removeChart = removeChart;
         vm.playVideo = playVideo;
         vm.lastUploadedBg = lastUploadedBg;
-        vm.openAlertsModal = openAlertsModal;
         vm.shareChart = commonService.shareChart;
         vm.choosePeriod = choosePeriod;
 
@@ -48,7 +46,6 @@
         $scope.onResizeStop = commonService.onResizeStop($scope, setChartsOrder);
         $scope.onWindowResize = commonService.onWindowResize($scope);
         $scope.setChartsOrder = setChartsOrder;
-        $scope.checkAutopos = checkAutopos;
         $scope.videoUrl;
 
         function activate() {
@@ -121,7 +118,7 @@
                 .catch(serviceError);
         }
 
-        function checkAutopos(charts) {
+        $scope.checkAutopos = function(charts) {
             return _.every(charts, function(chart) {
                 return !chart.x && !chart.y;
             });
@@ -134,10 +131,6 @@
         function lastUploadedBg() {
             var days = moment().diff(moment(vm.lastUploaded), 'days');
             return  days <= 30 ? '#33B297' : days <= 60 ? '#FFA300' : '#FF0700';
-        }
-
-        function openAlertsModal(chart) {
-            alertsService.openModal($scope, chart.id, chart, 1);
         }
 
         function choosePeriod() {

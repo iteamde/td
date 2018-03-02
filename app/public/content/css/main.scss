@@ -431,10 +431,6 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         transition: all .5s ease-in-out;
       }
 
-      option {
-        text-transform: capitalize;
-      }
-
       label.btn {
         min-width: 150px;
       }
@@ -498,7 +494,7 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
     }
     .dropdown-menu {
       padding: 5px 10px;
-      min-width: 140px;
+      min-width: 110px;
       text-align: center;
 
       .form-control {
@@ -2599,99 +2595,6 @@ label.inactive {
   }
 }
 
-.alerts-modal {
-  border-radius: 6px;
-
-  .alerts-link {
-    display: inline-block;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  .red {
-    color: #9e191c;
-    margin: 20px 0;
-  }
-
-  .blue {
-    color: #005075;
-  }
-
-  .alerts-modal-header {
-    text-align: center;
-    background-color: beige;
-    padding: 20px;
-
-    .form-control {
-      display: inline-block;
-      width: 300px;
-    }
-  }
-
-  .alerts-modal-body {
-    padding: 20px;
-
-    .alerts-type {
-      display: block;
-      text-align: center;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #ccc;
-    }
-
-    strong: {
-      margin-right: 20px;
-    }
-  }
-
-  .alerts-condition {
-    display: inline-block;
-    width: 70px;
-  }
-
-  .alerts-option {
-    display: flex;
-    height: 20px;
-    align-items: center;
-
-    > * {
-      background: none;
-      border-color: #ccc;
-      border-radius: 4px;
-      padding: 5px 5px 6px;
-      margin-right: 20px;
-    }
-
-    &.drilldown-alert > * {
-      margin-right: 15px;
-    }
-
-    &.metric-alert > * {
-      margin-right: 30px;
-    }
-  }
-
-  .calendar {
-    width: 20%;
-    float: right;
-    margin-right: auto;
-  }
-
-  label {
-    padding-right: 20px;
-  }
-
-  .flex-container {
-    margin-top: 20px;
-    display: flex;
-    align-items: flex-end;
-
-    button {
-      margin: auto;
-    }
-  }
-
-}
-
 /* =financial-data
  **********************************************/
 .financial-data {
@@ -3240,26 +3143,5 @@ label.inactive {
     display: inline-block;
     width: 330px;
     margin-right: 10px;
-  }
-}
-
-#grid .grid-cell {
-  justify-content: flex-start;
-  min-height: 35px;
-  height: auto;
-
-  b {
-    margin-right: 5px;
-  }
-
-  .fa {
-    cursor: pointer;
-    font-size: 16px;
-    margin: 0 10px;
-  }
-
-  &.filters-cell {
-    display: block;
-    padding: 5px;
   }
 }

@@ -26,9 +26,9 @@
                     <ul>
                         <li><a ui-sref="layout.user" ui-sref-active="active"><span>{{ getTranslation('manage_users') }}</span></a></li>
                         <!--<li><a href='#'><span>{{ getTranslation('manage_roles') }}</span></a></li>-->
-                        <li><a href='#/alerts'><span>{{ getTranslation('alerts') }}</span></a></li>
                         <li><a ui-sref="layout.financialData" ui-sref-active="active"><span>{{ getTranslation('financial_inputs') }}</span></a></li>
                         <li><a href='#/connector'><span>{{ getTranslation('data_sources') }}</span></a></li>
+                        <!--<li><a href='#/languages'><span>{{ getTranslation('languages') }}</span></a></li>&lt;!&ndash;{{ getTranslation('data_sources') }}&ndash;&gt;-->
                         <li ng-if="isAdmin"><a href='#/surveys'><span>{{ getTranslation('surveys') }}</span></a></li>
 
                     </ul>

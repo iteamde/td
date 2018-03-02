@@ -223,16 +223,9 @@ module.exports = function(grunt) {
                         'public/app/settings/surveys/surveys.routes.js',
                         'public/app/settings/surveys/surveys.controller.js',
 
-                        // YouTube Videos
+                        //YouTube Videos
                         'public/app/layout/layout-video.controller.js',
                         'public/content/bower_components/youtube-video-js/dist/youtube-video-min.js',
-
-                        // Alerts
-                        'public/app/settings/alerts/alerts.module.js',
-                        'public/app/settings/alerts/alerts.routes.js',
-                        'public/app/settings/alerts/alerts.controller.js',
-                        'public/app/settings/alerts/alerts.service.js',
-                        'public/app/settings/alerts/alerts-modal/alerts.modal.controller.js',
 
                         //Share
                         'public/app/layout/layout-share.controller.js',

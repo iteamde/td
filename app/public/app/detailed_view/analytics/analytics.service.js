@@ -70,12 +70,9 @@
             _.each(filter, function (value, name) {
                 var keys = _.keys(value.values);
 
-                if (keys.length === 1 && keys[0] === 'null')
-                    return;
-
                 serverFilter[name] = _.filter(keys, function (key) {
                     return value.values[key];
-                });
+                })
             });
 
             return serverFilter;

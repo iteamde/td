@@ -266,6 +266,9 @@ if ('change_filters' === requestData.type) {
              *
              */
             available_chart_view: commonChartData.getCustomFields().then(function (chartViews) {
+                chartViews = chartViews.map(function (item) {
+                    return _.chain(item).words().map(_.capitalize).value().join(' ');
+                });
                 return ['Gender', 'Department', 'City', 'State', 'Country', 'Division', 'Cost Center', 'Job Level'].concat(chartViews);
             }),
 

@@ -98,7 +98,7 @@ module.exports = {
                     });
             }).then(function (_parser) {
                 return Promise.all([
-                    filterValues(csv, _parser, ignoreFilters),
+                    filterValues(csv, _parser.filters, ignoreFilters),
                     _parser
                 ])
             });

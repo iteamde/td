@@ -1,0 +1,29 @@
+#Site-specific files
+./app/.env
+./app/nbproject
+
+# Temp Directories
+./app_server/node_modules/juice/tmp
+./app/node_modules/juice/tmp
+app/config.js
+
+# netbeans and other non-necessary files
+nbproject
+.idea
+.DS_Store
+*.swp
+*.bak
+*.log
+*.css
+*.map
+
+# "run" directory
+./run
+
+# keep empty folder
+!*.keep
+
+node_modules/
+bower_components/
+app/public/content/images/logo/client_logo.png
+app/public/share/

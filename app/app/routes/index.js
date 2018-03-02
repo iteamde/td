@@ -19,7 +19,6 @@ var trackUserActivity = require('../controllers/track-user-activity');
 var nlpSearch       = require('../controllers/nlp-search');
 var video           = require('../controllers/video');
 var share           = require('../controllers/share');
-var alert           = require('../controllers/alert');
 var mail            = require('nodemailer').mail;
 
 var sendmail        = require('sendmail')({
@@ -90,11 +89,6 @@ router.post('/user/user-grid-settings', authMiddleware, user.saveUsersGridSettin
 router.get('/tag/get-all-tags', authMiddleware, tag.getAllTags);
 
 router.post('/nlp-search/by-tags', authMiddleware, nlpSearch.searchByTags);
-
-router.get('/alert/alertlist', disableCache, authMiddleware, alert.getAlertsList);
-router.post('/alert/create-alert', disableCache, authMiddleware, alert.createAlert);
-router.post('/alert/delete-alert', disableCache, authMiddleware, alert.deleteAlert);
-router.post('/alert/set-status', disableCache, authMiddleware, alert.setAlertStatus);
 
 router.get('/financial-data/load-by-year/:year(\\d+)', authMiddleware, financialData.loadByYear); // +
 router.post('/financial-data/save-by-year/:year(\\d+)', authMiddleware, financialData.saveByYear); // +

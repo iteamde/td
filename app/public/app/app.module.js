@@ -41,7 +41,6 @@
         'app.languages',
         'app.surveys',
         'app.release_notes',
-        'app.alerts',
         'dndLists'
     ]);
 
