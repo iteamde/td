@@ -23,6 +23,27 @@
         $scope.BASE_URL = BASE_URL;
         $scope.videoUrl;
 
+        vm.moveCursorToEnd = function(e){
+            //e.target.selectionStart = e.target.selectionEnd = e.target.value.length;
+            var copyInputValue=e.target.value;
+            e.target.value='';
+            e.target.value=copyInputValue;
+         }
+         vm.stopDrag = function(e){
+             //item.dragging = false;
+             //e.target.parentElement.parentElement.setAttribute("draggable",false);
+             e.target.parentElement.parentElement.removeAttribute("draggable");
+             //e.target.parentElement.parentElement.removeAttribute("dnd-draggable");
+             //e.target.parentElement.parentElement.removeAttribute("dnd-dragstart");
+             //e.target.parentElement.parentElement.removeAttribute("dnd-moved");
+             //e.target.parentElement.parentElement.removeAttribute("dnd-dragend");
+             //e.target.parentElement.parentElement.parentElement.removeAttribute("dnd-list");
+         }
+         vm.addDrag = function(e){
+             //item.dragging = true;
+             e.target.parentElement.parentElement.setAttribute("draggable",true); 
+         }
+
         videoService.getVideo()
             .success(function(video) {
                 if (video)
