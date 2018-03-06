@@ -46,7 +46,7 @@
                     <i ng-hide="item.editing" class="fa fa-pencil" ng-click="vm.changeEditing(item)" uib-tooltip="{{getTranslation('edit_field_name')}}"></i>
                     <input type="checkbox" ng-model="item.use" ng-disabled="item.required" ng-change="vm.saveSettings()" uib-tooltip="{{getTranslation(item.use ? 'disable' : 'enable')}}">
                     <span ng-hide="item.editing">{{item.title}} {{item.required ? '*' : ''}}</span>
-                    <input ng-focus="vm.moveCursorToEnd($event)" ng-mousedown="vm.stopDrag($event)" ng-mouseleave="vm.addDrag($event)" ng-model="item.title" ng-show="item.editing" ng-blur="vm.changeEditing(item)" class="dictionary-item-input">
+                    <input  type="text" ng-focus="vm.moveCursorToEnd($event)" ng-mousedown="vm.stopDrag($event)" ng-mouseleave="vm.addDrag($event)" ng-model="item.title" ng-show="item.editing" ng-blur="vm.changeEditing(item)" class="dictionary-item-input">
                 </div>
                 <div class="flex-item">{{ getTranslation(item.description) }}</div>
             </div>
