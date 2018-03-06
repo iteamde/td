@@ -21,6 +21,18 @@
          * @param data
          * @returns {*}
          */
+
+        vm.subMenuIsOpen=false;
+        vm.isSidebarOpen =false;
+
+        $rootScope.$on('sidebar-toggle-one', function () {
+           vm.isSidebarOpen = !vm.isSidebarOpen;
+         })
+         
+        vm.showSubMenu= function(){
+            vm.subMenuIsOpen=!vm.subMenuIsOpen;
+        }
+        
         vm.getTranslation = function (token, data) {
             data = data || {};
 

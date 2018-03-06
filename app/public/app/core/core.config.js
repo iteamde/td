@@ -16,7 +16,17 @@
     core.config(tmhDynamicLocaleConfigure);
     core.config(validationConfigure);
     core.config(notyConfigure);
-    core.controller('CommonController', ['$scope', 'BASE_URL', '$http', function ($scope, BASE_URL, $http) {
+    core.controller('CommonController', ['$scope', 'BASE_URL', '$http', '$rootScope', function ($scope, BASE_URL, $http, $rootScope) {
+
+
+
+        $scope.isSidebarOpen =false;
+
+        $rootScope.$on('sidebar-toggle-one', function () {
+            $scope.isSidebarOpen = !$scope.isSidebarOpen;
+         })
+
+
         /**
          * @type {Object}
          */
