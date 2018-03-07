@@ -3314,3 +3314,8 @@ label.inactive {
 .dictionary-item-input::-ms-clear{
   display: none;
 }
+
+.dropdown-menu > li >.form-control{
+  padding:0;
+  text-align:center;
+}

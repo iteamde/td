@@ -26,12 +26,12 @@
                     <span class=""><i class="menu-arrow fa fa-angle-down" 
                         ng-class="{'fa-angle-down':!vm.subMenuIsOpen,'fa-angle-up':vm.subMenuIsOpen,}"></i></span></a>
                     <ul ng-class="{'show-menu':vm.subMenuIsOpen, 'hide-menu':!vm.subMenuIsOpen, 'admin-menu-mobile':vm.isSidebarOpen}">
-                            <li><a ui-sref="layout.user" ui-sref-active="active"><i class="fa fa-address-card-o"></i><span>{{ getTranslation('manage_users') }}</span></a></li>
-                            <!--<li><a href='#'><span>{{ getTranslation('manage_roles') }}</span></a></li>-->
-                            <!--<li><a ui-sref="layout.alerts" ui-sref-active="active"><i class="fa fa-bell"></i><span>{{ getTranslation('alerts') }}</span></a></li>-->
-                            <li><a ui-sref="layout.financialData" ui-sref-active="active"><i class="fa fa-table"></i><span>{{ getTranslation('financial_inputs') }}</span></a></li>
-                            <li><a  ui-sref="layout.connector" ui-sref-active="active"><i class="fa fa-folder-o"></i><span>{{ getTranslation('data_sources') }}</span></a></li>
-                            <li ng-if="isAdmin"><a ui-sref="layout.surveys" ui-sref-active="active"><i class="fa fa-question-circle-o"></i><span>{{ getTranslation('surveys') }}</span></a></li>
+                        <li><a ui-sref="layout.user" ui-sref-active="active"><i class="fa fa-address-card-o"></i><span>{{ getTranslation('manage_users') }}</span></a></li>
+                        <!--<li><a href='#'><span>{{ getTranslation('manage_roles') }}</span></a></li>-->
+                        <!--<li><a ui-sref="layout.alerts" ui-sref-active="active"><i class="fa fa-bell"></i><span>{{ getTranslation('alerts') }}</span></a></li>-->
+                        <li><a ui-sref="layout.financialData" ui-sref-active="active"><i class="fa fa-table"></i><span>{{ getTranslation('financial_inputs') }}</span></a></li>
+                        <li><a  ui-sref="layout.connector" ui-sref-active="active"><i class="fa fa-folder-o"></i><span>{{ getTranslation('data_sources') }}</span></a></li>
+                        <li ng-if="isAdmin"><a ui-sref="layout.surveys" ui-sref-active="active"><i class="fa fa-question-circle-o"></i><span>{{ getTranslation('surveys') }}</span></a></li>
                     </ul>
                 </li>
             </ul>
