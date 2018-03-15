@@ -37,13 +37,13 @@
             }
         ];
 
-        function data (analyticsService, $stateParams) {
+        function data(analyticsService, $stateParams){
             return analyticsService.getCharts($stateParams.id).then(function(res){
                 return res.data
             });
         }
 
-        function events (eventService) {
+        function events(eventService) {
             return eventService.getEvents().then(function(res){
                 return res.data
             });

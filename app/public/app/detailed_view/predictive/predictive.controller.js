@@ -40,6 +40,9 @@
         activate();
 
         function activate() {
+
+
+
             $scope.widgets = mockDataService.widgets();
             $scope.widgets[0].title = data.title;
 
