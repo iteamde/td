@@ -261,6 +261,7 @@
                 vm.errorMessage = 'Start date should be before End date.';
                 return false;
             }
+            else vm.errorMessage = '';
 
             vm.timeSpan.start = moment().diff(moment(period.start), 'month');
             vm.timeSpan.end = moment().diff(moment(period.end), 'month');
