@@ -11,6 +11,7 @@
     function LayoutSidebarController($scope, $rootScope, layoutService, exception, $window) {
         var vm;
         vm = this;
+        console.log("LAYAOUT SIDEBAR INIT");
 
         vm.dashboardMenu = null;
         vm.metricMenu    = null;

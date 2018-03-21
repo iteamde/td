@@ -52,10 +52,11 @@
             });
 
         // Load common data
-        $http.get(BASE_URL + 'common/load-common-data')
+       /* $http.get(BASE_URL + 'common/load-common-data')
             .success(function (data) {
+                console.log("COMMON DATA LOADED");
                 $scope.commonData = data;
-            });
+            });*/
     }]);
 
     core.run(appRun);
