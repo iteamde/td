@@ -23,7 +23,7 @@
                 $scope.$emit('columnsChanged', $scope.checkedColumns);
                 $scope.$close();
             });
-        }
+        };
 
         $scope.moveToChecked = function() {
             if (! $scope.toChecked.length)
@@ -32,7 +32,7 @@
             $scope.uncheckedColumns = _.difference($scope.uncheckedColumns, $scope.toChecked);
             $scope.checkedColumns = _.concat($scope.checkedColumns, $scope.toChecked);
             $scope.toChecked = [];
-        }
+        };
 
         $scope.moveToUnchecked = function() {
             if (! $scope.toUnchecked.length)
@@ -41,7 +41,7 @@
             $scope.checkedColumns = _.difference($scope.checkedColumns, $scope.toUnchecked);
             $scope.uncheckedColumns = _.concat($scope.uncheckedColumns, $scope.toUnchecked);
             $scope.toUnchecked = [];
-        }
+        };
     }
 
 })();

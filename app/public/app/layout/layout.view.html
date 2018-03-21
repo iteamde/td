@@ -1,4 +1,4 @@
-<div id="wrapper" jq-toggle-sidebar>
+<div id="wrapper" ng-class="{'enlarged': isSidebarOpen}">
     <!-- Top Bar Start -->
     <div ui-view="top"></div>
 
@@ -16,7 +16,7 @@
 
         <!-- Footer Start -->
         <footer id="footer">
-            TrenData © 2017 | <a href="#/release_notes">Version {{ getCommonData('app_version') }}</a>
+            TrenData © {{ getCommonData('year') }} | <a href="#/release_notes">Version {{ getCommonData('app_version') }}</a>
             <!--<div class="footer-links pull-right">
                 <a href="#">{{ getTranslation('support') }}</a>
                 <a href="#">{{ getTranslation('help') }}</a>

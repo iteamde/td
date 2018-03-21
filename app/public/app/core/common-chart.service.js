@@ -168,7 +168,7 @@
                     '3 years': {range: 'year' , type: "multi", from: -1 , to: 2, seriesname: [{name: "Male"}, {name: "Female"}]},
                     '5 years': {range: 'year' , type: "multi", from: -2 , to: 3, seriesname: [{name: "Male"}, {name: "Female"}]}
                 },
-                'By Performance': {
+                'Performance': {
                     '1 year' : {pairKeys: [[ "HP Turnover", "High Performers"], [ "Non-HP Turnover", "Non-High Performers"]], range: 'month', type: "multiPercent", from: -5 , to: 7, seriesname: [{name: "High Performers"}, {name: "Non-High Performers"}]},
                     '3 years': {range: 'year' , type: "multiPercent", from: -1 , to: 2, seriesname: [{name: "High Performers"}, {name: "Non-High Performers"}]},
                     '5 years': {range: 'year' , type: "multiPercent", from: -2 , to: 3, seriesname: [{name: "High Performers"}, {name: "Non-High Performers"}]}

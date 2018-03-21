@@ -139,7 +139,7 @@ module.exports = {
                         return reject(new Error('CSV file has an incorrect header. Please check CSV file header and try again.'));
                     }
 
-                    filterValues(csv, _parser.filters, ignoreFilters).then(function (csv) {
+                    filterValues(csv, _parser, ignoreFilters).then(function (csv) {
                         return Promise.each(csv.data, function (row, rowIndex) {
                             return Promise.each(row, function (value, valueIndex) {
                                 return _this.validateOneItem(_parser, value, csv.header[valueIndex], rowIndex + 1, errors);
@@ -252,12 +252,19 @@ module.exports = {
                             }
                         }
                     }).then(function () {
+                        if (parserSettings) {
+                            parserListData.header = _.chain(JSON.parse(parserSettings.trendata_setting_value))
+                                .filter('use')
+                                .map('name')
+                                .value();
+                        }
+
                         return {'err' : errorObj, 'data' : parserListData};
                     })
                 } else {
                     return {'err' : [], 'data' : parserListData};
                 }
-            }).catch(function (err) {
+            }).catch(function (err) {console.log(err.stack);
                 return {'err' : [], 'data' : false};
             });
         });

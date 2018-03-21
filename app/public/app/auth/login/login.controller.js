@@ -67,15 +67,11 @@
         function loginSuccess(data) {
             authService.saveToken(data.token);
             authService.isAdmin(data.is_admin);
-            //$rootScope.dashboard_id = data.dashboardId;
-            // $window.localStorage.setItem("dashboard_id", data.dashboardId);
-            ///$location.url('/dashboard/' + data.dashboardId);
             $location.url('/dashboard/' + data.dashboardId);
         }
 
         function loginError(error) {
-            var message = (error.data.message)?error.data.message:'Invalid login credentials provided';
-            exception.catcher(message)(error);
+            exception.catcher($scope.getTranslation('incorrect_username_or_password'))(error);
         }
 
 
@@ -92,14 +88,16 @@
         function forgotPasswordSuccess(){
             noty.show({
                 text: $scope.getTranslation('success_password_reset'),
-                type: 'success'
+                type: 'success',
+                killer: true
             });
         }
 
         function forgotPasswordError(err){
             noty.show({
                 text: err.data.message,
-                type: 'error'
+                type: 'error',
+                killer: true
             });
         }
 

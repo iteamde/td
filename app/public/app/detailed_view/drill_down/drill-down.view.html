@@ -40,18 +40,18 @@
 
                             <div class="chart-header-buttons">
 
-                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" uib-tooltip="Settings"></span>
-                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" uib-tooltip="Filters"></span>
-                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Drilldown')" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
-                                <span class="fa fa-download" ng-click="vm.exportChart($index)" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
-                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="Filters"></span>
+                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Drilldown')" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
+                                <span class="fa fa-download" ng-click="vm.exportChart($index)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
+                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" tooltip-placement="bottom-right" uib-tooltip="{{getTranslation('help_video')}}"></span>
                             </div>
 
                             <div class="chart-header-tab" ng-show="vm.activeTab === 1">
                                 <div class="chart-filter">
                                     <label >{{ getTranslation('chart_view') }}:</label>
                                     <select ng-model="vm.view"
-                                            ng-change="vm.updateChart()">
+                                            ng-change="vm.updateChart('change_chart_view')">
                                         <option ng-repeat="option in chartViews"
                                                 value="{{option}}">
                                             {{ vm.getFilterName(option) }}
@@ -69,7 +69,7 @@
                                 <div class="chart-filter">
                                     <label >{{ getTranslation('vertical_axis') }}:</label>
                                     <select ng-model="vm.axis"
-                                            ng-change="vm.updateChart()">
+                                            ng-change="vm.updateChart('change_chart_view')">
                                         <option ng-repeat="option in verticalAxis"
                                                 value="{{option}}">
                                             {{ vm.getFilterName(option) }}
@@ -96,11 +96,11 @@
 
                                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                                         <li>
-                                            <input class="form-control" type="text" placeholder="{{ getTranslation('filter_by_label') }}" ng-model="filter.label">
+                                            <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
-                                        <li ng-repeat="(name, value) in filter.values">
-                                            <label for="{{name + $index}}">{{ name }}
-                                                <input type="checkbox" id="{{name + $index}}" ng-model="filters[key].values[name]" ng-change="vm.toggleCheckbox(filter)">
+                                        <li ng-repeat="(name, value) in filter.values | filterObjectKeys:filter.label">
+                                            <label for="{{value + key + $index}}">{{ value || ('--' + getTranslation('blank') + '--') }}
+                                                <input type="checkbox" id="{{value + key + $index}}" ng-model="filters[key].values[value]" ng-change="vm.toggleCheckbox(filter)">
                                             </label>
                                         </li>
                                     </ul>
@@ -117,11 +117,11 @@
                                         <label class="filter-group">{{vm.getFilterName(key) | capitalizeFilter}} :</label>
                                         <span class="filter-value"
                                               ng-repeat="(name, value) in vm.filteredValues(filter.values) track by $index"
-                                              ng-show="value&& (filter.expanded || $index < vm.maxFiltersCount)">{{name || 'Empty'}};
+                                              ng-show="value && (filter.expanded || $index < vm.maxFiltersCount)">{{name || ('--' + getTranslation('blank') + '--')}};
                                         </span>
                                         <span ng-if="vm.showMoreLessLink(filter.values)">
-                                            <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>Show More ...</b></a>
-                                        <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>Show Less ...</b></a></span>
+                                            <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>{{getTranslation('show_more')}} ...</b></a>
+                                        <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>{{getTranslation('show_less')}} ...</b></a></span>
                                     </div>
                                 </div>
                             </div>

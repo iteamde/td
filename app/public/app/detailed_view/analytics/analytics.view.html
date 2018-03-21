@@ -9,8 +9,7 @@
          on-window-resize="onWindowResize(gridstack)" on-change="onChange(event,items)"
          on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)"
          on-resize-start="onResizeStart(event,ui)"
-         on-resize-stop="onResizeStop(event,ui)"
-    >
+         on-resize-stop="onResizeStop(event,ui)">
 
         <!-- item -->
         <div gridstack-item data-grid-item-index="{{$index}}" ng-repeat="w in widgets track by $index" class="grid-stack-item"
@@ -43,11 +42,11 @@
 
                             <div class="chart-header-buttons">
 
-                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" uib-tooltip="Settings"></span>
-                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" uib-tooltip="Filters"></span>
-                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Analitics')" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
-                                <span class="fa fa-download" ng-click="vm.exportChart($index)" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
-                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="Filters"></span>
+                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Analitics')" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
+                                <span class="fa fa-download" ng-click="vm.exportChart($index)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
+                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" tooltip-placement="bottom-right" uib-tooltip="{{getTranslation('help_video')}}"></span>
                             </div>
 
                             <div class="chart-header-tab" ng-show="vm.activeTab === 1">
@@ -55,7 +54,7 @@
                                 <div class="chart-filter">
                                     <label >{{ getTranslation('chart_view') }}:</label>
                                     <select ng-model="vm.view"
-                                            ng-change="vm.updateChart()">
+                                            ng-change="vm.updateChart('change_chart_view')">
                                         <option ng-repeat="option in chartViews"
                                                 value="{{option}}">
                                             {{ vm.getFilterName(option) }}
@@ -79,7 +78,7 @@
                                                    ng-model="vm.customTimeSpan.start" is-open="vm.open.start" ng-click="vm.toggleDatePicker('start')"
                                                    datepicker-options="vm.datePickerOptions" close-text="{{ getTranslation('close') }}">
                                             <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker('start')">
-                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
 
@@ -89,7 +88,7 @@
                                                    ng-model="vm.customTimeSpan.end" is-open="vm.open.end" ng-click="vm.toggleDatePicker('end')"
                                                    datepicker-options="vm.datePickerOptions" close-text="{{ getTranslation('close') }}">
                                             <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker('end')">
-                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
                                     </div>
@@ -100,7 +99,7 @@
                                 <div class="chart-filter">
                                     <label >{{ getTranslation('vertical_axis') }}:</label>
                                     <select ng-model="vm.axis"
-                                            ng-change="vm.updateChart()">
+                                            ng-change="vm.updateChart('change_chart_view')">
                                         <option ng-repeat="option in verticalAxis"
                                                 value="{{option}}">
                                             {{ vm.getFilterName(option) }}
@@ -108,7 +107,7 @@
                                     </select>
                                 </div>
 
-                                 <div class="chart-filter-checkbox">
+                                <div class="chart-filter-checkbox">
                                     <label for="eventsOverlay">
                                         <input type="checkbox" ng-model="vm.annotation" ng-change="vm.toggleAnnotations()" id="eventsOverlay">
                                         {{ getTranslation('events_overlay') }}
@@ -141,15 +140,14 @@
 
                                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                                         <li>
-                                            <input class="form-control" type="text" placeholder="{{ getTranslation('filter_by_label') }}" ng-model="filter.label">
+                                            <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
-                                        <li ng-repeat="(name, value) in filter.values">
-                                            <label for="{{(name || key) + $index}}">{{ name }}
-                                                <input type="checkbox" id="{{(name || key) + $index}}" ng-model="filters[key].values[name]" ng-change="vm.toggleCheckbox(filter)">
+                                        <li ng-repeat="(name, value) in filter.values | filterObjectKeys:filter.label">
+                                            <label for="{{value + key + $index}}">{{ value || ('--' + getTranslation('blank') + '--') }}
+                                                <input type="checkbox" id="{{value + key + $index}}" ng-model="filters[key].values[value]" ng-change="vm.toggleCheckbox(filter)">
                                             </label>
                                         </li>
                                     </ul>
-
                                 </div>
 
                                 <div class="chart-filter-settings" ng-click="vm.showCustom = !vm.showCustom">
@@ -162,23 +160,18 @@
                                         <label class="filter-group">{{vm.getFilterName(key) | capitalizeFilter}} :</label>
                                         <span class="filter-value"
                                               ng-repeat="(name, value) in vm.filteredValues(filter.values) track by $index"
-                                              ng-show="value&& (filter.expanded || $index < vm.maxFiltersCount)">{{name}};
+                                              ng-show="value && (filter.expanded || $index < vm.maxFiltersCount)">{{name || ('--' + getTranslation('blank') + '--')}};
                                         </span>
                                         <span ng-if="vm.showMoreLessLink(filter.values)">
-                                            <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>Show More ...</b></a>
-                                        <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>Show Less ...</b></a></span>
+                                            <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>{{getTranslation('show_more')}} ...</b></a>
+                                        <a class="text-danger" ng-show="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, false)"><b>{{getTranslation('show_less')}} ...</b></a></span>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-
-
                     </div>
 
                     <div class="chart-content">
-
                         <div class="chart-loader" ng-show="vm.isLoading">
                             <i class="fa chart-loader-icon"></i>
                         </div>
@@ -193,19 +186,17 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-        <div class="chart chart-grid">
-            
-            <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: vm.activeGrid == 0}" ng-click="vm.setValue('activeGrid', 0)"><a>{{ getTranslation('individual') }}</a></li>
-                <li role="presentation" ng-class="{active: vm.activeGrid == 1}" ng-click="vm.setValue('activeGrid', 1)"><a>{{ getTranslation('summary') }}</a></li>
-            </ul>
+    <div class="chart chart-grid">
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{active: vm.activeGrid == 0}" ng-click="vm.setValue('activeGrid', 0)"><a>{{ getTranslation('individual') }}</a></li>
+            <li role="presentation" ng-class="{active: vm.activeGrid == 1}" ng-click="vm.setValue('activeGrid', 1)"><a>{{ getTranslation('summary') }}</a></li>
+        </ul>
 
-            <common-grid users="users" total-users="totalUsers" ng-show="vm.activeGrid == 0" chart-id="chartId" custom-fields="customFields"></common-grid>
+        <common-grid users="users" total-users="totalUsers" ng-show="vm.activeGrid === 0" chart-id="chartId" custom-fields="customFields"></common-grid>
 
             <div class="chart-content clearfix" ng-show="vm.activeGrid == 1">
 
@@ -217,14 +208,16 @@
                         </div>
                     </div>
 
-                    <div class="grid-row" ng-repeat="data in vm.summary">
-                        <div class="grid-cell">{{data.name}}</div>
-                        <div class="grid-cell" ng-repeat="month in [6,5,4,3,2,1]">
-                            {{data[vm.getMonths(month)]}}
-                        </div>
+                <div class="grid-row" ng-repeat="data in vm.summary">
+                    <div class="grid-cell">{{data.name}}</div>
+                    <div class="grid-cell" ng-repeat="month in [6,5,4,3,2,1]">
+                        {{data[vm.getMonths(month)]}}
                     </div>
                 </div>
 
+                <div class="text-center">
+                    <a ng-click="exportSummaryToCsv()" role="button">Export to CSV</a>
+                </div>
             </div>
         </div>
     </div>

@@ -9,10 +9,7 @@
     GridController.$inject = ['$scope', '$uibModal'];
 
     function GridController($scope, $uibModal) {
-
-        $scope.sort = sort;
         $scope.contentInitialized = false;
-        $scope.manageColumns = manageColumns;
 
         $scope.sorting = {
             'full name': null,
@@ -59,10 +56,9 @@
             $scope.pagination.table_columns = columns;
         });
 
-        function sort(field) {
-            if ($scope.pagination.sort_column != field) {
+        $scope.sort = function(field) {
+            if ($scope.pagination.sort_column != field)
                 $scope.sorting[field] = null;
-            }
 
             $scope.pagination.sort_column = field;
 
@@ -72,15 +68,16 @@
                     $scope.sorting[field] = null :
                     $scope.sorting[field] = 'ASC';
 
+        };
+
+        $scope.cutCustom = function(field) {
+            return field.indexOf('custom') === 0 ? field.slice(7) : field;
         }
 
-        function manageColumns() {
+        $scope.manageColumns = function() {
             var keys = _.keys($scope.$ctrl.users[0]);
             keys.pop();
             $scope.pagination.table_columns = keys;
-            var customFields = _.map($scope.$ctrl.customFields, function(field) {
-                return field + ' (custom)';
-            });
 
             $uibModal.open({
                 animation: false,
@@ -101,7 +98,9 @@
                         return $scope.$ctrl.chartId;
                     },
                     customFields: function() {
-                        return customFields;
+                        return _.map($scope.$ctrl.customFields, function(field) {
+                            return 'custom ' + field;
+                        });
                     }
                 }
             })

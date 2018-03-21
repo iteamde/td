@@ -90,7 +90,7 @@ module.exports = [
                 'Manager Employee ID': 'trendata_bigdata_user_manager_employee_id',
 
                 'Employee Type': 'trendata_bigdata_employee_type',
-                'Gender': 'trendata_bigdata_gender_id',
+                'Gender': 'trendata_bigdata_user_gender',
                 'Ethnicity': 'trendata_bigdata_user_ethnicity',
                 'Department': 'trendata_bigdata_user_department',
                 'Division': 'trendata_bigdata_user_division',
@@ -99,8 +99,11 @@ module.exports = [
                 'Cost per Hire': 'trendata_bigdata_user_cost_per_hire',
                 'Position Start Date': 'trendata_bigdata_user_position_start_date',
                 'Previous Position Start Date': 'trendata_bigdata_user_previous_position_start_date',
-                'Nationality Country': 'trendata_bigdata_nationality_country_id',
-                'Hire Source': 'trendata_bigdata_hire_source_id',
+                'Hire Source': 'trendata_bigdata_hire_source',
+                'Education Level': 'trendata_bigdata_user_education_history_level',
+
+                'Hire Date': 'trendata_bigdata_user_position_hire_date',
+                'Termination Date': 'trendata_bigdata_user_position_termination_date',
 
                 'Industry Salary': 'trendata_bigdata_user_industry_salary',
                 'Employee Salary': 'trendata_bigdata_user_salary',
@@ -125,49 +128,20 @@ module.exports = [
                 'Employee Benefit Cost (1 year ago)': 'trendata_bigdata_user_benefit_costs_1_year_ago',
                 'Employee Benefit Cost (2 years ago)': 'trendata_bigdata_user_benefit_costs_2_year_ago',
                 'Employee Benefit Cost (3 years ago)': 'trendata_bigdata_user_benefit_costs_3_year_ago',
-                'Employee Benefit Cost (4 years ago)': 'trendata_bigdata_user_benefit_costs_4_year_ago'
+                'Employee Benefit Cost (4 years ago)': 'trendata_bigdata_user_benefit_costs_4_year_ago',
+
+                'Address (Business)': 'trendata_bigdata_user_address_address',
+                'City (Business)': 'trendata_bigdata_user_address_city',
+                'State (Business)': 'trendata_bigdata_user_address_state',
+                'Zip Code (Business)': 'trendata_bigdata_user_address_zipcode',
+
+                'Address (Personal)': 'trendata_bigdata_user_address_address_personal',
+                'City (Personal)': 'trendata_bigdata_user_address_city_personal',
+                'State (Personal)': 'trendata_bigdata_user_address_state_personal',
+                'Zip Code (Personal)': 'trendata_bigdata_user_address_zipcode_personal'
             },
             acceptedCustomFields: [
                 'trendata_user_id'
-            ],
-            slave: [
-                {
-                    table: 'trendata_bigdata_user_address',
-                    foreignKey: 'trendata_bigdata_user_id',
-                    columns: {
-                        'Address (Business)': 'trendata_bigdata_user_address_address',
-                        'City (Business)': 'trendata_bigdata_user_address_city',
-                        'State (Business)': 'trendata_bigdata_user_address_state',
-                        'Zip Code (Business)': 'trendata_bigdata_user_address_zipcode',
-
-                        'Address (Personal)': 'trendata_bigdata_user_address_address_personal',
-                        'City (Personal)': 'trendata_bigdata_user_address_city_personal',
-                        'State (Personal)': 'trendata_bigdata_user_address_state_personal',
-                        'Zip Code (Personal)': 'trendata_bigdata_user_address_zipcode_personal'
-                    },
-                    acceptedCustomFields: [],
-                    slave: []
-                },
-                {
-                    table: 'trendata_bigdata_user_education_history',
-                    foreignKey: 'trendata_bigdata_user_id',
-                    columns: {
-                        'Education Level': 'trendata_bigdata_user_education_history_level'
-                    },
-                    acceptedCustomFields: [],
-                    slave: []
-                },
-                {
-                    table: 'trendata_bigdata_user_position',
-                    foreignKey: 'trendata_bigdata_user_id',
-                    columns: {
-                        'Hire Date': 'trendata_bigdata_user_position_hire_date',
-                        'Termination Date': 'trendata_bigdata_user_position_termination_date',
-                        'Zip Code (Business)': 'trendata_bigdata_user_position_current_job_code'
-                    },
-                    acceptedCustomFields: [],
-                    slave: []
-                }
             ]
         },
         rules: {
@@ -243,20 +217,7 @@ module.exports = [
                  }*/
             ],
             'Gender': [
-                'not_empty',
-                function (value, column, line, errors) {
-                    var available = [
-                        // EN
-                        'male',
-                        'm',
-                        'female',
-                        'f'
-                    ];
-
-                    if ('' !== value && available.indexOf(value.trim().toLowerCase()) === -1) {
-                        errors.push(this.createMessage(line, column, value, 'Gender is incorrect, available: Male(M), Female(F)'));
-                    }
-                }
+                'not_empty'
             ],
             'Ethnicity': [],
             'Department': [
@@ -442,66 +403,13 @@ module.exports = [
              * @param value
              */
             'Gender': function (value) {
-                value = value.trim();
+                value = value.trim().toLowerCase();
                 return {
-                    'male': 1,
-                    'm' : 1,
-                    'female': 2,
-                    'f': 2
-                }[value.toLowerCase()];
-            },
-
-            /**
-             * @param value
-             */
-            'Hire Source': function (value) {
-                value = value.trim();
-                if ('' === value) {
-                    value = '[Empty]';
-                }
-
-                return orm.query('SELECT * FROM `trendata_bigdata_hire_source` WHERE `trendata_bigdata_hire_source_name` = ? LIMIT 1', {
-                    type: ORM.QueryTypes.SELECT,
-                    replacements: [value]
-                }).then(function (rows) {
-                    if (rows.length) {
-                        return rows[0].trendata_bigdata_hire_source_id;
-                    }
-
-                    return orm.query('INSERT INTO `trendata_bigdata_hire_source` (`trendata_bigdata_hire_source_name`, `created_at`, `updated_at`) VALUES(?, NOW(), NOW())', {
-                        replacements: [value]
-                    }).spread(function (metadata) {
-                        return metadata.insertId;
-                    });
-                });
-            },
-
-            /**
-             * @param value
-             */
-            'Nationality Country': function (value) {
-                return Promise.mapSeries(value.split(','), function (item) {
-                    item = item.trim();
-
-                    return orm.query('SELECT * FROM `trendata_bigdata_country` WHERE `trendata_bigdata_country_name`=? LIMIT 1', {
-                        replacements: [item],
-                        type: orm.QueryTypes.SELECT
-                    }).then(function (rows) {
-                        return rows.length ? rows[0].trendata_bigdata_country_id : undefined
-                    }).then(function (id) {
-                        if (id) {
-                            return id;
-                        }
-
-                        return orm.query('INSERT INTO `trendata_bigdata_country` (`trendata_bigdata_country_name`) VALUES(?)', {
-                            replacements: [item]
-                        }).spread(function (metadata) {
-                            return metadata.insertId;
-                        });
-                    });
-                }).then(function (ids) {
-                    return ids.join(',');
-                });
+                    'male': 'Male',
+                    'm' : 'Male',
+                    'female': 'Female',
+                    'f': 'Female'
+                }[value] || value;
             },
 
             /**

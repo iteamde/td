@@ -45,6 +45,12 @@
         vm.getFilterName = getFilterName;
         vm.playVideo = playVideo;
         vm.shareChart = commonService.shareChart;
+        $scope.exportUsersToCsv = function() {
+            analyticsService.exportUsersToCsv($scope.filters, $scope.pagination, vm.usersFilterData, $scope.chartId);
+        };
+        $scope.exportSummaryToCsv = function() {
+            analyticsService.exportSummaryToCsv($scope.filters);
+        };
         vm.getMonths = analyticsService.getMonths;
         vm.createToken = commonService.createToken;
 
@@ -55,7 +61,6 @@
         activate();
 
         function activate() {
-
             var chart = analyticsService.getCharts($stateParams.id),
                 events = eventService.getEvents();
 
@@ -63,11 +68,11 @@
                 .then(getChartsComplete)
                 .catch(serviceError);
         }
-
         vm.activeTab = 0;
         vm.activeGrid = 0;
         vm.regression = false;
         vm.annotation = false;
+        vm.usersFilterData = null;
 
         vm.showSpinner = true;
         vm.showData = false;
@@ -87,14 +92,13 @@
         };
 
         vm.datePickerOptions = {
-            formatYear: 'yy',
+            formatYear: 'yyyy',
             maxDate: moment().subtract(1, 'month'),
             minDate: null,
             minMode: 'month'
         };
 
         function getChartsComplete(res) {
-
             // charts
             $scope.widgets = mockDataService.widgets();
             $scope.widgets[0].title = res[0].data.title;
@@ -125,6 +129,7 @@
             $scope.users = res[0].data.chart_data.users;
             $scope.totalUsers = res[0].data.chart_data.users_count;
             $scope.chartId = res[0].data.id;
+            vm.usersFilterData = res[0].data.chart_data.users_filter_data;
             $scope.customFields = _.chain(res[0].data.chart_data.available_filters)
                 .keys()
                 .filter(function(field) {
@@ -139,7 +144,8 @@
             _.each($scope.filters, function(val, key) {
                 showMoreLess(val);
             });
-            
+
+            $scope.gridOptions3.data = res[0].data.chart_data.summary;
             vm.summary = res[0].data.chart_data.summary;
 
             angular.extend($scope.widgets[0].chart_data, res[0].data.chart_data.chart_data);
@@ -189,10 +195,10 @@
         $scope.$on('paginationChange', function (event, pagination) {
             event.stopPropagation();
             $scope.pagination = pagination;
-            updateChart();
+            updateChart('change_page');
         });
 
-        function updateChart() {
+        function updateChart(type) {
             if (vm.timeSpan.start === null) {
                 return;
             }
@@ -200,6 +206,7 @@
 
             var options = {
                 id: $stateParams.id,
+                type: type,
                 view: vm.view,
                 axis: vm.axis,
                 time_span: vm.timeSpan,
@@ -214,10 +221,22 @@
         }
 
         function changeChartComplete(res) {
-            $scope.users = res.chart_data.users;
-            $scope.totalUsers = res.chart_data.users_count;
-            vm.summary = res.chart_data.summary;
-            angular.extend($scope.widgets[0].chart_data, res.chart_data.chart_data);
+            if (res.chart_data.users) {
+                $scope.users = res.chart_data.users;
+            }
+
+            if (res.chart_data.users_count || res.chart_data.users_count === 0) {
+                $scope.totalUsers = res.chart_data.users_count;
+            }
+
+            if (res.chart_data.summary) {
+                vm.summary = res.chart_data.summary;
+            }
+
+            if (res.chart_data.chart_data) {
+                angular.extend($scope.widgets[0].chart_data, res.chart_data.chart_data);
+            }
+
             toggleAnnotations();
             vm.isLoading = false;
         }
@@ -228,7 +247,7 @@
         }
 
         function setValue(name, index) {
-            vm[name] = index;
+            vm[name] = index;console.log(vm[name]);
         }
 
         function saveToDashboard() {

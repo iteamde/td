@@ -5,9 +5,9 @@
     .module('app.core')
     .factory('commonService', commonService);
 
-  commonService.$inject = ['logger', 'TOOLTIP_MESSAGES', 'TILE_MIN_WIDTH_TRENDLINE','TILE_MIN_HEIGHT_TRENDLINE', 'TILE_MIN_HEIGHT_WITH_FILTERS', 'ALLOWED_CHART_TYPES', 'noty', 'BASE_URL', '$window'];
+  commonService.$inject = ['logger', 'TOOLTIP_MESSAGES', 'TILE_MIN_WIDTH_TRENDLINE','TILE_MIN_HEIGHT_TRENDLINE', 'TILE_MIN_HEIGHT_WITH_FILTERS', 'ALLOWED_CHART_TYPES', 'noty', 'BASE_URL', '$window', '$http'];
 
-  function commonService(logger, TOOLTIP_MESSAGES, TILE_MIN_WIDTH_TRENDLINE,TILE_MIN_HEIGHT_TRENDLINE, TILE_MIN_HEIGHT_WITH_FILTERS, ALLOWED_CHART_TYPES, noty, BASE_URL, $window) {
+  function commonService(logger, TOOLTIP_MESSAGES, TILE_MIN_WIDTH_TRENDLINE,TILE_MIN_HEIGHT_TRENDLINE, TILE_MIN_HEIGHT_WITH_FILTERS, ALLOWED_CHART_TYPES, noty, BASE_URL, $window, $http) {
 
     var service = {
 
@@ -32,6 +32,8 @@
       getColumnWidth: getColumnWidth,
       notification: notification,
       getShareChart: getShareChart,
+      exportUsersToCsv: exportUsersToCsv,
+      exportSummaryToCsv: exportSummaryToCsv,
       createToken: createToken,
 
       /*-------CHART CONFIGURATIONS -------*/
@@ -425,6 +427,48 @@
       delete copy.chart_data.annotations;
       this.charts.push(copy);
       this.notification(TOOLTIP_MESSAGES.TILES.ADD_TO_DASHBOARD_NOTY, 'success');
+    }
+
+    function exportUsersToCsv(filters, pagination, usersFilter, chartId) {
+      var apiUrl = BASE_URL + 'connector-csv/export-users';
+      return $http.post(apiUrl, {
+        filters: filters,
+        pagination: pagination,
+        timeSpan: usersFilter.timeSpan || null,
+        userTypes: usersFilter.types || null,
+        chartId: chartId
+      }).then(function(resp) {
+        if (resp.status === 200) {
+          var link = angular.element('<a/>')
+            .attr({
+              href: encodeURI(BASE_URL + 'connector-csv/download-export/users/' + resp.data),
+              target: '_blank',
+              download: 'users.csv'
+            });
+          link.appendTo('body');
+          (link[0] || link).click();
+          link.remove();
+        }
+      });
+    }
+
+    function exportSummaryToCsv(filters) {
+      var apiUrl = BASE_URL + 'connector-csv/export-summary';
+      return $http.post(apiUrl, {
+        filters: filters
+      }).then(function(resp) {
+        if (resp.status === 200) {
+          var link = angular.element('<a/>')
+            .attr({
+              href: encodeURI(BASE_URL + 'connector-csv/download-export/summary/' + resp.data),
+              target: '_blank',
+              download: 'summary.csv'
+            });
+          link.appendTo('body');
+          (link[0] || link).click();
+          link.remove();
+        }
+      });
     }
 
   }

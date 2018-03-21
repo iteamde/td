@@ -6,15 +6,16 @@
         .module('app.drillDown')
         .factory('drillDownService', drillDownService);
 
-    drillDownService.$inject = ['BASE_URL', '$http'];
+    drillDownService.$inject = ['BASE_URL', '$http', 'commonService'];
 
-    function drillDownService(BASE_URL, $http) {
+    function drillDownService(BASE_URL, $http, commonService) {
 
         return {
             getCharts: getCharts,
             changeChart: changeChart,
             createFilter: createFilter,
-            changePage: changePage
+            changePage: changePage,
+            exportUsersToCsv: exportUsersToCsv
         };
 
         function getCharts(id) {
@@ -26,7 +27,7 @@
 
             var apiUrl = BASE_URL + "sub-chart/drilldown/" + options.id;
             var req = {
-                type: 'change_filters',
+                type: options.type,
                 data: {
                     chart_view: options.view,
                     vertical_axis_type: options.axis,
@@ -62,6 +63,9 @@
             _.each(filter, function (value, name) {
                 var keys = _.keys(value.values);
 
+                if (keys.length === 1 && keys[0] === 'null')
+                    return;
+
                 serverFilter[name] = _.filter(keys, function (key) {
                     return value.values[key];
                 })
@@ -83,6 +87,10 @@
             angular.extend(req.data.filters, extendReq(filter));
 
             return $http.post(apiUrl, req);
+        }
+
+        function exportUsersToCsv(filters, pagination, usersFilter, chartId) {
+            return commonService.exportUsersToCsv(extendReq(filters), pagination, usersFilter, chartId);
         }
     }
 })();

@@ -106,7 +106,6 @@ module.exports = function(grunt) {
                         'public/app/layout/layout.service.js',
                         'public/app/layout/layout-sidebar.controller.js',
                         'public/app/layout/layout-top.controller.js',
-                        'public/app/layout/layout.jq-toggle-sidebar.directive.js',
 
                         // Search Bar
                         'public/app/layout/search_bar/search-bar.component.js',

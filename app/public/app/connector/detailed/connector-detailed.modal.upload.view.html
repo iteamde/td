@@ -11,7 +11,10 @@
 
             <span class="file-name-holder" ng-bind="vm.fileName" ng-if="vm.fileName"></span>
 
-            <div class="loader" ng-if="vm.isLoading"></div>
+            <div class="upload-loader text-center" ng-if="vm.isLoading">
+                <div class="loader-progress" ng-style="{width: vm.progressWidth + '%'}"></div>
+                <span class="loader-percentage" ng-class="{'white-text': vm.progressWidth > 55}">{{vm.progressWidth | number:0}}%</span>
+            </div>
 
             <ul class="nav" ng-if="vm.uploadErrors">
                 <div class="upload-errors-count">{{vm.uploadErrorsCount}} Errors Found!</div>
@@ -28,7 +31,7 @@
 
             <div class="button-group form-group">
                 <button class="btn btn-xlpad btn-default btn-sm" ng-disabled="vm.isLoading" ng-click="$close()">{{ getTranslation('cancel') }}</button>
-                <button class="btn btn-xlpad btn-primary btn-sm" ng-disabled="vm.isLoading" ng-click="vm.save()">{{ getTranslation('save') }}</button>
+                <button class="btn btn-xlpad btn-primary btn-sm pull-right" ng-disabled="vm.isLoading" ng-click="vm.save()">{{ getTranslation('save') }}</button>
             </div>
         </form>
     </div>

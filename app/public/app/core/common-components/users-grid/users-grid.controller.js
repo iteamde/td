@@ -20,13 +20,12 @@
         $scope.resetPassword = resetPassword;
         $scope.selectUser = selectUser;
         $scope.selectAll = selectAll;
+        $scope.sort = sort;
         $scope.selectedAll = false;
 
         $scope.sorting = {
-            full_name: null,
-            department: null,
-            location: null,
-            manager: null
+            name: null,
+            email: null
         };
 
         $scope.pagination = {
@@ -42,16 +41,15 @@
         });
 
         $scope.$watch('pagination', function () {
-            if ($scope.contentInitialized) {
+            if ($scope.contentInitialized)
                 $scope.$emit('paginationChange', $scope.pagination);
-            }
+
             $scope.contentInitialized = true;
         }, true);
 
         function sort(field) {
-            if ($scope.pagination.sort_column != field) {
+            if ($scope.pagination.sort_column != field)
                 $scope.sorting[field] = null;
-            }
 
             $scope.pagination.sort_column = field;
 

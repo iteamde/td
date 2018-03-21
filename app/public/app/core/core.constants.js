@@ -26,9 +26,9 @@
 
         // base api url
 
-        // .constant('BASE_URL', window.location.origin + '/api/')
+         .constant('BASE_URL', window.location.origin + '/api/')
         // .constant('BASE_URL', 'http://localhost:8000/api/') // local
-         .constant('BASE_URL', 'https://qa1512.dev.trendata.com/api/') // demo
+        // .constant('BASE_URL', 'https://demo.trendata.com/api/') // demo
         // .constant('BASE_URL', 'https://stage.dev.trendata.com/api/') // stage
         // .constant('BASE_URL', 'https://customfield.dev.trendata.com/api/')
         // .constant('BASE_URL', 'http://192.168.8.95:8000/api/') // from shashi system

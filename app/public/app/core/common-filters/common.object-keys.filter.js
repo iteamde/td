@@ -10,9 +10,13 @@
 
         return function (obj, filterBy) {
 
+            var keys = _.keys(obj);
+
+            if (!filterBy) return keys;
+
             filterBy = filterBy.toLowerCase();
 
-            return _.filter(_.keys(obj), function(key) {
+            return _.filter(keys, function(key) {
                 return _.includes(key.toLowerCase(), filterBy);
             });
 

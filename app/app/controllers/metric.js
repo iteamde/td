@@ -110,54 +110,24 @@ function getMetricCharts(req, res) {
             order: [
                 ['trendata_metric_chart_order', 'ASC']
             ]
-        }).map(function (item) {
-            return {
-                trendata_metric_chart_id:               item.trendata_metric_chart_created_by,
-                trendata_metric_chart_created_by:       item.trendata_metric_chart_created_by,
-                trendata_metric_chart_last_modified_by: item.trendata_metric_chart_last_modified_by,
-                trendata_metric_chart_order:            item.trendata_metric_chart_order,
-                created_at:                             item.created_at,
-                updated_at:                             item.updated_at,
-                trendata_metric_id:                     item.Metric.trendata_metric_id,
-                trendata_chart_id:                      item.Chart.trendata_chart_id,
-                trendata_chart_key:                     item.Chart.trendata_chart_key,
-                trendata_chart_created_by:              item.Chart.trendata_chart_created_by,
-                trendata_chart_last_modified_by:        item.Chart.trendata_chart_last_modified_by,
-                trendata_chart_title_token:             item.Chart.trendata_chart_title_token,
-                trendata_chart_description_token:       item.Chart.trendata_chart_description_token,
-                trendata_chart_default_chart_display_type:  item.Chart.trendata_chart_default_chart_display_type,
-                trendata_chart_status:                  item.Chart.trendata_chart_status,
-                trendata_chart_position_x:              item.Chart.trendata_chart_position_x,
-                trendata_chart_position_y:              item.Chart.trendata_chart_position_y,
-                trendata_chart_width:                   item.Chart.trendata_chart_width,
-                trendata_chart_height:                  item.Chart.trendata_chart_height,
-                trendata_chart_type:                    item.Chart.trendata_chart_type,
-                sql_template:                           item.Chart.SqlQuery,
-                trendata_chart_display_type_id:                 item.Chart.ChartDisplayType.trendata_chart_display_type_id,
-                trendata_chart_display_type_created_by:         item.Chart.ChartDisplayType.trendata_chart_display_type_created_by,
-                trendata_chart_display_type_last_modified_by:   item.Chart.ChartDisplayType.trendata_chart_display_type_last_modified_by,
-                trendata_chart_display_type_key:                item.Chart.ChartDisplayType.trendata_chart_display_type_key,
-                trendata_chart_display_type_title:              item.Chart.ChartDisplayType.trendata_chart_display_type_title,
-                trendata_chart_display_type_description:        item.Chart.ChartDisplayType.trendata_chart_display_type_description
-            };
         }).reduce(function (accumulator, val) {
             return Promise.props({
-                id:                 val.trendata_chart_id,
+                id:                 val.Chart.trendata_chart_id,
                 created_on:         val.created_at,
-                status:             val.trendata_chart_status,
-                default_chart_display_type: val.trendata_chart_display_type_key,
-                position_x:         val.trendata_chart_position_x,
-                position_y:         val.trendata_chart_position_y,
-                width:              val.trendata_chart_width,
-                height:             val.trendata_chart_height,
-                chart_type:         val.trendata_chart_type,
-                sql_template:       val.sql_template,
-                title:              TranslationModel.getTranslation(val.trendata_chart_title_token, 1),
-                description:        TranslationModel.getTranslation(val.trendata_chart_description_token, 1)
+                status:             val.Chart.trendata_chart_status,
+                default_chart_display_type: val.Chart.ChartDisplayType.trendata_chart_display_type_key,
+                position_x:         val.Chart.trendata_chart_position_x,
+                position_y:         val.Chart.trendata_chart_position_y,
+                width:              val.Chart.trendata_chart_width,
+                height:             val.Chart.trendata_chart_height,
+                chart_type:         val.Chart.trendata_chart_type,
+                sql_template:       val.Chart.SqlQuery,
+                title:              TranslationModel.getTranslation(val.Chart.trendata_chart_title_token, 1),
+                description:        TranslationModel.getTranslation(val.Chart.trendata_chart_description_token, 1)
             }).then(function (data) {
-                var chart_key = val.trendata_chart_key;
+                var chart_key = val.Chart.trendata_chart_key;
                 var sqlTemplate = data.sql_template;
-                delete data.sql_template;
+                data.sql_template = undefined;
 
                 var context = {
                     orm: orm,
@@ -208,22 +178,6 @@ function getMetricCharts(req, res) {
                     data.chart_data = dashboardChart[chart_key].chart_charts[0];
                 }
 
-                /*if (sqlTemplate && sqlTemplate.trendata_sql_query_template && sqlTemplate.trendata_sql_query_custom_source) {
-                    data.chart_data = orm.query(sqlTemplate.trendata_sql_query_template, {
-                        type: ORM.QueryTypes.SELECT
-                    }).then(function (rows) {
-                        return jsVm(sqlTemplate.trendata_sql_query_custom_source, rows, {
-                            contextProps: context
-                        });
-                    });
-                } else if (sqlTemplate && sqlTemplate.trendata_sql_query_custom_source) {
-                    data.chart_data = jsVm(sqlTemplate.trendata_sql_query_custom_source, undefined, {
-                        contextProps: context
-                    });
-                } else if (dashboardChart[chart_key]) {
-                    data.chart_data = dashboardChart[chart_key].chart_charts[0];
-                }*/
-
                 return Promise.props(data);
             }).then(function (data) {
                 switch (data.chart_type) {
@@ -249,46 +203,6 @@ function getMetricCharts(req, res) {
 
                 return accumulator;
             });
-
-            // var jsonTemp = {
-            //     id:                 val.trendata_chart_id,
-            //     created_on:         val.created_at,
-            //     status:             val.trendata_chart_status,
-            //     default_chart_display_type: val.trendata_chart_display_type_key,
-            //     position_x:         val.trendata_chart_position_x,
-            //     position_y:         val.trendata_chart_position_y,
-            //     width:              val.trendata_chart_width,
-            //     height:             val.trendata_chart_height,
-            //     chart_type:         val.trendata_chart_type
-            // };
-            //
-            // var chart_key = val.trendata_chart_key;
-            //
-            // if(dashboardChart[chart_key]) {
-            //     jsonTemp.chart_data = dashboardChart[chart_key].chart_charts[0];
-            // }
-            //
-            // return Promise.resolve([
-            //     TranslationModel.getTranslation(val.trendata_chart_title_token, 1),
-            //     TranslationModel.getTranslation(val.trendata_chart_description_token, 1)
-            // ]).spread(function (title, description) {
-            //     jsonTemp.title = title;
-            //     jsonTemp.description = description;
-            // }).then(function () {
-            //     switch (jsonTemp.chart_type) {
-            //         case '1':
-            //             accumulator.charts.push(jsonTemp);
-            //             break;
-            //         case '2':
-            //             accumulator.value_box.push(jsonTemp);
-            //             break;
-            //         case '3':
-            //             accumulator.table.push(jsonTemp);
-            //             break;
-            //     }
-            //
-            //     return accumulator;
-            // });
         }, {
             charts: [],
             value_box: [],

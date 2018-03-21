@@ -12,6 +12,8 @@ var translation = require('./translation');
 var separateThread = require('../components/separate-thread');
 var cache = require('../components/cache');
 var PromiseBreak = require('./promise-break');
+var knex = require('./knex');
+var sqlstring = require('sqlstring');
 
 var makeAccessLevelSqlCacheObject = {
 
@@ -90,29 +92,9 @@ module.exports = {
      * @return {*}
      */
     verticalAxisTypeConverter: function (verticalAxisType) {
-        verticalAxisType = verticalAxisType && verticalAxisType.toString().toLowerCase() || 'percentage (%)';
+        verticalAxisType = verticalAxisType && verticalAxisType.toString().toLowerCase() || 'values';
 
         switch (verticalAxisType) {
-            case 'values':
-                return {
-                    /**
-                     * @type string
-                     */
-                    type: 'percent',
-
-                    /**
-                     * @type string
-                     */
-                    suffix: '',
-
-                    /**
-                     * @param value
-                     * @param maxValue
-                     */
-                    convert: function (value, maxValue) {
-                        return _.round(parseFloat(value) || 0, 2);
-                    }
-                };
             case 'dollars ($)':
                 return {
                     /**
@@ -134,12 +116,11 @@ module.exports = {
                     }
                 };
             case 'percentage (%)':
-            default:
                 return {
                     /**
                      * @type string
                      */
-                    type: 'value',
+                    type: 'percent',
 
                     /**
                      * @type string
@@ -152,6 +133,27 @@ module.exports = {
                      */
                     convert: function (value, maxValue) {
                         return _.round((parseFloat(value) || 0) * 100 / (parseFloat(maxValue) || 0), 2);
+                    }
+                };
+            case 'values':
+            default:
+                return {
+                    /**
+                     * @type string
+                     */
+                    type: 'value',
+
+                    /**
+                     * @type string
+                     */
+                    suffix: '',
+
+                    /**
+                     * @param value
+                     * @param maxValue
+                     */
+                    convert: function (value, maxValue) {
+                        return _.round(parseFloat(value) || 0, 2);
                     }
                 };
         }
@@ -260,21 +262,9 @@ module.exports = {
      *
      */
     getCustomFields: function () {
-        return orm.query(
-            'SELECT `tbu`.`trendata_bigdata_user_custom_fields` AS `fields` FROM `trendata_bigdata_user` AS `tbu` LIMIT 1',
-            {
-                type: ORM.QueryTypes.SELECT
-            }
-        ).then(function (rows) {
-            if (! rows.length) {
-                return [];
-            }
-
-            return _.reduce(JSON.parse(rows[0].fields), function (accum, item, index) {
-                accum.push(index);
-                return accum;
-            }, []);
-        })
+        return knex('trendata_bigdata_custom_field').map(function (item) {
+            return item.trendata_bigdata_custom_field_name;
+        });
     },
 
     /**
@@ -282,7 +272,7 @@ module.exports = {
      * @param filters
      * @return {{query: string, replacements: Array}}
      */
-    makeFilterSqlByFilters: function(filters) {
+    makeFilterSqlByFilters: function(filters, customFields) {
         filters = _.clone(filters || {});
         var query = [];
         var replacements = [];
@@ -290,55 +280,90 @@ module.exports = {
             department: '`tbu`.`trendata_bigdata_user_department`',
             location: '`tbu`.`trendata_bigdata_user_country`', // Alias
             country: '`tbu`.`trendata_bigdata_user_country`',
-            city: '`tbua`.`trendata_bigdata_user_address_city`',
-            state: '`tbua`.`trendata_bigdata_user_address_state`',
-            gender: '`tbu`.`trendata_bigdata_gender_id`',
+            city: '`tbu`.`trendata_bigdata_user_address_city`',
+            state: '`tbu`.`trendata_bigdata_user_address_state`',
+            gender: '`tbu`.`trendata_bigdata_user_gender`',
             separationType: '`tbu`.`trendata_bigdata_user_voluntary_termination`',
             'separation type': '`tbu`.`trendata_bigdata_user_voluntary_termination`', // Alias
             division: '`tbu`.`trendata_bigdata_user_division`',
             'cost center': '`tbu`.`trendata_bigdata_user_cost_center`',
-            'job level': '`tbu`.`trendata_bigdata_user_job_level`'
+            'job level': '`tbu`.`trendata_bigdata_user_job_level`',
+            performance: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`'
         };
 
-        if (filters.gender) {
-            filters.gender = _.map(filters.gender, function (item) {
-                if (! item) {
-                    return null;
-                }
-
-                return {
-                    male: 1,
-                    female: 2
-                }[item.toString().toLowerCase()];
-            });
-        }
-
-        /*if (filters.separationType) {
-            filters.separationType = _.map(filters.separationType, function (item) {
-                return '' === item ? null : item;
-            });
-        }*/
-
-        return this.getCustomFields().reduce(function (accum, item) {
-            accum[item] = '`tbu`.`trendata_bigdata_user_custom_fields`->>\'$.' + JSON.stringify(item).replace('\\', '\\\\').replace('\'', '\\\'') + '\'';
+        _.reduce(customFields, function (accum, item) {
+            accum[item] = '`tbu`.' + sqlstring.escapeId(item, true);
             return accum;
-        }, columns).then(function (columns) {
-            for (var filter in filters) {
-                if (filters[filter]) {
-                    if (filters[filter].length) {
-                        query.push(columns[filter] + ' IN (?)');
-                        replacements.push(filters[filter]);
-                    } else {
-                        query.push('1 = 2');
+        }, columns);
+
+        for (var filter in filters) {
+            if (filters[filter]) {
+                if (filters[filter].length) {
+                    let condition = '';
+                    let nullIndex = filters[filter].indexOf('null');
+                    if (nullIndex > -1) {
+                        condition = columns[filter] + ' IS NULL';
+                        filters[filter].splice(nullIndex, 1);
+
+                        if (filters[filter].length) {
+                            condition = ' OR ' + condition;
+                        }
                     }
+
+                    if (filters[filter].length) {
+                        condition = '(' + columns[filter] + ' IN (?)' + condition + ')';
+                        replacements.push(filters[filter]);
+                    }
+
+                    query.push(condition);
+                } else {
+                    query.push('1 = 2');
                 }
             }
+        }
 
-            return {
-                query: ' (' + (query.length ? query.join(' AND ') : '1 = 1') + ') ',
-                replacements: replacements
-            };
-        });
+        return {
+            query: ' (' + (query.length ? query.join(' AND ') : '1 = 1') + ') ',
+            replacements: replacements
+        };
+
+        // return Promise.all([
+        //     this.getAvailableFiltersForDrilldown(),
+        //     this.getAvailableFiltersForAnalytics()
+        // ]).spread(_.merge).then(function (availableFilters) {
+        //     return Promise.resolve(customFields).reduce(function (accum, item) {
+        //         accum[item] = '`tbu`.' + sqlstring.escapeId(item, true);
+        //         return accum;
+        //     }, columns).then(function (columns) {
+        //         for (var filter in filters) {
+        //             if (filters[filter]) {
+        //                 var filterIntersect = _.intersection(availableFilters[filter] || [], filters[filter]);
+        //
+        //                 if (!filterIntersect.length) {
+        //                     return {
+        //                         query: ' (1 = 2) ',
+        //                         replacements: []
+        //                     };
+        //                 } else if (filterIntersect.length === (availableFilters[filter] || []).length) {
+        //                     continue;
+        //                 }
+        //
+        //                 if (filterIntersect.length > ((availableFilters[filter] || []).length / 2)) {
+        //                     query.push(columns[filter] + ' NOT IN (?)');
+        //                     replacements.push(filterMap(_.difference(availableFilters[filter] || [], filterIntersect), filter));
+        //                 } else {
+        //                     query.push(columns[filter] + ' IN (?)');
+        //                     replacements.push(filterMap(filterIntersect, filter));
+        //                 }
+        //             }
+        //         }
+        //
+        //         return {
+        //             query: ' (' + (query.length ? query.join(' AND ') : '1 = 1') + ') /*debug*/ ',
+        //             replacements: replacements
+        //         };
+        //     });
+        // });
     },
 
     /**
@@ -346,16 +371,19 @@ module.exports = {
      * @param chartId
      * @return {Promise}
      */
-     getUsersGridSettings: function(chartId) {
+     getUsersGridSettings: function(chartId, userId) {
         var query = 'SELECT ' +
             '`trendata_users_grid_settings_fields` AS `fields` ' +
             'FROM ' +
             '`trendata_users_grid_settings` ' +
             'WHERE ' +
-            '`trendata_users_grid_settings_chart_id` = ?';
+            '`trendata_users_grid_settings_chart_id` = ? ' +
+            'AND ' +
+            '`trendata_users_grid_settings_user_id` = ?';
 
         var replacements = [
-            chartId
+            chartId,
+            userId
         ];
 
         return orm.query(query, {
@@ -395,25 +423,25 @@ module.exports = {
 
                 switch(type) {
                     case 'terminated':
-                        accum.query += '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
+                        accum.query += '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
                             'AND ' +
-                            '`tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                            '`tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                             'AND ' +
-                            '`tbup`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ';
+                            '`tbu`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ';
                         accum.replacements.push(-timeSpanOffset.offsetStart, -timeSpanOffset.offsetEnd);
                         break;
                     case 'hired':
-                        accum.query += '(`tbup`.`trendata_bigdata_user_position_hire_date` IS NOT NULL ' +
+                        accum.query += '(`tbu`.`trendata_bigdata_user_position_hire_date` IS NOT NULL ' +
                             'AND ' +
-                            '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                            '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                             'AND ' +
-                            '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ';
+                            '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ';
                         accum.replacements.push(-timeSpanOffset.offsetStart, -timeSpanOffset.offsetEnd);
                         break;
                     default:
-                        accum.query += '(((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        accum.query += '(((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                             'OR ' +
-                            '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')))) ';
+                            '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')))) ';
                         accum.replacements.push(-timeSpanOffset.offsetStart, -timeSpanOffset.offsetEnd, -timeSpanOffset.offsetStart);
                 }
 
@@ -430,12 +458,14 @@ module.exports = {
      * @param accessLevelSql
      * @param pagination
      * @param chartId
+     * @param usersFilter
+     * @param customFields
+     * @param userId
+     * @param getAllPages
+     * @return {*|Promise<T>}
      */
-    getUsersOnPageByFilters: function(filterSql, accessLevelSql, pagination, chartId, usersFilter) {
-        return Promise.props({
-            columns: this.getUsersGridSettings(chartId),
-            customFields: this.getCustomFields()
-        }).then(function (data) {
+    getUsersOnPageByFilters: function(filterSql, accessLevelSql, pagination, chartId, usersFilter, customFields, userId, getAllPages) {
+        return this.getUsersGridSettings(chartId, userId).then(function (columns) {
             var columnToDbFieldRelation = {
                 'full name': 'CONCAT(`tbu`.`trendata_bigdata_user_first_name`, \' \', `tbu`.`trendata_bigdata_user_last_name`)',
                 'full-name': 'CONCAT(`tbu`.`trendata_bigdata_user_first_name`, \' \', `tbu`.`trendata_bigdata_user_last_name`)', // Alias
@@ -449,14 +479,14 @@ module.exports = {
                 'division': '`tbu`.`trendata_bigdata_user_division`',
                 'cost center': '`tbu`.`trendata_bigdata_user_cost_center`',
                 'employee type': '`tbu`.`trendata_bigdata_employee_type`',
-                'education level': '`tbueh`.`trendata_bigdata_user_education_history_level`',
-                'gender': '`tbg`.`trendata_bigdata_gender_name_token`',
-                'hire date': 'DATE_FORMAT(`tbup`.`trendata_bigdata_user_position_hire_date`, "%M %e, %Y")',
-                'termination date': 'DATE_FORMAT(`tbup`.`trendata_bigdata_user_position_termination_date`, "%M %e, %Y")',
-                'current job code': '`tbup`.`trendata_bigdata_user_position_current_job_code`',
+                'education level': '`tbu`.`trendata_bigdata_user_education_history_level`',
+                'gender': '`tbu`.`trendata_bigdata_user_gender`',
+                'hire date': 'DATE_FORMAT(`tbu`.`trendata_bigdata_user_position_hire_date`, "%M %e, %Y")',
+                'termination date': 'DATE_FORMAT(`tbu`.`trendata_bigdata_user_position_termination_date`, "%M %e, %Y")',
+                'current job code': '`tbu`.`trendata_bigdata_user_position_current_job_code`',
                 'ethnicity': '`tbu`.`trendata_bigdata_user_ethnicity`',
                 'position start date': 'DATE_FORMAT(`tbu`.`trendata_bigdata_user_position_start_date`, "%M %e, %Y")',
-                'hire source': '`tbhs`.`trendata_bigdata_hire_source_name`',
+                'hire source': '`tbu`.`trendata_bigdata_hire_source`',
                 'salary': '`tbu`.`trendata_bigdata_user_salary`',
                 'prof. dev.': '`tbu`.`trendata_bigdata_user_prof_development`',
                 'absences': '`tbu`.`trendata_bigdata_user_absences`',
@@ -490,14 +520,14 @@ module.exports = {
                 'performance'
             ];
 
-            _.each(data.customFields, field => {
-                columnToDbFieldRelation[field.slice(7) + ' (custom)'] = '`tbu`.`trendata_bigdata_user_custom_fields`->>\'$."' + field + '"\'';
-                defaultTableColumns.push(field.slice(7) + ' (custom)');
+            _.each(customFields, field => {
+                columnToDbFieldRelation[field] = '`tbu`.' + sqlstring.escapeId(field, true);
+                defaultTableColumns.push(field);
             });
 
             var dateColumns = {
-                'hire date': '`tbup`.`trendata_bigdata_user_position_hire_date`',
-                'termination date': '`tbup`.`trendata_bigdata_user_position_termination_date`',
+                'hire date': '`tbu`.`trendata_bigdata_user_position_hire_date`',
+                'termination date': '`tbu`.`trendata_bigdata_user_position_termination_date`',
                 'position start date': '`tbu`.`trendata_bigdata_user_position_start_date`'
             };
 
@@ -509,7 +539,7 @@ module.exports = {
             var pageSize = parseInt(pagination.page_size) || 10;
             pageSize = pageSize < 1 ? 10 : pageSize;
 
-            var tableColumns = _.map(data.columns || pagination.table_columns || [
+            var tableColumns = _.map(columns || pagination.table_columns || [
                 'Full Name',
                 'Location',
                 'Manager',
@@ -528,7 +558,7 @@ module.exports = {
             }[pagination.sort_type && pagination.sort_type.toString().toLocaleLowerCase() || 'asc'] || 'ASC';
 
             var selectString = _.reduce(tableColumns, function (accum, item) {
-                accum.push(columnToDbFieldRelation[item] + ' AS `' + item + '`');
+                accum.push(columnToDbFieldRelation[item] + ' AS ' + sqlstring.escapeId(item, true));
                 return accum;
             }, []).join(', ');
 
@@ -539,41 +569,26 @@ module.exports = {
                 '`trendata_bigdata_user` AS `tbu_inner` ' +
                 'ON ' +
                 '`tbu`.`trendata_bigdata_user_manager_employee_id` = `tbu_inner`.`trendata_bigdata_user_employee_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_gender` AS `tbg` ' +
-                'ON ' +
-                '`tbu`.`trendata_bigdata_gender_id` = `tbg`.`trendata_bigdata_gender_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_education_history` AS `tbueh` ' +
-                'ON ' +
-                '`tbu`.`trendata_bigdata_user_id` = `tbueh`.`trendata_bigdata_user_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_address` AS `tbua` ' +
-                'ON ' +
-                '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_position` as `tbup` ' +
-                'ON ' +
-                '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_hire_source` as `tbhs` ' +
-                'ON ' +
-                '`tbu`.`trendata_bigdata_hire_source_id` = `tbhs`.`trendata_bigdata_hire_source_id` ' +
                 'WHERE ' +
                 filterSql.query +
                 ' AND ' +
                 accessLevelSql.query +
                 ' AND ' +
-                '(' + usersFilter.query + ')' +
-                ' ORDER BY ' + sortColumn + ' ' + sortType +
-                ' LIMIT ? OFFSET ?';
+                '(' + usersFilter.query + ')';
+
+            var replacements = filterSql.replacements.concat(accessLevelSql.replacements).concat(usersFilter.replacements);
+
+            if (! getAllPages) {
+                query += ' ORDER BY ' + sortColumn + ' ' + sortType + ' LIMIT ? OFFSET ?';
+                replacements = replacements.concat([
+                    pageSize,
+                    (pageNumber - 1) * pageSize
+                ]);
+            }
 
             return orm.query(query, {
                 type: ORM.QueryTypes.SELECT,
-                replacements: filterSql.replacements.concat(accessLevelSql.replacements).concat(usersFilter.replacements).concat([
-                    pageSize,
-                    (pageNumber - 1) * pageSize
-                ])
+                replacements: replacements
             });
         });
     },
@@ -587,14 +602,6 @@ module.exports = {
             'COUNT(*) AS `count` ' +
             'FROM ' +
             '`trendata_bigdata_user` AS `tbu` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_address` AS `tbua` ' +
-            'ON ' +
-            '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_position` as `tbup` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
             'WHERE ' +
             filterSql.query +
             ' AND ' +
@@ -655,7 +662,19 @@ module.exports = {
             /**
              *
              */
-            gender: ['Male', 'Female'],
+            gender: orm.query(
+                'SELECT ' +
+                '`tbu`.`trendata_bigdata_user_gender` as `gender` ' +
+                'FROM ' +
+                '`trendata_bigdata_user` as `tbu` ' +
+                'GROUP BY ' +
+                '`tbu`.`trendata_bigdata_user_gender`',
+                {
+                    type: ORM.QueryTypes.SELECT
+                }
+            ).map(function(item) {
+                return item.gender;
+            }),
 
             /**
              *
@@ -675,27 +694,27 @@ module.exports = {
                 return item.job_level;
             })
         }).then(function (filters) {
-            return _this.getCustomFields().reduce(function (accum, item) {
-                return orm.query(
-                    'SELECT ' +
-                    '`tbu`.`trendata_bigdata_user_custom_fields`->>? AS `value` ' +
-                    'FROM ' +
-                    '`trendata_bigdata_user` AS `tbu` ' +
-                    'GROUP BY ' +
-                    '`tbu`.`trendata_bigdata_user_custom_fields`->>?',
-                    {
-                        type: ORM.QueryTypes.SELECT,
-                        replacements: [
-                            '$.' + JSON.stringify(item),
-                            '$.' + JSON.stringify(item)
-                        ]
-                    }
-                ).map(function (mapItem) {
-                    return mapItem.value;
-                }).then(function (values) {
-                    accum[item] = values;
-                    return accum;
-                });
+            return knex('trendata_bigdata_custom_field').reduce(function (accum, item) {
+                return knex('trendata_bigdata_user')
+                    .select(knex.raw('?? as `value`', [item.trendata_bigdata_custom_field_name]))
+                    .groupByRaw('??', [item.trendata_bigdata_custom_field_name])
+                    .map(function (item) {
+                        return item.value;
+                    }).then(function (values) {
+                        accum[item.trendata_bigdata_custom_field_name] = values;
+                        return accum;
+                    });
+
+                /*return knex('trendata_bigdata_custom_field_value')
+                    .select('trendata_bigdata_custom_field_value_value AS value')
+                    .where('trendata_bigdata_custom_field_id', item.trendata_bigdata_custom_field_id)
+                    .groupBy('trendata_bigdata_custom_field_value_value')
+                    .map(function (item) {
+                        return item.value;
+                    }).then(function (values) {
+                        accum[item.trendata_bigdata_custom_field_name] = values;
+                        return accum;
+                    });*/
             }, filters);
         });
     },
@@ -704,7 +723,7 @@ module.exports = {
      * Get available filters
      * @return {Promise}
      */
-    getAvailableFiltersForDrilldown: function() {
+    getAvailableFiltersForDrilldown: function(customFields) {
         var _this = this;
 
         return Promise.props({
@@ -756,22 +775,30 @@ module.exports = {
             /**
              *
              */
-            gender: ['Male', 'Female'],
+            gender: orm.query(
+                'SELECT ' +
+                '`tbu`.`trendata_bigdata_user_gender` as `gender` ' +
+                'FROM ' +
+                '`trendata_bigdata_user` as `tbu` ' +
+                'GROUP BY ' +
+                '`tbu`.`trendata_bigdata_user_gender`',
+                {
+                    type: ORM.QueryTypes.SELECT
+                }
+            ).map(function(item) {
+                return item.gender;
+            }),
 
             /**
              *
              */
             city: orm.query(
                 'SELECT ' +
-                '`tbua`.`trendata_bigdata_user_address_city` AS `city` ' +
+                '`tbu`.`trendata_bigdata_user_address_city` AS `city` ' +
                 'FROM ' +
                 '`trendata_bigdata_user` AS `tbu` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_address` AS `tbua` ' +
-                'ON ' +
-                '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                 'GROUP BY ' +
-                '`tbua`.`trendata_bigdata_user_address_city`',
+                '`tbu`.`trendata_bigdata_user_address_city`',
                 {
                     type: ORM.QueryTypes.SELECT
                 }
@@ -784,15 +811,11 @@ module.exports = {
              */
             state: orm.query(
                 'SELECT ' +
-                '`tbua`.`trendata_bigdata_user_address_state` AS `state` ' +
+                '`tbu`.`trendata_bigdata_user_address_state` AS `state` ' +
                 'FROM ' +
                 '`trendata_bigdata_user` AS `tbu` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_address` AS `tbua` ' +
-                'ON ' +
-                '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                 'GROUP BY ' +
-                '`tbua`.`trendata_bigdata_user_address_state`',
+                '`tbu`.`trendata_bigdata_user_address_state`',
                 {
                     type: ORM.QueryTypes.SELECT
                 }
@@ -833,29 +856,47 @@ module.exports = {
                 }
             ).map(function (item) {
                 return item.job_level;
+            }),
+
+            /**
+             *
+             */
+            performance: orm.query(
+                'SELECT ' +
+                '`tbu`.`trendata_bigdata_user_performance_percentage_this_year` AS `performance` ' +
+                'FROM ' +
+                '`trendata_bigdata_user` AS `tbu` ' +
+                'GROUP BY ' +
+                '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`',
+                {
+                    type: ORM.QueryTypes.SELECT
+                    // replacements: []
+                }
+            ).map(function (item) {
+                return item.performance;
             })
         }).then(function (filters) {
-            return _this.getCustomFields().reduce(function (accum, item) {
-                return orm.query(
-                    'SELECT ' +
-                    '`tbu`.`trendata_bigdata_user_custom_fields`->>? AS `value` ' +
-                    'FROM ' +
-                    '`trendata_bigdata_user` AS `tbu` ' +
-                    'GROUP BY ' +
-                    '`tbu`.`trendata_bigdata_user_custom_fields`->>?',
-                    {
-                        type: ORM.QueryTypes.SELECT,
-                        replacements: [
-                            '$.' + JSON.stringify(item),
-                            '$.' + JSON.stringify(item)
-                        ]
-                    }
-                ).map(function (mapItem) {
-                    return mapItem.value;
-                }).then(function (values) {
-                    accum[item] = values;
-                    return accum;
-                });
+            return knex('trendata_bigdata_custom_field').reduce(function (accum, item) {
+                return knex('trendata_bigdata_user')
+                    .select(knex.raw('?? as `value`', [item.trendata_bigdata_custom_field_name]))
+                    .groupByRaw('??', [item.trendata_bigdata_custom_field_name])
+                    .map(function (item) {
+                        return item.value;
+                    }).then(function (values) {
+                        accum[item.trendata_bigdata_custom_field_name] = values;
+                        return accum;
+                    });
+
+                /*return knex('trendata_bigdata_custom_field_value')
+                    .select('trendata_bigdata_custom_field_value_value AS value')
+                    .where('trendata_bigdata_custom_field_id', item.trendata_bigdata_custom_field_id)
+                    .groupBy('trendata_bigdata_custom_field_value_value')
+                    .map(function (item) {
+                        return item.value;
+                    }).then(function (values) {
+                        accum[item.trendata_bigdata_custom_field_name] = values;
+                        return accum;
+                    });*/
             }, filters);
         });
     },
@@ -874,7 +915,7 @@ module.exports = {
      * @param req
      * @param filters
      */
-    getAnalyticsSummary: function (req, filterSql, accessLevelSql) {
+    getAnalyticsSummary: function (req, filterSql, accessLevelSql, keepOrder) {
         var result = [
             {name: 'Avg. Salary'},
             {name: 'Remote Employees'},
@@ -887,13 +928,12 @@ module.exports = {
             {name: 'Total Recruiting Cost'},
             {name: 'Turnover Productivity Loss'},
             {name: 'Number of Employees'},
-            {name: 'Company Rev(Annualized)'},
+            {name: 'Company Rev(Annualized)'}
         ];
-        var genderJoin = 'INNER JOIN `trendata_bigdata_gender` AS `tbg` ON `tbg`.`trendata_bigdata_gender_id` = `tbu`.`trendata_bigdata_gender_id` ';
 
         return Promise.resolve(_.rangeRight(1, 7)).map(function(i) {
             var month = moment().add(-i, 'month');
-            var currentMonth = month.format('MMMM');
+            var currentMonth = keepOrder ? 6 - i : month.format('MMMM');
             var currentYear = month.format('YYYY');
             var performanceColumn = month.isSame(moment(), 'year') ? '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`' : '`tbu`.`trendata_bigdata_user_performance_percentage_1_year_ago`';
 
@@ -907,18 +947,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         filterSql.query +
                         ' AND ' +
@@ -949,18 +981,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         salaryColumn + ' IS NOT NULL ' +
                         'AND ' +
@@ -992,18 +1016,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         '`tbu`.`trendata_bigdata_user_remote_employee` = \'yes\' ' +
                         'AND ' +
@@ -1035,18 +1051,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         '`tbu`.`trendata_bigdata_user_prof_development` = \'yes\' ' +
                         'AND ' +
@@ -1078,18 +1086,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         '`tbu`.`trendata_bigdata_user_prof_development` = \'yes\'' +
                         'AND ' +
@@ -1123,18 +1123,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         performanceColumn + ' > 3 ' +
                         'AND ' +
@@ -1166,18 +1158,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
-                        '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
                         filterSql.query +
                         ' AND ' +
@@ -1206,18 +1190,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '`tbup`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
-                        '`tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
                         filterSql.query +
                         ' AND ' +
@@ -1246,18 +1222,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '`tbup`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
-                        '`tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
                         performanceColumn + ' > 3 ' +
                         'AND ' +
@@ -1288,18 +1256,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '`tbup`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
-                        '`tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
                         '(' + performanceColumn + ' < 4 OR ' + performanceColumn + ' IS NULL) ' +
                         'AND ' +
@@ -1330,18 +1290,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
-                        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
                         'AND ' +
                         '(' + performanceColumn + ' < 4 OR ' + performanceColumn + ' IS NULL)' +
                         'AND ' +
@@ -1373,18 +1325,10 @@ module.exports = {
                         'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' + genderJoin +
-                        ' INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
-                        '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
                         '`tbu`.`trendata_bigdata_user_cost_per_hire` IS NOT NULL ' +
                         'AND ' +

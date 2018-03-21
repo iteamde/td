@@ -1,4 +1,4 @@
-var mail = require('nodemailer').mail;
+var nodemailer = require('nodemailer');
 
 /**
  * @param options = {
@@ -11,14 +11,26 @@ var mail = require('nodemailer').mail;
  */
 module.exports = function (options) {
     options = _.merge({
-        from: 'TrenData <donotreply@trendata.com>',
-        ssl: true
+        from: 'TrenData <donotreply@trendata.com>'
     }, options || {});
 
     if (options.to && options.subject && (options.html || options.text)) {
         return new Promise(function (resolve, reject) {
-            mail(options);
-            resolve();
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.office365.com',
+                port: 587,
+                requireTLS: true,
+                tls: {
+                  ciphers: 'SSLv3'
+                }
+            });
+
+            transporter.sendMail(options, (err, data) => {
+                if (err)
+                    return reject(err);
+
+                resolve();
+            });
         });
     }
 

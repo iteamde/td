@@ -39,10 +39,16 @@
         vm.playVideo = playVideo;
         vm.shareChart = commonService.shareChart;
         vm.hideEmptyValues = hideEmptyValues;
+
+        $scope.exportUsersToCsv = function() {
+            drillDownService.exportUsersToCsv($scope.filters, $scope.pagination, vm.usersFilterData, $scope.chartId);
+        };
+
         vm.createToken = commonService.createToken;
 
         vm.activeTab = 0;
         vm.showCustom = 0;
+        vm.usersFilterData = null;
 
         vm.showSpinner = true;
         vm.showData = false;
@@ -81,6 +87,7 @@
             $scope.users = res.chart_data.users;
             $scope.totalUsers = res.chart_data.users_count;
             $scope.chartId = res.id;
+            vm.usersFilterData = res.chart_data.users_filter_data;
             $scope.customFields = _.chain(res.chart_data.available_filters)
                 .keys()
                 .filter(function(field) {
@@ -139,14 +146,15 @@
         $scope.$on('paginationChange', function (event, pagination) {
             event.stopPropagation();
             $scope.pagination = pagination;
-            updateChart();
+            updateChart('change_page');
         });
 
-        function updateChart() {
+        function updateChart(type) {
             vm.isLoading = true;
 
             var options = {
                 id: $stateParams.id,
+                type: type,
                 view: vm.view,
                 axis: vm.axis,
                 filter: $scope.filters,
@@ -159,9 +167,18 @@
         }
 
         function changeChartComplete(res) {
-            $scope.users = res.chart_data.users;
-            $scope.totalUsers = res.chart_data.users_count;
-            angular.extend($scope.widgets[0].chart_data, res.chart_data.chart_data);
+            if (res.chart_data.users) {
+                $scope.users = res.chart_data.users;
+            }
+
+            if (res.chart_data.users_count || res.chart_data.users_count === 0) {
+                $scope.totalUsers = res.chart_data.users_count;
+            }
+
+            if (res.chart_data.chart_data) {
+                angular.extend($scope.widgets[0].chart_data, res.chart_data.chart_data);
+            }
+
             originalChartData = _.cloneDeep($scope.widgets[0].chart_data);
             if ($scope.hideEmpty) {
                 hideEmptyValues($scope.hideEmpty);

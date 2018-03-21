@@ -45,10 +45,10 @@
                             </div>
 
                             <div class="chart-header-buttons">
-                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" uib-tooltip="Settings"></span>
-                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" uib-tooltip="Filters"></span>
-                                <span class="fa fa-download" ng-click="vm.exportChart($index)" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
-                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="Filters"></span>
+                                <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" tooltip-placement="bottom-right" uib-tooltip="{{getTranslation('help_video')}}"></span>
+                                <span class="fa fa-download" ng-click="vm.exportChart($index)" tooltip-placement="bottom-right" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
                             </div>
 
                             <div class="chart-header-tab"  ng-show="vm.activeTab === 1">
@@ -106,7 +106,7 @@
 
                                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                                         <li>
-                                            <input class="form-control" type="text" placeholder="{{ getTranslation('filter_by_label') }}" ng-model="filter.label">
+                                            <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
                                         <li ng-repeat="(key, value) in filter.values | filterObjectKeys:filter.label">
                                             <label for="{{value + $index}}">{{ value }}

@@ -13,6 +13,10 @@
         var vm = this;
         vm.save = save;
         vm.isLoading = false;
+        vm.progressWidth = 0;
+        var progressInterval;
+        vm.fileName = '';
+        vm.fileName = '';
 
         $scope.$on('fileUploadSuccess', function (e, data) {
             e.stopPropagation();
@@ -21,6 +25,15 @@
 
         function save() {
             vm.isLoading = true;
+            var tick = 3000000 / vm.size;
+            progressInterval = setInterval(function() {
+                if (vm.progressWidth + tick < 98) {
+                    vm.progressWidth += tick;
+                } else {
+                    clearInterval(progressInterval)
+                    vm.progressWidth = 99;
+                }
+            }, 450);
 
             modalUploadService.uploadFile(vm.uploadedFile)
                 .success(uploadSuccess)
@@ -28,7 +41,11 @@
         }
 
         function uploadSuccess() {
-            vm.isLoading = false;
+            vm.progressWidth = 100;
+            clearInterval(progressInterval);
+            setTimeout(function() {
+                vm.isLoading = false;
+            });
 
             commonService.notification($scope.getTranslation('all_rows_were_successfully_inserted'), 'success');
             $scope.$close();
@@ -36,6 +53,7 @@
 
         function serviceError(res) {
             vm.isLoading = false;
+            clearInterval(progressInterval);
 
             angular.element('.modal-dialog').addClass('modal-lg');
 

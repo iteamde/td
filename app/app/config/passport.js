@@ -30,11 +30,11 @@ module.exports = function (passport) {
                     });
                 }
 
-                // if (! user.validatePassword(password)) {
-                //     return done(null, false, {
-                //         message: 'Oops! Wrong password.'
-                //     });
-                // }
+                if (! user.validatePassword(password)) {
+                    return done(null, false, {
+                        message: 'Oops! Wrong password.'
+                    });
+                }
                 
                 if (user.trendata_user_status == 2 && user.trendata_user_id != 1) {
                     return done(null, false, {

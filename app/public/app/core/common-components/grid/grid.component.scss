@@ -1,6 +1,7 @@
 #grid {
   font-size: 11px;
   background-color: $white;
+  margin-bottom: 5px;
 
   .grid-row {
     display: flex;
@@ -47,10 +48,6 @@
     justify-content: space-between;
     background-color: beige;
     border: 1px solid black;
-
-    span {
-      padding-right: 10px;
-    }
 
     select {
       margin: 0 10px;

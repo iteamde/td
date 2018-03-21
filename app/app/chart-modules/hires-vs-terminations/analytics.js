@@ -7,7 +7,7 @@ var requestData = 'POST' === req.method ? req.body : {
     /**
      * @type {String}
      */
-    type: 'change_filters',
+    type: undefined,
 
     /**
      * @type {Object}
@@ -100,6 +100,8 @@ var timeSpan = requestData.data.time_span || {
 if (! timeSpan.end)
     timeSpan.end = 1;
 
+var userTypes = ['hired', 'terminated'];
+
 /**
  * @param filterSql
  * @param accessLevelSql
@@ -116,24 +118,12 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
             'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
             'FROM ' +
             '`trendata_bigdata_user` AS `tbu` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_position` AS `tbup` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_gender` AS `tbg` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_gender_id` = `tbg`.`trendata_bigdata_gender_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_address` AS `tbua` ' +
-            'ON ' +
-            '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
             'WHERE ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` IS NOT NULL ' +
+            '`tbu`.`trendata_bigdata_user_position_hire_date` IS NOT NULL ' +
             'AND ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+            '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
             'AND ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+            '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
             'AND ' +
             filterSql.query +
             ' AND ' +
@@ -145,24 +135,12 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
             'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
             'FROM ' +
             '`trendata_bigdata_user` AS `tbu` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_position` AS `tbup` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_gender` AS `tbg` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_gender_id` = `tbg`.`trendata_bigdata_gender_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_address` AS `tbua` ' +
-            'ON ' +
-            '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
             'WHERE ' +
-            '`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
+            '`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
             'AND ' +
-            '`tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+            '`tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
             'AND ' +
-            '`tbup`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
+            '`tbu`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') ' +
             'AND ' +
             filterSql.query +
             ' AND ' +
@@ -283,87 +261,159 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
  *  }
  * }
  */
-if ('change_filters' === requestData.type) {
-    Promise.all([
-        commonChartData.getAvailableFiltersForDrilldown(),
-        commonChartData.makeAccessLevelSql(req),
-        commonChartData.makeFilterSqlByFilters(requestData.data.filters),
-        commonChartData.makeUsersFilter(timeSpan, ['hired', 'terminated']),
-        commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type)
-    ]).spread(function (availableFilters, accessLevelSql, filterSql, usersFilter, verticalAxisTypeConverter) {
-        return Promise.props({
-            /**
-             *
-             */
-            chart_data: totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter).then(function (data) {
-                if (requestData.data.regression_analysis) {
-                    return Promise.map(data.dataset[0].data, function (_item, _index) {
-                        return Promise.reduce(data.dataset, function (accum, item, index) {
-                            return accum + (data.dataset[index].data[_index].value || 0);
-                        }, 0).then(function (sum) {
-                            return sum / data.dataset.length;
+switch (requestData.type) {
+    // Pagination
+    case 'change_page':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.makeUsersFilter(timeSpan, userTypes),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, usersFilter, customFields) {
+            return Promise.props({
+                users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter, customFields)
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // Chart view
+    case 'change_chart_view':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return Promise.props({
+                chart_data: totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter).then(function (data) {
+                    if (requestData.data.regression_analysis) {
+                        return Promise.map(data.dataset[0].data, function (_item, _index) {
+                            return Promise.reduce(data.dataset, function (accum, item, index) {
+                                return accum + (data.dataset[index].data[_index].value || 0);
+                            }, 0).then(function (sum) {
+                                return sum / data.dataset.length;
+                            });
+                        }).then(function (values) {
+                            return commonChartData.getTrendlineCurvePython(values);
+                        }).map(function (item) {
+                            return {
+                                color: '#008ee4',
+                                dashed: '0',
+                                value: _.round(item, 2)
+                            };
+                        }).then(function (values) {
+                            data.dataset.push({
+                                data: values,
+                                id: 'trendline',
+                                renderAs: 'line',
+                                showValues: '0'
+                            });
+
+                            return data;
                         });
-                    }).then(function (values) {
-                        return commonChartData.getTrendlineCurvePython(values);
-                    }).map(function (item) {
-                        return {
-                            color: '#008ee4',
-                            dashed: '0',
-                            value: _.round(item, 2)
-                        };
-                    }).then(function (values) {
-                        data.dataset.push({
-                            data: values,
-                            id: 'trendline',
-                            renderAs: 'line',
-                            showValues: '0'
+                    }
+
+                    return data;
+                })
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // Init
+    default:
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.getAvailableFiltersForDrilldown(customFields),
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.makeUsersFilter(timeSpan, ['hired', 'terminated']),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (availableFilters, accessLevelSql, filterSql, usersFilter, verticalAxisTypeConverter, customFields) {
+            return Promise.props({
+                /**
+                 *
+                 */
+                chart_data: totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter).then(function (data) {
+                    if (requestData.data.regression_analysis) {
+                        return Promise.map(data.dataset[0].data, function (_item, _index) {
+                            return Promise.reduce(data.dataset, function (accum, item, index) {
+                                return accum + (data.dataset[index].data[_index].value || 0);
+                            }, 0).then(function (sum) {
+                                return sum / data.dataset.length;
+                            });
+                        }).then(function (values) {
+                            return commonChartData.getTrendlineCurvePython(values);
+                        }).map(function (item) {
+                            return {
+                                color: '#008ee4',
+                                dashed: '0',
+                                value: _.round(item, 2)
+                            };
+                        }).then(function (values) {
+                            data.dataset.push({
+                                data: values,
+                                id: 'trendline',
+                                renderAs: 'line',
+                                showValues: '0'
+                            });
+
+                            return data;
                         });
+                    }
 
-                        return data;
-                    });
-                }
+                    return data;
+                }),
 
-                return data;
-            }),
+                /**
+                 *
+                 */
+                users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter, customFields, req.user.trendata_user_id),
 
-            /**
-             *
-             */
-            users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter),
+                /**
+                 *
+                 */
+                users_count: commonChartData.getUsersCountByFilters(filterSql, accessLevelSql, usersFilter),
 
-            /**
-             *
-             */
-            users_count: commonChartData.getUsersCountByFilters(filterSql, accessLevelSql, usersFilter),
+                /**
+                 *
+                 */
+                available_chart_view: ['Total'],
 
-            /**
-             *
-             */
-            available_chart_view: ['Total'],
+                /**
+                 *
+                 */
+                available_time_spans: ['1', '3', '5'],
 
-            /**
-             *
-             */
-            available_time_spans: ['1', '3', '5'],
-
-            /**
-             *
-             */
-            available_filters: availableFilters,
+                /**
+                 *
+                 */
+                available_filters: availableFilters,
 
             /**
              *
              */
             available_vertical_axis_types: [
-                'Values',
-                'Percentage (%)',
+                'Percentage (%)','Values',
                 'Dollars ($)'
             ],
 
             /**
              *
              */
-            summary: commonChartData.getAnalyticsSummary(req, filterSql, accessLevelSql)
-        });
-    }).then(_resolve).catch(_reject);
+            summary: commonChartData.getAnalyticsSummary(req, filterSql, accessLevelSql),
+
+    /**
+             *
+             */
+             users_filter_data: {
+                timeSpan: timeSpan,
+                types: userTypes
+             }
+        });}).then(_resolve).catch(_reject);
 }

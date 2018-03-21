@@ -27,7 +27,8 @@
             noty.show({
                 text: message,
                 layout: 'bottomRight',
-                type: 'error'
+                type: 'error',
+                killer: true
             });
             $log.error(message, data);
         }
@@ -36,7 +37,8 @@
             noty.show({
                 text: message,
                 layout: 'bottomRight',
-                type: 'information'
+                type: 'information',
+                killer: true
             });
             $log.info(message, data);
 
@@ -46,7 +48,8 @@
             noty.show({
                 text: message,
                 layout: 'bottomRight',
-                type: 'success'
+                type: 'success',
+                killer: true
             });
             $log.info(message, data);
         }
@@ -55,7 +58,8 @@
             noty.show({
                 text: message,
                 layout: 'bottomRight',
-                type: 'warning'
+                type: 'warning',
+                killer: true
             });
             $log.warn(message, data);
         }

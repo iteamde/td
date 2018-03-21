@@ -17,7 +17,7 @@
         function uploadFile(data) {
             return $http.post(BASE_URL + 'upload/users-tuff-csv', {
                 data: data
-            })
-        }
+            });
+        };
     }
 })();

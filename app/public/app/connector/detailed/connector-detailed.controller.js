@@ -52,6 +52,18 @@
             });
         }
 
+        vm.moveCursorToEnd = function(e){
+            var copyInputValue = e.target.value;
+            e.target.value = '';
+            e.target.value = copyInputValue;
+        }
+        vm.stopDrag = function(e){
+            e.target.parentElement.parentElement.removeAttribute("draggable");
+        }
+        vm.addDrag = function(e){
+            e.target.parentElement.parentElement.setAttribute("draggable",true);
+        }
+
         vm.dragEnd = function(item) {
             item.dragging = false;
             vm.saveSettings();
@@ -67,9 +79,15 @@
                 return;
             }
 
+            if (item.title.toLowerCase().indexOf('custom') === 0) {
+                commonService.notification($scope.getTranslation('fields_name_cant_starts_with_custom'), 'warning');
+                return;
+            }
+
             var uniqDictionary = _.uniqBy(vm.dictionary, function(item) {
                 return item.title.toLowerCase();
             });
+
             if (uniqDictionary.length !== vm.dictionary.length) {
                 commonService.notification($scope.getTranslation('fields_name_must_be_unique'), 'warning');
                 return;

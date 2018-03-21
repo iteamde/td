@@ -153,7 +153,7 @@ function getDashboardCharts(req, res) {
             }).then(function (data) {
                 var chart_key = item.Chart.trendata_chart_key;
                 var sqlTemplate = data.sql_template;
-                delete data.sql_template;
+                data.sql_template = undefined;
 
                 var context = {
                     orm: orm,

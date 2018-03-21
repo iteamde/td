@@ -6,15 +6,17 @@
         .module('app.analytics')
         .factory('analyticsService', analyticsService);
 
-    analyticsService.$inject = ['BASE_URL', '$http'];
+    analyticsService.$inject = ['BASE_URL', '$http', 'commonService'];
 
-    function analyticsService(BASE_URL, $http) {
+    function analyticsService(BASE_URL, $http, commonService) {
 
         return {
             getCharts: getCharts,
             getCurvePoints: getCurvePoints,
             createFilter: createFilter,
             changeChart: changeChart,
+            exportUsersToCsv: exportUsersToCsv,
+            exportSummaryToCsv: exportSummaryToCsv,
             getMonths: getMonths
         };
 
@@ -29,10 +31,9 @@
         }
 
         function changeChart(options) {
-
             var apiUrl = BASE_URL + "sub-chart/analytics/" + options.id;
             var req = {
-                type: 'change_filters',
+                type: options.type,
                 data: {
                     chart_view: options.view,
                     time_span: options.time_span,
@@ -44,7 +45,6 @@
             };
 
             angular.extend(req.data.filters, extendReq(options.filter));
-
             return $http.post(apiUrl, req);
         }
 
@@ -70,12 +70,23 @@
             _.each(filter, function (value, name) {
                 var keys = _.keys(value.values);
 
+                if (keys.length === 1 && keys[0] === 'null')
+                    return;
+
                 serverFilter[name] = _.filter(keys, function (key) {
                     return value.values[key];
-                })
+                });
             });
 
             return serverFilter;
+        }
+
+        function exportUsersToCsv(filters, pagination, usersFilter, chartId) {
+            return commonService.exportUsersToCsv(extendReq(filters), pagination, usersFilter, chartId);
+        }
+
+        function exportSummaryToCsv(filters) {
+            return commonService.exportSummaryToCsv(extendReq(filters));
         }
 
         function getMonths(index) {

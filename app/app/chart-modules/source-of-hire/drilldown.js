@@ -4,7 +4,7 @@
  *
  */
 var requestData = 'POST' === req.method ? req.body : {
-    type: 'change_filters',
+    type: undefined,
     data: {
         /**
          * String: 'Location', 'Gender', 'Department'
@@ -86,22 +86,10 @@ var calculateSubChartData = function(input) {
             'COUNT(*) AS `filtered_count` ' +
             'FROM ' +
             '`trendata_bigdata_user` AS `tbu` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_position` AS `tbup` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_gender` AS `tbg` ' +
-            'ON ' +
-            '`tbg`.`trendata_bigdata_gender_id` = `tbu`.`trendata_bigdata_gender_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_address` AS `tbua` ' +
-            'ON ' +
-            '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
             'WHERE ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
+            '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
             'AND ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
+            '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
             'AND ' +
             column + ' = ? ' +
             'AND ' +
@@ -124,30 +112,14 @@ var calculateSubChartData = function(input) {
                         'COUNT(*) AS `source_count` ' +
                         'FROM ' +
                         '`trendata_bigdata_user` AS `tbu` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_position` AS `tbup` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_gender` AS `tbg` ' +
-                        'ON ' +
-                        '`tbg`.`trendata_bigdata_gender_id` = `tbu`.`trendata_bigdata_gender_id` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_hire_source` AS `tbhs` ' +
-                        'ON ' +
-                        '`tbu`.`trendata_bigdata_hire_source_id` = `tbhs`.`trendata_bigdata_hire_source_id` ' +
-                        'INNER JOIN ' +
-                        '`trendata_bigdata_user_address` AS `tbua` ' +
-                        'ON ' +
-                        '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                         'WHERE ' +
-                        '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
                         'AND ' +
-                        '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
                         'AND ' +
                         column + ' = ? ' +
                         'AND ' +
-                        '`tbhs`.`trendata_bigdata_hire_source_name` = ? ' +
+                        '`tbu`.`trendata_bigdata_hire_source` = ? ' +
                         'AND ' +
                         filterSql.query +
                         ' AND ' +
@@ -196,175 +168,347 @@ var calculateSubChartData = function(input) {
  *  }
  * }
  */
-if ('change_filters' === requestData.type) {
-    Promise.all([
-        commonChartData.getAvailableFiltersForDrilldown(),
-        commonChartData.makeAccessLevelSql(req),
-        commonChartData.makeFilterSqlByFilters(requestData.data.filters),
-        orm.query(
-            'SELECT ' +
-            '`tbhs`.`trendata_bigdata_hire_source_name` ' +
-            'FROM ' +
-            '`trendata_bigdata_user` AS `tbu` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user_position` AS `tbup` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_hire_source` AS `tbhs` ' +
-            'ON ' +
-            '`tbu`.`trendata_bigdata_hire_source_id` = `tbhs`.`trendata_bigdata_hire_source_id` ' +
-            'WHERE ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
-            'AND ' +
-            '`tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
-            'GROUP BY ' +
-            '`tbhs`.`trendata_bigdata_hire_source_name` ' +
-            'ORDER BY ' + 
-            '`tbhs`.`trendata_bigdata_hire_source_name`',
-            {
-                type: ORM.QueryTypes.SELECT
-            }
-        ).map(function(item) {
-            return item.trendata_bigdata_hire_source_name;
-        }),
-        commonChartData.makeUsersFilter(null, ['hired']),
-        commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type)
-    ]).spread(function (availableFilters, accessLevelSql, filterSql, availableHireSources, usersFilter, verticalAxisTypeConverter) {
-        return Promise.props({
-            /**
-             *
-             */
-            chart_data: commonChartData.getCustomFields().reduce(function (accum, item) {
-                accum[item] = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_custom_fields`->>\'$.' + JSON.stringify(item).replace('\\', '\\\\').replace('\'', '\\\'') + '\'',
-                    title: _.chain(item.replace(/^custom\s+/gi, '')).words().map(_.capitalize).value().join(' '),
-                    values: availableFilters[item],
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
-                return accum;
-            }, {}).then(function (data) {
-                data.department = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_department`',
-                    title: 'Department',
-                    values: availableFilters.department,
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+switch (requestData.type) {
+    // Pagination
+    case 'change_page':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.makeUsersFilter(null, ['hired']),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, usersFilter, customFields) {
+            return Promise.props({
+                users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter, customFields)
+            });
+        }).then(_resolve).catch(_reject);
+        break;
 
-                data.city = {
-                    filterSql: filterSql,
-                    column: '`tbua`.`trendata_bigdata_user_address_city`',
-                    title: 'City',
-                    values: availableFilters.city,
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+    // Chart view
+    case 'change_chart_view':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.getAvailableFiltersForDrilldown(customFields),
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                orm.query(
+                    'SELECT ' +
+                    '`tbu`.`trendata_bigdata_hire_source` ' +
+                    'FROM ' +
+                    '`trendata_bigdata_user` AS `tbu` ' +
+                    'WHERE ' +
+                    '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
+                    'AND ' +
+                    '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
+                    'GROUP BY ' +
+                    '`tbu`.`trendata_bigdata_hire_source` ' +
+                    'ORDER BY ' +
+                    '`tbu`.`trendata_bigdata_hire_source`',
+                    {
+                        type: ORM.QueryTypes.SELECT
+                    }
+                ).map(function(item) {
+                    return item.trendata_bigdata_hire_source;
+                }),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (availableFilters, accessLevelSql, filterSql, availableHireSources, verticalAxisTypeConverter, customFields) {
+            return Promise.props({
+                chart_data: new Promise(function (resolve, reject) {
+                    var data = {};
 
-                data.division = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_division`',
-                    title: 'Division',
-                    values: availableFilters.division,
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    _.reduce(customFields, function (accum, item) {
+                        accum[item] = {
+                            filterSql: filterSql,
+                            column: '`tbu`.' + sqlstring.escapeId(item).replace(/`\.`/g, '.'),
+                            title: _.chain(item.replace(/^custom\s+/gi, '')).words().map(_.capitalize).value().join(' '),
+                            values: availableFilters[item],
+                            hireSources: availableHireSources,
+                            accessLevelSql: accessLevelSql,
+                            verticalAxisTypeConverter: verticalAxisTypeConverter
+                        };
+                        return accum;
+                    }, data);
 
-                data['cost center'] = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_cost_center`',
-                    title: 'Cost Center',
-                    values: availableFilters['cost center'],
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data.department = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_department`',
+                        title: 'Department',
+                        values: availableFilters.department,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                data.country = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_country`',
-                    title: 'Country',
-                    values: availableFilters.country,
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data.city = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_city`',
+                        title: 'City',
+                        values: availableFilters.city,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                data.state = {
-                    filterSql: filterSql,
-                    column: '`tbua`.`trendata_bigdata_user_address_state`',
-                    title: 'State',
-                    values: availableFilters.state,
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data.division = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_division`',
+                        title: 'Division',
+                        values: availableFilters.division,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                data['job level'] = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_job_level`',
-                    title: 'Job Level',
-                    values: availableFilters['job level'],
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data['cost center'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_cost_center`',
+                        title: 'Cost Center',
+                        values: availableFilters['cost center'],
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                return data;
-            }).then(function (data) {
-                var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+                    data.country = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_country`',
+                        title: 'Country',
+                        values: availableFilters.country,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                return calculateSubChartData(data[chartView] || {
-                    filterSql: filterSql,
-                    column: '`tbg`.`trendata_bigdata_gender_name_token`',
-                    title: 'Gender',
-                    values: availableFilters.gender,
-                    hireSources: availableHireSources,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                });
-            }),
+                    data.state = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_state`',
+                        title: 'State',
+                        values: availableFilters.state,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-            /**
-             *
-             */
-            users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter),
+                    data['job level'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_job_level`',
+                        title: 'Job Level',
+                        values: availableFilters['job level'],
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-            /**
-             *
-             */
-            users_count: commonChartData.getUsersCountByFilters(filterSql, accessLevelSql, usersFilter),
+                    data.performance = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`',
+                        title: 'State',
+                        values: availableFilters.performance,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-            /**
-             *
-             */
-            available_chart_view: commonChartData.getCustomFields().then(function (chartViews) {
-                chartViews = chartViews.map(function (item) {
-                    return _.chain(item).words().map(_.capitalize).value().join(' ');
-                });
-                return ['Gender', 'Department', 'City', 'State', 'Country', 'Division', 'Cost Center', 'Job Level'].concat(chartViews);
-            }),
+                    resolve(data);
+                }).then(function (data) {
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
 
-            /**
-             *
-             */
-            available_filters: availableFilters,
+                    return calculateSubChartData(data[chartView] || {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_gender`',
+                        title: 'Gender',
+                        values: availableFilters.gender,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    });
+                })
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // Init
+    default:
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.getAvailableFiltersForDrilldown(customFields),
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                orm.query(
+                    'SELECT ' +
+                    '`tbu`.`trendata_bigdata_hire_source` ' +
+                    'FROM ' +
+                    '`trendata_bigdata_user` AS `tbu` ' +
+                    'WHERE ' +
+                    '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
+                    'AND ' +
+                    '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
+                    'GROUP BY ' +
+                    '`tbu`.`trendata_bigdata_hire_source` ' +
+                    'ORDER BY ' +
+                    '`tbu`.`trendata_bigdata_hire_source`',
+                    {
+                        type: ORM.QueryTypes.SELECT
+                    }
+                ).map(function(item) {
+                    return item.trendata_bigdata_hire_source;
+                }),
+                commonChartData.makeUsersFilter(null, ['hired']),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (availableFilters, accessLevelSql, filterSql, availableHireSources, usersFilter, verticalAxisTypeConverter, customFields) {
+            return Promise.props({
+                /**
+                 *
+                 */
+                chart_data: new Promise(function (resolve, reject) {
+                    var data = {};
+
+                    _.reduce(customFields, function (accum, item) {
+                        accum[item] = {
+                            filterSql: filterSql,
+                            column: '`tbu`.' + sqlstring.escapeId(item).replace(/`\.`/g, '.'),
+                            title: _.chain(item.replace(/^custom\s+/gi, '')).words().map(_.capitalize).value().join(' '),
+                            values: availableFilters[item],
+                            hireSources: availableHireSources,
+                            accessLevelSql: accessLevelSql,
+                            verticalAxisTypeConverter: verticalAxisTypeConverter
+                        };
+                        return accum;
+                    }, data);
+
+                    data.department = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_department`',
+                        title: 'Department',
+                        values: availableFilters.department,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.city = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_city`',
+                        title: 'City',
+                        values: availableFilters.city,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.division = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_division`',
+                        title: 'Division',
+                        values: availableFilters.division,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data['cost center'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_cost_center`',
+                        title: 'Cost Center',
+                        values: availableFilters['cost center'],
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.country = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_country`',
+                        title: 'Country',
+                        values: availableFilters.country,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.state = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_state`',
+                        title: 'State',
+                        values: availableFilters.state,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data['job level'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_job_level`',
+                        title: 'Job Level',
+                        values: availableFilters['job level'],
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.performance = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`',
+                        title: 'State',
+                        values: availableFilters.performance,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    resolve(data);
+                }).then(function (data) {
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+
+                    return calculateSubChartData(data[chartView] || {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_gender`',
+                        title: 'Gender',
+                        values: availableFilters.gender,
+                        hireSources: availableHireSources,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    });
+                }),
+
+                /**
+                 *
+                 */
+                users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter, customFields, req.user.trendata_user_id),
+
+                /**
+                 *
+                 */
+                users_count: commonChartData.getUsersCountByFilters(filterSql, accessLevelSql, usersFilter),
+
+                /**
+                 *
+                 */
+                available_chart_view: ['Gender', 'Department', 'City', 'State', 'Country', 'Division', 'Cost Center', 'Job Level', 'Performance'].concat(customFields),
+
+                /**
+                 *
+                 */
+                available_filters: availableFilters,
 
             /**
              *
              */
             available_vertical_axis_types: [
-                'Values',
                 'Percentage (%)',
-                'Dollars ($)'
-            ]
+                'Values',
+                'Dollars ($)'],
+
+            /**
+             *
+             */
+             users_filter_data: {
+                timeSpan: undefined,
+                types: ['hired']
+            }
         });
     }).then(_resolve).catch(_reject);
 }

@@ -9,6 +9,155 @@ var ConnectorCsvModel = require('../models/orm-models').ConnectorCsv;
 var HttpResponse = require('../components/http-response');
 var cache = require('../components/cache');
 
+/**
+ * @return {Promise.<TResult>}
+ */
+function duplicationOfData() {
+    var customFields;
+    var customField;
+    var customFieldsInsert;
+
+    return Promise.all([
+        knex('trendata_bigdata_custom_field').del(),
+        knex('trendata_bigdata_user_total').del(),
+    ]).then(function () {
+        return knex('trendata_bigdata_user')
+            .select([
+                'trendata_bigdata_user.*',
+                'trendata_bigdata_country.*',
+                'trendata_bigdata_gender.*',
+                'trendata_bigdata_hire_source.*',
+                'trendata_bigdata_user_address.*',
+                'trendata_bigdata_user_education_history.*',
+                'trendata_bigdata_user_position.*',
+            ])
+            .innerJoin(
+                'trendata_bigdata_country',
+                'trendata_bigdata_user.trendata_bigdata_nationality_country_id',
+                'trendata_bigdata_country.trendata_bigdata_country_id'
+            )
+            .innerJoin(
+                'trendata_bigdata_gender',
+                'trendata_bigdata_user.trendata_bigdata_gender_id',
+                'trendata_bigdata_gender.trendata_bigdata_gender_id'
+            )
+            .innerJoin(
+                'trendata_bigdata_hire_source',
+                'trendata_bigdata_user.trendata_bigdata_hire_source_id',
+                'trendata_bigdata_hire_source.trendata_bigdata_hire_source_id'
+            )
+            .innerJoin(
+                'trendata_bigdata_user_address',
+                'trendata_bigdata_user.trendata_bigdata_user_id',
+                'trendata_bigdata_user_address.trendata_bigdata_user_id'
+            )
+            .innerJoin(
+                'trendata_bigdata_user_education_history',
+                'trendata_bigdata_user.trendata_bigdata_user_id',
+                'trendata_bigdata_user_education_history.trendata_bigdata_user_education_history_id'
+            )
+            .innerJoin(
+                'trendata_bigdata_user_position',
+                'trendata_bigdata_user.trendata_bigdata_user_id',
+                'trendata_bigdata_user_position.trendata_bigdata_user_position_id'
+            );
+    }).then(function (rows) {
+        if (!rows.length) {
+            return new Promise.reject(new PromiseBreak);
+        }
+
+        customFields = Object.keys(JSON.parse(rows[0].trendata_bigdata_user_custom_fields));
+
+        if (customFields.length) {
+            return knex('trendata_bigdata_custom_field')
+                .insert(_.map(customFields, function (item) {
+                    return {
+                        trendata_bigdata_custom_field_name: item,
+                        created_at: knex.raw('NOW()'),
+                        updated_at: knex.raw('NOW()')
+                    };
+                }))
+                .then(function () {
+                    return knex('trendata_bigdata_custom_field');
+                })
+                .reduce(function (accum, item) {
+                    accum[item.trendata_bigdata_custom_field_name] = item.trendata_bigdata_custom_field_id;
+                    return accum;
+                }, {}).then(function (_customFields) {
+                    customFields = _customFields;
+                    return rows;
+                });
+        }
+
+        return rows;
+    }).each(function (item) {
+        delete item.created_at;
+        delete item.updated_at;
+        delete item.trendata_bigdata_country_id;
+        delete item.trendata_bigdata_gender_id;
+        delete item.trendata_bigdata_hire_source_id;
+        delete item.trendata_bigdata_user_address_id;
+        delete item.trendata_bigdata_user_education_history_id;
+        delete item.trendata_bigdata_user_position_id;
+        delete item.trendata_user_id;
+        delete item.trendata_bigdata_gender_id;
+        delete item.trendata_bigdata_nationality_country_id;
+        delete item.trendata_bigdata_hire_source_id;
+        customField = JSON.parse(item.trendata_bigdata_user_custom_fields);
+        delete item.trendata_bigdata_user_custom_fields;
+        item.created_at = knex.raw('NOW()');
+        item.updated_at = knex.raw('NOW()');
+
+        return knex('trendata_bigdata_user_total').insert(item).then(function (lastInsertId) {
+            if (!Object.keys(customField).length) {
+                return;
+            }
+
+            customFieldsInsert = [];
+
+            for (var property in customField) {
+                customFieldsInsert.push({
+                    trendata_bigdata_custom_field_id: customFields[property],
+                    trendata_bigdata_user_total_id: lastInsertId,
+                    trendata_bigdata_custom_field_value_value: customField[property],
+                    created_at: knex.raw('NOW()'),
+                    updated_at: knex.raw('NOW()')
+                });
+            }
+
+            return knex('trendata_bigdata_custom_field_value').insert(customFieldsInsert);
+        });
+    }).then(function () {
+        var sql = 'CREATE OR REPLACE VIEW `trendata_bigdata_user_total_view` AS ';
+        var join = [];
+        var select = ['`trendata_bigdata_user_total`.*'];
+        var selectBind = [];
+
+        for (var _customField in customFields) {
+            join.push(`
+                LEFT JOIN 
+                    \`trendata_bigdata_custom_field_value\` AS \`field_${join.length}\` 
+                    ON 
+                    (
+                        \`field_${join.length}\`.\`trendata_bigdata_custom_field_id\` = ${customFields[_customField]} 
+                        AND 
+                        \`field_${join.length}\`.\`trendata_bigdata_user_total_id\` = \`trendata_bigdata_user_total\`.\`trendata_bigdata_user_id\`
+                    )
+            `);
+            select.push(
+                `\`field_${select.length}\`.\`trendata_bigdata_custom_field_value_value\` AS ??`
+            );
+            selectBind.push(_customField);
+        }
+
+        sql += ' SELECT ' + select.join(', ') + ' FROM `trendata_bigdata_user_total` ' + join.join(' ');
+
+        console.log(sql);
+
+        return knex.raw(sql, selectBind);
+    }).catch(PromiseBreak, function () {/* ... */});
+}
+
 module.exports = {
     /**
      * @param req
@@ -31,7 +180,7 @@ module.exports = {
             var lastCsvFile = 'last_tuff_users_csv_' + req.parentUser.trendata_user_id + '.csv';
             var archiveCsvFile = 'tuff_' + dateformat(new Date, 'yyyy-mm-dd_hh-MM-ss') + '.csv';
 
-            csvParser.validate(req.body.data, 'trendata_bigdata_user', true, true).then(function (errors) {
+            csvParser.validate(req.body.data, 'trendata_bigdata_user', true, true).then(function (errors) {console.log(errors.length);
                 if (errors.length) {
                     throw new HttpResponse({
                         success: false,
@@ -39,11 +188,11 @@ module.exports = {
                     }, 400);
                 }
             }).then(function () {
-                return orm.query('DELETE FROM `trendata_bigdata_user` WHERE `trendata_user_id`=?', {
+                /*return orm.query('DELETE FROM `trendata_bigdata_user` WHERE `trendata_user_id`=?', {
                     replacements: [
                         req.parentUser.trendata_user_id
                     ]
-                });
+                });*/
             }).then(function () {
                 return csvParser.saveToDatabase(req.body.data, 'trendata_bigdata_user', {
                     trendata_user_id: req.parentUser.trendata_user_id

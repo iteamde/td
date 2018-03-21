@@ -16,11 +16,17 @@
     core.config(tmhDynamicLocaleConfigure);
     core.config(validationConfigure);
     core.config(notyConfigure);
-    core.controller('CommonController', ['$scope', 'BASE_URL', '$http', function ($scope, BASE_URL, $http) {
+    core.controller('CommonController', ['$scope', '$rootScope', 'BASE_URL', '$http', function ($scope, $rootScope, BASE_URL, $http) {
         /**
          * @type {Object}
          */
         $scope.translations = {};
+
+        $scope.isSidebarOpen = false;
+
+        $rootScope.$on('sidebar-toggle-menu', function () {
+            $scope.isSidebarOpen = !$scope.isSidebarOpen;
+        });
 
         /**
          * @type {Object}
@@ -45,16 +51,11 @@
             return $scope.commonData;
         };
 
-        // Get translations
-        $http.get(BASE_URL + 'translation/1')
-            .success(function (data) {
-                $scope.translations = data;
-            });
-
         // Load common data
-        $http.get(BASE_URL + 'common/load-common-data')
+        $http.get(BASE_URL + 'common/load-common-data/1')
             .success(function (data) {
                 $scope.commonData = data;
+                $scope.translations = data.translations;
             });
     }]);
 

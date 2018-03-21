@@ -3,19 +3,25 @@
         <div class="grid-cell check">
             <i class="fa" ng-class="{'fa-square-o' : !selectedAll, 'fa-check-square-o': selectedAll}" ng-click="selectAll(selectedAll)"></i>
         </div>
-        <div class="grid-cell"> <!--ng-click="sort('name')"-->
+        <div class="grid-cell" ng-click="sort('name')">
             Full Name
-            <span class="pull-right"
-                  ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'ASC'">ASC</span>
-            <span class="pull-right"
-                  ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'DESC'">DESC</span>
+            <i class="fa fa-sort pull-right"
+               ng-if="pagination.sort_column != 'name' || pagination.sort_column == 'name' && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
+            </i>
+            <i class="fa fa-sort-up pull-right"
+                  ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'ASC'"></i>
+            <i class="fa fa-sort-down pull-right"
+                  ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'DESC'"></i>
         </div>
-        <div class="grid-cell"> <!--ng-click="sort('email')"-->
+        <div class="grid-cell" ng-click="sort('email')">
             Email
-            <span class="pull-right"
-                  ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'ASC'">ASC</span>
-            <span class="pull-right"
-                  ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'DESC'">DESC</span>
+            <i class="fa fa-sort pull-right"
+               ng-if="pagination.sort_column != 'email' || pagination.sort_column == 'email' && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
+            </i>
+            <i class="fa fa-sort-up pull-right"
+                  ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'ASC'"></i>
+            <i class="fa fa-sort-down pull-right"
+                  ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'DESC'"></i>
         </div>
         <div class="grid-cell">Actions</div>
     </div>

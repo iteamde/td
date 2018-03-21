@@ -3,27 +3,17 @@
 commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
     return orm.query(
         'SELECT ' +
-        'COUNT(`tbu`.`trendata_bigdata_user_manager_employee_id`) AS `count` ' +
+        'AVG(`tbu`.`trendata_bigdata_user_reports_per_manager`) AS `avg` ' +
         'FROM ' +
         '`trendata_bigdata_user` AS `tbu` ' +
-        'INNER JOIN ' +
-        '`trendata_bigdata_user_position` AS `tbup` ' +
-        'ON ' +
-        '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-        'INNER JOIN ' +
-        '`trendata_bigdata_user` AS `mngr` ' +
-        'ON ' +
-        '`tbu`.`trendata_bigdata_user_manager_employee_id` = `mngr`.`trendata_bigdata_user_employee_id` ' +
         'WHERE ' +
-        '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\')) ' +
+        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\')) ' +
         'OR ' +
-        '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\'))) ' +
+        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\'))) ' +
         'AND ' +
         accessLevelSql.query +
         'AND ' +
-        '`tbu`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL ' +
-        'GROUP BY ' +
-        '`tbu`.`trendata_bigdata_user_manager_employee_id`',
+        '`tbu`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL',
         {
             type: ORM.QueryTypes.SELECT,
             replacements: [
@@ -33,11 +23,11 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
             ].concat(accessLevelSql.replacements)
         }
     );
-}).then(function (data) {
+}).then(function (rows) {
     _resolve({
         data: [{
             label: '',
-            value: _.chain(data).meanBy('count').round(2).value()
+            value: _.round(rows[0].avg, 2)
         }],
         legendItemFontSize: '8',
     });

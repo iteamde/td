@@ -4,7 +4,7 @@
  *
  */
 var requestData = 'POST' === req.method ? req.body : {
-    type: 'change_filters',
+    type: undefined,
     data: {
         /**
          * String: 'Country', 'Gender', 'Department'
@@ -84,30 +84,18 @@ var calculateSubChartData = function(input) {
         });
     }, null).then(function(field) {
         field = field || 'trendata_bigdata_user_performance_percentage_this_year';
+        var totalValue = 0;
 
         return Promise.map(values, function (item) {
             return orm.query(
                 'SELECT ' +
-                'ROUND(AVG(`tbu`.`' + field + '`), 2) AS `average_performance`, ' +
-                'SUM(`tbu`.`' + field + '`) AS `sum_performance` ' +
+                'ROUND(AVG(`tbu`.`' + field + '`), 2) AS `average_performance` ' +
                 'FROM ' +
                 '`trendata_bigdata_user` AS `tbu` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_position` AS `tbup` ' +
-                'ON ' +
-                '`tbu`.`trendata_bigdata_user_id` = `tbup`.`trendata_bigdata_user_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_gender` AS `tbg` ' +
-                'ON ' +
-                '`tbg`.`trendata_bigdata_gender_id` = `tbu`.`trendata_bigdata_gender_id` ' +
-                'INNER JOIN ' +
-                '`trendata_bigdata_user_address` AS `tbua` ' +
-                'ON ' +
-                '`tbua`.`trendata_bigdata_user_id` = `tbu`.`trendata_bigdata_user_id` ' +
                 'WHERE ' +
-                '((`tbup`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') AND `tbup`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW(), \'%Y-%m-01\')) ' +
+                '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW(), \'%Y-%m-01\')) ' +
                 'OR ' +
-                '(`tbup`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbup`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\'))) ' +
+                '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\'))) ' +
                 'AND ' +
                 column + ' = ? ' +
                 'AND ' +
@@ -121,9 +109,11 @@ var calculateSubChartData = function(input) {
                     ].concat(filterSql.replacements).concat(accessLevelSql.replacements)
                 }
             ).then(function(rows) {
+                totalValue += +rows[0].average_performance;
+
                 return {
                     label: item,
-                    value: verticalAxisTypeConverter.convert(rows[0].average_performance, rows[0].sum_performance)
+                    value: rows[0].average_performance || 0
                 };
             });
         }).reduce(function (accum, item) {
@@ -131,7 +121,7 @@ var calculateSubChartData = function(input) {
                 label: item.label
             });
             accum.dataset[0].data.push({
-                value: item.value
+                value: verticalAxisTypeConverter.convert(item.value, totalValue)
             });
             return accum;
         }, {
@@ -167,139 +157,291 @@ var calculateSubChartData = function(input) {
  *  }
  * }
  */
-if ('change_filters' === requestData.type) {
-    Promise.all([
-        commonChartData.getAvailableFiltersForDrilldown(),
-        commonChartData.makeAccessLevelSql(req),
-        commonChartData.makeFilterSqlByFilters(requestData.data.filters),
-        commonChartData.makeUsersFilter(),
-        commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type)
-    ]).spread(function (availableFilters, accessLevelSql, filterSql, usersFilter, verticalAxisTypeConverter) {
-        return Promise.props({
-            /**
-             *
-             */
-            chart_data: commonChartData.getCustomFields().reduce(function (accum, item) {
-                accum[item] = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_custom_fields`->>\'$.' + JSON.stringify(item).replace('\\', '\\\\').replace('\'', '\\\'') + '\'',
-                    title: _.chain(item.replace(/^custom\s+/gi, '')).words().map(_.capitalize).value().join(' '),
-                    values: availableFilters[item],
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
-                return accum;
-            }, {}).then(function (data) {
-                data.department = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_department`',
-                    title: 'Department',
-                    values: availableFilters.department,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+switch (requestData.type) {
+    // Pagination
+    case 'change_page':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.makeUsersFilter(),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, usersFilter, customFields) {
+            return Promise.props({
+                users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter, customFields)
+            });
+        }).then(_resolve).catch(_reject);
+        break;
 
-                data.city = {
-                    filterSql: filterSql,
-                    column: '`tbua`.`trendata_bigdata_user_address_city`',
-                    title: 'City',
-                    values: availableFilters.city,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+    // Chart view
+    case 'change_chart_view':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.getAvailableFiltersForDrilldown(customFields),
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (availableFilters, accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return Promise.props({
+                chart_data: new Promise(function (resolve, reject) {
+                    var data = {};
 
-                data.division = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_division`',
-                    title: 'Division',
-                    values: availableFilters.division,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    _.reduce(customFields, function (accum, item) {
+                        accum[item] = {
+                            filterSql: filterSql,
+                            column: '`tbu`.' + sqlstring.escapeId(item).replace(/`\.`/g, '.'),
+                            title: _.chain(item.replace(/^custom\s+/gi, '')).words().map(_.capitalize).value().join(' '),
+                            values: availableFilters[item],
+                            accessLevelSql: accessLevelSql,
+                            verticalAxisTypeConverter: verticalAxisTypeConverter
+                        };
+                        return accum;
+                    }, data);
 
-                data['cost center'] = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_cost_center`',
-                    title: 'Cost Center',
-                    values: availableFilters['cost center'],
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data.department = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_department`',
+                        title: 'Department',
+                        values: availableFilters.department,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                data.country = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_country`',
-                    title: 'Country',
-                    values: availableFilters.country,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data.city = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_city`',
+                        title: 'City',
+                        values: availableFilters.city,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                data.state = {
-                    filterSql: filterSql,
-                    column: '`tbua`.`trendata_bigdata_user_address_state`',
-                    title: 'State',
-                    values: availableFilters.state,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data.division = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_division`',
+                        title: 'Division',
+                        values: availableFilters.division,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                data['job level'] = {
-                    filterSql: filterSql,
-                    column: '`tbu`.`trendata_bigdata_user_job_level`',
-                    title: 'Job Level',
-                    values: availableFilters['job level'],
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                };
+                    data['cost center'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_cost_center`',
+                        title: 'Cost Center',
+                        values: availableFilters['cost center'],
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                return data;
-            }).then(function (data) {
-                var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+                    data.country = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_country`',
+                        title: 'Country',
+                        values: availableFilters.country,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-                return calculateSubChartData(data[chartView] || {
-                    filterSql: filterSql,
-                    column: '`tbg`.`trendata_bigdata_gender_name_token`',
-                    title: 'Gender',
-                    values: availableFilters.gender,
-                    accessLevelSql: accessLevelSql,
-                    verticalAxisTypeConverter: verticalAxisTypeConverter
-                });
-            }),
+                    data.state = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_state`',
+                        title: 'State',
+                        values: availableFilters.state,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-            /**
-             *
-             */
-            users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter),
+                    data['job level'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_job_level`',
+                        title: 'Job Level',
+                        values: availableFilters['job level'],
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-            /**
-             *
-             */
-            users_count: commonChartData.getUsersCountByFilters(filterSql, accessLevelSql, usersFilter),
+                    data.performance = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`',
+                        title: 'State',
+                        values: availableFilters.performance,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
 
-            /**
-             *
-             */
-            available_chart_view: commonChartData.getCustomFields().then(function (chartViews) {
-                chartViews = chartViews.map(function (item) {
-                    return _.chain(item).words().map(_.capitalize).value().join(' ');
-                });
-                return ['Gender', 'Department', 'City', 'State', 'Country', 'Division', 'Cost Center', 'Job Level'].concat(chartViews);
-            }),
+                    resolve(data);
+                }).then(function (data) {
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
 
-            /**
-             *
-             */
-            available_filters: availableFilters,
+                    return calculateSubChartData(data[chartView] || {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_gender`',
+                        title: 'Gender',
+                        values: availableFilters.gender,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    });
+                })
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // Init
+    default:
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.getAvailableFiltersForDrilldown(customFields),
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.makeUsersFilter(),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (availableFilters, accessLevelSql, filterSql, usersFilter, verticalAxisTypeConverter, customFields) {
+            return Promise.props({
+                /**
+                 *
+                 */
+                chart_data: new Promise(function (resolve, reject) {
+                    var data = {};
+
+                    _.reduce(customFields, function (accum, item) {
+                        accum[item] = {
+                            filterSql: filterSql,
+                            column: '`tbu`.' + sqlstring.escapeId(item).replace(/`\.`/g, '.'),
+                            title: _.chain(item.replace(/^custom\s+/gi, '')).words().map(_.capitalize).value().join(' '),
+                            values: availableFilters[item],
+                            accessLevelSql: accessLevelSql,
+                            verticalAxisTypeConverter: verticalAxisTypeConverter
+                        };
+                        return accum;
+                    }, data);
+
+                    data.department = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_department`',
+                        title: 'Department',
+                        values: availableFilters.department,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.city = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_city`',
+                        title: 'City',
+                        values: availableFilters.city,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.division = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_division`',
+                        title: 'Division',
+                        values: availableFilters.division,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data['cost center'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_cost_center`',
+                        title: 'Cost Center',
+                        values: availableFilters['cost center'],
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.country = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_country`',
+                        title: 'Country',
+                        values: availableFilters.country,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.state = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_address_state`',
+                        title: 'State',
+                        values: availableFilters.state,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data['job level'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_job_level`',
+                        title: 'Job Level',
+                        values: availableFilters['job level'],
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    data.performance = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`',
+                        title: 'State',
+                        values: availableFilters.performance,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
+                    resolve(data);
+                }).then(function (data) {
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+
+                    return calculateSubChartData(data[chartView] || {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_gender`',
+                        title: 'Gender',
+                        values: availableFilters.gender,
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    });
+                }),
+
+                /**
+                 *
+                 */
+                users: commonChartData.getUsersOnPageByFilters(filterSql, accessLevelSql, requestData.data.user_pagination, selfId, usersFilter, customFields, req.user.trendata_user_id),
+
+                /**
+                 *
+                 */
+                users_count: commonChartData.getUsersCountByFilters(filterSql, accessLevelSql, usersFilter),
+
+                /**
+                 *
+                 */
+                available_chart_view: ['Gender', 'Department', 'City', 'State', 'Country', 'Division', 'Cost Center', 'Job Level', 'Performance'].concat(customFields),
+
+                /**
+                 *
+                 */
+                available_filters: availableFilters,
 
             /**
              *
              */
             available_vertical_axis_types: [
-                'Values',
                 'Percentage (%)',
-                'Dollars ($)'
-            ]
+                'Values',
+                'Dollars ($)'],
+
+            /**
+             *
+             */
+             users_filter_data: {
+                timeSpan: undefined,
+                types: undefined
+            }
         });
     }).then(_resolve).catch(_reject);
 }

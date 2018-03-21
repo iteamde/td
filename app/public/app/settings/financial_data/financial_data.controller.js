@@ -5,9 +5,9 @@
         .module('app.financialData')
         .controller('FinancialDataController', FinancialDataController);
 
-    FinancialDataController.$inject = ['$scope', '$uibModal', 'noty', '$http', 'BASE_URL'];
+    FinancialDataController.$inject = ['$scope', '$uibModal', 'noty', '$http', 'BASE_URL', 'commonService'];
 
-    function FinancialDataController($scope, $uibModal, noty, $http, BASE_URL) {
+    function FinancialDataController($scope, $uibModal, noty, $http, BASE_URL, commonService) {
         var vm = this;
 
         /**
@@ -95,6 +95,7 @@
                 method: 'POST',
                 data: $scope.data
             }).then(function (response) {
+                commonService.notification($scope.getTranslation('financial-data-saved'), 'success');
                 $scope.saveOldData();
             }).catch(function () {
                 console.log('Error save data');

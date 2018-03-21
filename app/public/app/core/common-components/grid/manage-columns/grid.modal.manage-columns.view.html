@@ -6,7 +6,7 @@
     <div class="row">
         <div class="manage-columns col-md-5">
             <h4>Available Fields</h4>
-            <select ng-model="toChecked" ng-options="column for column in uncheckedColumns" multiple></select>
+            <select ng-model="toChecked" ng-options="cutCustom(column) for column in uncheckedColumns" multiple></select>
         </div>
 
         <div class="manage-columns-buttons col-md-2">
@@ -16,7 +16,7 @@
 
         <div class="manage-columns col-md-5">
             <h4>Selected Fields</h4>
-            <select ng-model="toUnchecked" ng-options="column for column in checkedColumns" multiple></select>
+            <select ng-model="toUnchecked" ng-options="cutCustom(column) for column in checkedColumns" multiple></select>
         </div>
     </div>
 

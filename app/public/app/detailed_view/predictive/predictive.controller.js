@@ -25,7 +25,7 @@
         vm.activeTab = 0;
         vm.activeGrid = 0;
         vm.yearRange = ['1 year'];
-        vm.chartView = ['Total', 'By Performance'];
+        vm.chartView = ['Total', 'Performance', 'City', 'State', 'Country', 'Department', 'Division', 'Cost Center', 'Gender','Job Level', 'Performance Rating'];
         
         vm.showSpinner = true;
         vm.showData = false;
@@ -188,7 +188,14 @@
         }
 
         function getSettings() {
-            return commonChartService.getPredictiveSettings($scope.widgets[0].chartView, $scope.widgets[0].range);
+
+            //remove after chart view functionality extended
+            var chartView = $scope.widgets[0].chartView;
+            if (chartView != 'Total') {
+                chartView = 'Performance';
+            }
+
+            return commonChartService.getPredictiveSettings(chartView, $scope.widgets[0].range);
         }
 
         function annotations() {

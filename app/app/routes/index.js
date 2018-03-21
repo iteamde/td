@@ -94,15 +94,18 @@ router.get('/financial-data/load-by-year/:year(\\d+)', authMiddleware, financial
 router.post('/financial-data/save-by-year/:year(\\d+)', authMiddleware, financialData.saveByYear); // +
 
 router.get('/translation/:lngId', translation.getTranslations); // +
-router.get('/common/load-common-data', common.getCommonData);
+router.get('/common/load-common-data/:lngId', common.getCommonData);
 
 router.post('/upload/users-tuff-csv', authMiddleware, upload.usersTuffCsv);
 router.post('/upload/recruitment-tuff-csv', authMiddleware, upload.recruitmentTuffCsv);
 
+router.get('/connector-csv/last-uploaded-file/:type/:file_type', authMiddleware, connectorCsv.getLastUploadedCsvFile);
+router.post('/connector-csv/export-users', authMiddleware, connectorCsv.exportUsersToCsv);
+router.post('/connector-csv/export-summary', authMiddleware, connectorCsv.exportSummaryToCsv);
+router.get('/connector-csv/download-export/:downloadAs/:file', authMiddleware, connectorCsv.downloadExportedFile);
 router.post('/share', disableCache, share.saveChartImage);
 router.post('/share/send-email', disableCache, authMiddleware, share.sendEmail);
 
-router.get('/connector-csv/last-uploaded-file/:type/:file_type', authMiddleware, connectorCsv.getLastUploadedCsvFile);
 router.post('/connector-csv/save-settings', authMiddleware, connectorCsv.saveSettings);
 router.get('/connector-csv/get-settings', authMiddleware, connectorCsv.getSettings);
 

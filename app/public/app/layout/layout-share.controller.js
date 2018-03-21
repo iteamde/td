@@ -5,9 +5,9 @@
         .module('app.layout')
         .controller('LayoutShareController', LayoutShareController);
 
-    LayoutShareController.$inject = ['commonService', '$http', 'BASE_URL'];
+    LayoutShareController.$inject = ['$scope', 'commonService', '$http', 'BASE_URL'];
 
-    function LayoutShareController(commonService, $http, BASE_URL) {
+    function LayoutShareController($scope, commonService, $http, BASE_URL) {
         var vm;
         vm = this;
 
@@ -23,7 +23,7 @@
             }).then(function(responce) {
                 if (responce.data === 'success') {
                     vm.shareEmails = '';
-                    commonService.notification('Emails has been sent.', 'success');
+                    commonService.notification($scope.getTranslation('email_sent'), 'success');
                 }
             });
         }

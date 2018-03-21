@@ -1,8 +1,16 @@
 var fs = require('fs');
 var path = require('path');
+var orm2 = require('../components/orm/orm2');
+var ORM = require('sequelize');
+var knex = require('../components/knex');
+var translation = require('../components/translation');
 var config = require('../../config').config;
 var TagModel = require('../models/orm-models').Tag;
+var MetricModel = require('../models/orm-models').Metric;
 var SettingModel = require('../models/orm-models').Setting;
+var LanguageModel = require('../models/orm-models').Language;
+var DashboardModel = require('../models/orm-models').Dashboard;
+var TranslationModel = require('../models/orm-models').Translation;
 var SettingValueModel = require('../models/orm-models').SettingValue;
 var cache = {};
 
@@ -34,12 +42,13 @@ module.exports.getCommonData = function (req, res) {
         /**
          *
          */
-        tags: TagModel.findAll({
-            attributes: ['trendata_tag_id', 'trendata_tag_title'],
-            where: {
-                trendata_tag_status: '1'
-            }
-        }),
+        tags: (function () {
+            var sql = knex('trendata_tag').select('trendata_tag_id', 'trendata_tag_title').toString();
+
+            return orm2.query(sql, {
+                type: ORM.QueryTypes.SELECT
+            });
+        })(),
 
         /**
          *
@@ -60,10 +69,125 @@ module.exports.getCommonData = function (req, res) {
             }, {});
         }),
 
+        dashboards: DashboardModel.findAll({
+            attributes: ['trendata_dashboard_id', 'created_at', 'trendata_dashboard_status', 'trendata_dashboard_icon', 'trendata_dashboard_title_token'],
+            where: {
+                trendata_dashboard_status: '1',
+                trendata_user_id: req.user && req.user.trendata_user_id || 1
+            }
+        }).then(function (item) {
+            if (item.length > 0){
+                return item;
+            } else {
+                return DashboardModel.findAll({
+                    where: {
+                        trendata_dashboard_status: '1',
+                        trendata_user_id: 0
+                    }
+                }).then(function (item1) {
+                    return item1;
+                });
+            }
+        }).map(function (item) {
+            return Promise.props({
+                id:         item.trendata_dashboard_id,
+                created_on: item.created_at,
+                status:     item.trendata_dashboard_status,
+                icon:       item.trendata_dashboard_icon,
+                title:      TranslationModel.getTranslation(item.trendata_dashboard_title_token)
+            });
+        }),
+
+        /**
+         *
+         */
+        /*metrics: (function () {
+            var sql = knex('trendata_metric').select([
+                'trendata_metric_id',
+                'created_at',
+                'trendata_metric_status',
+                'trendata_metric_icon',
+                'trendata_metric_title_token'
+            ]).where('trendata_metric_status', 1).toString();
+
+            return orm2.query(sql, {
+                type: ORM.QueryTypes.SELECT
+            }).map(function (item) {
+                return Promise.props({
+                    id:         item.trendata_metric_id,
+                    created_on: item.created_at,
+                    status:     item.trendata_metric_status,
+                    icon:       item.trendata_metric_icon,
+                    title:      translation(item.trendata_metric_title_token, 1)
+                });
+            });
+        })(),*/
+
+        /**
+         *
+         */
+        metrics: MetricModel.findAll({
+            attributes: ['trendata_metric_id', 'created_at', 'trendata_metric_status', 'trendata_metric_icon', 'trendata_metric_title_token'],
+            where: {
+                trendata_metric_status: '1'
+            }
+        }).map(function (item) {
+            return Promise.props({
+                id:         item.trendata_metric_id,
+                created_on: item.created_at,
+                status:     item.trendata_metric_status,
+                icon:       item.trendata_metric_icon,
+                title:      TranslationModel.getTranslation(item.trendata_metric_title_token, 1)
+            });
+        }),
+
+        translations: Promise.props({
+            main: TranslationModel.findAll({
+                include: [
+                    {
+                        model: LanguageModel,
+                        required: true,
+                        where: {
+                            trendata_language_id: req.params.lngId || 1
+                        }
+                    }
+                ]
+            }),
+            en: !req.params.lngId || 1 == req.params.lngId ? [] : TranslationModel.findAll({
+                include: [
+                    {
+                        model: LanguageModel,
+                        required: true,
+                        where: {
+                            trendata_language_id: 1
+                        }
+                    }
+                ]
+            })
+        }).then(function (data) {
+            return Promise.props({
+                main: Promise.reduce(data.main, function (result, item) {
+                    result[item.trendata_translation_token] = item.trendata_translation_text;
+                    return result;
+                }, {}),
+                en: Promise.reduce(data.en, function (result, item) {
+                    result[item.trendata_translation_token] = item.trendata_translation_text;
+                    return result;
+                }, {})
+            });
+        }).then(function(data) {
+            return _.merge(data.en, data.main);
+        }),
+
         /**
          * 'ondemand' or 'enterprise'
          */
-        site_type: 'ondemand'
+        site_type: 'ondemand',
+
+        /**
+         * 
+         */
+        year: new Date().getFullYear()
     }).then(function (data) {
         res.json(data);
     }).catch(function (err) {
