@@ -6,7 +6,7 @@
 
     appRun.$inject = ['routerHelper'];
 
-    /* @ngInject */
+    /!* @ngInject *!/
     function appRun(routerHelper) {
         routerHelper.configureStates(getStates());
     }
@@ -19,9 +19,11 @@
                     name: 'login',
                     url: '/login',
                     templateUrl: 'app/auth/login/login.view.html',
-                    controller: 'LoginController as vm'
+                    controller: 'LoginController as vm',
+                    parent: 'main'
                 }
             }
         ];
     }
 })();
+

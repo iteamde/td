@@ -10,6 +10,8 @@
 
     function LoginController($rootScope, $scope, logger, $state,  exception, authService, $location, noty,$window) {
 
+        console.log("I am login controller");
+
         var vm = this;
 
         vm.isLoginPanelActive = true;

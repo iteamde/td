@@ -13,24 +13,19 @@
     }
 
     function getStates($http) {
-        console.log($http);
         return [
             {
                 state: 'layout',
                 config: {
                     abstract: true,
-                    resolve:{
-                        // Use the resource to fetch data from the server
-                        config: function(){
-                            return $http.get(('https://qa1512.dev.trendata.com/api/' + 'common/load-common-data'))
-                                .then(function (res) {
-                                    console.log("I AM HERE RESOLVE", res)
-                                })
-                        }
-
-                    },
+                    parent: 'main',
                     name: 'layout',
                     url: '/',
+/*                    children:[{
+                        url: 'login',
+                        templateUrl: 'app/auth/login/login.view.html',
+                        controller: 'LoginController as vm'
+                    }],*/
                     views: {
                         '@': {
                             templateUrl: 'app/layout/layout.view.html',

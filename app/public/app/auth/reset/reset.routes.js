@@ -19,7 +19,8 @@
                     name: 'reset',
                     url: '/reset/:token',
                     templateUrl: 'app/auth/reset/reset.view.html',
-                    controller: 'ResetController as vm'
+                    controller: 'ResetController as vm',
+                    parent: 'main'
                 }
             }
         ];
