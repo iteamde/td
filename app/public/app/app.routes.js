@@ -17,8 +17,8 @@
                 state: 'main',
                 config: {
                     name: 'main',
-                    template: '<ui-view/>',
                     abstract: true,
+                    template: '<div class="root-ui-view" ui-view></div>',
                     resolve:{
                         // Use the resource to fetch data from the server
                         config: function(){
@@ -27,7 +27,6 @@
                                     console.log("I AM HERE RESOLVE", res)
                                 })
                         }
-
                     },
                 }
             }

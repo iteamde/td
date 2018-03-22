@@ -17,7 +17,6 @@
             {
                 state: 'layout',
                 config: {
-                    abstract: true,
                     parent: 'main',
                     name: 'layout',
                     url: '/',
