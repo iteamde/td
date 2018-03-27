@@ -6,9 +6,9 @@
         .module('app.core')
         .controller('ModalManageColumnsController', ModalManageColumnsController);
 
-    ModalManageColumnsController.$inject = ['$scope', 'columns', 'checkedColumns', 'chartId', 'customFields', 'BASE_URL', '$http', 'analyticsService','$stateParams'];
+    ModalManageColumnsController.$inject = ['$scope', 'columns', 'checkedColumns', 'chartId', 'customFields', 'BASE_URL', '$http'];
 
-    function ModalManageColumnsController($scope, columns, checkedColumns, chartId, customFields, BASE_URL, $http, analyticsService, $stateParams) {
+    function ModalManageColumnsController($scope, columns, checkedColumns, chartId, customFields, BASE_URL, $http) {
         $scope.columns = _.concat(columns, customFields);
         $scope.checkedColumns = _.intersection(checkedColumns, $scope.columns);
         $scope.uncheckedColumns = _.difference($scope.columns, checkedColumns);
@@ -21,14 +21,7 @@
                 forAllCharts: $scope.forAllCharts
             }).then(function(resp) {
                 $scope.$emit('columnsChanged', $scope.checkedColumns);
-                
-                analyticsService.getCharts($stateParams.id)
-                .success(function(res){$scope.$ctrl.users=res.chart_data.users});
-                console.log($scope.$ctrl.users);
-                console.log($stateParams.id);
                 $scope.$close();
-
-               
             });
         }
 

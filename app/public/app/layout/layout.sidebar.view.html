@@ -2,6 +2,7 @@
 <div class="left side-menu" ng-class="{'side-bar-small': vm.isSidebarOpen}">
     <div class="sidebar-inner">
         <div id="sidebar-menu">
+
             <ul>
                 <li ng-repeat="item in vm.dashboardMenu">
                     <a ui-sref="layout.dashboard({id:item.id})" ui-sref-active="active">
@@ -11,24 +12,30 @@
 
                 <li class="menu-item-divider"></li>
 
-                <li ng-repeat="item in vm.metricMenu">
-                    <a ui-sref="layout.metric({id:item.id})" ui-sref-active="active">
-                        <i class="{{item.icon}}" aria-hidden="true"></i><span>{{item.title}}</span>
-                    </a>
+                <li class='has_sub' ng-repeat="(key, value) in vm.serverObject" ng-click="value.selected = !value.selected"><a href='javascript:void(0);'>
+                    <i class="fa"   ng-class=" {'fa-binoculars ':$index==0,'fa-dollar': $index==1,  'fa-street-view': $index==2, 'fa-users': $index==3 }" >
+                    </i><span>{{key | capitalize}}</span></a>
+                    <ul ng-class="{'show-menu': value.selected, 'hide-menu': !value.selected, 'admin-menu-mobile':vm.isSidebarOpen}" >
+                        <li ng-repeat="item in value">
+                            <a ui-sref="layout.dashboard({id:item.id})" ui-sref-active="active">
+                                <i class="{{item.icon}}" aria-hidden="true"></i><span>{{item.title}}</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+            </ul>
 
-                <li class="menu-item-divider"></li>
-
+            <ul>
                 <li class='has_sub' ng-click="vm.showSubMenu()"><a
-                        ng-class="{active: ($state.current.name === 'layout.user')  ||($state.current.name === 'layout.connector') 
-                        ||($state.current.name === 'layout.financialData') ||($state.current.name === 'layout.alerts')  ||($state.current.name === 'layout.event')}"
+                        ng-class="{active: ($state.current.name === 'layout.user') ||($state.current.name === 'layout.connector')
+                         ||($state.current.name === 'layout.alerts') ||($state.current.name === 'layout.financialData') ||($state.current.name === 'layout.event')}"
                         href='javascript:void(0);'><i class="fa fa-user" aria-hidden="true"></i><span>{{ getTranslation('administrator_settings') }}</span>
-                    <span class=""><i class="menu-arrow fa fa-angle-down" 
-                        ng-class="{'fa-angle-down':!vm.subMenuIsOpen,'fa-angle-up':vm.subMenuIsOpen,}"></i></span></a>
-                    <ul ng-class="{'show-menu':vm.subMenuIsOpen, 'hide-menu':!vm.subMenuIsOpen, 'admin-menu-mobile':vm.isSidebarOpen}">
+                    <span class=""><i class="menu-arrow fa fa-angle-down"
+                                      ng-class="{'fa-angle-down':!vm.subMenuIsOpen,'fa-angle-up':vm.subMenuIsOpen,}"></i></span></a>
+                    <ul ng-class="{'show-menu':vm.subMenuIsOpen, 'hide-menu': !vm.subMenuIsOpen, 'admin-menu-mobile':vm.isSidebarOpen}">
                         <li><a ui-sref="layout.user" ui-sref-active="active"><i class="fa fa-address-card-o"></i><span>{{ getTranslation('manage_users') }}</span></a></li>
-                        <!--<li><a href='#'><span>{{ getTranslation('manage_roles') }}</span></a></li>-->
-                        <!--<li><a ui-sref="layout.alerts" ui-sref-active="active"><i class="fa fa-bell"></i><span>{{ getTranslation('alerts') }}</span></a></li>-->
+
+                        <li><a ui-sref="layout.alerts" ui-sref-active="active"><i class="fa fa-bell"></i><span>{{ getTranslation('alerts') }}</span></a></li>
                         <li><a ui-sref="layout.financialData" ui-sref-active="active"><i class="fa fa-table"></i><span>{{ getTranslation('financial_inputs') }}</span></a></li>
                         <li><a  ui-sref="layout.connector" ui-sref-active="active"><i class="fa fa-folder-o"></i><span>{{ getTranslation('data_sources') }}</span></a></li>
                         <li ng-if="isAdmin"><a ui-sref="layout.surveys" ui-sref-active="active"><i class="fa fa-question-circle-o"></i><span>{{ getTranslation('surveys') }}</span></a></li>

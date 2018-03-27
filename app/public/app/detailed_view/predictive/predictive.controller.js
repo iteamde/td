@@ -41,8 +41,6 @@
 
         function activate() {
 
-
-
             $scope.widgets = mockDataService.widgets();
             $scope.widgets[0].title = data.title;
 
@@ -90,6 +88,65 @@
             $scope.summaryValues = values;
             changeChart(values);
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+        //experiment
+        $scope.$on('paginationChange', function (event, pagination) {
+            event.stopPropagation();
+            $scope.pagination = pagination;
+            
+            console.log('Pagination has changed');
+            predictiveService.getCharts($stateParams.id)
+            .success(function(res){$scope.users=res.chart_data.users});
+            console.log($scope.users);
+            console.log($stateParams.id);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
 
         function toggleCheckbox(filter) {
 

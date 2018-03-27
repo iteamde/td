@@ -70,11 +70,37 @@
             $scope.widgets[0].title = res.title;
             $scope.chartViews = res.chart_data.available_chart_view;
             $scope.verticalAxis = res.chart_data.available_vertical_axis_types;
-            
+
+
             $scope.filters = drillDownService.createFilter(res.chart_data.available_filters);
             _.each($scope.filters, function(val, key) {
+                for (key in val.values){
+                    if(key === '') {
+                        val.values['--Blank--'] = val.values[key];
+                        delete val.values[key];
+                    }
+                }
+
+                /*
+                _.each(val.values, function(value, key){
+                    if(key === '') {
+                        val.values['--Blank--'] = val.values[key];
+                        delete val.values[key];
+                    }
+                })
+                */
+
+                /*
+                _.forOwn(val.values, function(value, key){
+                    if(key === '') {
+                        val.values['Blank'] = val.values[key];
+                        delete val.values[key];
+                    }
+                } );
+                */
                 showMoreLess(val);
             });
+
 
             vm.axis = $scope.verticalAxis[1];
             vm.view = $scope.chartViews[0];

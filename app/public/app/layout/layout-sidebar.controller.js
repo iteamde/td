@@ -25,6 +25,19 @@
         vm.subMenuIsOpen=false;
         vm.isSidebarOpen =false;
 
+        vm.serverObject ={
+            recruting: [{title:'Cost per Hire', icon: 'fa fa-table'},
+                {title:'Source of Hire', icon: 'fa fa-table'},{title:'Time to Fill',icon: 'fa fa-table'}],
+            financial: [{title:'Compensation', icon: 'fa fa-table'},
+                {title:'Benefit Costs', icon: 'fa fa-table'},{title:'Revenue per Employee',icon: 'fa fa-table'}],
+            talent: [{title:'Performance Scores', icon: 'fa fa-table'},
+                {title:'Professional Development', icon: 'fa fa-table'},{title:'Succession Planning',icon: 'fa fa-table'}],
+            organization: [{title:'Turnover', icon: 'fa fa-table'},
+                {title:'Hires vs. Terminations', icon: 'fa fa-table'},{title:'Tenure',icon: 'fa fa-table'},{title:' Number of Employees',icon: 'fa fa-table'},
+                {title:'Reports per Manager',icon: 'fa fa-table'},{title:'Ethnic Diversity',icon: 'fa fa-table'},{title:'Average Age',icon: 'fa fa-table'},
+                {title:'Absence',icon: 'fa fa-table'}]
+        }
+
         $rootScope.$on('sidebar-toggle-one', function () {
            vm.isSidebarOpen = !vm.isSidebarOpen;
          })

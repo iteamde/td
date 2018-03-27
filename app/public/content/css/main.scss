@@ -1643,6 +1643,7 @@ body.fixed-left .left-footer {
 #sidebar-menu ul ul a:hover {
   color: #ffffff;
   background: #6696ac;
+  cursor:pointer;
 }
 
 #sidebar-menu ul ul li a.active {
@@ -3269,10 +3270,10 @@ label.inactive {
 
 @keyframes show-menu{
   0%{max-height:0px}
-  100%{max-height:200px}
+  100%{max-height:400px}
 }
 @keyframes hide-menu{
-  0%{max-height:200px}
+  0%{max-height:400px}
   100%{max-height:0px}
 }
 
