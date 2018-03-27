@@ -8579,7 +8579,8 @@ label.inactive {
 
 .menu-arrow {
   display: inline-block;
-  margin-left: 20px; }
+  float: right;
+  margin-right: 28px; }
 
 #wrapper .admin-menu-mobile li > a {
   margin-left: -13px;

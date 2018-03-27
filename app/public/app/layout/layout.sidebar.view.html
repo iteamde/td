@@ -14,7 +14,7 @@
 
                 <li class='has_sub' ng-repeat="(key, value) in vm.serverObject" ng-click="value.selected = !value.selected"><a href='javascript:void(0);'>
                     <i class="fa"   ng-class=" {'fa-binoculars ':$index==0,'fa-dollar': $index==1,  'fa-street-view': $index==2, 'fa-users': $index==3 }" >
-                    </i><span>{{key | capitalize}}</span></a>
+                    </i><span>{{key | capitalize}}</span> <span class=""><i class="menu-arrow fa fa-angle-down" ng-class="{'fa-angle-down':!value.selected,'fa-angle-up':value.selected}"></i></span></a>
                     <ul ng-class="{'show-menu': value.selected, 'hide-menu': !value.selected, 'admin-menu-mobile':vm.isSidebarOpen}" >
                         <li ng-repeat="item in value">
                             <a ui-sref="layout.dashboard({id:item.id})" ui-sref-active="active">
@@ -31,7 +31,7 @@
                          ||($state.current.name === 'layout.alerts') ||($state.current.name === 'layout.financialData') ||($state.current.name === 'layout.event')}"
                         href='javascript:void(0);'><i class="fa fa-user" aria-hidden="true"></i><span>{{ getTranslation('administrator_settings') }}</span>
                     <span class=""><i class="menu-arrow fa fa-angle-down"
-                                      ng-class="{'fa-angle-down':!vm.subMenuIsOpen,'fa-angle-up':vm.subMenuIsOpen,}"></i></span></a>
+                                      ng-class="{'fa-angle-down':!vm.subMenuIsOpen,'fa-angle-up':vm.subMenuIsOpen}"></i></span></a>
                     <ul ng-class="{'show-menu':vm.subMenuIsOpen, 'hide-menu': !vm.subMenuIsOpen, 'admin-menu-mobile':vm.isSidebarOpen}">
                         <li><a ui-sref="layout.user" ui-sref-active="active"><i class="fa fa-address-card-o"></i><span>{{ getTranslation('manage_users') }}</span></a></li>
 
