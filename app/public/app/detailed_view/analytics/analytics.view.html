@@ -63,7 +63,7 @@
                                 </div>
 
                                 <div class="chart-filter">
-                                    <label >Time Span:</label>
+                                    <label >{{ getTranslation('Time Span:') }}</label>
                                     <select ng-model="vm.timeSpan"
                                             ng-change="vm.updateChart()"
                                             ng-options="item as item.title for item in vm.timeSpans ">

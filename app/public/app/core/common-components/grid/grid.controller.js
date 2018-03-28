@@ -10,7 +10,7 @@
 
     function GridController($scope, $uibModal) {
         $scope.contentInitialized = false;
-
+        $scope.getTranslation = $scope.$parent.getTranslation;
         $scope.sorting = {
             'full name': null,
             'employee id': null,
