@@ -42,7 +42,7 @@
          * @returns {*}
          */
         $scope.getTranslation = function (token) {
-            return undefined === $scope.translations[token] ? '{{' + token + '}}' : $scope.translations[token];
+            return '{{' + token + '}}'
         };
 
         /**
