@@ -34,14 +34,14 @@
                         <!-- Chart filters -->
                         <div class="chart-filters well well-sm" ng-class="{expanded: vm.activeTab > 0}">
                             <div class="chart-header-tab-title pull-left">
-                                <span ng-if="vm.activeTab === 1">Settings</span>
-                                <span ng-if="vm.activeTab === 2">Filters</span>
+                                <span ng-if="vm.activeTab === 1">{{ getTranslation('Settings') }}</span>
+                                <span ng-if="vm.activeTab === 2">{{ getTranslation('Filters') }}</span>
                             </div>
 
                             <div class="chart-header-buttons">
 
-                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
-                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="Filters"></span>
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="{{ getTranslation('Settings') }}"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('Filters') }}"></span>
                                 <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Drilldown')" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
                                 <span class="fa fa-download" ng-click="vm.exportChart($index)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
                                 <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" tooltip-placement="bottom-right" uib-tooltip="{{getTranslation('help_video')}}"></span>
@@ -62,7 +62,7 @@
                                 <div class="chart-filter">
                                     <label >
                                         <input type="checkbox" ng-model="hideEmpty" ng-change="vm.hideEmptyValues(hideEmpty)">
-                                        Hide bars with no values
+                                        {{ getTranslation('Hide bars with no values') }}
                                     </label>
                                 </div>
 
@@ -109,7 +109,7 @@
 
                                 <div class="chart-filter-settings" ng-click="vm.showCustom = !vm.showCustom">
                                     <input type="checkbox" ng-checked="vm.showCustom">
-                                    <span>Show Custom Fields</span>
+                                    <span>{{getTranslation('Show Custom Fields')}}</span>
                                 </div>
 
                                 <div class="chart-filter-group">
