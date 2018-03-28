@@ -40,13 +40,13 @@
                         <div class="chart-filters well well-sm" ng-class="{expanded: vm.activeTab > 0}">
 
                             <div class="chart-header-tab-title pull-left">
-                                <span ng-if="vm.activeTab === 1">{{getTranslation('Settings')}}</span>
-                                <span ng-if="vm.activeTab === 2">{{getTranslation('Filters')}}</span>
+                                <span ng-if="vm.activeTab === 1">{{getTranslation('settings')}}</span>
+                                <span ng-if="vm.activeTab === 2">{{getTranslation('filters')}}</span>
                             </div>
 
                             <div class="chart-header-buttons">
-                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="{{ getTranslation('Settings') }}"></span>
-                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('Filters') }}"></span>
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="{{ getTranslation('settings') }}"></span>
+                                <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('filters') }}"></span>
                                 <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" tooltip-placement="bottom-right" uib-tooltip="{{getTranslation('help_video')}}"></span>
                                 <span class="fa fa-download" ng-click="vm.exportChart($index)" tooltip-placement="bottom-right" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
                             </div>

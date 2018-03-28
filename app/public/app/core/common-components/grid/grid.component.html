@@ -18,7 +18,7 @@
 
     <div class="grid-bottom">
         <div>
-            <span>{{getTranslation('Limit grid to:')}}</span>
+            <span>{{getTranslation('limit grid to:')}}</span>
 
             <select ng-model="pagination.page_size" ng-options="x for x in [10,25,50,100]"></select>
 
@@ -27,11 +27,11 @@
 
         <div>
             <span class="grid-manage" ng-click="manageColumns()">
-                {{getTranslation('Manage Columns')}}
+                {{getTranslation('manage Columns')}}
             </span>
             |
             <span class="grid-manage" ng-click="$parent.exportUsersToCsv()">
-                {{getTranslation('Export to CSV')}}
+                {{getTranslation('export to CSV')}}
             </span>
         </div>
 
