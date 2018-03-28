@@ -1,6 +1,5 @@
 var fs = require('fs');
 var path = require('path');
-var orm2 = require('../components/orm/orm2');
 var ORM = require('sequelize');
 var knex = require('../components/knex');
 var translation = require('../components/translation');
@@ -42,13 +41,7 @@ module.exports.getCommonData = function (req, res) {
         /**
          *
          */
-        tags: (function () {
-            var sql = knex('trendata_tag').select('trendata_tag_id', 'trendata_tag_title').toString();
-
-            return orm2.query(sql, {
-                type: ORM.QueryTypes.SELECT
-            });
-        })(),
+        tags: knex('trendata_tag').select('trendata_tag_id', 'trendata_tag_title'),
 
         /**
          *
@@ -97,31 +90,6 @@ module.exports.getCommonData = function (req, res) {
                 title:      TranslationModel.getTranslation(item.trendata_dashboard_title_token)
             });
         }),
-
-        /**
-         *
-         */
-        /*metrics: (function () {
-            var sql = knex('trendata_metric').select([
-                'trendata_metric_id',
-                'created_at',
-                'trendata_metric_status',
-                'trendata_metric_icon',
-                'trendata_metric_title_token'
-            ]).where('trendata_metric_status', 1).toString();
-
-            return orm2.query(sql, {
-                type: ORM.QueryTypes.SELECT
-            }).map(function (item) {
-                return Promise.props({
-                    id:         item.trendata_metric_id,
-                    created_on: item.created_at,
-                    status:     item.trendata_metric_status,
-                    icon:       item.trendata_metric_icon,
-                    title:      translation(item.trendata_metric_title_token, 1)
-                });
-            });
-        })(),*/
 
         /**
          *

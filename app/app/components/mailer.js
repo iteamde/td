@@ -1,4 +1,15 @@
+'use strict';
+
 var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    pool: true,
+    host: 'darwin.trendata.com',
+    port: 25,
+    secure: false,
+    tls: {
+        rejectUnauthorized: false
+    }
+});
 
 /**
  * @param options = {
@@ -16,20 +27,8 @@ module.exports = function (options) {
 
     if (options.to && options.subject && (options.html || options.text)) {
         return new Promise(function (resolve, reject) {
-            let transporter = nodemailer.createTransport({
-                host: 'smtp.office365.com',
-                port: 587,
-                requireTLS: true,
-                tls: {
-                  ciphers: 'SSLv3'
-                }
-            });
-
-            transporter.sendMail(options, (err, data) => {
-                if (err)
-                    return reject(err);
-
-                resolve();
+            transporter.sendMail(options, function (err, info) {
+                err ? reject(err) : resolve(info);
             });
         });
     }

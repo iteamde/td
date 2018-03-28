@@ -96,13 +96,15 @@ var calculateSubChartData = function (input) {
              */
             terminated: orm.query(
                 'SELECT ' +
-                'COUNT(*) AS `trendata_bigdata_user` ' +
+                'COUNT(*) AS `terminated_count` ' +
                 'FROM ' +
                 '`trendata_bigdata_user` AS `tbu` ' +
                 'WHERE ' +
                 '`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
                 'AND ' +
-                'DATE_FORMAT(`tbu`.`trendata_bigdata_user_position_termination_date`, \'%Y-%m\') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m\') ' +
+                '`tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, \'%Y-%m-01\') ' +
+                'AND ' +
+                '`tbu`.`trendata_bigdata_user_position_termination_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\') ' +
                 'AND ' +
                 column + ' = ? ' +
                 'AND ' +
@@ -131,6 +133,7 @@ var calculateSubChartData = function (input) {
         accum.dataset[0].data.push({
             value: item.value.toFixed(2)
         });
+
         return accum;
     }, {
         categories: [

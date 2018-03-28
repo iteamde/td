@@ -45,6 +45,7 @@
             clearInterval(progressInterval);
             setTimeout(function() {
                 vm.isLoading = false;
+                vm.progressWidth = 0;
             });
 
             commonService.notification($scope.getTranslation('all_rows_were_successfully_inserted'), 'success');
@@ -53,6 +54,7 @@
 
         function serviceError(res) {
             vm.isLoading = false;
+            vm.progressWidth = 0;
             clearInterval(progressInterval);
 
             angular.element('.modal-dialog').addClass('modal-lg');

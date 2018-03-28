@@ -11,6 +11,8 @@
 
     var service = {
 
+      getCommonData: getCommonData,
+
       /* ------------ FUSION CHARTS ---------------*/
       exportChart: exportChart,
       changeChartType: changeChartType,
@@ -44,6 +46,10 @@
 
     return service;
 
+    function getCommonData() {
+      var apiUrl = BASE_URL + "common/load-common-data/1";
+      return $http.get(apiUrl);
+    }
 
     /* ===============================================================================
      FUSION CHARTS
@@ -439,15 +445,7 @@
         chartId: chartId
       }).then(function(resp) {
         if (resp.status === 200) {
-          var link = angular.element('<a/>')
-            .attr({
-              href: encodeURI(BASE_URL + 'connector-csv/download-export/users/' + resp.data),
-              target: '_blank',
-              download: 'users.csv'
-            });
-          link.appendTo('body');
-          (link[0] || link).click();
-          link.remove();
+          window.location = encodeURI(BASE_URL + 'connector-csv/download-export/users/' + resp.data);
         }
       });
     }
@@ -458,15 +456,7 @@
         filters: filters
       }).then(function(resp) {
         if (resp.status === 200) {
-          var link = angular.element('<a/>')
-            .attr({
-              href: encodeURI(BASE_URL + 'connector-csv/download-export/summary/' + resp.data),
-              target: '_blank',
-              download: 'summary.csv'
-            });
-          link.appendTo('body');
-          (link[0] || link).click();
-          link.remove();
+          window.location.href = encodeURI(BASE_URL + 'connector-csv/download-export/summary/' + resp.data);
         }
       });
     }

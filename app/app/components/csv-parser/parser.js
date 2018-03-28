@@ -317,19 +317,6 @@ module.exports = {
                             transaction: t
                         });
                     });*/
-                }).then(function () {
-                    // Update column `trendata_bigdata_user_reports_per_manager` in table `trendata_bigdata_user`
-                    return orm.query(`
-                        UPDATE \`trendata_bigdata_user\` AS \`tbu\`
-                        LEFT JOIN (
-                          SELECT \`t\`.\`trendata_bigdata_user_manager_employee_id\` AS \`meid\`, COUNT(*) AS \`count\`
-                          FROM \`trendata_bigdata_user\` AS \`t\`
-                          GROUP BY \`t\`.\`trendata_bigdata_user_manager_employee_id\`
-                        ) AS \`table\` ON \`tbu\`.\`trendata_bigdata_user_employee_id\` = \`table\`.\`meid\`
-                        SET \`tbu\`.\`trendata_bigdata_user_reports_per_manager\` = IFNULL(\`table\`.\`count\`, 0)
-                    `, {
-                        transaction: t
-                    });
                 });
             });
         });

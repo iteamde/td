@@ -64,12 +64,13 @@ var calculateSubChartData = function (input) {
 
     return Promise.map(values, function (item) {
         return orm.query(
+            'SELECT ROUND(AVG(`tmp`.`count`), 2) as `avg` ' +
+            'FROM (' +
             'SELECT ' +
-            'AVG(`tbu`.`trendata_bigdata_user_reports_per_manager`) AS `avg` ' +
+            'COUNT(`empl`.`trendata_bigdata_user_manager_employee_id`) AS `count` ' +
             'FROM ' +
             '`trendata_bigdata_user` AS `tbu` ' +
-            'INNER JOIN ' +
-            '`trendata_bigdata_user` as `empl` ' +
+            'INNER JOIN `trendata_bigdata_user` as `empl` ' +
             'ON ' +
             '`tbu`.`trendata_bigdata_user_employee_id` = `empl`.`trendata_bigdata_user_manager_employee_id` ' +
             'WHERE ' +
@@ -78,12 +79,14 @@ var calculateSubChartData = function (input) {
             '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW(), \'%Y-%m-01\'))) ' +
             'AND ' +
             column + ' = ? ' +
-            //'AND ' +
-            //'`empl`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL ' +
+            'AND ' +
+            '`empl`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL ' +
             'AND ' +
             filterSql.query +
             ' AND ' +
-            accessLevelSql.query,
+            accessLevelSql.query +
+            ' GROUP BY ' +
+            '`empl`.`trendata_bigdata_user_manager_employee_id`) as `tmp`',
             {
                 type: ORM.QueryTypes.SELECT,
                 replacements: [
@@ -94,7 +97,7 @@ var calculateSubChartData = function (input) {
             totalCount += +rows[0].avg;
             return {
                 label: item,
-                value: _.round(rows[0].avg || 0, 2)
+                value: rows[0].avg || 0
             };
         });
     }).reduce(function (accum, item) {

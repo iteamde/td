@@ -16,48 +16,6 @@
     core.config(tmhDynamicLocaleConfigure);
     core.config(validationConfigure);
     core.config(notyConfigure);
-    core.controller('CommonController', ['$scope', '$rootScope', 'BASE_URL', '$http', function ($scope, $rootScope, BASE_URL, $http) {
-        /**
-         * @type {Object}
-         */
-        $scope.translations = {};
-
-        $scope.isSidebarOpen = false;
-
-        $rootScope.$on('sidebar-toggle-menu', function () {
-            $scope.isSidebarOpen = !$scope.isSidebarOpen;
-        });
-
-        /**
-         * @type {Object}
-         */
-        $scope.commonData = {};
-
-        /**
-         * @param token
-         * @returns {*}
-         */
-        $scope.getTranslation = function (token) {
-            return undefined === $scope.translations[token] ? '{{' + token + '}}' : $scope.translations[token];
-        };
-
-        /**
-         * @param property
-         */
-        $scope.getCommonData = function (property) {
-            if (property) {
-                return undefined === $scope.commonData[property] ? '' : $scope.commonData[property];
-            }
-            return $scope.commonData;
-        };
-
-        // Load common data
-        $http.get(BASE_URL + 'common/load-common-data/1')
-            .success(function (data) {
-                $scope.commonData = data;
-                $scope.translations = data.translations;
-            });
-    }]);
 
     core.run(appRun);
 

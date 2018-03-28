@@ -19,7 +19,7 @@
         vm.showSubMenu = showSubMenu;
         vm.dashboardMenu = $scope.commonData.dashboards;
         vm.metricMenu = $scope.commonData.metrics;
-        $rootScope.dashboardId = $scope.commonData.dashboards.length ? $scope.commonData.dashboards[0].id : undefined;
+        $rootScope.dashboardId = $scope.commonData.dashboards ? $scope.commonData.dashboards.length ? $scope.commonData.dashboards[0].id : undefined : undefined;
 
         /**
          * @param token

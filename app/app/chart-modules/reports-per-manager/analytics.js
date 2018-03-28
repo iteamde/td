@@ -125,19 +125,18 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
     var monthsCount = 0;
 
     return Promise.resolve(_.rangeRight(parseInt(timeSpan.end, 10) || 0, (parseInt(timeSpan.start, 10) || 0) + 1)).map(function (item) {
-        var query = 'SELECT ' +
-            'AVG(`tbu`.`trendata_bigdata_user_reports_per_manager`) AS `avg`, ' +
-            'SUM(`tbu`.`trendata_bigdata_user_reports_per_manager`) AS `avg_sum`, ' +
-            'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
-            'FROM ' +
-            '`trendata_bigdata_user` AS `tbu` ' +
+        var subQuery = 'SELECT COUNT(`empl`.`trendata_bigdata_user_manager_employee_id`) AS `count` ' +
+            'FROM `trendata_bigdata_user` AS `tbu` ' +
+            'INNER JOIN `trendata_bigdata_user` as `empl` ' +
+            'ON ' +
+            '`tbu`.`trendata_bigdata_user_employee_id` = `empl`.`trendata_bigdata_user_manager_employee_id` ' +
             'WHERE ' +
             '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
             'OR ' +
             '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
             'AND ' +
-            //'`tbu`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL ' +
-            //'AND' +
+            '`empl`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL ' +
+            'AND' +
             filterSql.query +
             ' AND ' +
             accessLevelSql.query;
@@ -149,54 +148,61 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
             -item
         ].concat(filterSql.replacements).concat(accessLevelSql.replacements);
 
+        subQuery += ' GROUP BY `empl`.`trendata_bigdata_user_manager_employee_id`';
 
-        return orm.query(query, {
-            type: ORM.QueryTypes.SELECT,
-            replacements: replacements
-        }).then(function (rows) {
-            return {
-                month_name: moment(rows[0].month).format('MMMM'),
-                avg: _.round(rows[0].avg, 2),
-                avg_sum: rows[0].avg_sum
-            };
-        });
-    }).reduce(function (accum, item, index) {
-        if (timeSpan.start - timeSpan.end >= 12) {
-            var resultIndex = moment().subtract(timeSpan.start - index, 'month').format('YYYY') - startDate.format('YYYY');
-            monthsCount++;
+        var query = 'SELECT ' +
+            'ROUND(AVG(`tmp`.`count`), 2) AS `avg`, ' +
+            'SUM(`tmp`.`count`) AS `avg_sum`, ' +
+            'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
+            'FROM (' + subQuery + ') AS `tmp`';
 
-            if (accum.dataset[0].data[resultIndex]) {
-                accum.dataset[0].data[resultIndex].value += verticalAxisTypeConverter.convert(item.avg, item.avg_sum);
-            } else {
-                accum.dataset[0].data[resultIndex] = {
-                    value: verticalAxisTypeConverter.convert(item.avg, item.avg_sum)
+            return orm.query(query, {
+                type: ORM.QueryTypes.SELECT,
+                replacements: replacements
+            }).then(function (rows) {
+                return {
+                    month_name: moment(rows[0].month).format('MMMM'),
+                    avg: _.round(rows[0].avg, 2),
+                    avg_sum: rows[0].avg_sum
                 };
+            });
+        }).reduce(function (accum, item, index) {
+            if (timeSpan.start - timeSpan.end >= 12) {
+                var resultIndex = moment().subtract(timeSpan.start - index, 'month').format('YYYY') - startDate.format('YYYY');
+                monthsCount++;
 
-                if (accum.dataset[0].data[resultIndex - 1]) {
-                    monthsCount--;
-                    accum.categories[0].category[resultIndex - 1] = {
-                        label: moment().subtract(timeSpan.start - index + 1, 'month').format('YYYY')
+                if (accum.dataset[0].data[resultIndex]) {
+                    accum.dataset[0].data[resultIndex].value += verticalAxisTypeConverter.convert(item.avg, item.avg_sum);
+                } else {
+                    accum.dataset[0].data[resultIndex] = {
+                        value: verticalAxisTypeConverter.convert(item.avg, item.avg_sum)
                     };
-                    accum.dataset[0].data[resultIndex - 1].value = _.round(accum.dataset[0].data[resultIndex - 1].value / monthsCount, 2);
-                    monthsCount = 1;
+
+                    if (accum.dataset[0].data[resultIndex - 1]) {
+                        monthsCount--;
+                        accum.categories[0].category[resultIndex - 1] = {
+                            label: moment().subtract(timeSpan.start - index + 1, 'month').format('YYYY')
+                        };
+                        accum.dataset[0].data[resultIndex - 1].value = _.round(accum.dataset[0].data[resultIndex - 1].value / monthsCount, 2);
+                        monthsCount = 1;
+                    }
                 }
-            }
 
-                if (index +  timeSpan .end >= timeSpan.start) {
-                    accum.categories[0].category[resultIndex] = {
-                        label: moment().subtract(timeSpan.end, 'month').format('YYYY')
-                    };
-                    accum.dataset[0].data[resultIndex].value = _.round(accum.dataset[0].data[resultIndex].value / monthsCount, 2);
+                    if (index +  timeSpan .end >= timeSpan.start) {
+                        accum.categories[0].category[resultIndex] = {
+                            label: moment().subtract(timeSpan.end, 'month').format('YYYY')
+                        };
+                        accum.dataset[0].data[resultIndex].value = _.round(accum.dataset[0].data[resultIndex].value / monthsCount, 2);
 
+                }
+            } else {
+                accum.categories[0].category.push({
+                    label: item.month_name
+                });
+                accum.dataset[0].data.push({
+                    value: verticalAxisTypeConverter.convert(item.avg, item.avg_sum)
+                });
             }
-        } else {
-            accum.categories[0].category.push({
-                label: item.month_name
-            });
-            accum.dataset[0].data.push({
-                value: verticalAxisTypeConverter.convert(item.avg, item.avg_sum)
-            });
-        }
 
         return accum;
     }, {

@@ -330,35 +330,44 @@ function resetPassword(req, res) {
                 });
             },
             function (user, done) {
-                var transport = nodemailer.createTransport("SMTP", {
-                    host: 'localhost',
-                    port: 25,
-                    secure:true,
-                    ignoreTLS:false,
-                    debug:false
-                });
-
-                var mailOptions = {
+                mailer({
                     to: user.trendata_user_email,
-                    from: 'passwordreset@demo.com',
+                    //from: 'passwordreset@demo.com',
                     subject: translationData['password_changed'],
                     text: eval(translationData['password_changed_email_text'])
-                };
+                }).then(function () {
+                    done();
+                }).catch(done);
 
-                transport.sendMail(mailOptions, function (err) {
-                    if (err) {
-                        return sendResponse(res, 400, {
-                            "message": err
-                        });
-                    } else {
-                        return sendResponse(res, 200, {
-                            "message": "Success! Your password has been changed."
-                        });
-                    }
-
-                    done(err);
-                    transport.close();
-                });
+                // var transport = nodemailer.createTransport("SMTP", {
+                //     host: 'localhost',
+                //     port: 25,
+                //     secure:true,
+                //     ignoreTLS:false,
+                //     debug:false
+                // });
+                //
+                // var mailOptions = {
+                //     to: user.trendata_user_email,
+                //     from: 'passwordreset@demo.com',
+                //     subject: translationData['password_changed'],
+                //     text: eval(translationData['password_changed_email_text'])
+                // };
+                //
+                // transport.sendMail(mailOptions, function (err) {
+                //     if (err) {
+                //         return sendResponse(res, 400, {
+                //             "message": err
+                //         });
+                //     } else {
+                //         return sendResponse(res, 200, {
+                //             "message": "Success! Your password has been changed."
+                //         });
+                //     }
+                //
+                //     done(err);
+                //     transport.close();
+                // });
             }
         ], function (err) {
             trackApi(req, err);
