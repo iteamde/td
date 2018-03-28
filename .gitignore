@@ -24,5 +24,6 @@ nbproject
 !*.keep
 
 node_modules/
+bower_components/
 app/public/content/images/logo/client_logo.png
 app/public/share/
