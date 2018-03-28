@@ -63,7 +63,7 @@
                                 </div>
 
                                 <div class="chart-filter">
-                                    <label >{{ getTranslation('Time Span:') }}</label>
+                                    <label >{{ getTranslation('time_span') }}:</label>
                                     <select ng-model="vm.timeSpan"
                                             ng-change="vm.updateChart()"
                                             ng-options="item as item.title for item in vm.timeSpans ">
@@ -152,7 +152,7 @@
 
                                 <div class="chart-filter-settings" ng-click="vm.showCustom = !vm.showCustom">
                                     <input type="checkbox" ng-checked="vm.showCustom">
-                                    <span>Show Custom Fields</span>
+                                    <span>{{ getTranslation('show_custom_fields') }}</span>
                                 </div>
 
                                 <div class="chart-filter-group">

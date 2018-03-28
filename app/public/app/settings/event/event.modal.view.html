@@ -7,7 +7,7 @@
                 <label for="title">{{ getTranslation('event_title') }} <sup>*</sup></label>
                 <input type="text" class="form-control"
                        ng-model="vm.addEventFields.title" name="title" id="title" ng-required="true"
-                       uib-tooltip="This field is required" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'title')">
+                       uib-tooltip="{{ getTranslation('this_field_is_required') }}" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'title')">
             </div>
 
             <div class="form-group">
@@ -26,7 +26,7 @@
                     <input type="text" class="form-control" uib-datepicker-popup name="startDate"
                            ng-model="vm.addEventFields.start_date" is-open="vm.opened0" ng-click="vm.toggleDatePicker(0)"
                            datepicker-options="vm.datePickerOptions" ng-required="true" close-text="{{ getTranslation('close') }}"
-                           uib-tooltip="This field is required" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'startDate')">
+                           uib-tooltip="{{ getTranslation('this_field_is_required') }}" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'startDate')">
 
                     <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker(0)">
                         <i class="fa fa-calendar"></i>
@@ -41,7 +41,7 @@
                     <input type="text" class="form-control" uib-datepicker-popup name="endDate"
                            ng-model="vm.addEventFields.end_date" is-open="vm.opened1" ng-click="vm.toggleDatePicker(1)"
                            datepicker-options="vm.datePickerOptions" ng-required="true" close-text="{{ getTranslation('close') }}"
-                           uib-tooltip="This field is required" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'endDate')">
+                           uib-tooltip="{{ getTranslation('this_field_is_required') }}" tooltip-class="error-tooltip" tooltip-trigger="{none: none}" tooltip-is-open="vm.fieldValid(addEventForm, 'endDate')">
 
                     <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker(1)">
                         <i class="fa fa-calendar"></i>

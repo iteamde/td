@@ -10,7 +10,7 @@
     <div class="table-responsive">
         <table class="table table-bordered financial-data">
             <tr>
-                <th>Terms</th>
+                <th>{{ getTranslation('terms') }}</th>
                 <th ng-repeat="m in months">{{ m }} {{ selectedYear | limitTo :-2 }}</th>
             </tr>
             <tr ng-repeat="d in data">

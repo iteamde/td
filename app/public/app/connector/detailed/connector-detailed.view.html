@@ -37,8 +37,8 @@
 
         <h3>{{ getTranslation('tuff_data_dictionary') }}</h3>
 
-        <p class="text-center">Fields in red with * sign are required fields and cannot be empty</p>
-        <div class="flex-table" dnd-list="vm.dictionary">
+        <p class="text-center">{{getTranslation('fields_in_red_with_*_sign_are_required_fields_and_cannot_be_empty')}}</p>
+            <div class="flex-table" dnd-list="vm.dictionary">
             <div class="flex-row" ng-repeat="item in vm.dictionary" dnd-draggable="item" ng-class="{dragging: item.dragging}" dnd-moved="vm.dictionary.splice($index, 1)" dnd-dragend="vm.dragEnd(item)" dnd-dragstart="item.dragging = true;">
                 <div class="flex-item" ng-class="{required: item.required}">
                     <i class="fa fa-sort" uib-tooltip="{{getTranslation('reorder')}}"></i>
