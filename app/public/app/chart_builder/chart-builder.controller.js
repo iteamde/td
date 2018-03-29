@@ -54,8 +54,8 @@
         //vm.selectedAttributes = vm.attributes[0];
         //vm.selectedDimension = vm.dimensions[0];
 
-        vm.title = "Chart Title";
-        vm.description = "Here must be chart description";
+        vm.title = $scope.getTranslation('chart_title');
+        vm.description = $scope.getTranslation('here_must_be_chart_description');
 
         vm.onTabClick = onTabClick;
 
@@ -92,21 +92,21 @@
             {
                 title: "Table View",
                 icon_class: "lnr icon-table-view",
-                text: "Table View",
+                text: $scope.getTranslation('table_view'),
                 chartType: "pie2d",
                 active: false
             },
             {
                 title: "Combo Line",
                 icon_class: "lnr icon-combo-line",
-                text: "Combo Line",
+                text: $scope.getTranslation('combo_line'),
                 chartType: "pie2d",
                 active: false
             },
             {
                 title: "Value Box",
                 icon_class: "lnr icon-value-chart",
-                text: "Value Box",
+                text: $scope.getTranslation('value_box'),
                 chartType: "pie2d",
                 active: false
             }

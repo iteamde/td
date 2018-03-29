@@ -21,14 +21,14 @@
         vm.connectors = [
             {
                 id: 4,
-                title: "TUFF",
+                title: $scope.getTranslation('tuff'),
                 logo: "TUFF",
                 status: 1,
                 error: {}
             },
 
             {
-                title: "SAP HR",
+                title: $scope.getTranslation('sap_hr'),
                 logo: "SAP_HR",
                 status: 0,
                 error: {
@@ -38,7 +38,7 @@
             },
 
             {
-                title: "PeopleSoft",
+                title: $scope.getTranslation('people_soft'),
                 logo: "PeopleSoft",
                 status: 0,
                 error: {
@@ -48,7 +48,7 @@
             },
 
             {
-                title: "Workday",
+                title: $scope.getTranslation('workday'),
                 logo: "Workday",
                 status: 0,
                 error: {
@@ -57,7 +57,7 @@
                 }
             },
             {
-                title: "Deltek",
+                title: $scope.getTranslation('deltek'),
                 logo: "Deltek",
                 status: 0,
                 error: {
@@ -66,7 +66,7 @@
                 }
             },
             {
-                title: "ExponentHR",
+                title: $scope.getTranslation('exponent_hr'),
                 logo: "ExponentHR",
                 status: 0,
                 //syncInfo: "Last sync: May 7, 2016 1:26 am",

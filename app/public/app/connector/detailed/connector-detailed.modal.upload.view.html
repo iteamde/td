@@ -6,7 +6,7 @@
 
         <form name="">
             <label class="btn btn-default btn-file">
-                Browse <input type="file" upload-csv>
+                {{ getTranslation('browse') }} <input type="file" upload-csv>
             </label>
 
             <span class="file-name-holder" ng-bind="vm.fileName" ng-if="vm.fileName"></span>
@@ -17,7 +17,7 @@
             </div>
 
             <ul class="nav" ng-if="vm.uploadErrors">
-                <div class="upload-errors-count">{{vm.uploadErrorsCount}} Errors Found!</div>
+                <div class="upload-errors-count">{{vm.uploadErrorsCount}} {{ getTranslation('errors_found') }}!</div>
                 <li class="alert upload-errors-line text-left" ng-repeat="(line, errors) in vm.uploadErrors">
                     <div class="line-number">
                         <span class="fa fa-exclamation-circle"></span>

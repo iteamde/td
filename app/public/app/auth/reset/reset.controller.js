@@ -20,7 +20,7 @@
             },
             messages: {
                 resetpassword: {
-                    minlength: "password must be of 6 characters."
+                    minlength:  $scope.getTranslation('password_must_be_of_6_characters')
                 }
             }
         };
