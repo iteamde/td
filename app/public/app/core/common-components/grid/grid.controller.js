@@ -71,7 +71,11 @@
         };
 
         $scope.cutCustom = function(field) {
-            return field.indexOf('custom') === 0 ? field.slice(7) : field;
+            var changeToUnderscore =  function(str){
+                var newStr = str.replace(/ /g, "_");
+                return newStr;
+            }
+            return field.indexOf('custom') === 0 ? field.slice(7) : changeToUnderscore(field);
         }
 
         $scope.manageColumns = function() {

@@ -445,25 +445,25 @@
             },
             {
                 name: 'Employee Benefit Cost (1 year ago)',
-                title: 'Employee Benefit Cost (1 year ago)',
+                title: 'employee_benefit_cost_1_year_ago',
                 description: 'employee_benefit_cost_1_year_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Benefit Cost (2 years ago)',
-                title: 'Employee Benefit Cost (2 years ago)',
+                title: 'employee_benefit_cost_2_year_ago',
                 description: 'employee_benefit_cost_2_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Benefit Cost (3 years ago)',
-                title: 'Employee Benefit Cost (3 years ago)',
+                title: 'employee_benefit_cost_3_year_ago',
                 description: 'employee_benefit_cost_3_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Benefit Cost (4 years ago)',
-                title: 'Employee Benefit Cost (4 years ago)',
+                title: 'employee_benefit_cost_4_year_ago',
                 description: 'employee_benefit_cost_4_years_ago_data_dictionary_field_description',
                 use: true
             }

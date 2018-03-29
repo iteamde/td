@@ -1,12 +1,12 @@
 <div class="modal-manage-columns">
     <div class="manage-header">
-        <h3>Select fields to show in the grid.</h3>
+        <h3>{{getTranslation('select_fields_to_show_in_the_grid')}}</h3>
     </div>
 
     <div class="row">
         <div class="manage-columns col-md-5">
-            <h4>Available Fields</h4>
-            <select ng-model="toChecked" ng-options="cutCustom(column) for column in uncheckedColumns" multiple></select>
+            <h4>{{getTranslation('available_fields')}}</h4>
+            <select ng-model="toChecked" ng-options=" getTranslation(cutCustom(column)) for column in uncheckedColumns" multiple></select>
         </div>
 
         <div class="manage-columns-buttons col-md-2">
@@ -15,21 +15,21 @@
         </div>
 
         <div class="manage-columns col-md-5">
-            <h4>Selected Fields</h4>
-            <select ng-model="toUnchecked" ng-options="cutCustom(column) for column in checkedColumns" multiple></select>
+            <h4>{{getTranslation('selected_fields')}}</h4>
+            <select ng-model="toUnchecked" ng-options=" getTranslation(cutCustom(column)) for column in checkedColumns" multiple></select>
         </div>
     </div>
 
     <div class="manage-save-option">
-        <span>Save Option</span>
+        <span>{{getTranslation('save_option')}}</span>
         <select ng-model="forAllCharts">
-            <option value="">This Grid Only</option>
-            <option value="1">All System Grids</option>
+            <option value="">{{getTranslation('this_grid_only')}}</option>
+            <option value="1">{{getTranslation('all_system_grids')}}</option>
         </select>
     </div>
 
     <div class="manage-buttons">
-        <button class="btn btn-xlpad btn-default" ng-click="$close()">Cancel</button>
-        <button class="btn btn-xlpad btn-primary" type="button" ng-click="save()">Save</button>
+        <button class="btn btn-xlpad btn-default" ng-click="$close()">{{getTranslation('cancel')}}</button>
+        <button class="btn btn-xlpad btn-primary" type="button" ng-click="save()">{{getTranslation('save')}}</button>
     </div>
 </div>
