@@ -152,9 +152,9 @@
 
         function showConfirm(user, del) {
             var action = del ? 'delete' : user.status == 0 ? 'activate' : 'deactivate';
-            var cancelBtn = {addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {$noty.close()}};
+            var cancelBtn = {addClass: 'btn btn-default', text: $scope.getTranslation('cancel'), onClick: function ($noty) {$noty.close()}};
             var okBtn = {
-                addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                addClass: 'btn btn-primary', text: $scope.getTranslation('ok'), onClick: function ($noty) {
                     var user_id = { user_id: user.id };
                     del ? deleteUser(user_id) : user.status == 0 ? activateUser(user_id) : suspendUser(user_id);
                     $noty.close();
@@ -162,24 +162,27 @@
             };
 
             noty.show({
-                text: 'Do you want to ' + action + ' selected user?',
+                text: $scope.getTranslation('do_you_want_to') + ' ' +
+                $scope.getTranslation(action) + ' ' + $scope.getTranslation('selected_users') + '?',
                 buttons: [cancelBtn, okBtn]
             });
         }
 
         function bulkShowConfirm(users, action) {
-            var bulkAction = action == 'Activate' ? 'activate' : action == 'Deactivate' ? 'deactivate' : 'reset password';
-            var cancelBtn = {addClass: 'btn btn-default', text: 'Cancel', onClick: function ($noty) {$noty.close()}};
+            console.log(action);
+            var bulkAction = action == $scope.getTranslation('activate') ? 'activate' : action == $scope.getTranslation('deactivate') ? 'deactivate' : 'reset_password';
+            var cancelBtn = {addClass: 'btn btn-default', text: $scope.getTranslation('cancel'), onClick: function ($noty) {$noty.close()}};
             var okBtn = {
-                addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                addClass: 'btn btn-primary', text: $scope.getTranslation('ok'), onClick: function ($noty) {
                     var user_ids = { user_id: _.map(users, 'id') };
-                    action == 'Activate' ? activateUser(user_ids) : action == 'Deactivate' ? suspendUser(user_ids) : resetPassword(users);
+                    action == $scope.getTranslation('activate') ? activateUser(user_ids) : action == $scope.getTranslation('deactivate') ? suspendUser(user_ids) : resetPassword(users);
                     $noty.close();
                 }
             };
 
             noty.show({
-                text: 'Do you want to ' + bulkAction + ' selected users?',
+                text: $scope.getTranslation('do_you_want_to') + ' ' +
+                      $scope.getTranslation(bulkAction)+ ' ' + $scope.getTranslation('selected_users') + '?',
                 buttons: [cancelBtn, okBtn]
             });
         }

@@ -11,7 +11,11 @@
     function UserController($scope, $uibModal, userService, exception) {
         var vm = this;
 
-        vm.selectOptions = ['Activate', 'Deactivate', 'Reset Password'];
+        vm.selectOptions = [
+            $scope.getTranslation('activate'),
+            $scope.getTranslation('deactivate'),
+            $scope.getTranslation('reset_password')
+        ];
         vm.currentSelect = vm.selectOptions[0];
 
         vm.addUser = addUser;
@@ -141,6 +145,7 @@
 
         $scope.checkUsersSettings = function() {
             var settings = $scope.getCommonData('settings');
+            console.log("settings", settings);
             return settings.site_type[0] !== 'basic' || $scope.userData.total < settings.max_ondemand_number_of_users[0];
         }
     }

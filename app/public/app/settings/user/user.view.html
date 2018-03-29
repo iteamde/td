@@ -22,7 +22,6 @@
             <select ng-model="vm.currentSelect" ng-change="vm.bulkAction(vm.currentSelect)">
                 <option ng-repeat="value in vm.selectOptions" value="{{value}}">{{value}}</option>
             </select>
-
             <label class="inactive">
                 <input type="checkbox" ng-model="vm.showInactive" id="inactive">
                 {{ getTranslation('show_inactive_users') }}
@@ -34,7 +33,7 @@
 
         <div class="chart-row" ng-if="userData.data.length">
             <select ng-model="vm.currentSelect" ng-change="vm.bulkAction(vm.currentSelect)">
-                <option ng-repeat="value in vm.selectOptions" value="{{value}}">{{value}}</option>
+                <option ng-repeat="value in vm.selectOptions" value="{{value}}">{{value }}</option>
             </select>
         </div>
 

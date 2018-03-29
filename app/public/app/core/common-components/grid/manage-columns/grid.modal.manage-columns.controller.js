@@ -12,7 +12,6 @@
         $scope.columns = _.concat(columns, customFields);
         $scope.checkedColumns = _.intersection(checkedColumns, $scope.columns);
         $scope.uncheckedColumns = _.difference($scope.columns, checkedColumns);
-
         $scope.save = function() {
             var apiUrl = BASE_URL + 'user/user-grid-settings';
             $http.post(apiUrl, {

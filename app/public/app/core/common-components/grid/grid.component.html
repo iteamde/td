@@ -1,7 +1,7 @@
 <div id="grid">
     <div class="grid-row first">
         <div class="grid-cell" ng-repeat="(key, val) in $ctrl.users[0]" ng-click="sort(key)">
-            {{cutCustom(key) | capitalizeFilter}}
+            {{getTranslation(cutCustom(key)) | capitalizeFilter}}
             <i class="fa fa-sort pull-right"
                ng-if="pagination.sort_column != key || pagination.sort_column == key && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
             </i>

@@ -1,7 +1,7 @@
 <div class="modal-metric-history trendata-modal">
     <div class="modal-header">
-        <h3>Metric History</h3>
-        <span>Show Metrics of previous time periods</span>
+        <h3>{{ getTranslation('metric_history') }}</h3>
+        <span>{{ getTranslation('show_metrics_of_previous_time_periods') }}</span>
     </div>
 
     <div class="select-period">
@@ -10,12 +10,12 @@
     </div>
 
     <div class="modal-buttons">
-        <button class="btn btn-xlpad btn-default" ng-click="$close()">Cancel</button>
-        <button class="btn btn-xlpad btn-primary" type="button" ng-click="vm.selectPeriod()">OK</button>
+        <button class="btn btn-xlpad btn-default" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+        <button class="btn btn-xlpad btn-primary" type="button" ng-click="vm.selectPeriod()">{{ getTranslation('ok') }}</button>
     </div>
 
     <div class="custom-period-modal" ng-show="vm.showCustomDatepicker">
-        <h4>Select Dates</h4>
+        <h4>{{ getTranslation('select_dates') }}</h4>
         <div class="group-flex">
             <div class="input-group">
                 <span class="input-group-addon">{{ getTranslation('from') }}<sup>*</sup> :</span>
@@ -39,8 +39,8 @@
         </div>
         <div class="error-message">{{vm.errorMessage}}</div>
         <div class="modal-buttons">
-            <button class="btn btn-xlpad btn-default" ng-click="vm.showCustomDatepicker = false">Cancel</button>
-            <button class="btn btn-xlpad btn-primary" type="button" ng-click="vm.checkDates(vm.period)">OK</button>
+            <button class="btn btn-xlpad btn-default" ng-click="vm.showCustomDatepicker = false">{{ getTranslation('cancel') }}</button>
+            <button class="btn btn-xlpad btn-primary" type="button" ng-click="vm.checkDates(vm.period)">{{ getTranslation('ok') }}</button>
         </div>
     </div>
 </div>

@@ -40,12 +40,12 @@
 
         vm.checkDates = function(period) {
             if (! period.start || ! period.end) {
-                vm.errorMessage = 'All fields are required.';
+                vm.errorMessage = $scope.getTranslation('all_fields_are_required');
                 return false;
             }
 
             if (period.start > period.end) {
-                vm.errorMessage = 'Start date should be before End date.';
+                vm.errorMessage = $scope.getTranslation('start_date_should_be_before_end_date');
                 return false;
             }
 

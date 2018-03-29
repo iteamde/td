@@ -4,7 +4,7 @@
             <i class="fa" ng-class="{'fa-square-o' : !selectedAll, 'fa-check-square-o': selectedAll}" ng-click="selectAll(selectedAll)"></i>
         </div>
         <div class="grid-cell" ng-click="sort('name')">
-            Full Name
+            {{getTranslation('full_name')}}
             <i class="fa fa-sort pull-right"
                ng-if="pagination.sort_column != 'name' || pagination.sort_column == 'name' && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
             </i>
@@ -14,7 +14,7 @@
                   ng-if="pagination.sort_column == 'name' && pagination.sort_type == 'DESC'"></i>
         </div>
         <div class="grid-cell" ng-click="sort('email')">
-            Email
+            {{getTranslation('email')}}
             <i class="fa fa-sort pull-right"
                ng-if="pagination.sort_column != 'email' || pagination.sort_column == 'email' && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
             </i>
@@ -23,7 +23,7 @@
             <i class="fa fa-sort-down pull-right"
                   ng-if="pagination.sort_column == 'email' && pagination.sort_type == 'DESC'"></i>
         </div>
-        <div class="grid-cell">Actions</div>
+        <div class="grid-cell">{{getTranslation('actions')}}</div>
     </div>
 
     <div class="grid-row" ng-repeat="user in $ctrl.users" ng-if="user.status == '1' || $ctrl.inactive && user.status == '0'">
@@ -33,10 +33,10 @@
         <div class="grid-cell">{{user.name}}</div>
         <div class="grid-cell">{{user.email}}</div>
         <div class="grid-cell">
-            <i class="fa fa-pencil" title="Edit User" ng-click="editUser(user)"></i>
-            <i class="fa fa-key" title="Reset Password" ng-click="resetPassword(user)"></i></button>
-            <i class="fa {{user.status=='1' ? 'fa-power-off text-success' : 'fa-power-off text-danger'}}" title="{{user.status=='1' ? 'Deactivate User' : 'Activate User'}}" ng-click="showConfirm(user)"></i>
-            <i class="fa fa-trash" title="Delete User" ng-click="showConfirm(user, true)"></i>
+            <i class="fa fa-pencil" title="{{getTranslation('edit_user')}}" ng-click="editUser(user)"></i>
+            <i class="fa fa-key" title="{{getTranslation('reset_password')}}" ng-click="resetPassword(user)"></i></button>
+            <i class="fa {{user.status=='1' ? 'fa-power-off text-success' : 'fa-power-off text-danger'}}" title="{{user.status=='1' ? getTranslation('deactivate_user') : getTranslation('activate_user') }}" ng-click="showConfirm(user)"></i>
+            <i class="fa fa-trash" title="{{getTranslation('delete_user')}}" ng-click="showConfirm(user, true)"></i>
         </div>
     </div>
 
