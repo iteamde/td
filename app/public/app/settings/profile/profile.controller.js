@@ -42,23 +42,23 @@
 
         function submit(form, user) {
             if (!form.$valid) {
-                commonService.notification(TOOLTIP_MESSAGES.ERROR_NOTY, 'error');
+                commonService.notification($scope.$parent.getTranslation(TOOLTIP_MESSAGES.ERROR_NOTY), 'error');
                 return false;
             }
 
             profileService.updateUser(user)
                 .then(function (resp) {
                     if (resp.status !== 200) {
-                        commonService.notification(TOOLTIP_MESSAGES.ERROR_NOTY, 'error');
+                        commonService.notification($scope.$parent.getTranslation(TOOLTIP_MESSAGES.ERROR_NOTY), 'error');
                         return false;
                     }
 
                     vm.sourceUser = angular.copy(vm.user);
-                    commonService.notification(TOOLTIP_MESSAGES.PROFILE_UPDATE, 'success');
+                    commonService.notification($scope.$parent.getTranslation(TOOLTIP_MESSAGES.PROFILE_UPDATE), 'success');
                     return vm.isReadMode = !vm.isReadMode
                 })
                 .catch(function (err) {
-                    var message = err.data || TOOLTIP_MESSAGES.ERROR_NOTY;
+                    var message = err.data || $scope.$parent.getTranslation(TOOLTIP_MESSAGES.ERROR_NOTY);
                     commonService.notification(err.data, 'error');
                 });
         }

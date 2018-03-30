@@ -31,7 +31,12 @@
                 }
             },
             messages: {
+                loginemail: {
+                    required: $scope.getTranslation('this_field_is_required'),
+                    email: $scope.getTranslation("please_enter_a_valid_email_address")
+                },
                 loginpassword: {
+                    required: $scope.getTranslation('this_field_is_required'),
                     minlength: $scope.getTranslation('password_must_be_of_6_characters')
                 }
             }
@@ -44,6 +49,7 @@
                 }
             }
         };
+
 
         vm.credentials = {
             email: "",

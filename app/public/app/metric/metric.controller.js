@@ -83,7 +83,6 @@
             if (data.table.length > 0) {
                 commonService.configGrid(data.table[0]);
             }
-
         }
 
         function setChartsOrder() {
@@ -117,7 +116,7 @@
         }
 
         function addToDashboardComplete() {
-            commonService.notification(vm.TOOLTIP_TILES_MESSAGES.ADD_TO_DASHBOARD_NOTY, "success");
+            commonService.notification($scope.getTranslation(vm.TOOLTIP_TILES_MESSAGES.ADD_TO_DASHBOARD_NOTY), "success");
         }
 
     }

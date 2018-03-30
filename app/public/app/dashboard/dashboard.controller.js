@@ -5,9 +5,9 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$rootScope','$scope', '$window', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', '$uibModal'];
+    DashboardController.$inject = ['$rootScope','$scope', '$window','TOOLTIP_MESSAGES', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', '$uibModal'];
 
-    function DashboardController($rootScope, $scope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, videoService, $uibModal) {
+    function DashboardController($rootScope, $scope, $window, TOOLTIP_MESSAGES, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, videoService, $uibModal) {
 
         var vm;
 
@@ -30,6 +30,8 @@
         // charts setting defined in core constants
         vm.TILE_MIN_WIDTH = TILE_MIN_WIDTH;
         vm.TILE_MIN_HEIGHT = TILE_MIN_HEIGHT;
+
+        vm.TOOLTIP_TILES_MESSAGES = TOOLTIP_MESSAGES.TILES;
 
         // show charts handler all the time.
         $scope.labelBoxOptions = {alwaysShowResizeHandle: true};

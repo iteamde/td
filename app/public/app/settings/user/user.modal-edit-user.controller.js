@@ -9,6 +9,10 @@
     ModalEditUserController.$inject = ['$scope', '$uibModalInstance', 'user', 'noty', 'userService'];
     function ModalEditUserController($scope, $uibModalInstance, user, noty, userService) {
 
+
+
+
+
         var vm = this;
         vm.cancel = cancel;
         vm.editUser = editUser;
@@ -23,6 +27,34 @@
             type: '',
             msg: ''
         };
+
+
+        $scope.validationOptions = {
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                first_name: {
+                    required: true
+                },
+                last_name: {
+                    required: true
+                }
+            },
+            messages: {
+                email: {
+                    required: $scope.getTranslation('this_field_is_required'),
+                    email: $scope.getTranslation("please_enter_a_valid_email_address")
+                },
+                first_name: {
+                    required: $scope.getTranslation('this_field_is_required')
+                },
+                last_name: {
+                    required: $scope.getTranslation('this_field_is_required')
+                }
+            }
+        }
 
         function editUser(form, inputData){
             if (form.validate()) {

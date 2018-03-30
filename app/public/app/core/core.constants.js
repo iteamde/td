@@ -37,36 +37,36 @@
         // tooltip
         .constant('TOOLTIP_MESSAGES', {
             LAYOUT: {
-                TOGGLE_MENU: 'Toggle Menu',
-                CHART_BUILDER: 'Create Custom Chart',
-                ADD_TILES: 'Add Charts',
-                EVENT_MANAGEMENT: 'Manage Events'
+                TOGGLE_MENU:  'toggle_menu',
+                CHART_BUILDER: 'create_custom_chart',
+                ADD_TILES: 'add_charts',
+                EVENT_MANAGEMENT: 'manage_events'
             },
             USER_MANAGEMENT: {
-                ADD_NEW_USER: 'Add New User',
-                SUSPEND_USER: 'Suspend User',
-                CHANGE_USER: 'Change User Role',
-                DELETE_USER: 'Delete User'
+                ADD_NEW_USER: 'add_new_user',
+                SUSPEND_USER: 'suspend_user',
+                CHANGE_USER: 'change_user_role',
+                DELETE_USER: 'delete_user'
             },
             GRIDSTACK: {
-                RESIZE_HANDLE: 'Resize chart'
+                RESIZE_HANDLE: 'resize_chart'
             },
             TILES : {
-                DOWNLOAD_CHART : 'Download Chart',
-                CHART_OPTIONS: 'Chart Option',
-                ADD_TO_DASHBOARD: 'Add to Dashboard',
-                ADD_TO_DASHBOARD_NOTY: 'Chart successfully added to Dashboard'
+                DOWNLOAD_CHART : 'download_chart',
+                CHART_OPTIONS: 'chart_option',
+                ADD_TO_DASHBOARD: 'add_to_dashboard',
+                ADD_TO_DASHBOARD_NOTY: 'chart_successfully_added_to_dashboard'
             },
-            BACK_BUTTON: 'Back button',
-            PROFILE_UPDATE: 'Profile updated successfully.',
-            ERROR_NOTY: 'There is some error'
+            BACK_BUTTON: 'back_button',
+            PROFILE_UPDATE: 'profile_updated_successfully',
+            ERROR_NOTY: 'there_is_some_error'
         })
 
         .constant('ALLOWED_CHART_TYPES', [
-            {type: 'scrollline2d', icon: 'lnr ic-line-chart', tooltip: 'Line Chart'},
-            {type: 'scrollcolumn2d', icon: 'lnr ic-bar-chart', tooltip: 'Column Chart'},
-            {type: 'scrollarea2d', icon: 'lnr ic-area-chart', tooltip: 'Area Chart'},
-            {type: 'mssplinearea', icon: 'lnr ic-spline-area-chart', tooltip: 'Spline Chart'}
+            {type: 'scrollline2d', icon: 'lnr ic-line-chart', tooltip: 'line_chart'},
+            {type: 'scrollcolumn2d', icon: 'lnr ic-bar-chart', tooltip: 'column_chart'},
+            {type: 'scrollarea2d', icon: 'lnr ic-area-chart', tooltip: 'area_chart'},
+            {type: 'mssplinearea', icon: 'lnr ic-spline-area-chart', tooltip: 'spline_chart'}
         ])
 
         //chart colors

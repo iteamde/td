@@ -6,8 +6,9 @@
         .module('app.user')
         .controller('ModalAddUserController', ModalAddUserController);
 
-    ModalAddUserController.$inject = ['$uibModalInstance', 'userService','noty', 'userData', '$scope'];
-    function ModalAddUserController($uibModalInstance, userService, noty, userData, $scope) {
+    ModalAddUserController.$inject = ['$uibModalInstance', 'userService','noty', 'userData', '$scope' ];
+    function ModalAddUserController($uibModalInstance, userService, noty, userData, $scope ) {
+
 
         var vm;
 
@@ -24,6 +25,36 @@
             lastname: '',
             email: ''
         };
+
+
+        $scope.validationOptions = {
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                first_name: {
+                    required: true
+                },
+                last_name: {
+                    required: true
+                }
+            },
+            messages: {
+                email: {
+                    required: $scope.getTranslation('this_field_is_required'),
+                    email: $scope.getTranslation("please_enter_a_valid_email_address")
+                },
+                first_name: {
+                    required: $scope.getTranslation('this_field_is_required')
+                },
+                last_name: {
+                    required: $scope.getTranslation('this_field_is_required')
+                }
+            }
+        }
+
+
 
         function addUser(form, inputData) {
             if (form.validate()) {
@@ -59,7 +90,7 @@
 
         function addUserError(error) {
             noty.show({
-                text: 'Unable to process.',
+                text: $scope.getTranslation('unable_to_process'),
                 type: 'error'
             });
         }

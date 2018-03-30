@@ -432,7 +432,7 @@
       copy.width = 3;
       delete copy.chart_data.annotations;
       this.charts.push(copy);
-      this.notification(TOOLTIP_MESSAGES.TILES.ADD_TO_DASHBOARD_NOTY, 'success');
+      this.notification((TOOLTIP_MESSAGES.TILES.ADD_TO_DASHBOARD_NOTY), 'success');
     }
 
     function exportUsersToCsv(filters, pagination, usersFilter, chartId) {

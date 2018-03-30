@@ -36,14 +36,13 @@
                     <!-- Chart Header -->
                     <div class="chart-header">
                         <h2>{{box.title}}</h2>
-
                         <i class="fa fa-question fa-absolute" uib-tooltip="{{box.description}}" tooltip-placement="auto bottom"></i>
                         <!-- Chart option menu -->
                         <div uib-dropdown class="dropdown chart-option-dropdown">
                             <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
                                     id="chart-dropdown-a{{$index}}"
                                     aria-haspopup="true" aria-expanded="true"
-                                    title="{{vm.TOOLTIP_TILES_MESSAGES.CHART_OPTIONS}}">
+                                    title="{{ getTranslation(vm.TOOLTIP_TILES_MESSAGES.CHART_OPTIONS) }}">
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </button>
                             <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
@@ -108,7 +107,7 @@
                             <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
                                     id="chart-dropdown-{{$index}}"
                                     aria-haspopup="true" aria-expanded="true"
-                                    title="{{vm.TOOLTIP_TILES_MESSAGES.CHART_OPTIONS}}">
+                                    title="{{ getTranslation(vm.TOOLTIP_TILES_MESSAGES.CHART_OPTIONS) }}">
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </button>
                             <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"

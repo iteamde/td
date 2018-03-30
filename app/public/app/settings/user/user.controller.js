@@ -11,6 +11,7 @@
     function UserController($scope, $uibModal, userService, exception) {
         var vm = this;
 
+
         vm.selectOptions = [
             $scope.getTranslation('activate'),
             $scope.getTranslation('deactivate'),
