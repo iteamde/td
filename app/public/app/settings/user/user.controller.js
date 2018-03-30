@@ -37,7 +37,7 @@
         }
 
         function serviceError(error) {
-            exception.catcher($scope.getTranslation('xhr_failed_for_login')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_login'))(error);
         }
 
         function bulkAction(option) {

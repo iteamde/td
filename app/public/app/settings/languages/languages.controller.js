@@ -18,7 +18,7 @@
             urlPrefix: BASE_URL
         });
         vm.userPagination = PaginationService.make('user/userlist').dataResolver();
-        vm.defaultSearch = 'chart';
+        vm.defaultSearch = $scope.getTranslation('chart');
 
         setupGrid();
         configGrid(mockDataService.getTranslate());
@@ -55,7 +55,7 @@
                         name: $scope.getTranslation('actions'),
                         enableColumnMenu: false,
                         enableSorting: false,
-                        cellTemplate: '<div class="ui-grid-cell-contents flex-cell"><button type="button" class="btn btn-xs action-edit" title={{ getTranslation(\'edit_user\') }}ng-click="grid.appScope.vm.editToken(row)"> <i class="fa fa-pencil"></i></button></div>'
+                        cellTemplate:  '<div class="ui-grid-cell-contents flex-cell"><button type="button" class="btn btn-xs action-edit" title="{{grid.appScope.getTranslation(\'edit_user\')}}" ng-click="grid.appScope.vm.editToken(row)"> <i class="fa fa-pencil"></i></button></div>'
                     }
                 ]
             };
