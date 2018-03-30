@@ -178,7 +178,7 @@
         }
 
         function serviceError(error) {
-            exception.catcher('XHR Failed for Predictive View')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_predictive_view'))(error);
             vm.isLoading = false;
         }
 

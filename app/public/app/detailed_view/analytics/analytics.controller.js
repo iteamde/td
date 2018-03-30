@@ -112,13 +112,13 @@
                 return {
                     start: item > 1 ? (item - 1) * 12 + +moment().format('M') - 1 : item * 12,
                     end: null,
-                    title: item + ' year' + (item > 1 ? 's' : '')
+                    title: item +  ' ' + (item > 1 ? $scope.getTranslation('years') : $scope.getTranslation('years'))
                 };
             });
             vm.timeSpans.push({
                 start: null,
                 end: null,
-                title: 'Custom'
+                title: $scope.getTranslation('custom')
             });
             $scope.verticalAxis = res[0].data.chart_data.available_vertical_axis_types;
 
@@ -161,7 +161,7 @@
         }
 
         function serviceError(error) {
-            exception.catcher('XHR Failed for Analytics')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_analytics'))(error);
             vm.isLoading = false;
         }
 
@@ -272,12 +272,12 @@
 
         vm.checkDates = function(period) {
             if (! period.start || ! period.end) {
-                vm.errorMessage = 'All fields are required.';
+                vm.errorMessage = $scope.getTranslation('all_fields_are_required') ;
                 return false;
             }
 
             if (period.start > period.end) {
-                vm.errorMessage = 'Start date should be before End date.';
+                vm.errorMessage = $scope.getTranslation('start_date_should_be_before_end_date') ;
                 return false;
             }
 

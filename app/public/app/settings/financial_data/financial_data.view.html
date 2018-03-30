@@ -11,10 +11,10 @@
         <table class="table table-bordered financial-data">
             <tr>
                 <th>{{ getTranslation('terms') }}</th>
-                <th ng-repeat="m in months">{{ m }} {{ selectedYear | limitTo :-2 }}</th>
+                <th ng-repeat="m in months">{{ getTranslation(m) }} {{ selectedYear | limitTo :-2 }}</th>
             </tr>
             <tr ng-repeat="d in data">
-                <td>{{getTranslation(d.title)}}</td>
+                <td>{{d.title}}</td>
                 <td ng-repeat="r in d.data">
                     <input ng-model="r.value" type="text" placeholder=""/>
                 </td>

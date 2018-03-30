@@ -1,10 +1,9 @@
 <div id="summary">
 
-    <a ng-hide="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">Start modeling<!--{{ getTranslation('start_modeling') }}--></a>
-    <a ng-show="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">Stop modeling<!--{{ getTranslation('start_modeling') }}--></a>
-
+    <a ng-hide="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">{{ getTranslation('start_modeling') }}</a>
+    <a ng-show="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">{{ getTranslation('stop_modeling') }}</a>
     <div class="row first">
-        <div class="cell">Name</div>
+        <div class="cell">{{ getTranslation('name') }}</div>
         <div class="cell" ng-repeat="month in $ctrl.months">{{month}}</div>
     </div>
 

@@ -62,13 +62,13 @@
             vm.uploadErrorsCount = res.data.errors.length;
             vm.uploadErrors = _.reduce(res.data.errors, function(result, error) {
                 var indexTmp = error.indexOf(']');
-                var line = error.substr(1, indexTmp - 1) || 'Errors';
+                var line = error.substr(1, indexTmp - 1) || $scope.getTranslation('errors');
                 result[line] = result[line] || [];
                 result[line].push(error.substr(indexTmp + 1));
                 return result;
             }, {});
 
-            exception.catcher('XHR Failed for Upload CSV')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_upload_csv'))(error);
         }
     }
 })();

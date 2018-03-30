@@ -104,7 +104,7 @@
         }
 
         function serviceError(error) {
-            exception.catcher('XHR Failed for metric')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_metric'))(error);
         }
 
         function addToDashboard(id) {

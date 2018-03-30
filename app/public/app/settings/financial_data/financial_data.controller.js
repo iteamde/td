@@ -15,31 +15,31 @@
          */
         var dataTemplate = [
             {
-                "title": "Gross Revenue",
+                "title": $scope.getTranslation('gross_revenue'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             },
             {
-                "title": "Net Revenue",
+                "title": $scope.getTranslation('net_revenue'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             },
             {
-                "title": "HR Costs",
+                "title": $scope.getTranslation('hr_costs'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             },
             {
-                "title": "HR Settlement",
+                "title": $scope.getTranslation('hr_settlement'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             },
             {
-                "title": "Cost of Benefits",
+                "title": $scope.getTranslation('cost_of_benefits'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             },
             {
-                "title": "Hiring Costs",
+                "title": $scope.getTranslation('hiring_costs'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             },
             {
-                "title": "Termination Costs",
+                "title": $scope.getTranslation('termination_costs'),
                 "data": [{"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}, {"value": ""}]
             }
         ];
@@ -47,7 +47,7 @@
         /**
          * @type {string[]}
          */
-        $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $scope.months = ["jan", "feb", "mar", "apr", "may", "june", "july", "aug", "sep", "oct", "nov", "dec"];
 
         /**
          * @type {string}

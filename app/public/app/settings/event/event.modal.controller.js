@@ -39,7 +39,7 @@
             var start_date = moment(inputData.start_date).format('YYYY-MM-DD');
             var end_date = moment(inputData.end_date).format('YYYY-MM-DD');
             if (start_date > end_date) {
-                commonService.notification('Invalid Date.', 'error');
+                commonService.notification($scope.getTranslation('invalid_date'), 'error');
                 return false;
             }
 
@@ -61,7 +61,7 @@
         }
 
         function addEventFailure() {
-            commonService.notification('Unable to process.', 'error');
+            commonService.notification($scope.getTranslation('unable_to_process'), 'error');
         }
 
         function addEventSuccess(data) {
@@ -71,8 +71,8 @@
         }
 
         function addEventError(error) {
-            commonService.notification('Unable to process.', 'error');
-            exception.catcher('Unable to process')(error);
+            commonService.notification($scope.getTranslation('unable_to_process'), 'error');
+            exception.catcher($scope.getTranslation('unable_to_process'))(error);
         }
 
     }

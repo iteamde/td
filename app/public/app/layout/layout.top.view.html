@@ -63,10 +63,10 @@
                 <i class="fa fa-caret-up"></i>
                 <ul class="dropdown-menu top-dropdown-menu" uib-dropdown-menu>
                     <li><a href="#/profile">{{ getTranslation('my_profile') }}</a></li>
-                    <!--<li><a href="#">Change Password</a></li>-->
-                    <li><a href="#/event">Event Manager</a></li>
-                    <!--<li><a href="#">Account Settings</a></li>-->
-                    <li><a href="#/login" ng-click="vm.logout();">Logout</a></li>
+                    <!--<li><a href="#">{{ getTranslation('change_password') }}</a></li>-->
+                    <li><a href="#/event">{{ getTranslation('event_manager') }}</a></li>
+                    <!--<li><a href="#">{{ getTranslation('account_settings') }}</a></li>-->
+                    <li><a href="#/login" ng-click="vm.logout();">{{ getTranslation('logout') }}</a></li>
                 </ul>
             </li>
 

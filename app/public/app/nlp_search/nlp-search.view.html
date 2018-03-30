@@ -39,7 +39,7 @@
 
         </div>
 
-    <div ng-show="!vm.queryResults"><h4>No Results Found</h4></div>
+    <div ng-show="!vm.queryResults"><h4>{{ getTranslation('no_results_found') }}</h4></div>
     <!-- Chart -->
     <div class="chart chart-recommended-charts"
          ng-show="vm.queryResults">

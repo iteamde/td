@@ -113,7 +113,7 @@
 
         function serviceError(error) {
             vm.isLoading = false;
-            exception.catcher('XHR Failed for DrillDown')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_drilldown'))(error);
         }
 
         function toggleCheckbox(filter, value) {

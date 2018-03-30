@@ -16,6 +16,7 @@
         this.isPercent = isPercent;
         this.resetGrid = resetGrid;
 
+        $scope.getTranslation = $scope.$parent.getTranslation;
         $scope.summary = new Summary(this.data);
         this.modelingMode = false;
         this.months = getMonths();

@@ -42,19 +42,19 @@
         }
 
         function addEventFailure() {
-            commonService.notification('Unable to process.', 'error');
+            commonService.notification($scope.getTranslation('unable_to_process'), 'error');
         }
 
         function addEventSuccess(data) {
             //eventTypes[index].events.push(data);
             //1$uibModalInstance.close();
-            commonService.notification('Event added successfully.', 'success');
+            commonService.notification($scope.getTranslation('event_added_successfully'), 'success');
             $uibModalInstance.$close();
         }
 
         function addEventError(error) {
-            commonService.notification('Unable to process.', 'error');
-            exception.catcher('Unable to process')(error);
+            commonService.notification($scope.getTranslation('unable_to_process'), 'error');
+            exception.catcher($scope.getTranslation('unable_to_process'))(error);
         }
     }
 

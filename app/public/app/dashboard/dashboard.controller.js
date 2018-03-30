@@ -53,6 +53,7 @@
         }
 
         function getDashboardChartsComplete(data) {
+            console.log(data);
             vm.valueBox = data.value_box;
             vm.lastUploaded = data.tuff_users_last_uploaded_date;
 
@@ -104,7 +105,7 @@
         }
 
         function serviceError(error) {
-            exception.catcher('XHR Failed for dashboard')(error);
+            exception.catcher($scope.getTranslation('xhr_failed_for_dashboard'))(error);
         }
 
         function removeChart(chartId) {
