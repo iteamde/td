@@ -1,0 +1,419 @@
+1	this_field_is_required	This field is required.
+		
+2	limit_grid_to	Limit grid to
+		
+3	employees	employees
+		
+4	manage_columns	Manage Columns
+		
+5	export_to_scv	Export to CSV
+		
+6	settings	Settings
+		
+7	filters	Filters
+		
+8	hide_bars_with_no_values	Hide bars with no values
+		
+9	time_span	Time Span
+		
+10	trendata	TrenData
+		
+11	version	Version
+		
+12	show_inactive_users	Show inactive users
+		
+13	fields_in_red_with_*_sign_are_required_fields_and_cannot_be_empty	Fields in red with * sign are required fields and cannot be empty
+		
+14	terms	Terms
+		
+15	show_custom_fields	Show Custom Fields 
+		
+16	ok	Ok
+		
+17	password_must_be_of_6_characters	password must be of 6 characters
+		
+18	please_enter_a_valid_email_address	Please enter a valid email address.
+		
+19	here_you_can_create_new_chart	Here you can Create New Chart 
+		
+20	table_veiw	Table View
+		
+21	chart_title	Chart Title
+		
+22	combo_line	Combo Line
+		
+23	value_box	Value Box
+		
+24	here_must_be_chart_description	Here must be chart description
+		
+25	tuff	TUFF
+		
+26	sap_hr	SAP HR
+		
+27	people_soft	PeopleSoft
+		
+28	workday	Workday
+		
+29	deltek	Deltek
+		
+30	exponent_hr	ExponentHR
+		
+31	browse	Browse
+		
+32	errors_found	Errors Found
+		
+33	first_name	First Name
+		
+34	middle_name	Middle Name
+		
+35	last_name	Last Name
+		
+36	employee_id	Employee ID
+		
+37	email	Email
+		
+38	dob	DOB
+		
+39	address_business	Address (Business)
+		
+40	city_business	City (Business)
+		
+41	state_business	State (Business)
+		
+42	country_business	Country (Business)
+		
+43	zip_code_business	Zip Code (Business)
+		
+44	address_personal 	Address (Personal)
+		
+45	city_personal	City (Personal)
+		
+46	state_personal	State (Personal)
+		
+47	country_personal	Country (Personal)
+		
+48	zip_code_personal	Zip Code (Personal)
+		
+49	education_level	Education Level
+		
+50	hire_date	Hire Date
+		
+51	termination_date	Termination Date
+		
+52	job_level	Job Level
+		
+53	current_job_code	Current Job Code
+		
+54	manager_employee_id	Manager Employee ID
+		
+55	employee_type	Employee Type
+		
+56	gender	Gender
+		
+57	ethnicity	Ethnicity
+		
+58	department	Department
+		
+59	division	Division
+		
+60	cost_center	Cost Center
+		
+61	rehire_date	Rehire Date
+		
+62	cost_per_hire	Cost per Hire
+		
+63	position_start_date	Position Start Date
+		
+64	previous_position_start_date	Previous Position Start Date
+		
+65	nationality_country	Nationality Country
+		
+66	hire_source	Hire Source
+		
+67	industry_salary	Industry Salary
+		
+68	employee_salary	Employee Salary
+		
+69	employee_salary_1_year_ago	Employee Salary (1 year ago)
+		
+70	employee_salary_2_years_ago	Employee Salary (2 years ago)
+		
+71	employee_salary_3_years_ago	Employee Salary (3 years ago)
+		
+72	employee_salary_4_years_ago	Employee Salary (4 years ago)
+		
+73	performance_rating_this_year	Performance Rating (this year)
+		
+74	performance_rating_1_year_ago	Performance Rating (1 year ago)
+		
+75	performance_rating_2_years_ago	Performance Rating (2 years ago)
+		
+76	performance_rating_3_years_ago	Performance Rating (3 years ago)
+		
+77	performance_rating_4_years_ago	Performance Rating (4 years ago)
+		
+78	remote_employee	Remote Employee
+		
+79	separation_type	Separation Type
+		
+80	prof_development	Prof. Development
+		
+81	posting_date	Posting Date
+		
+82	absences	Absences
+		
+83	successor_employee_id	Successor Employee ID
+		
+84	employee_benefit_costs	Employee Benefit Costs
+		
+85	employee_benefit_costs_1_year_ago	Employee Benefit Costs (1 year ago)
+		
+86	employee_benefit_costs_2_years_ago	Employee Benefit Costs ( 2 years ago)
+		
+87	employee_benefit_costs_3_years_ago	Employee Benefit Costs ( 3 years ago)
+		
+88	employee_benefit_costs_4_years_ago	Employee Benefit Costs ( 4 years ago)
+		
+89	id	ID
+		
+90	password	Password
+		
+91	select_fields_to_show_in_the_grid	Select fields to show in the grid.
+		
+92	available_fields	Available Fields
+		
+93	save_options	Save Options
+		
+94	selected_fields	Selected Fields
+		
+95	this_grid_only	This Grid Only
+		
+96	all_system_grids	All System Grids
+		
+97	cancel	Cancel
+		
+98	save	Save
+		
+99	full_name	Full Name
+		
+100	employee_id	Employee ID
+		
+101	location 	Location
+		
+102	manager	Manager
+		
+103	job_level	Job Level
+		
+104	department	Department
+		
+105	division	Division
+		
+106	cost_center	Cost Center
+		
+107	employee_type	Employee Type
+		
+108	education_level	Education Level
+		
+109	gender	Gender
+		
+110	hire_date	Hire Date
+		
+111	termination_date	Termination Date
+		
+112	current_job_code	Current Job Code
+		
+113	ethnicity	Ethnicity
+		
+114	position_start_date	Position Start Date
+		
+115	hire_source	Hire Source
+		
+116	salary	Salary
+		
+117	prof._dev.	Prof. Dev.
+		
+118	absences	Absences
+		
+119	benefit_cost	Benefit Cost
+		
+120	performance	Performance
+		
+121	full_name	Full Name
+		
+122	email	Email
+		
+123	actions	Actions.
+		
+124	do_you_want_to	Do you want to
+		
+125	selected_users	selected users
+		
+126	cancel	Cancel
+		
+127	delete	delete
+		
+128	deactivate_user	Deactivate User
+		
+129	activate_user	Activate User
+		
+130	edit_user	Edit User
+		
+131	delete_user	Delete User
+		
+132	reset_password	Reset Password
+		
+133	activate	Activate
+		
+134	deactivate	Deactivate
+		
+135	metric_history	Metric History
+		
+136	show_metrics_of_previous_time_period	Show Metrics of previous time period.
+		
+137	all_fields_are_required	All fields are required.
+		
+138	start_date_should_be_before_end_date	Start date should be before End date
+		
+139	select_dates	Select Dates
+		
+140	year	year
+		
+141	years	years
+		
+142	custom	Custom
+		
+143	start_modeling	Start modeling
+		
+144	stop_modeling	Stop modeling
+		
+145	name	Name
+		
+146	xhr_failed_for_predictive_view	XHR Failed for Predictive view
+		
+147	xhr_failed_for_drilldown	XHR Failed for DrillDown
+		
+148	xhr_failed_for_analytics	XHR Failed for Analytics
+		
+149	xhr_failed_for_dashboard	XHR Failed for Dashboard
+		
+150	xhr_failed_for_login	XHR Failed for login
+		
+151	xhr_failed_for_metric	XHR Failed for metric
+		
+152	xhr_failed_for_upload_csv	XHR Failed for Upload CSV
+		
+153	unable_to_process	Unable to process.
+		
+154	invalid_date	Invalid Date.
+		
+155	event_added_successfully	Event added successfully.
+		
+156	errors	Errors
+		
+157	event_manager	Event Manager
+		
+158	logout	Logout
+		
+159	change_password	Change Password
+		
+160	account_settings	Account Settings
+		
+161	no_results_found	No Results Found
+		
+162	gross_revenue	Gross Revenue
+		
+163	net_revenue	Net Revenue
+		
+164	hr_costs	HR Costs
+		
+165	hr_settlement	HR Settlement
+		
+166	cost_of_benefits	Cost of Benefits
+		
+167	hiring_costs	Hiring Costs
+		
+168	termination_costs	Termination Costs.
+		
+169	jan	Jan
+		
+170	feb	Feb
+		
+171	apr	Apr
+		
+172	may	May
+		
+173	june 	June
+		
+174	july	July
+		
+175	aug	Aug
+		
+176	sep	Sep
+		
+177	oct	Oct
+		
+178	nov	Nov
+		
+179	dec	Dec
+		
+180	chart	chart
+		
+181	toggle_menu	Toggle Menu
+		
+182	create_custom_chart	Create Custom Chart
+		
+183	add_charts	Add Charts
+		
+184	manage_events	Manage Events
+		
+185	add_new_user	Add New User
+		
+186	suspend_user	Suspend User
+		
+187	change_user_role	Change User Role
+		
+188	delete_user	Delete User
+		
+189	resize_chart	Resize Chart
+		
+190	download_chart	Download Chart
+		
+191	chart_option	Chart Option
+		
+192	add_to_dashboard	Add to Dashboard
+		
+193	chart_successfully_added_to_dashboard 	Chart successfully added to Dashboard
+		
+194	back_button	Back button
+		
+195	profile_updated_successfully	Profile updated successfully.
+		
+196	there_is_some_error	There is some error.
+		
+197	line_chart	Line Chart
+		
+198	column_chart	Column Chart
+		
+199	area_chart	Area Chart
+		
+200	spline_chart	Spline Chart
+		
+201		
+		
+202		
+		
+203		
+		
+204		
+		
+205		
+		
+206		
+		
+207		
+		
+208		
+		
+209		
+		
+210		
