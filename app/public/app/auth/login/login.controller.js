@@ -47,6 +47,12 @@
                     required: true,
                     email: true
                 }
+            },
+            messages: {
+                loginforgotemail: {
+                    required: $scope.getTranslation('this_field_is_required'),
+                    email: $scope.getTranslation("please_enter_a_valid_email_address")
+                }
             }
         };
 
