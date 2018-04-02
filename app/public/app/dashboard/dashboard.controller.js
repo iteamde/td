@@ -161,22 +161,22 @@
                             {
                                 start: null,
                                 end: null,
-                                title: 'Custom'
+                                title: $scope.getTranslation('custom')
                             },
                             {
                                 start: 12,
                                 end: 1,
-                                title: '1 year'
+                                title: $scope.getTranslation('1_year')
                             },
                             {
                                 start: 36,
                                 end: 1,
-                                title: '3 years'
+                                title: $scope.getTranslation('3_years')
                             },
                             {
                                 start: 60,
                                 end: 1,
-                                title: '5 years'
+                                title:  $scope.getTranslation('5_years')
                             },
                         ]);
                     }
