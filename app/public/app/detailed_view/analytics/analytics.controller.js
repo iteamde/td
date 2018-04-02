@@ -108,11 +108,12 @@
             $scope.eventsArr = res[1].data;
 
             $scope.chartViews = res[0].data.chart_data.available_chart_view;
+
             vm.timeSpans = _.map(res[0].data.chart_data.available_time_spans, function(item) {
                 return {
                     start: item > 1 ? (item - 1) * 12 + +moment().format('M') - 1 : item * 12,
                     end: null,
-                    title: item +  ' ' + (item > 1 ? $scope.getTranslation('years') : $scope.getTranslation('years'))
+                    title: item +  ' ' + (item > 1 ? $scope.getTranslation('years') : $scope.getTranslation('year'))
                 };
             });
             vm.timeSpans.push({

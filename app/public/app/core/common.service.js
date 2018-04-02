@@ -102,6 +102,11 @@
       return token + '_' + view + '_instructions';
     }
 
+    function getTranslation(token) {
+      //return undefined === $scope.translations[token] ? '{{' + token + '}}' : $scope.translations[token];
+          return  '{{' + token + '}}';
+    }
+
     function shareInterceprot(title, type) {
       var oldSend = XMLHttpRequest.prototype.send;
       // override the native send()
@@ -115,13 +120,13 @@
               shareIn: 'popup',
               shares: [{
                 share: 'twitter',
-                label: 'Share on Twitter'
+                label: getTranslation('share_on_twitter')
               }, {
                 share: 'facebook',
-                label: 'Share on Facebook'
+                label: getTranslation('share_on_facebook')
               }, {
                 share: 'linkedin',
-                label: 'Share on LinkedIn'
+                label: getTranslation('share_on_linkedin')
               }]
             });
             angular.element('#share-modal').modal();
@@ -283,7 +288,7 @@
         return false;
       }
 
-      handle.attr("title", TOOLTIP_MESSAGES.GRIDSTACK.RESIZE_HANDLE);
+      handle.attr("title", getTranslation(TOOLTIP_MESSAGES.GRIDSTACK.RESIZE_HANDLE));
     }
 
 
@@ -432,7 +437,7 @@
       copy.width = 3;
       delete copy.chart_data.annotations;
       this.charts.push(copy);
-      this.notification((TOOLTIP_MESSAGES.TILES.ADD_TO_DASHBOARD_NOTY), 'success');
+      this.notification(getTranslation(TOOLTIP_MESSAGES.TILES.ADD_TO_DASHBOARD_NOTY), 'success');
     }
 
     function exportUsersToCsv(filters, pagination, usersFilter, chartId) {

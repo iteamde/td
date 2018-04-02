@@ -355,19 +355,19 @@
             },
             {
                 name: 'Employee Salary (2 years ago)',
-                title: 'employee_salary_2_year_ago',
+                title: 'employee_salary_2_years_ago',
                 description: 'employee_salary_2_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Salary (3 years ago)',
-                title: 'employee_salary_3_year_ago',
+                title: 'employee_salary_3_years_ago',
                 description: 'employee_salary_3_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Salary (4 years ago)',
-                title: 'employee_salary_4_year_ago',
+                title: 'employee_salary_4_years_ago',
                 description: 'employee_salary_4_years_ago_data_dictionary_field_description',
                 use: true
             },
@@ -385,19 +385,19 @@
             },
             {
                 name: 'Performance Rating (2 years ago)',
-                title: 'performance_rating_2_year_ago',
+                title: 'performance_rating_2_years_ago',
                 description: 'performance_rating_2_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Performance Rating (3 years ago)',
-                title: 'performance_rating_3_year_ago',
+                title: 'performance_rating_3_years_ago',
                 description: 'performance_rating_3_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Performance Rating (4 years ago)',
-                title: 'performance_rating_4_year_ago',
+                title: 'performance_rating_4_years_ago',
                 description: 'performance_rating_4_years_ago_data_dictionary_field_description',
                 use: true
             },
@@ -451,19 +451,19 @@
             },
             {
                 name: 'Employee Benefit Cost (2 years ago)',
-                title: 'employee_benefit_cost_2_year_ago',
+                title: 'employee_benefit_cost_2_years_ago',
                 description: 'employee_benefit_cost_2_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Benefit Cost (3 years ago)',
-                title: 'employee_benefit_cost_3_year_ago',
+                title: 'employee_benefit_cost_3_years_ago',
                 description: 'employee_benefit_cost_3_years_ago_data_dictionary_field_description',
                 use: true
             },
             {
                 name: 'Employee Benefit Cost (4 years ago)',
-                title: 'employee_benefit_cost_4_year_ago',
+                title: 'employee_benefit_cost_4_years_ago',
                 description: 'employee_benefit_cost_4_years_ago_data_dictionary_field_description',
                 use: true
             }
