@@ -6,9 +6,9 @@
         .controller("LoginController", LoginController);
 
 
-    LoginController.$inject = ['$rootScope', '$scope', 'logger', '$state',  'exception', 'authService', '$location', 'noty','$window'];
+    LoginController.$inject = ['$rootScope', '$scope', 'logger', '$state',  'exception', 'authService', '$location', 'noty', '$window'];
 
-    function LoginController($rootScope, $scope, logger, $state,  exception, authService, $location, noty,$window) {
+    function LoginController($rootScope, $scope, logger, $state,  exception, authService, $location, noty, $window) {
 
         var vm = this;
 
