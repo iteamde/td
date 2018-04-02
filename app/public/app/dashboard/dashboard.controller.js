@@ -156,7 +156,7 @@
                             {
                                 start: moment().format('M') - 1,
                                 end: 1,
-                                title: 'YTD'
+                                title: $scope.getTranslation('ytd')
                             },
                             {
                                 start: null,
