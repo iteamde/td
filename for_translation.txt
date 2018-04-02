@@ -398,11 +398,11 @@
 		
 200	spline_chart	Spline Chart
 		
-201		
+201	share_on_twitter     Share on Twitter	
 		
-202		
+202	share_on_facebook    Share on FaceBook 	
 		
-203		
+203	share_on_linkedin    Share on LinkedIn	
 		
 204		
 		
