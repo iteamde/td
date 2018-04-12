@@ -20,7 +20,7 @@
 
         vm.datePickerOptions = {
             formatYear: 'yy',
-            maxDate: new Date(2020, 5, 22),
+            maxDate: new Date(),
             minDate: null,
             minMode: 'month'
         };
