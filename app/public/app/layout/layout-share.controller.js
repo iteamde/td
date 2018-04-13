@@ -17,7 +17,7 @@
         vm.sendEmail = function() {
             var chartInfo = commonService.getShareChart();
             var emails = vm.shareEmails.split(',');
-            if (emails.length >= 50) {
+            if (emails.length > 50) {
                 vm.tooMuchMails = true;
                 return false;
             } else {
