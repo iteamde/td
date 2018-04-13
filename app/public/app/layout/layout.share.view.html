@@ -9,10 +9,11 @@
         <div id="share-email-wrapper">
           <span>{{getTranslation('email')}}</span>
           <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="{{getTranslation('email_tooltip')}}"></i>
-          <input class="form-control" ng-model="vm.shareEmails">
+          <input class="form-control" ng-model="vm.shareEmails" ng-change="vm.validateEmails()">
           <input type="hidden" id="shared-url" value="">
-          <button class="btn btn-primary pull-right" ng-click="vm.sendEmail()">{{getTranslation('send')}}</button>
+          <button class="btn btn-primary pull-right"  ng-disabled='vm.isInvalidEmail' ng-click="vm.sendEmail()">{{getTranslation('send')}}</button>
           <div ng-if="vm.tooMuchMails" style="color:red">{{getTranslation('you_cant_send_more_then_50_emails')}}</div>
+          <div ng-if="vm.isInvalidEmail" style="color:red">{{vm.invalidEmail.toString()}}</div>
         </div>
       </div>
     </div>

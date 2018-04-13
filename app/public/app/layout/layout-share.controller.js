@@ -13,6 +13,20 @@
 
         vm.shareEmails = '';
         vm.tooMuchMails = false;
+        vm.isInvalidEmail = false;
+
+        vm.validateEmails = function(){
+            vm.invalidEmail = [];
+            var emails = vm.shareEmails.split(',');
+            var regExp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+            emails.forEach(function(item){
+                item = item.trim();
+                if (!regExp.test(item)){
+                    vm.invalidEmail.push(item);
+                }
+                vm.isInvalidEmail = (vm.invalidEmail.length > 0) ? true : false;
+            });
+        }
 
         vm.sendEmail = function() {
             var chartInfo = commonService.getShareChart();
