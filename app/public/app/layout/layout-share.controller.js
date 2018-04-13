@@ -18,7 +18,7 @@
         vm.validateEmails = function(){
             vm.invalidEmail = [];
             var emails = vm.shareEmails.split(',');
-            var regExp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+            var regExp = /^[a-zA-Z0-9_.+-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
             emails.forEach(function(item){
                 item = item.trim();
                 if (!regExp.test(item)){
