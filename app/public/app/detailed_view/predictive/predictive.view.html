@@ -105,8 +105,8 @@
                                     </button>
 
                                     <ul infinite-scroll add-items="addItems" class="dropdown-menu scroll-menu"  uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                                        <li>
-                                            <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
+                                        <li class="fix-on-top">
+                                            <input  class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
                                         <li ng-repeat="(key, value) in filter.values | filterObjectKeys:filter.label | limitTo: addItems">
                                             <label for="{{value + $index}}">{{ value }}
