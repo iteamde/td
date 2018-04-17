@@ -3155,3 +3155,11 @@ label.inactive {
     margin-right: 10px;
   }
 }
+
+
+
+/******  For drop-down menu in analytics, drill-down, predictive   ******/
+.scrooll-menu{
+  max-height:200px;
+  overflow-y: auto;
+}

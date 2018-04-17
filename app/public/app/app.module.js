@@ -52,3 +52,4 @@
     //    $rootScope.$stateParams = $stateParams;
     //});
 })();
+

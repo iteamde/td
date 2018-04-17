@@ -32,7 +32,8 @@
         //.constant('BASE_URL', 'https://stage.dev.trendata.com/api/') // stage
          //.constant('BASE_URL', 'https://customfield.dev.trendata.com/api/')
         // .constant('BASE_URL', 'http://192.168.8.95:8000/api/') // from shashi system
-        .constant('BASE_URL', 'https://qa2400.dev.trendata.com/api/')
+        //.constant('BASE_URL', 'https://qa2500.dev.trendata.com/api/')
+        .constant('BASE_URL', 'https://anothershadi2500.dev.trendata.com/api/')
 
         // tooltip
         .constant('TOOLTIP_MESSAGES', {

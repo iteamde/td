@@ -138,11 +138,11 @@
                                         <span class="caret"></span>
                                     </button>
 
-                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                    <ul infinite-scroll add-items="addItems" class="dropdown-menu scrooll-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                                         <li>
                                             <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
-                                        <li ng-repeat="(name, value) in filter.values | filterObjectKeys:filter.label">
+                                        <li ng-repeat="(name, value) in filter.values | filterObjectKeys:filter.label | limitTo: addItems">
                                             <label for="{{value + key + $index}}">{{ value || ('--' + getTranslation('blank') + '--') }}
                                                 <input type="checkbox" id="{{value + key + $index}}" ng-model="filters[key].values[value]" ng-change="vm.toggleCheckbox(filter)">
                                             </label>
