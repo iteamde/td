@@ -20,7 +20,9 @@
                 // console.log(isBottom(),el.scrollTop,el.scrollHeight,el.offsetHeight );
                 if (isBottom()) {
                     $scope.addItems += 5;
-                    $scope.$apply();
+                    //$scope.$apply(); use to start all watchers from root
+                    //$scope.$digest(); use to start only own watchers and watchers of children
+                    $scope.$digest();
                     //console.log("Bottom");
                 }
             };
