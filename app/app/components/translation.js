@@ -1,6 +1,10 @@
 var translationsCache = {};
 var TranslationModel = require('../models/orm-models').Translation;
 
+setInterval(function() {
+    translationsCache = {};
+}, 60000);
+
 /**
  * @param token
  * @param langId

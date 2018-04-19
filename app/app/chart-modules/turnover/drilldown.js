@@ -309,9 +309,18 @@ switch (requestData.type) {
                         verticalAxisTypeConverter: verticalAxisTypeConverter
                     };
 
+                    data['commute distance'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_approximate_distance_to_work`',
+                        title: 'Commute Distance',
+                        values: availableFilters['commute distance'],
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
                     resolve(data);
                 }).then(function (data) {
-                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || defaultChartView;
 
                     return calculateSubChartData(data[chartView] || {
                         filterSql: filterSql,
@@ -455,9 +464,18 @@ switch (requestData.type) {
                         verticalAxisTypeConverter: verticalAxisTypeConverter
                     };
 
+                    data['commute distance'] = {
+                        filterSql: filterSql,
+                        column: '`tbu`.`trendata_bigdata_user_approximate_distance_to_work`',
+                        title: 'Commute Distance',
+                        values: availableFilters['commute distance'],
+                        accessLevelSql: accessLevelSql,
+                        verticalAxisTypeConverter: verticalAxisTypeConverter
+                    };
+
                     resolve(data);
                 }).then(function (data) {
-                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || defaultChartView;
 
                     return calculateSubChartData(data[chartView] || {
                         filterSql: filterSql,
@@ -482,28 +500,33 @@ switch (requestData.type) {
                 /**
                  *
                  */
-                available_chart_view: ['Gender', 'Department', 'City', 'State', 'Country', 'Division', 'Cost Center', 'Separation Type', 'Job Level', 'Performance'].concat(customFields),
+                available_chart_view: availableChartViews.split(',').concat(customFields),
 
                 /**
                  *
                  */
                 available_filters: availableFilters,
 
-            /**
-             *
-             */
-            available_vertical_axis_types: [
-                'Percentage (%)',
-                'Values',
-                'Dollars ($)'],
+                /**
+                 *
+                 */
+                available_vertical_axis_types: [
+                    'Percentage (%)',
+                    'Values',
+                    'Dollars ($)'],
 
-            /**
-             *
-             */
-             users_filter_data: {
-                timeSpan: undefined,
-                types: ['active', 'terminated']
-            }
-        });
-    }).then(_resolve).catch(_reject);
+                /**
+                 *
+                 */
+                 users_filter_data: {
+                    timeSpan: undefined,
+                    types: ['active', 'terminated']
+                },
+
+                 /**
+                 *
+                 */
+                 default_chart_view: defaultChartView
+            });
+        }).then(_resolve).catch(_reject);
 }

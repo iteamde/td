@@ -536,9 +536,16 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                 values: availableFilters['job level']
             };
 
+            data['commute distance'] = {
+                filters: requestData.data.filters,
+                column: '`tbu`.`trendata_bigdata_user_approximate_distance_to_work`',
+                title: 'Commute Distance',
+                values: availableFilters['commute distance']
+            };
+
             return data;
         }).then(function (data) {
-            var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase();
+            var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || defaultChartView;
             var startDate = moment().subtract(timeSpan.start, 'month');
             var monthsCount = 0;
 
@@ -779,7 +786,7 @@ switch (requestData.type) {
                  *
                  */
                 chart_data: (function () {
-                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || 'total';
+                    var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || defaultChartView;
 
                     if (customFields.indexOf(chartView) !== -1) {
                         return analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalAxisTypeConverter);
@@ -836,7 +843,7 @@ switch (requestData.type) {
                 /**
                  *
                  */
-                available_chart_view: ['Total', 'Performance', 'City', 'State', 'Country', 'Department', 'Division', 'Cost Center', 'Gender', 'Job Level'].concat(customFields),
+                available_chart_view: availableChartViews.split(',').concat(customFields),
 
                 /**
                  *
@@ -848,25 +855,31 @@ switch (requestData.type) {
                  */
                 available_filters: availableFilters,
 
-            /**
-             *
-             */
-            available_vertical_axis_types: [
-                'Percentage (%)','Values',
-                'Dollars ($)'
-            ],
+                /**
+                 *
+                 */
+                available_vertical_axis_types: [
+                    'Percentage (%)','Values',
+                    'Dollars ($)'
+                ],
 
-            /**
-             *
-             */
-            summary: commonChartData.getAnalyticsSummary(req, filterSql, accessLevelSql),
+                /**
+                 *
+                 */
+                summary: commonChartData.getAnalyticsSummary(req, filterSql, accessLevelSql),
 
-    /**
-             *
-             */
-             users_filter_data: {
-                timeSpan: timeSpan,
-                types: undefined
-             }
-        });}).then(_resolve).catch(_reject);
+                /**
+                 *
+                 */
+                 users_filter_data: {
+                    timeSpan: timeSpan,
+                    types: undefined
+                 },
+
+                 /**
+                 *
+                 */
+                 default_chart_view: defaultChartView
+        });
+    }).then(_resolve).catch(_reject);
 }

@@ -350,7 +350,7 @@ switch (requestData.type) {
                 /**
                  *
                  */
-                available_chart_view: ['Total'],
+                available_chart_view: availableChartViews.split(','),
 
                 /**
                  *
@@ -362,25 +362,32 @@ switch (requestData.type) {
                  */
                 available_filters: availableFilters,
 
-            /**
-             *
-             */
-            available_vertical_axis_types: [
-                'Percentage (%)','Values',
-                'Dollars ($)'
-            ],
+                /**
+                 *
+                 */
+                available_vertical_axis_types: [
+                    'Percentage (%)','Values',
+                    'Dollars ($)'
+                ],
 
-            /**
-             *
-             */
-            summary: commonChartData.getAnalyticsSummary(req, filterSql, accessLevelSql),
+                /**
+                 *
+                 */
+                summary: commonChartData.getAnalyticsSummary(req, filterSql, accessLevelSql),
 
-    /**
-             *
-             */
-             users_filter_data: {
-                timeSpan: timeSpan,
-                types: userTypes
-             }
-        });}).then(_resolve).catch(_reject);
+                /**
+                 *
+                 */
+                 users_filter_data: {
+                    timeSpan: timeSpan,
+                    types: userTypes
+                 },
+
+                /**
+                 *
+                 *
+                 */
+                 default_chart_view: 'total'
+        });
+    }).then(_resolve).catch(_reject);
 }

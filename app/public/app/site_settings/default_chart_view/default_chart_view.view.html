@@ -1,0 +1,24 @@
+<!-- Chart content -->
+<div class="chart-content tren-ui-grid-pagination clearfix">
+
+    <div id="default-chart-view-grid" class="settings-grid">
+      <div class="grid-row first">
+          <div class="grid-cell">{{ getTranslation('chart') }}</div>
+          <div class="grid-cell">{{ getTranslation('drilldown') }}</div>
+          <div class="grid-cell">{{ getTranslation('analytics') }}</div>
+      </div>
+
+      <div class="grid-row" ng-repeat="item in vm.charts">
+          <div class="grid-cell">{{getTranslation(item.title)}}</div>
+          <div class="grid-cell">
+            <select ng-model="item.drilldownView" ng-options="view as vm.cutCustom(view) for view in item.availableDrilldownViews">
+            </select>
+          </div>
+          <div class="grid-cell">
+            <select ng-model="item.analyticsView" ng-options="view as vm.cutCustom(view) for view in item.availableAnalyticsViews">
+            </select>
+          </div>
+      </div>
+      <button class="btn btn-primary pull-right" ng-click="vm.saveChartViews()">Save</button>
+  </div>
+</div>

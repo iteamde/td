@@ -150,24 +150,3 @@
     </div>
 
 </div>
-
-<!-- Chart UI Grid -->
-<div class="chart chart-grid" ng-if="gridBoxData">
-    <!-- Chart Header -->
-    <div class="chart-header">
-        <h2>{{gridBoxData.title}}</h2>
-
-        <p ng-show="gridBoxData.description">{{gridBoxData.description}}</p>
-    </div>
-    <!-- Chart content -->
-    <div class="chart-content clearfix tren-ui-grid-pagination">
-        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize class="tren-ui-grid-1"></div>
-
-        <ul ng-show="gridOptions.totalItems > numRows" class="pull-right" uib-pagination
-            total-items="gridOptions.totalItems" ng-model="gridOptions.paginationCurrentPage"
-            max-size="gridOptions.maxSize" num-pages="gridOptions.numPages" previous-text="&lsaquo;"
-            next-text="&rsaquo;"></ul>
-
-    </div>
-
-</div>

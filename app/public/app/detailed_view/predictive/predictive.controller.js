@@ -6,9 +6,9 @@
         .module('app.predictive')
         .controller('PredictiveController', PredictiveController);
 
-    PredictiveController.$inject = ['$scope', '$q', 'data', 'events', '$stateParams', 'exception', 'predictiveService', 'mockDataService', 'commonService', 'commonChartService', 'debounceService', 'PREDICTIVE_CHART_CORRECTION', 'videoService'];
+    PredictiveController.$inject = ['$scope', '$q', 'data', 'events', '$stateParams', 'exception', 'predictiveService', 'mockDataService', 'commonService', 'commonChartService', 'debounceService', 'PREDICTIVE_CHART_CORRECTION', 'videoService', 'analyticsService'];
 
-    function PredictiveController($scope, $q, data, events, $stateParams, exception, predictiveService, mockDataService, commonService, commonChartService, debounceService, PREDICTIVE_CHART_CORRECTION, videoService) {
+    function PredictiveController($scope, $q, data, events, $stateParams, exception, predictiveService, mockDataService, commonService, commonChartService, debounceService, PREDICTIVE_CHART_CORRECTION, videoService, analyticsService) {
 
         var vm = this;
 
@@ -88,6 +88,22 @@
             changeChart(values);
         });
 
+        $scope.$on('paginationChange', function (event, pagination) {
+            event.stopPropagation();
+            $scope.pagination = pagination;
+
+            //replace with predictive service once this functionality available on server
+            var options = {
+                id: $stateParams.id,
+                user_pagination: $scope.pagination
+            };
+            analyticsService.changeChart(options)
+                .success(function(res){
+                    $scope.users=res.chart_data.users;
+                    $scope.totalUsers = res.chart_data.users_count;
+                });
+        });
+
         function toggleCheckbox(filter) {
 
             _.forIn(filter.values, function(value, key) {
@@ -136,7 +152,7 @@
         function update() {
             vm.isLoading = true;
             //create mediator (chart, every grid tab)
-            commonService.updateGrid($scope, $scope.data);
+            //commonService.updateGrid($scope, $scope.data);
             //$scope.barData = _.find($scope.summaryGrid.dataToArray(), {name: $scope.widgets[0].chartView});
 
             $scope.widgets[0].trendline ? curvePoints() : changeChart($scope.summaryValues);

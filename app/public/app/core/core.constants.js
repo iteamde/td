@@ -6,7 +6,6 @@
     angular
         .module('app.core')
 
-        .constant('toastr', toastr)
         .constant('moment', moment)
 
         .constant('TILE_MIN_WIDTH', 3)

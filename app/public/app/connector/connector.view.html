@@ -1,10 +1,10 @@
 <div class="container-fluid container-gutter-10 connector">
     <div class="row">
-        <div class="col-md-4" ng-repeat="connector in vm.connectors">
+        <div class="col-md-3" ng-repeat="connector in vm.connectors">
             <div class="chart">
-                <div class="chart-header">
+                <!--<div class="chart-header">
                     <h2>{{connector.title}}</h2>
-                    <!-- Chart option menu -->
+                    &lt;!&ndash; Chart option menu &ndash;&gt;
                     <div uib-dropdown class="dropdown connector-option-dropdown hidden">
                         <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
                                 id=""
@@ -20,7 +20,7 @@
                             <li><a href="#">{{ getTranslation('notify_on_failure') }}</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="chart-content">
                     <div class="connector-info" ng-class="{'connector-active' : vm.getClassForConnectorStatus(1, connector)}">

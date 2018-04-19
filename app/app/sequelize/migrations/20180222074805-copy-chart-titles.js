@@ -5,6 +5,10 @@ var ChartModel = require('../../models/orm-models').Chart;
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return ChartModel.findAll({
+        attributes: [
+          'trendata_chart_id',
+          'trendata_chart_title_token'
+        ],
         where: {
             trendata_chart_id_parent: null
         },
@@ -12,7 +16,11 @@ module.exports = {
             {
                 model: ChartModel,
                 as: 'ChildCharts',
-                required: false
+                required: false,
+                attributes: [
+                  'trendata_chart_id',
+                  'trendata_chart_title_token'
+                ]
             }
         ]
     }).each(function(chart) {

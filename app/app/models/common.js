@@ -82,5 +82,5 @@ function addTranslations(translationValue, callback) {
         }
 
         callback(null, result)
-    });           
+    });
 }

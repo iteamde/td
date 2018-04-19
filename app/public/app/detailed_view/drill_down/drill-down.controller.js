@@ -83,7 +83,7 @@
             });
 
             vm.axis = $scope.verticalAxis[1];
-            vm.view = $scope.chartViews[0];
+            vm.view = $scope.chartViews.indexOf(res.chart_data.default_chart_view) > -1 ? res.chart_data.default_chart_view : 'gender';
             $scope.users = res.chart_data.users;
             $scope.totalUsers = res.chart_data.users_count;
             $scope.chartId = res.id;
@@ -98,7 +98,7 @@
                 })
                 .value();
 
-            $scope.pagination.totalItems = $scope.gridOptions.maxSize = res.chart_data.users_count;
+            $scope.pagination.totalItems = res.chart_data.users_count;
             angular.extend($scope.widgets[0].chart_data, res.chart_data.chart_data);
             originalChartData = _.cloneDeep($scope.widgets[0].chart_data);
             vm.showSpinner = false;

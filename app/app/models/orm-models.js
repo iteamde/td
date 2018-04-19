@@ -5,6 +5,10 @@ var useragent = require('useragent');
 var models = {};
 var translationsCache = {};
 
+setInterval(function() {
+    translationsCache = {};
+}, 60000);
+
 /* ==================================================== Models ====================================================== */
 
 /**
@@ -844,6 +848,16 @@ models.Chart = orm.define('Chart', {
         allowNull: false,
         defaultValue: 4
     },
+    trendata_chart_view: {
+        type: ORM.STRING(255),
+        allowNull: false,
+        defaultValue: 'gender'
+    },
+    trendata_chart_available_views: {
+        type: ORM.STRING(255),
+        allowNull: false,
+        defaultValue: 'total'
+    },
     /*trendata_chart_id: {
         type: ORM.INTEGER.UNSIGNED,
         allowNull: true
@@ -1439,6 +1453,33 @@ models.UsersGridSettings = orm.define('UsersGridSettings', {
     name: {
         singular: 'UsersGridSettings',
         plural: 'UsersGridSettings'
+    }
+});
+
+/**
+ * Performance
+ * @type {Model}
+ */
+models.Performance = orm.define('Performance', {
+    trendata_performance_id: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    trendata_performance_title: {
+        type: ORM.STRING(255),
+        allowNull: false
+    },
+    trendata_performance_value: {
+        type: ORM.FLOAT(2, 1),
+        allowNull: false
+    }
+}, {
+    tableName: 'trendata_performance',
+    name: {
+        singular: 'Performance',
+        plural: 'Performacnes'
     }
 });
 

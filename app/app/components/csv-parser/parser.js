@@ -290,7 +290,7 @@ module.exports = {
                     return orm.query(knex(table).insert(item).toString(), {
                         transaction: t
                     });
-                }).then(function () {
+                }).then(function (data) {
                     /*return orm.query(knex(table).min('trendata_bigdata_user_id AS value').toString(), {
                         type: ORM.QueryTypes.SELECT,
                         transaction: t

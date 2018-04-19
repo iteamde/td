@@ -41,6 +41,8 @@
 
         vm.uploadData = function() {
             var modalInstance = $uibModal.open({
+                backdrop  : 'static',
+                keyboard  : false,
                 animation: false,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',

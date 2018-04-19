@@ -17,7 +17,6 @@
         setTimeout(function() {
             activate();
         });
-        commonService.setupGrid($scope);
 
         vm.exportChart = commonService.exportChart;
         vm.changeChartType = commonService.changeChartType;
@@ -60,10 +59,6 @@
             commonService.changeFusionTheme(data.charts);
 
             commonService.charts ? $scope.widgets = data.charts.concat(commonService.charts) : $scope.widgets = data.charts;
-
-            if (data.table.length > 0) {
-                commonService.configGrid(data.table[0]);
-            }
 
             videoService.getVideo()
                 .success(function(video) {

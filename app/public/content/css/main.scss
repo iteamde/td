@@ -1,7 +1,3 @@
-@import "../css/sprite.scss";
-
-@include sprites($spritesheet-sprites)
-
 /***********************************************
 
   =Settings
@@ -35,15 +31,35 @@
 
   =Globals
 
-
-
  /* =Settings
     ====================================================================================== */
-// import main scss booststrap
+
+/* import main scss booststrap*/
 @import './bootstrap-custom.scss';
 
-//import font-awesome icons
-@import '../bower_components/font-awesome/scss/font-awesome';
+/*Image sprites*/
+@import "../css/sprite.scss";
+
+/*Google fonts*/
+@import "../fonts/fonts";
+
+/*Font-awesome icons*/
+@import "../bower_components/font-awesome/scss/font-awesome";
+
+/*Responsive styles*/
+@import "main-responsive.scss";
+
+/*Loading bar*/
+@import "../bower_components/angular-loading-bar/build/loading-bar.min";
+
+/*Gridstack*/
+@import "../bower_components/gridstack/dist/gridstack";
+
+/*JS social styles*/
+@import "../bower_components/jssocials/styles/jssocials";
+@import "../bower_components/jssocials/styles/jssocials-theme-flat";
+
+@include sprites($spritesheet-sprites)
 
 // Theme Colors
 $th-white: #ffffff;
@@ -317,9 +333,7 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 
 .btn-gray {
   @include button-variant($th-white, $gray-light, $gray);
-
 }
-
 
 .search-button-icon {
   position: absolute;
@@ -467,6 +481,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 
       .chart-filter {
         margin: 0 10px;
+
+        select {
+          text-transform: capitalize;
+        }
       }
 
       .chart-header-buttons {
@@ -599,6 +617,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         height: 0;
         margin: 0;
       }
+    }
+
+    .with-padding {
+      padding-top: 10px;
     }
 
   }
@@ -1236,7 +1258,7 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
   z-index: 1;
   overflow: hidden;
 
-  .main-logo {
+  .main_logo {
     position: absolute;
     top: -40%;
     left: -17%;
@@ -1936,7 +1958,7 @@ body.fixed-left .left-footer {
     background: rgba(255, 255, 255, 0.90);
     text-align: center;
 
-    .main-logo {
+    .main_logo {
       display: inline-block;
       margin-bottom: 40px;
     }
@@ -2060,6 +2082,10 @@ footer#footer .footer-links a:hover {
 #wrapper {
   position: relative;
   min-height: 100vh;
+}
+
+.ui-resizable-se {
+  background-image: none!important;
 }
 
 .rounded-image {
@@ -2639,7 +2665,7 @@ label.inactive {
   .chart {
     position: relative;
     margin-bottom: 20px;
-    min-height: 290px;
+    min-height: 200px;
   }
 
   .logo-holder {
@@ -3153,5 +3179,73 @@ label.inactive {
     display: inline-block;
     width: 330px;
     margin-right: 10px;
+  }
+}
+.settings-grid {
+  background-color: $white;
+
+  .grid-row {
+    display: flex;
+
+    border-bottom: 1px solid $gray;
+
+    &.first {
+      border-top: 1px solid $gray;
+      background-color: $blue;
+      text-align: left;
+      color: $white;
+      font-weight: 600;
+    }
+
+    &:nth-child(even) {
+      background-color: $beige;
+    }
+  }
+
+  .grid-cell {
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    flex: 2;
+    border-right: 1px solid $gray;
+
+    &:first-child {
+      border-left: 1px solid $gray;
+    }
+
+    &:last-child {
+      flex: 1;
+    }
+  }
+
+  .fa {
+    cursor: pointer;
+  }
+}
+
+.actions-wrapper {
+  margin-bottom: 5px;
+
+  * {
+    cursor: pointer;
+  }
+}
+
+#default-chart-view-grid {
+  select {
+    background: #fff;
+    text-transform: capitalize;
+    width: 50%;
+    min-width: 150px;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+
+  &.settings-grid .grid-cell {
+    flex: 1;
   }
 }

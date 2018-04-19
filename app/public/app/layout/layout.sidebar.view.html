@@ -5,7 +5,8 @@
             <ul>
                 <li ng-repeat="item in vm.dashboardMenu">
                     <a ui-sref="layout.dashboard({id:item.id})" ui-sref-active="active">
-                        <i class="{{item.icon}}" aria-hidden="true"></i><span>{{item.title}}</span>
+                        <i class="{{item.icon}}" aria-hidden="true"></i>
+                        <span>{{item.title}}</span>
                     </a>
                 </li>
 
@@ -43,12 +44,17 @@
                             </a>
                         </li>
 
+                        <li>
+                            <a ui-sref="layout.site_settings" ui-sref-active="active">
+                                <i class="fa fa-cog"></i><span>{{ getTranslation('site_settings') }}</span>
+                            </a>
+                        </li>
+
                         <li ng-if="isAdmin" ui-sref-active="active">
                             <a ui-sref="layout.surveys">
                                 <i class="fa fa-question-circle-o"></i> <span>{{ getTranslation('surveys') }}</span>
                             </a>
                         </li>
-
                     </ul>
                 </li>
             </ul>

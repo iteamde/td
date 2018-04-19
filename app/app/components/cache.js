@@ -1,8 +1,9 @@
 'use strict';
 
 var NodeCache = require('node-cache');
-
-module.exports = new NodeCache({
+var cache = new NodeCache({
     stdTTL: 100,
     checkperiod: 120
 });
+
+module.exports = cache;

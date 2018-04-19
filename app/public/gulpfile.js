@@ -5,8 +5,9 @@ var paths = require('./gulp.config.json');
 var log = plug.util.log;
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
-var cleanCSS = require('gulp-clean-css');
 var sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
+var purify = require('gulp-purifycss');
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var webserver = require('gulp-webserver');
@@ -18,7 +19,6 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
-var ngAnnotate = require('browserify-ngannotate');
 var runSequence = require('gulp-run-sequence');
 var browserSync = require('browser-sync');
 var CacheBuster = require('gulp-cachebust');
@@ -32,8 +32,7 @@ var cachebust = new CacheBuster();
 
 // Compile Sass
 gulp.task('sass', function () {
-    var dest = './content/css';
-    log('Compiling Sass and copying it to ' + dest);
+    log('Compiling Sass and copying it to ' + paths.destCss);
     return gulp.src(paths.scss)
         .pipe(sourcemaps.init())
         .pipe(sass())
@@ -42,9 +41,18 @@ gulp.task('sass', function () {
             cascade: false
         }))
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest(dest))
-        .pipe(browserSync.stream({match: '**/*.css'}));
-})
+        .pipe(cleanCSS())
+        .pipe(gulp.dest(paths.destCss))
+});
+
+
+//delete unused css
+gulp.task('purifyCss', function () {
+    return gulp.src(paths.css)
+        .pipe(purify(paths.js.concat(paths.htmlTemplates)))
+        .pipe(gulp.dest(paths.destCss))
+});
+
 
 // Start browserSync server
 gulp.task('browserSync', function () {
@@ -60,7 +68,7 @@ gulp.task('browserSync', function () {
 gulp.task('watch', function () {
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.scss, ['sass']);
-    gulp.watch(paths.htmltemplates, browserSync.reload);
+    gulp.watch(paths.htmlTemplates, browserSync.reload);
     gulp.watch(paths.js, browserSync.reload);
 });
 
@@ -69,7 +77,7 @@ gulp.task('watch', function () {
 // ---------------
 
 gulp.task('default', function (callback) {
-    runSequence(['sass', 'browserSync'], 'watch',
+    runSequence(['sass', 'purifyCss', 'browserSync'], 'watch',
         callback
     )
 });

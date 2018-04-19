@@ -105,7 +105,7 @@ module.exports.getCommonData = function (req, res) {
                 created_on: item.created_at,
                 status:     item.trendata_metric_status,
                 icon:       item.trendata_metric_icon,
-                title:      TranslationModel.getTranslation(item.trendata_metric_title_token, 1)
+                title:      TranslationModel.getTranslation(item.trendata_metric_title_token)
             });
         }),
 

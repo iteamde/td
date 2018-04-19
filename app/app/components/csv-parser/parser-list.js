@@ -1,5 +1,6 @@
 var orm = require('../orm/orm');
 var ORM = require('sequelize');
+let performanceList = {};
 
 module.exports = [
     {
@@ -278,44 +279,19 @@ module.exports = [
                 //'number'
             ],
             'Performance Rating (this year)': [
-                'number',
-                function (value, column, line, errors) {
-                    if ('' !== value && (value < 0 || value > 100)) {
-                        errors.push(this.createMessage(line, column, value, 'The value must be between 0 and 100'));
-                    }
-                }
+                'number'
             ],
             'Performance Rating (1 year ago)': [
-                'number',
-                function (value, column, line, errors) {
-                    if ('' !== value && (value < 0 || value > 100)) {
-                        errors.push(this.createMessage(line, column, value, 'The value must be between 0 and 100'));
-                    }
-                }
+                'number'
             ],
             'Performance Rating (2 years ago)': [
-                'number',
-                function (value, column, line, errors) {
-                    if ('' !== value && (value < 0 || value > 100)) {
-                        errors.push(this.createMessage(line, column, value, 'The value must be between 0 and 100'));
-                    }
-                }
+                'number'
             ],
             'Performance Rating (3 years ago)': [
-                'number',
-                function (value, column, line, errors) {
-                    if ('' !== value && (value < 0 || value > 100)) {
-                        errors.push(this.createMessage(line, column, value, 'The value must be between 0 and 100'));
-                    }
-                }
+                'number'
             ],
             'Performance Rating (4 years ago)': [
-                'number',
-                function (value, column, line, errors) {
-                    if ('' !== value && (value < 0 || value > 100)) {
-                        errors.push(this.createMessage(line, column, value, 'The value must be between 0 and 100'));
-                    }
-                }
+                'number'
             ],
 
             'Remote Employee': [],
@@ -581,7 +557,7 @@ module.exports = [
                 if ('' === value ) {
                     return null;
                 }
-                value = parseFloat(value);
+                value = performanceList[value] || parseFloat(value);
                 return isNaN(value) ? 0 : value;
             },
 
@@ -594,7 +570,7 @@ module.exports = [
                 if ('' === value ) {
                     return null;
                 }
-                value = parseFloat(value);
+                value = performanceList[value] || parseFloat(value);
                 return isNaN(value) ? 0 : value;
             },
 
@@ -607,7 +583,7 @@ module.exports = [
                 if ('' === value ) {
                     return null;
                 }
-                value = parseFloat(value);
+                value = performanceList[value] || parseFloat(value);
                 return isNaN(value) ? 0 : value;
             },
 
@@ -620,7 +596,7 @@ module.exports = [
                 if ('' === value ) {
                     return null;
                 }
-                value = parseFloat(value);
+                value = performanceList[value] || parseFloat(value);
                 return isNaN(value) ? 0 : value;
             },
 
@@ -633,7 +609,7 @@ module.exports = [
                 if ('' === value ) {
                     return null;
                 }
-                value = parseFloat(value);
+                value = performanceList[value] || parseFloat(value);
                 return isNaN(value) ? 0 : value;
             },
 

@@ -59,7 +59,9 @@ module.exports = {
                     chart_type:     chart.trendata_chart_type,
                     title:          TranslationModel.getTranslation(chart.trendata_chart_title_token),
                     description:    TranslationModel.getTranslation(chart.trendata_chart_description_token),
-                    sql_template:   chart.SqlQuery
+                    sql_template:   chart.SqlQuery,
+                    chart_view:     chart.trendata_chart_view,
+                    available_views: chart.trendata_chart_available_views
                 };
             }).then(function (data) {
                 var sqlTemplate = data.sql_template;
@@ -80,6 +82,8 @@ module.exports = {
                     separateThread: separateThread,
                     moment: require('moment'),
                     selfId: data.id,
+                    defaultChartView: data.chart_view,
+                    availableChartViews: data.available_views,
                     knex: require('../components/knex'),
                     sqlstring: require('sqlstring')
                 };

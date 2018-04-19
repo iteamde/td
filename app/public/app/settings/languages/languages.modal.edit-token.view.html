@@ -3,11 +3,11 @@
         <form role="form" method="post" name="tokenRowEditForm"> <!--ng-submit="vm.addUser(userRowEditForm, vm.addUserFields)"-->
 
             <div class="form-group">
-                <label for="tokenTranslation" ng-bind="vm.entity.token_name"></label>
+                <label for="tokenTranslation" ng-bind="vm.token.token_name"></label>
             </div>
 
             <div class="form-group">
-                <textarea class="form-control form-control-primary" placeholder="{{ getTranslation('token_translation') }}" ng-model="vm.entity.token_translation" name="tokenTranslation" id="tokenTranslation" ng-required="true"></textarea>
+                <textarea class="form-control form-control-primary" placeholder="{{ getTranslation('token_translation') }}" ng-model="vm.token.token_translation" name="tokenTranslation" id="tokenTranslation" ng-required="true"></textarea>
             </div>
 
             <div class="button-group form-group">

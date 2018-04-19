@@ -5,7 +5,7 @@
   "data": "/../../data/",
   "test": "./test/",
   "html": "./src/client/**/*.html",
-  "htmltemplates": "./app/**/*.html",
+  "htmlTemplates": "./app/**/*.html",
   "vendorjs": [
     "./bower_components/jquery/dist/jquery.min.js",
     "./bower_components/angular/angular.min.js",
@@ -46,6 +46,7 @@
   "images": [
     "./content/images/**/*"
   ],
+  "destCss": "./content/css",
   "report": "./report/",
   "build": "./build/"
 }

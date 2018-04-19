@@ -107,7 +107,9 @@
 
             $scope.eventsArr = res[1].data;
 
-            $scope.chartViews = res[0].data.chart_data.available_chart_view;
+            $scope.chartViews = res[0].data.chart_data.available_chart_view.map(function(item) {
+                return item.toLowerCase();
+            });
             vm.timeSpans = _.map(res[0].data.chart_data.available_time_spans, function(item) {
                 return {
                     start: item > 1 ? (item - 1) * 12 + +moment().format('M') - 1 : item * 12,
@@ -123,7 +125,7 @@
             $scope.verticalAxis = res[0].data.chart_data.available_vertical_axis_types;
 
             vm.axis = $scope.verticalAxis[1];
-            vm.view = $scope.chartViews[0];
+            vm.view = $scope.chartViews.indexOf(res[0].data.chart_data.default_chart_view) > -1 ? res[0].data.chart_data.default_chart_view : 'total';
             vm.timeSpan = vm.timeSpans[0];
 
             $scope.users = res[0].data.chart_data.users;
@@ -145,7 +147,6 @@
                 showMoreLess(val);
             });
 
-            $scope.gridOptions3.data = res[0].data.chart_data.summary;
             vm.summary = res[0].data.chart_data.summary;
 
             angular.extend($scope.widgets[0].chart_data, res[0].data.chart_data.chart_data);

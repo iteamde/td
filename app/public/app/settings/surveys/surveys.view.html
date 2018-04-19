@@ -7,8 +7,20 @@
 
     </div>
 
-        <!--UI Grid-->
-        <div ui-grid="gridOptions" class="tren-ui-grid-1 user-management-grid"></div>
+    <div id="grid">
+        <div class="grid-row first">
+            <div class="grid-cell">{{getTranslation('question')}}</div>
+            <div class="grid-cell">{{getTranslation('actions')}}</div>
+        </div>
+
+        <div class="grid-row" ng-repeat="question in vm.questions">
+            <div class="grid-cell" ng-repeat="(key, val) in question">{{val}}</div>
+            <div class="grid-cell">
+                <button type="button" class="btn btn-xs action-edit" title="{{ getTranslation('edit') }}" ng-click="vm.editToken(question)"> <i class="fa fa-pencil"></i></button>
+            </div>
+        </div>
+
+    </div>
 
     <div style="text-align: center; margin: 20px 0">
     <label >{{ getTranslation('recipients') }}</label>

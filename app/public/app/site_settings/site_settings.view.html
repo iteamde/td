@@ -1,0 +1,19 @@
+<!-- Chart -->
+<div class="chart-2 chart-grid margin-negative-20">
+    <!-- Chart Header -->
+    <div class="chart-header clearfix">
+        <h2>{{ getTranslation('site_settings') }}</h2>
+    </div>
+
+    <div class="text-center">
+      <select ng-model="vm.activeSetting" ng-change="vm.changeSetting(vm.activeSetting)">
+        <option ng-repeat="(key, title) in vm.settingsList" value="{{key}}">{{title}}</option>
+      </select>
+    </div>
+
+    <hr>
+
+    <ui-view></ui-view>
+
+    </div>
+</div>

@@ -62,8 +62,7 @@
         }
 
     function getTranslate() {
-        return {
-            "data" : [[
+        return [
             {
                 token_name: 'step2_chart_type',
                 token_translation: 'Step 2: Chart Type',
@@ -113,9 +112,8 @@
                 token_name: 'recommended_charts',
                 token_translation: 'Recommended Charts',
                 type: 'Custom'
-            }],
-
-            [{
+            },
+            {
                 token_name: 'chart_options',
                 token_translation: 'Chart Options',
                 type: 'System'
@@ -140,8 +138,7 @@
                 token_translation: 'create_custom_chart',
                 type: 'System'
             }
-        ]]
-    }
+        ]
     }
 
     function getConnectorsDetailed(id) {

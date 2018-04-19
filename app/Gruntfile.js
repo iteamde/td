@@ -12,11 +12,11 @@ module.exports = function(grunt) {
                         'public/content/bower_components/angular-cookies/angular-cookies.js',
                         'public/content/bower_components/angular-animate/angular-animate.js',
                         'public/content/bower_components/angular-sanitize/angular-sanitize.js',
-                        'public/content/bower_components/angular-bootstrap/ui-bootstrap.js',
                         'public/content/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-                        'public/content/bower_components/angular-ui-grid/ui-grid.js',
                         'public/content/bower_components/angular-ui-router/release/angular-ui-router.js',
                         'public/content/bower_components/angular-loading-bar/build/loading-bar.js',
+                        'public/content/libs/ui-bootstrap-custom-build/ui-bootstrap-custom-2.5.0.js',
+                        'public/content/libs/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-2.5.0.js',
 
                         // Gridstack with its dependencies
                         'public/content/bower_components/lodash/dist/lodash.min.js',
@@ -34,7 +34,6 @@ module.exports = function(grunt) {
                         'public/content/bower_components/ngstorage/ngStorage.min.js',
 
                         // ...
-                        'public/content/bower_components/toastr/toastr.js',
                         'public/content/bower_components/moment/moment.js',
                         'public/content/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
                         'public/content/libs/angular-noty/angular-noty.js',
@@ -65,7 +64,6 @@ module.exports = function(grunt) {
                         // core module, common directives, services under core module
                         'public/app/core/core.module.js',
                         'public/app/core/core.constants.js',
-                        'public/app/core/common.pagination.service.js',
                         'public/app/core/core.config.js',
                         'public/app/core/core.resize.directive.js',
                         'public/app/core/core.scroll.directive.js',
@@ -83,6 +81,7 @@ module.exports = function(grunt) {
                         'public/app/core/common-components/users-grid/users-grid.component.js',
                         'public/app/core/common-components/users-grid/users-grid.controller.js',
                         'public/app/core/common.service.js',
+                        'public/app/core/core.common.controller.js',
                         'public/app/core/core.page.service.js',
                         'public/app/core/common-chart.service.js',
                         'public/app/core/mock-data.service.js',
@@ -94,7 +93,8 @@ module.exports = function(grunt) {
                         'public/app/auth/login/login.routes.js',
                         'public/app/auth/login/auth.service.js',
                         'public/app/auth/login/login.controller.js',
-                        
+
+                        // Reset
                         'public/app/auth/reset/reset.module.js',
                         'public/app/auth/reset/reset.routes.js',
                         'public/app/auth/reset/reset.service.js',
@@ -110,7 +110,6 @@ module.exports = function(grunt) {
                         // Search Bar
                         'public/app/layout/search_bar/search-bar.component.js',
                         'public/app/layout/search_bar/search-bar.controller.js',
-                        'public/app/layout/search_bar/search-bar.service.js',
 
                         // Dashboard
                         'public/app/dashboard/dashboard.module.js',
@@ -193,13 +192,6 @@ module.exports = function(grunt) {
                         'public/app/nlp_search/nlp-search.service.js',
                         'public/app/nlp_search/nlp-search.controller.js',
 
-                        // Charts Library
-                        'public/app/charts_library/charts-library.module.js',
-                        'public/app/charts_library/charts-library.component.js',
-                        'public/app/charts_library/charts-library.routes.js',
-                        'public/app/charts_library/charts-library.service.js',
-                        'public/app/charts_library/charts-library.controller.js',
-
                         // Profile
                         'public/app/settings/profile/profile.module.js',
                         'public/app/settings/profile/profile.component.js',
@@ -228,7 +220,18 @@ module.exports = function(grunt) {
 
                         //Share
                         'public/app/layout/layout-share.controller.js',
-                        'public/content/bower_components/jssocials/dist/jssocials.min.js'
+                        'public/content/bower_components/jssocials/dist/jssocials.min.js',
+
+                        //Site Settings
+                        'public/app/site_settings/site_settings.module.js',
+                        'public/app/site_settings/site_settings.routes.js',
+                        'public/app/site_settings/site_settings.controller.js',
+
+                        //Default chart view
+                        'public/app/site_settings/default_chart_view/default_chart_view.module.js',
+                        'public/app/site_settings/default_chart_view/default_chart_view.routes.js',
+                        'public/app/site_settings/default_chart_view/default_chart_view.service.js',
+                        'public/app/site_settings/default_chart_view/default_chart_view.controller.js',
                     ]
                 }
             }

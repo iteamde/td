@@ -1,0 +1,3 @@
+Chart builder module is not used at project atm.
+
+ui-bootstrap modules uibTabs, uibProgressbar must be added for proper work.

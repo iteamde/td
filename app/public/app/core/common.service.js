@@ -19,10 +19,6 @@
       changeFusionTheme: changeFusionTheme,
       shareChart: shareChart,
 
-      /* ------------ GRID CONFIG ---------------*/
-      configGrid: configGrid,
-      setupGrid: setupGrid,
-
       /* ------------ GRIDSTACK METHODS ---------------*/
       onItemAdded: onItemAdded,
       onResizeStart: onResizeStart,
@@ -40,7 +36,6 @@
 
       /*-------CHART CONFIGURATIONS -------*/
       chartConfig: chartConfig,
-      updateGrid: updateGrid,
       saveToDashboard: saveToDashboard
     };
 
@@ -169,43 +164,6 @@
     }
 
     /* ===============================================================================
-     GRID CONFIG
-     ================================================================================= */
-    function setupGrid($scope) {
-      $scope.numRows = 10;
-      $scope.maxSize = 5;
-      $scope.gridOptions = {
-        maxSize: $scope.maxSize,
-        paginationPageSize: $scope.numRows,
-        enablePaginationControls: false,
-        paginationCurrentPage: 1,
-        columnDefs: [
-          {name: 'Name', field: 'name'},
-          {name: 'Position', field: 'position'},
-          {name: 'Office', field: 'office'},
-          {name: 'Age', field: 'age'},
-          {name: 'Cost', field: 'cost'},
-          {name: 'Revenue', field: 'revenue'}
-        ]
-      };
-
-      // more configuration would add later
-
-    }
-
-    function configGrid($scope, tableData) {
-      // add pending grid configuration;
-      if (!tableData) {
-        return false;
-      }
-      $scope.gridBoxData = tableData;
-      $scope.gridOptions.data = $scope.gridBoxData.chart_data.data;
-      $scope.gridOptions.totalItems = $scope.gridOptions.data.length;
-      $scope.gridOptions.minRowsToShow = $scope.gridOptions.data.length < $scope.numRows ? $scope.gridOptions.data.length : $scope.numRows;
-    }
-
-
-    /* ===============================================================================
      GRIDSTACK METHODS
      ================================================================================= */
 
@@ -329,61 +287,6 @@
     }
 
     function chartConfig($scope, vm) {
-
-      $scope.numRows = 10;
-      $scope.gridOptions = {
-        maxSize: $scope.maxSize,
-        paginationPageSize: $scope.numRows,
-        enablePaginationControls: false,
-        paginationCurrentPage: 1,
-        columnDefs: [
-          {name: 'Full Name', field: 'full name',enableHiding: false},
-          {name: 'Department', field: 'department',enableHiding: false},
-          {name: 'Location', field: 'location',enableHiding: false},
-          {name: 'Manager', field: 'manager',enableHiding: false}
-          // {name: 'Date Of Joining', field: 'date_of_joining', type: 'date', cellFilter: 'date:"MMM dd, yyyy"'}
-        ]
-      };
-      $scope.gridOptions2 = {
-        maxSize: $scope.maxSize,
-        paginationPageSize: 15,
-        enablePaginationControls: false,
-        paginationCurrentPage: 1,
-        minRowsToShow: 12,
-        enableColumnMenus: false,
-        enableSorting: false,
-        //rowTemplate: "<div ng-style=\"{ 'cursor': row.cursor }\" ng-repeat=\"col in renderedColumns\" ng-class=\"col.colIndex()\" class=\"ngCell {{col.cellClass}}\"><div class=\"ngVerticalBar\" ng-style=\"{height: rowHeight}\" ng-class=\"{ ngVerticalBarVisible: !$last }\">&nbsp;</div><div ng-cell></div></div>",
-        columnDefs: [
-          {name: '', field: 'name', width: '18%'},
-          {name: moment().subtract(6, 'month').format('MMMM'), field: moment().subtract(6, 'month').format('MMMM'), cellClass: 'ui-grid-cell-future', cellTemplate: '/app/core/common-partials/cell-template.html',enableHiding: false},
-          {name: moment().subtract(5, 'month').format('MMMM'), field: moment().subtract(5, 'month').format('MMMM'), cellClass: 'ui-grid-cell-future', cellTemplate: '/app/core/common-partials/cell-template.html',enableHiding: false},
-          {name: moment().subtract(4, 'month').format('MMMM'), field: moment().subtract(4, 'month').format('MMMM'), cellClass: 'ui-grid-cell-future', cellTemplate: '/app/core/common-partials/cell-template.html',enableHiding: false},
-          {name: moment().subtract(3, 'month').format('MMMM'), field: moment().subtract(3, 'month').format('MMMM'), cellClass: 'ui-grid-cell-future', cellTemplate: '/app/core/common-partials/cell-template.html',enableHiding: false},
-          {name: moment().subtract(2, 'month').format('MMMM'), field: moment().subtract(2, 'month').format('MMMM'), cellClass: 'ui-grid-cell-future', cellTemplate: '/app/core/common-partials/cell-template.html',enableHiding: false},
-          {name: moment().subtract(1, 'month').format('MMMM'), field: moment().subtract(1, 'month').format('MMMM'), cellClass: 'ui-grid-cell-future', cellTemplate: '/app/core/common-partials/cell-template.html',enableHiding: false}
-        ]
-      };
-      //for Summary
-      $scope.gridOptions3 = {
-        maxSize: $scope.maxSize,
-        paginationPageSize: 15,
-        enablePaginationControls: false,
-        paginationCurrentPage: 1,
-        minRowsToShow: 12,
-        enableColumnMenus: false,
-        enableSorting: false,
-        //rowTemplate: "<div ng-style=\"{ 'cursor': row.cursor }\" ng-repeat=\"col in renderedColumns\" ng-class=\"col.colIndex()\" class=\"ngCell {{col.cellClass}}\"><div class=\"ngVerticalBar\" ng-style=\"{height: rowHeight}\" ng-class=\"{ ngVerticalBarVisible: !$last }\">&nbsp;</div><div ng-cell></div></div>",
-        columnDefs: [
-          {name: '', field: 'name', width: '18%'},
-          {name: moment().subtract(6, 'month').format('MMMM'), field: moment().subtract(6, 'month').format('MMMM'), cellTemplate: '<div class="ui-grid-cell-contents flex-cell">{{grid.getCellValue(row, col) | number}}</div>'},
-          {name: moment().subtract(5, 'month').format('MMMM'), field: moment().subtract(5, 'month').format('MMMM'), cellTemplate: '<div class="ui-grid-cell-contents flex-cell">{{grid.getCellValue(row, col) | number}}</div>'},
-          {name: moment().subtract(4, 'month').format('MMMM'), field: moment().subtract(4, 'month').format('MMMM'), cellTemplate: '<div class="ui-grid-cell-contents flex-cell">{{grid.getCellValue(row, col) | number}}</div>'},
-          {name: moment().subtract(3, 'month').format('MMMM'), field: moment().subtract(3, 'month').format('MMMM'), cellTemplate: '<div class="ui-grid-cell-contents flex-cell">{{grid.getCellValue(row, col) | number}}</div>'},
-          {name: moment().subtract(2, 'month').format('MMMM'), field: moment().subtract(2, 'month').format('MMMM'), cellTemplate: '<div class="ui-grid-cell-contents flex-cell">{{grid.getCellValue(row, col) | number}}</div>'},
-          {name: moment().subtract(1, 'month').format('MMMM'), field: moment().subtract(1, 'month').format('MMMM'), cellTemplate: '<div class="ui-grid-cell-contents flex-cell">{{grid.getCellValue(row, col) | number}}</div>'}
-        ]
-      };
-
       vm.ALLOWED_CHART_TYPES = ALLOWED_CHART_TYPES;
       vm.TOOLTIP_TILES_MESSAGES = TOOLTIP_MESSAGES.TILES;
       vm.TOOLTIP_BACK_BUTTON = TOOLTIP_MESSAGES.BACK_BUTTON;
@@ -409,20 +312,6 @@
       $scope.onResizeStart = onResizeStart($scope);
       $scope.onResizeStop = onResizeStop($scope);
       $scope.onWindowResize = onWindowResize($scope);
-    }
-
-    function updateGrid($scope, data) {
-      $scope.gridOptions.data = _.filter(data, function (obj) {
-
-        return  $scope.gridFilter.location.values[obj.location] &&
-            $scope.gridFilter.gender.values[obj.gender] &&
-            $scope.gridFilter.department.values[obj.department];
-        /*return _.every(_.keys($scope.gridFilter), function (key) {
-          return $scope.gridFilter[key].values[obj[key]]
-        });*/
-      });
-
-      return $scope.gridOptions.data;
     }
 
     function saveToDashboard(chart) {

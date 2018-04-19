@@ -28,8 +28,6 @@
                 Show inactive users
             </label>
         </div>
-         <!--UI Grid-->
-        <!--<div ui-grid="gridOptions" ui-grid-selection class="tren-ui-grid-1 user-management-grid"></div>-->
         <users-grid inactive="vm.showInactive" users="userData.data"></users-grid>
 
         <div class="chart-row" ng-if="userData.data.length">
@@ -37,48 +35,5 @@
                 <option ng-repeat="value in vm.selectOptions" value="{{value}}">{{value}}</option>
             </select>
         </div>
-
-        <!--<table class = "table table-striped">
-            &lt;!&ndash;<caption>{{ getTranslation('users_list') }}</caption>&ndash;&gt;
-            <thead>
-                <tr>
-                    <th ng-click="vm.userPagination.changeSort('firstname')">Name [{{ vm.userPagination.getSortIcon('firstname', {asc: 'ASC', desc: 'DESC', no: 'NO'}) }}]</th>
-                    <th ng-click="vm.userPagination.changeSort('email')">E-mail [{{ vm.userPagination.getSortIcon('email', {asc: 'ASC', desc: 'DESC', no: 'NO'}) }}]</th>
-                    <th ng-click="vm.userPagination.changeSort('designation')">Designation [{{ vm.userPagination.getSortIcon('designation', {asc: 'ASC', desc: 'DESC', no: 'NO'}) }}]</th>
-                    <th ng-click="vm.userPagination.changeSort('status')">Status [{{ vm.userPagination.getSortIcon('status', {asc: 'ASC', desc: 'DESC', no: 'NO'}) }}]</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="item in vm.userPagination.data track by $index">
-                    <td>{{ item.firstname }}</td>
-                    <td>{{ item.email }}</td>
-                    <td>{{ item.designation }}</td>
-                    <td>{{ item.status }}</td>
-                    <td><i class="fa fa-pencil-square-o"
-                           data-ng-click="vm.editUser()"></i></td>
-                </tr>
-            </tbody>
-
-        </table>-->
-
-        <!--<ul class="pagination pull-right" ng-if="vm.userPagination.lastPage > 0">
-            <li><a ng-click="vm.userPagination.goToPrev()">&laquo;</a></li>
-            <li ng-repeat="page in vm.userPagination.getPageNumbers()" ng-class="{active: vm.userPagination.currentPage == page}" ng-click="vm.userPagination.goToPage(page)">
-                <a>{{ page + 1 }}</a>
-            </li>
-            <li><a ng-click="vm.userPagination.goToNext()">&raquo;</a></li>
-        </ul>-->
-
-        <!-- Pagination -->
-        <!--
-        <ul class="pull-right"
-            ng-show="gridOptions.totalItems > numRows"
-            uib-pagination
-            total-items="gridOptions.totalItems" ng-model="gridOptions.paginationCurrentPage"
-            max-size="gridOptions.maxSize" previous-text="&lsaquo;"
-            next-text="&rsaquo;">
-        </ul>
-        -->
     </div>
 </div>

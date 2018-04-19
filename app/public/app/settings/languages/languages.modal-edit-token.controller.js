@@ -6,15 +6,12 @@
         .module('app.languages')
         .controller('ModalEditTokenController', ModalEditTokenController);
 
-    ModalEditTokenController.$inject = ['$uibModalInstance', 'row'];
+    ModalEditTokenController.$inject = ['$uibModalInstance', 'token'];
 
-    function ModalEditTokenController ($uibModalInstance, row) {
+    function ModalEditTokenController ($uibModalInstance, token) {
 
         var vm = this;
-
-        vm.entity = angular.copy(row.entity);
-
-        console.log($uibModalInstance);
+        vm.token = token;
     }
 
 })();

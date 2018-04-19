@@ -416,7 +416,7 @@ switch (requestData.type) {
                 /**
                  *
                  */
-                available_chart_view: ['Total'],
+                available_chart_view: availableChartViews.split(','),
 
                 /**
                  *
@@ -447,7 +447,13 @@ switch (requestData.type) {
                  users_filter_data: {
                     timeSpan: timeSpan,
                     types: undefined
-                 }
+                 },
+
+                /**
+                 *
+                 *
+                 */
+                 default_chart_view: 'total'
             });
         }).then(_resolve).catch(_reject);
 }

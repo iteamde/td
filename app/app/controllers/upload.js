@@ -4,159 +4,77 @@ var path = require('path');
 var apiCallTrack = require('../components/api-call-track');
 var dateformat = require('dateformat');
 var orm = require('../components/orm/orm');
+var ORM = require('sequelize');
 var csvParser = require('../components/csv-parser/parser');
 var ConnectorCsvModel = require('../models/orm-models').ConnectorCsv;
 var HttpResponse = require('../components/http-response');
 var cache = require('../components/cache');
+var distance = require('google-distance');
+distance.apiKey = 'AIzaSyDvrXInBinjB904T2O5TyEg0gTkDJ_1dmE';
 
-/**
- * @return {Promise.<TResult>}
- */
-function duplicationOfData() {
-    var customFields;
-    var customField;
-    var customFieldsInsert;
+var addressFields = {
+    personal: [
+        'trendata_bigdata_user_address_address_personal',
+        'trendata_bigdata_user_address_city_personal',
+        'trendata_bigdata_user_address_state_personal',
+        'trendata_bigdata_user_country_personal'
+    ],
+    business: [
+        'trendata_bigdata_user_address_address',
+        'trendata_bigdata_user_address_city',
+        'trendata_bigdata_user_address_state',
+        'trendata_bigdata_user_country'
+    ]
+};
 
-    return Promise.all([
-        knex('trendata_bigdata_custom_field').del(),
-        knex('trendata_bigdata_user_total').del(),
-    ]).then(function () {
-        return knex('trendata_bigdata_user')
-            .select([
-                'trendata_bigdata_user.*',
-                'trendata_bigdata_country.*',
-                'trendata_bigdata_gender.*',
-                'trendata_bigdata_hire_source.*',
-                'trendata_bigdata_user_address.*',
-                'trendata_bigdata_user_education_history.*',
-                'trendata_bigdata_user_position.*',
-            ])
-            .innerJoin(
-                'trendata_bigdata_country',
-                'trendata_bigdata_user.trendata_bigdata_nationality_country_id',
-                'trendata_bigdata_country.trendata_bigdata_country_id'
-            )
-            .innerJoin(
-                'trendata_bigdata_gender',
-                'trendata_bigdata_user.trendata_bigdata_gender_id',
-                'trendata_bigdata_gender.trendata_bigdata_gender_id'
-            )
-            .innerJoin(
-                'trendata_bigdata_hire_source',
-                'trendata_bigdata_user.trendata_bigdata_hire_source_id',
-                'trendata_bigdata_hire_source.trendata_bigdata_hire_source_id'
-            )
-            .innerJoin(
-                'trendata_bigdata_user_address',
-                'trendata_bigdata_user.trendata_bigdata_user_id',
-                'trendata_bigdata_user_address.trendata_bigdata_user_id'
-            )
-            .innerJoin(
-                'trendata_bigdata_user_education_history',
-                'trendata_bigdata_user.trendata_bigdata_user_id',
-                'trendata_bigdata_user_education_history.trendata_bigdata_user_education_history_id'
-            )
-            .innerJoin(
-                'trendata_bigdata_user_position',
-                'trendata_bigdata_user.trendata_bigdata_user_id',
-                'trendata_bigdata_user_position.trendata_bigdata_user_position_id'
-            );
-    }).then(function (rows) {
-        if (!rows.length) {
-            return new Promise.reject(new PromiseBreak);
-        }
+var calculateDistance = function() {
+    orm.query('SELECT * FROM `trendata_bigdata_user`', {
+        type: ORM.QueryTypes.SELECT,
+    }).then(function(rows) {
+        _.each(rows, function(user) {
+            new Promise(function(resolve, reject) {
+                var personalAddress = _.reduce(addressFields.personal, function(accum, field) {
+                    return accum + ', ' + user[field];
+                }, '');
+                var businessAddress = _.reduce(addressFields.business, function(accum, field) {
+                    return accum + ', ' + user[field];
+                }, '');
 
-        customFields = Object.keys(JSON.parse(rows[0].trendata_bigdata_user_custom_fields));
+                distance.get(
+                  {
+                    origin: personalAddress,
+                    destination: businessAddress
+                  },
+                  function(err, data) {
+                    if (err) return reject(err);
 
-        if (customFields.length) {
-            return knex('trendata_bigdata_custom_field')
-                .insert(_.map(customFields, function (item) {
-                    return {
-                        trendata_bigdata_custom_field_name: item,
-                        created_at: knex.raw('NOW()'),
-                        updated_at: knex.raw('NOW()')
-                    };
-                }))
-                .then(function () {
-                    return knex('trendata_bigdata_custom_field');
-                })
-                .reduce(function (accum, item) {
-                    accum[item.trendata_bigdata_custom_field_name] = item.trendata_bigdata_custom_field_id;
-                    return accum;
-                }, {}).then(function (_customFields) {
-                    customFields = _customFields;
-                    return rows;
+                    resolve(data);
                 });
-        }
+            }).then(function(data) {
+                let approximateDistance = '';
+                let distanceInMiles = data.distanceValue * 0.621371;
+                if (distanceInMiles < 1000)
+                    approximateDistance = '< 1';
+                else if (distanceInMiles < 2000)
+                    approximateDistance = '< 2';
+                else if (distanceInMiles < 5000)
+                    approximateDistance = '< 5';
+                else if (distanceInMiles < 10000)
+                    approximateDistance = '< 10';
+                else if (distanceInMiles < 20000)
+                    approximateDistance = '< 20';
+                else
+                    approximateDistance = '> 20';
 
-        return rows;
-    }).each(function (item) {
-        delete item.created_at;
-        delete item.updated_at;
-        delete item.trendata_bigdata_country_id;
-        delete item.trendata_bigdata_gender_id;
-        delete item.trendata_bigdata_hire_source_id;
-        delete item.trendata_bigdata_user_address_id;
-        delete item.trendata_bigdata_user_education_history_id;
-        delete item.trendata_bigdata_user_position_id;
-        delete item.trendata_user_id;
-        delete item.trendata_bigdata_gender_id;
-        delete item.trendata_bigdata_nationality_country_id;
-        delete item.trendata_bigdata_hire_source_id;
-        customField = JSON.parse(item.trendata_bigdata_user_custom_fields);
-        delete item.trendata_bigdata_user_custom_fields;
-        item.created_at = knex.raw('NOW()');
-        item.updated_at = knex.raw('NOW()');
-
-        return knex('trendata_bigdata_user_total').insert(item).then(function (lastInsertId) {
-            if (!Object.keys(customField).length) {
-                return;
-            }
-
-            customFieldsInsert = [];
-
-            for (var property in customField) {
-                customFieldsInsert.push({
-                    trendata_bigdata_custom_field_id: customFields[property],
-                    trendata_bigdata_user_total_id: lastInsertId,
-                    trendata_bigdata_custom_field_value_value: customField[property],
-                    created_at: knex.raw('NOW()'),
-                    updated_at: knex.raw('NOW()')
+                orm.query('UPDATE `trendata_bigdata_user` SET `trendata_bigdata_user_distance_to_work` = ?, `trendata_bigdata_user_approximate_distance_to_work` = ? WHERE `trendata_bigdata_user_id` = ?', {
+                    replacements: [distanceInMiles, approximateDistance, user.trendata_bigdata_user_id]
                 });
-            }
-
-            return knex('trendata_bigdata_custom_field_value').insert(customFieldsInsert);
+            }).catch(function(err) {
+                
+            });
         });
-    }).then(function () {
-        var sql = 'CREATE OR REPLACE VIEW `trendata_bigdata_user_total_view` AS ';
-        var join = [];
-        var select = ['`trendata_bigdata_user_total`.*'];
-        var selectBind = [];
-
-        for (var _customField in customFields) {
-            join.push(`
-                LEFT JOIN 
-                    \`trendata_bigdata_custom_field_value\` AS \`field_${join.length}\` 
-                    ON 
-                    (
-                        \`field_${join.length}\`.\`trendata_bigdata_custom_field_id\` = ${customFields[_customField]} 
-                        AND 
-                        \`field_${join.length}\`.\`trendata_bigdata_user_total_id\` = \`trendata_bigdata_user_total\`.\`trendata_bigdata_user_id\`
-                    )
-            `);
-            select.push(
-                `\`field_${select.length}\`.\`trendata_bigdata_custom_field_value_value\` AS ??`
-            );
-            selectBind.push(_customField);
-        }
-
-        sql += ' SELECT ' + select.join(', ') + ' FROM `trendata_bigdata_user_total` ' + join.join(' ');
-
-        console.log(sql);
-
-        return knex.raw(sql, selectBind);
-    }).catch(PromiseBreak, function () {/* ... */});
-}
+    });
+};
 
 module.exports = {
     /**
@@ -198,6 +116,7 @@ module.exports = {
                     trendata_user_id: req.parentUser.trendata_user_id
                 }, true);
             }).then(function () {
+                calculateDistance();
                 var fullPath = path.resolve(config.connector_csv_files_dir, lastCsvFile);
                 return new Promise(function (resolve, reject) {
                     fs.writeFile(fullPath, req.body.data, function(err) {

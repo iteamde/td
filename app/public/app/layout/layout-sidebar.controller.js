@@ -11,8 +11,6 @@
     function LayoutSidebarController($scope, $rootScope, layoutService, exception) {
         var vm = this;
 
-        vm.dashboardMenu = null;
-        vm.metricMenu    = null;
         vm.subMenuIsOpen = false;
         vm.translations  = {};
         vm.isActive = isActive;
@@ -45,7 +43,7 @@
         $scope.$on('resize::resize', layoutService.updateSidebarHeight);
         $scope.$on('scroll::scroll', layoutService.updateSidebarHeight);
 
-        activate();
+        // activate();
 
         function activate() {
             // Load dashboard menu
@@ -57,7 +55,7 @@
 
         function getDashboardMenuComplete(data) {
             vm.dashboardMenu = data;
-            $rootScope.dashboardId = data.length ? data[0].id : undefined;
+            
             layoutService.getMetricMenu()
                 .success(getMetricMenuComplete)
                 .catch(serviceError);

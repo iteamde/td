@@ -26,17 +26,15 @@
                 status: 1,
                 error: {}
             },
-
             {
-                title: "SAP HR",
-                logo: "SAP_HR",
+                title: "ADP",
+                logo: "ADP",
                 status: 0,
                 error: {
                     status: false,
                     count: 0
                 }
             },
-
             {
                 title: "PeopleSoft",
                 logo: "PeopleSoft",
@@ -46,10 +44,9 @@
                     count: 0
                 }
             },
-
             {
-                title: "Workday",
-                logo: "Workday",
+                title: "SAP HR",
+                logo: "SAP_HR",
                 status: 0,
                 error: {
                     status: false,
@@ -66,10 +63,28 @@
                 }
             },
             {
+                title: "Workday",
+                logo: "Workday",
+                status: 0,
+                error: {
+                    status: false,
+                    count: 0
+                }
+            },
+            {
                 title: "ExponentHR",
                 logo: "ExponentHR",
                 status: 0,
                 //syncInfo: "Last sync: May 7, 2016 1:26 am",
+                error: {
+                    status: false,
+                    count: 0
+                }
+            },
+            {
+                title: "UltiPro",
+                logo: "UltiPro",
+                status: 0,
                 error: {
                     status: false,
                     count: 0

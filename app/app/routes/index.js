@@ -19,6 +19,8 @@ var trackUserActivity = require('../controllers/track-user-activity');
 var nlpSearch       = require('../controllers/nlp-search');
 var video           = require('../controllers/video');
 var share           = require('../controllers/share');
+var performance     = require('../controllers/performance');
+var chartViews     = require('../controllers/chart-view');
 var mail            = require('nodemailer').mail;
 
 var sendmail        = require('sendmail')({
@@ -113,6 +115,14 @@ router.post('/chart/set-chart-size');
 router.post('/track-user-activity', disableCache, trackUserActivity);
 
 router.post('/video', disableCache, authMiddleware, video.getVideo);
+
+router.get('/performance', authMiddleware, performance.getPerformances),
+router.post('/performance/create', authMiddleware, performance.createPerformance),
+router.post('/performance/delete', authMiddleware, performance.deletePerformance),
+
+router.get('/default_chart_view', authMiddleware, chartViews.getChartViews),
+// router.get('/available_chart_view', authMiddleware, chartViews.getAvailableChartViews),
+router.post('/update_chart_view', authMiddleware, chartViews.updateChartViews),
 
 router.get('/test', disableCache, require('./test-route'));
 router.get('/stat', disableCache, require('./stat'));

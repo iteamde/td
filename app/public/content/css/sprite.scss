@@ -9,6 +9,17 @@
 //
 // At the bottom of this section, we provide information about the spritesheet itself
 // $spritesheet: width height image $spritesheet-sprites;
+$-a-d-p-name: 'ADP';
+$-a-d-p-x: 253px;
+$-a-d-p-y: 192px;
+$-a-d-p-offset-x: -253px;
+$-a-d-p-offset-y: -192px;
+$-a-d-p-width: 99px;
+$-a-d-p-height: 45px;
+$-a-d-p-total-width: 391px;
+$-a-d-p-total-height: 244px;
+$-a-d-p-image: 'sprite.png';
+$-a-d-p: (253px, 192px, -253px, -192px, 99px, 45px, 391px, 244px, 'sprite.png', 'ADP', );
 $-deltek-name: 'Deltek';
 $-deltek-x: 0px;
 $-deltek-y: 151px;
@@ -64,6 +75,17 @@ $-t-u-f-f-total-width: 391px;
 $-t-u-f-f-total-height: 244px;
 $-t-u-f-f-image: 'sprite.png';
 $-t-u-f-f: (0px, 199px, 0px, -199px, 169px, 45px, 391px, 244px, 'sprite.png', 'TUFF', );
+$-ulti-pro-name: 'UltiPro';
+$-ulti-pro-x: 253px;
+$-ulti-pro-y: 144px;
+$-ulti-pro-offset-x: -253px;
+$-ulti-pro-offset-y: -144px;
+$-ulti-pro-width: 120px;
+$-ulti-pro-height: 45px;
+$-ulti-pro-total-width: 391px;
+$-ulti-pro-total-height: 244px;
+$-ulti-pro-image: 'sprite.png';
+$-ulti-pro: (253px, 144px, -253px, -144px, 120px, 45px, 391px, 244px, 'sprite.png', 'UltiPro', );
 $-workday-name: 'Workday';
 $-workday-x: 253px;
 $-workday-y: 96px;
@@ -75,7 +97,7 @@ $-workday-total-width: 391px;
 $-workday-total-height: 244px;
 $-workday-image: 'sprite.png';
 $-workday: (253px, 96px, -253px, -96px, 138px, 45px, 391px, 244px, 'sprite.png', 'Workday', );
-$main-logo-name: 'main-logo';
+$main-logo-name: 'main_logo';
 $main-logo-x: 0px;
 $main-logo-y: 0px;
 $main-logo-offset-x: 0px;
@@ -85,11 +107,11 @@ $main-logo-height: 100px;
 $main-logo-total-width: 391px;
 $main-logo-total-height: 244px;
 $main-logo-image: 'sprite.png';
-$main-logo: (0px, 0px, 0px, 0px, 250px, 100px, 391px, 244px, 'sprite.png', 'main-logo', );
+$main-logo: (0px, 0px, 0px, 0px, 250px, 100px, 391px, 244px, 'sprite.png', 'main_logo', );
 $spritesheet-width: 391px;
 $spritesheet-height: 244px;
 $spritesheet-image: 'sprite.png';
-$spritesheet-sprites: ($-deltek, $-exponent-h-r, $-people-soft, $-s-a-p-h-r, $-t-u-f-f, $-workday, $main-logo, );
+$spritesheet-sprites: ($-a-d-p, $-deltek, $-exponent-h-r, $-people-soft, $-s-a-p-h-r, $-t-u-f-f, $-ulti-pro, $-workday, $main-logo, );
 $spritesheet: (391px, 244px, 'sprite.png', $spritesheet-sprites, );
 
 // The provided mixins are intended to be used with the array-like variables

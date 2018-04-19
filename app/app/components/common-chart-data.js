@@ -288,6 +288,7 @@ module.exports = {
             division: '`tbu`.`trendata_bigdata_user_division`',
             'cost center': '`tbu`.`trendata_bigdata_user_cost_center`',
             'job level': '`tbu`.`trendata_bigdata_user_job_level`',
+            'commute distance': '`tbu`.`trendata_bigdata_user_approximate_distance_to_work`',
             performance: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`'
         };
 
@@ -856,6 +857,27 @@ module.exports = {
                 }
             ).map(function (item) {
                 return item.job_level;
+            }),
+
+            /**
+             *
+             */
+            'commute distance': orm.query(
+                'SELECT ' +
+                '`tbu`.`trendata_bigdata_user_approximate_distance_to_work` AS `commute_distance` ' +
+                'FROM ' +
+                '`trendata_bigdata_user` AS `tbu` ' +
+                'GROUP BY ' +
+                '`tbu`.`trendata_bigdata_user_approximate_distance_to_work` ' +
+                'ORDER BY ' +
+                'CONVERT(SUBSTR(`tbu`.`trendata_bigdata_user_approximate_distance_to_work`, 2), UNSIGNED INTEGER),' +
+                '`tbu`.`trendata_bigdata_user_approximate_distance_to_work`',
+                {
+                    type: ORM.QueryTypes.SELECT
+                    // replacements: []
+                }
+            ).map(function (item) {
+                return item.commute_distance;
             }),
 
             /**

@@ -130,7 +130,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             _this.findParserByHeader(csv.header, parserName)
                 .then(function (_parser){
-                    if (_parser.err.length){
+                    if (_parser.err.length) {
                         // return resolve(_parser.err);
                         return reject(new Error('CSV file headers and Data-Dictionary configurations do not match!'));
                     }
