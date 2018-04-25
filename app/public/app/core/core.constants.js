@@ -25,13 +25,14 @@
 
         // base api url
 
-         .constant('BASE_URL', window.location.origin + '/api/')
+         //.constant('BASE_URL', window.location.origin + '/api/')
         // .constant('BASE_URL', 'http://localhost:8000/api/') // local
         // .constant('BASE_URL', 'https://demo.trendata.com/api/') // demo
         // .constant('BASE_URL', 'https://stage.dev.trendata.com/api/') // stage
         // .constant('BASE_URL', 'https://customfield.dev.trendata.com/api/')
         // .constant('BASE_URL', 'http://192.168.8.95:8000/api/') // from shashi system
-
+        .constant('BASE_URL', 'https://qa25000.dev.trendata.com/api/') //eJni7KyyfVERF52
+        //.constant('BASE_URL', 'https://qa2500.dev.trendata.com/api/') //hEh9gMRj30lW9Mq
         // tooltip
         .constant('TOOLTIP_MESSAGES', {
             LAYOUT: {

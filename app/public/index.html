@@ -18,8 +18,8 @@
 <body resize="50" scroll="50" class="state-{{$state.current.name}}">
 <ui-view class="root-ui-view"></ui-view>
 
-<script src="dist/app.min.js"></script>
-<!--
+<!--<script src="dist/app.min.js"></script>-->
+
 inject-vendor:js
 <script src="content/bower_components/jquery/dist/jquery.js"></script>
 <script src="content/bower_components/angular/angular.js"></script>
@@ -63,13 +63,13 @@ inject-vendor:js
  Start Chart libs
 <script src="content/bower_components/fusioncharts/fusioncharts.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.charts.js"></script>
-&lt;!&ndash;<script src="content/bower_components/fusioncharts/fusioncharts.powercharts.js"></script>
+<!--<script src="content/bower_components/fusioncharts/fusioncharts.powercharts.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.gantt.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.treemap.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.zoomscatter.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.maps.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.widgets.js"></script>
-<script src="content/bower_components/fusioncharts/themes/fusioncharts.theme.fint.js"></script>&ndash;&gt;
+<script src="content/bower_components/fusioncharts/themes/fusioncharts.theme.fint.js"></script>-->
 <script src="content/libs/fusioncharts/fusioncharts.theme.tren.js"></script>
 <script src="content/libs/fusioncharts/angular-fusioncharts.js"></script>
  End Chart libs
@@ -216,6 +216,7 @@ Financial Data
 <script src="app/nlp_search/nlp-search.routes.js"></script>
 <script src="app/nlp_search/nlp-search.service.js"></script>
 <script src="app/nlp_search/nlp-search.controller.js"></script>
+<script src="app/nlp_search/chart-nlp.directive.js"></script>
 
  Profile
 <script src="app/settings/profile/profile.module.js"></script>
@@ -257,7 +258,7 @@ Financial Data
 <script src="app/site_settings/default_chart_view/default_chart_view.routes.js"></script>
 <script src="app/site_settings/default_chart_view/default_chart_view.service.js"></script>
 <script src="app/site_settings/default_chart_view/default_chart_view.controller.js"></script>
--->
+
 
 </body>
 </html>
