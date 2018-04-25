@@ -37,7 +37,9 @@
             "chart_type": "2",
             "title": "Source of hire",
             "description": "This metric shows the percent of employees hired during the month that came as a result of the respective named job source.",
+           "showLegend": "1",
             "chart_data": {
+                "theme": "tren",
                 "data": [{
                     "label": "Job Boards",
                     "value": 2
@@ -48,8 +50,8 @@
                     "label": "LinkedIn",
                     "value": 1
                 }],
-                "legendItemFontSize": "8",
-                "paletteColors": "#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473",
+                "legendItemFontSize": "12",
+                //"paletteColors": "#0000ff",
                 "decimals": "1"
             }
 
@@ -68,6 +70,8 @@
             "title": "Average Salary",
             "description": "This metrics shows the average total salary for the organization versus the compiled industry average salary based on applied industry data.",
             "chart_data": {
+                "theme": "tren",
+                "legendItemFontSize": "12",
                 "slantLabels": "1",
                 "numberPrefix": "$",
                 "numberSuffix": "",
@@ -81,7 +85,8 @@
                 "dataset": [{
                     "seriesname": "Average Salary",
                     "data": [{
-                        "value": 118920
+                        "value": 118920,
+                        "color": "#0000ff"
                     }]
                 }, {
                     "seriesname": "Industry Salary",
