@@ -1,3 +1,10 @@
+//$white: #fff;
+//$gray: grey;
+//$blue: blue;
+//$beige:yellow;
+
+
+/*** Grid that is made by flex-box ****/
 #grid {
   font-size: 11px;
   background-color: $white;
@@ -41,6 +48,81 @@
     }
   }
 
+  .grid-bottom {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: beige;
+    border: 1px solid black;
+
+    select {
+      margin: 0 10px;
+    }
+  }
+
+  .grid-manage {
+    font-size: 12px;
+    color: $blue;
+    cursor: pointer;
+  }
+
+  label {
+    padding: 5px;
+    cursor: pointer;
+    color: #005075;
+  }
+
+  input {
+    display: none;
+
+    &:checked + label {
+      background-color: #005075;
+      color: #fff;
+    }
+  }
+
+  .pagination {
+    margin: 0;
+  }
+}
+
+
+/*** Grid that is made by <table> tag ****/
+
+#table-grid{
+  font-size: 11px;
+  background-color: $white;
+  margin-bottom: 5px;
+  .table-container{
+    overflow:auto;
+    table{
+      width:100%;
+      th{
+        background-color: $blue;
+        color: #fff;
+        vertical-align:middle;
+        white-space:nowrap;
+        text-align: center;
+      }
+      th i{
+        vertical-align:middle;
+        padding-left: 10px;
+      }
+      tr:nth-child(even) {
+        background-color: $beige;
+      }
+      tr,th,td{
+        border:1px solid $gray;
+        padding: 10px;
+        text-align:center;
+        vertical-align:middle;
+      }
+      td:first-child{
+        white-space:nowrap;
+      }
+    }
+  }
   .grid-bottom {
     padding: 5px;
     display: flex;

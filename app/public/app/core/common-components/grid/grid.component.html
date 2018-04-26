@@ -1,20 +1,81 @@
-<div id="grid">
-    <div class="grid-row first">
-        <div class="grid-cell" ng-repeat="(key, val) in $ctrl.users[0]" ng-click="sort(key)">
-            {{cutCustom(key) | capitalizeFilter}}
-            <i class="fa fa-sort pull-right"
-               ng-if="pagination.sort_column != key || pagination.sort_column == key && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
-            </i>
-            <i class="fa fa-sort-up pull-right"
-                  ng-if="pagination.sort_column == key && pagination.sort_type == 'ASC'"></i>
-            <i class="fa fa-sort-down pull-right"
-                  ng-if="pagination.sort_column == key && pagination.sort_type == 'DESC'"></i>
-        </div>
+<!--<div id="grid" style=" overflow:auto;">-->
+    <!--<div>-->
+        <!--<div class="grid-row first">-->
+            <!--<div class="grid-cell" ng-repeat="(key, val) in $ctrl.users[0]" ng-click="sort(key)">-->
+                <!--{{cutCustom(key) | capitalizeFilter}}-->
+                <!--<i class="fa fa-sort pull-right"-->
+                   <!--ng-if="pagination.sort_column != key || pagination.sort_column == key && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">-->
+                <!--</i>-->
+                <!--<i class="fa fa-sort-up pull-right"-->
+                   <!--ng-if="pagination.sort_column == key && pagination.sort_type == 'ASC'"></i>-->
+                <!--<i class="fa fa-sort-down pull-right"-->
+                   <!--ng-if="pagination.sort_column == key && pagination.sort_type == 'DESC'"></i>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        <!--<div class="grid-row" ng-repeat="user in $ctrl.users">-->
+
+            <!--<div class="grid-cell" ng-repeat="(key, val) in user">{{val}}</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="grid-bottom">-->
+        <!--<div>-->
+            <!--<span>Limit grid to:</span>-->
+
+            <!--<select ng-model="pagination.page_size" ng-options="x for x in [10,25,50,100]"></select>-->
+
+            <!--<span>employees</span>-->
+        <!--</div>-->
+
+        <!--<div>-->
+            <!--<span class="grid-manage" ng-click="manageColumns()">-->
+                <!--Manage Columns-->
+            <!--</span>-->
+            <!--|-->
+            <!--<span class="grid-manage" ng-click="$parent.exportUsersToCsv()">-->
+                <!--Export to CSV-->
+            <!--</span>-->
+        <!--</div>-->
+
+        <!--<ul class="pull-right" uib-pagination-->
+            <!--boundary-link-numbers="true"-->
+            <!--items-per-page="pagination.page_size"-->
+            <!--total-items="$ctrl.totalUsers"-->
+            <!--ng-model="pagination.page_number"-->
+            <!--max-size="5"-->
+            <!--previous-text="&lsaquo;"-->
+            <!--next-text="&rsaquo;">-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+<!--</div>-->
+<div id="table-grid" >
+    <div class="table-container">
+        <table>
+            <tr>
+                <th  ng-repeat="(key, val) in $ctrl.users[0]" ng-click="sort(key)">
+                    {{cutCustom(key) | capitalizeFilter}}
+                    <i class="fa fa-sort "
+                       ng-if="pagination.sort_column != key || pagination.sort_column == key && pagination.sort_type != 'DESC' && pagination.sort_type != 'ASC'">
+                    </i>
+                    <i class="fa fa-sort-up "
+                       ng-if="pagination.sort_column == key && pagination.sort_type == 'ASC'"></i>
+                    <i class="fa fa-sort-down "
+                       ng-if="pagination.sort_column == key && pagination.sort_type == 'DESC'"></i>
+                </th>
+            </tr>
+
+            <tr  ng-repeat="user in $ctrl.users">
+                <td  ng-repeat="(key, val) in user">{{val}}</td>
+            </tr>
+
+        </table>
     </div>
 
-    <div class="grid-row" ng-repeat="user in $ctrl.users">
-        <div class="grid-cell" ng-repeat="(key, val) in user">{{val}}</div>
-    </div>
 
     <div class="grid-bottom">
         <div>
@@ -24,7 +85,6 @@
 
             <span>employees</span>
         </div>
-
         <div>
             <span class="grid-manage" ng-click="manageColumns()">
                 Manage Columns
@@ -34,7 +94,6 @@
                 Export to CSV
             </span>
         </div>
-
         <ul class="pull-right" uib-pagination
             boundary-link-numbers="true"
             items-per-page="pagination.page_size"
@@ -44,7 +103,6 @@
             previous-text="&lsaquo;"
             next-text="&rsaquo;">
         </ul>
-
     </div>
 
 </div>

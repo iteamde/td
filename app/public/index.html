@@ -10,6 +10,7 @@
 
     <!-- App CSS -->
     <link href="content/css/main.css" rel="stylesheet">
+    <!--<link href="app/core/common-components/grid/grid.component.css" rel="stylesheet">-->
 
     <!-- Base tag for pretty urls in angular to setup relative path -->
     <!--<base href="/">-->
@@ -18,8 +19,8 @@
 <body resize="50" scroll="50" class="state-{{$state.current.name}}">
 <ui-view class="root-ui-view"></ui-view>
 
-<script src="dist/app.min.js"></script>
-<!--
+<!--<script src="dist/app.min.js"></script>-->
+
 inject-vendor:js
 <script src="content/bower_components/jquery/dist/jquery.js"></script>
 <script src="content/bower_components/angular/angular.js"></script>
@@ -257,7 +258,7 @@ Financial Data
 <script src="app/site_settings/default_chart_view/default_chart_view.routes.js"></script>
 <script src="app/site_settings/default_chart_view/default_chart_view.service.js"></script>
 <script src="app/site_settings/default_chart_view/default_chart_view.controller.js"></script>
--->
+
 
 </body>
 </html>

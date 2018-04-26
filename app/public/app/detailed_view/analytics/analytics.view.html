@@ -199,7 +199,6 @@
         <common-grid users="users" total-users="totalUsers" ng-show="vm.activeGrid === 0" chart-id="chartId" custom-fields="customFields"></common-grid>
 
             <div class="chart-content clearfix" ng-show="vm.activeGrid == 1">
-
                 <div id="grid">
                     <div class="grid-row first">
                         <div class="grid-cell"></div>
@@ -218,7 +217,27 @@
                 <div class="text-center with-padding">
                     <a ng-click="exportSummaryToCsv()" role="button">Export to CSV</a>
                 </div>
+                <!--<div id="grid" >-->
+                    <!--<div class="table-container">-->
+                        <!--<table>-->
+                            <!--<tr>-->
+                                <!--<th>Name</th>-->
+                                <!--<th  ng-repeat="month in [6,5,4,3,2,1]" >-->
+                                    <!--{{ vm.getMonths(month) }}-->
+                                <!--</th>-->
+                            <!--</tr>-->
+
+                            <!--<tr  ng-repeat="data in vm.summary">-->
+                                <!--<td>{{data.name}}</td>-->
+                                <!--<td  ng-repeat="month in [6,5,4,3,2,1]">{{data[vm.getMonths(month)]}}</td>-->
+                            <!--</tr>-->
+
+                        <!--</table>-->
+                    <!--</div>-->
+                    <!--<div class="text-center with-padding">-->
+                        <!--<a ng-click="exportSummaryToCsv()" role="button">Export to CSV</a>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
-        </div>
     </div>
 </div>
