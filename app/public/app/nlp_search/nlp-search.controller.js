@@ -34,8 +34,8 @@
             "default_chart_display_type": "doughnut2d",
             "position_x": 0,
             "position_y": 0,
-            "width": 300,
-            "height": 400,
+            "width": 3,
+            "height": 4,
             "chart_type": "2",
             "title": "Source of hire",
             "description": "This metric shows the percent of employees hired during the month that came as a result of the respective named job source.",
@@ -52,7 +52,7 @@
                     "label": "LinkedIn",
                     "value": 1
                 }],
-                "legendItemFontSize": "12",
+                "legendItemFontSize": "8",
                 //"paletteColors": "#0000ff",
                 "decimals": "1"
             }
@@ -66,14 +66,14 @@
             "default_chart_display_type": "scrollcolumn2d",
             "position_x": 0,
             "position_y": 0,
-            "width": 300,
-            "height": 400,
+            "width": 3,
+            "height": 4,
             "chart_type": "1",
             "title": "Average Salary",
             "description": "This metrics shows the average total salary for the organization versus the compiled industry average salary based on applied industry data.",
             "chart_data": {
                 "theme": "tren",
-                "legendItemFontSize": "12",
+                "legendItemFontSize": "8",
                 "slantLabels": "1",
                 "numberPrefix": "$",
                 "numberSuffix": "",
