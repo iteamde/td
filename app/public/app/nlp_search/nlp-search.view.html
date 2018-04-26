@@ -93,27 +93,27 @@
 
 
 
-    <div class="chart" style="margin-top:100px">
+    <div class="chart">
         <div class="chart-header">
             <h2>{{vm.mockData.title}}</h2>
-            <i class="fa fa-question fa-absolute" uib-tooltip="{{w.description}}" tooltip-placement="auto bottom"></i>
+            <i class="fa fa-question fa-absolute" uib-tooltip="{{vm.mockData.description}}" tooltip-placement="auto bottom"></i>
             <!-- Chart option menu -->
             <div uib-dropdown class="dropdown chart-option-dropdown">
                 <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
-                        id="chart-dropdown-{{$index}}"
+                        id="chart-dropdown-0"
                         aria-haspopup="true" aria-expanded="true"
                         title="{{vm.TOOLTIP_TILES_MESSAGES.CHART_OPTIONS}}">
                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                 </button>
                 <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
-                    aria-labelledby="chart-dropdown-{{$index}}">
+                    aria-labelledby="chart-dropdown-0">
                     <li>
-                        <button ng-click="vm.shareChart($index, w.title, 'Metric')" class="dropdown-item-btn" title="{{ getTranslation('share_chart') }}">
+                        <button ng-click="vm.shareChart(0, vm.mockData.title, 'Nlp-search')" class="dropdown-item-btn" title="{{ getTranslation('share_chart') }}">
                             <span class="fa fa-share-alt"></span>
                         </button>
                     </li>
                     <li>
-                        <button ng-click="vm.exportChart($index)" class="dropdown-item-btn" title="{{ getTranslation('download_chart') }}">
+                        <button ng-click="vm.exportChartNlp(0)" class="dropdown-item-btn" title="{{ getTranslation('download_chart') }}">
                             <span class="fa fa-download"></span>
                         </button>
                     </li>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="chart-content">
-            <div add-chart-nlp  status="true"></div>
+            <div add-chart-nlp id="fschart0" status="true"></div>
 
             <!-- Chart navigation buttons -->
             <div class="chart-button-group">
@@ -136,14 +136,6 @@
                 <a class="" href="#/predictive/{{vm.x.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
             </div>
         </div>
-
-
-
-
-
-
-    <!--<div class="grid-stack-item" >-->
-        <!--<div add-chart-nlp id="fschart0" status="true"></div>-->
-    <!--</div>-->
+    </div>
 
 </div>

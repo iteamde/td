@@ -6,15 +6,17 @@
         .module('app.nlpSearch')
         .controller('NlpSearchController', NlpSearchController);
 
-    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams'];
+    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams' ,'TOOLTIP_MESSAGES', 'commonService'];
 
-    function NlpSearchController($scope, nlpSearchService, $stateParams) {
+    function NlpSearchController($scope, nlpSearchService, $stateParams, TOOLTIP_MESSAGES, commonService) {
 
 
         console.log($stateParams.query);
 
         var vm = this;
 
+        vm.exportChartNlp = commonService.exportChart;
+        vm.TOOLTIP_TILES_MESSAGES = TOOLTIP_MESSAGES.TILES;
         vm.submit = submit;
         $scope.getTranslation = $scope.$parent.getTranslation;
         vm.match = match;
@@ -64,8 +66,8 @@
             "default_chart_display_type": "scrollcolumn2d",
             "position_x": 0,
             "position_y": 0,
-            "width": 3,
-            "height": 4,
+            "width": 300,
+            "height": 400,
             "chart_type": "1",
             "title": "Average Salary",
             "description": "This metrics shows the average total salary for the organization versus the compiled industry average salary based on applied industry data.",

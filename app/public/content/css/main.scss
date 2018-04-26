@@ -3249,3 +3249,19 @@ label.inactive {
     flex: 1;
   }
 }
+
+
+
+/********* Nlp search *********/
+
+#nlp-search{
+  .chart{
+    margin-top: 100px;
+    .chart-content{
+      .chart-button-group{
+        bottom: 25px;
+      }
+    }
+  }
+
+}

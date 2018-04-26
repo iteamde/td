@@ -63,6 +63,8 @@
             "exportFormats": "jpg",
             "exportAtClientSide": "1"
         });
+
+        console.log(chartObjId);
     }
 
     var shareChartInfo = {
