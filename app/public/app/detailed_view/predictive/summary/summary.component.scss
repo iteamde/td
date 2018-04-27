@@ -43,6 +43,9 @@ $white: #fff;
 
   .modeling-container {
     overflow-X:auto;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 120px;
   }
 
   .cell-input {
