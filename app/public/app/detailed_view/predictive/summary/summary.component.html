@@ -1,48 +1,110 @@
 <div id="summary">
 
-    <a ng-hide="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">Start modeling<!--{{ getTranslation('start_modeling') }}--></a>
-    <a ng-show="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">Stop modeling<!--{{ getTranslation('start_modeling') }}--></a>
+    <a ng-hide="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">Start modeling
+        <!--{{ getTranslation('start_modeling') }}--></a>
+    <a ng-show="$ctrl.modelingMode" ng-click="$ctrl.toggleModeling()">Stop modeling
+        <!--{{ getTranslation('start_modeling') }}--></a>
 
-    <div class="row first">
-        <div class="cell">Name</div>
-        <div class="cell" ng-repeat="month in $ctrl.months">{{month}}</div>
-    </div>
+    <!--<div class="row first">-->
+        <!--<div class="cell">Name</div>-->
+        <!--<div class="cell" ng-repeat="month in $ctrl.months">{{month}}</div>-->
+    <!--</div>-->
 
-    <div class="row" ng-repeat="row in $ctrl.data">
-        <div class="cell">{{row.name}}</div>
-        <div class="cell" ng-repeat="(key, value) in $ctrl.getCells($index)">
+    <!--<div class="row" ng-repeat="row in $ctrl.data">-->
+        <!--<div class="cell">{{row.name}}</div>-->
+        <!--<div class="cell" ng-repeat="(key, value) in $ctrl.getCells($index)">-->
 
-            <!--ng-if creates it's own scope, so unfortunately need to use $parent.$parent to access row $index-->
-            <div ng-if="$index > 0 && $parent.$index < 3" ng-class="{'hide': !$ctrl.modelingMode, 'percent': $ctrl.isPercent(row.name)}">
-                <input class="form-control"
-                       type="number"
-                       step="1.00"
-                       ng-model="$ctrl.data[$parent.$parent.$index][key]"
-                       ng-keyup="$ctrl.updateOnChange($parent.$parent.$index, $index)"
-                       model-view-format="{{$parent.$parent.$index > 0 && $parent.$parent.$index < 3}}"
-                       ng-value="$ctrl.data[$parent.$parent.$index][key]">
-            </div>
+            <!--&lt;!&ndash;ng-if creates it's own scope, so unfortunately need to use $parent.$parent to access row $index&ndash;&gt;-->
+            <!--<div ng-if="$index > 0 && $parent.$index < 3"-->
+                 <!--ng-class="{'hide': !$ctrl.modelingMode, 'percent': $ctrl.isPercent(row.name)}">-->
+                <!--<input class="form-control"-->
+                       <!--type="number"-->
+                       <!--step="1.00"-->
+                       <!--ng-model="$ctrl.data[$parent.$parent.$index][key]"-->
+                       <!--ng-keyup="$ctrl.updateOnChange($parent.$parent.$index, $index)"-->
+                       <!--model-view-format="{{$parent.$parent.$index > 0 && $parent.$parent.$index < 3}}"-->
+                       <!--ng-value="$ctrl.data[$parent.$parent.$index][key]">-->
+            <!--</div>-->
 
-            <div ng-class="{'hide': $ctrl.modelingMode && $parent.$index < 3 && $index > 0}">
-                {{value | displayValuesFilter : $ctrl.isPercent(row.name)}}
-            </div>
+            <!--<div ng-class="{'hide': $ctrl.modelingMode && $parent.$index < 3 && $index > 0}">-->
+                <!--{{value | displayValuesFilter : $ctrl.isPercent(row.name)}}-->
+            <!--</div>-->
 
-            <div ng-show="$ctrl.modelingMode && $parent.$index < 3 && $index > 0">
-                <i class="fa"
-                   ng-class="{'fa-arrow-up': summary.isGreater($parent.$index, key), 'fa-arrow-down': summary.isLower($parent.$index, key)}"
-                   title="Original Value: {{summary.getStartValue($parent.$index, key) | displayValuesFilter}}">
-                </i>
+            <!--<div ng-show="$ctrl.modelingMode && $parent.$index < 3 && $index > 0">-->
+                <!--<i class="fa"-->
+                   <!--ng-class="{'fa-arrow-up': summary.isGreater($parent.$index, key), 'fa-arrow-down': summary.isLower($parent.$index, key)}"-->
+                   <!--title="Original Value: {{summary.getStartValue($parent.$index, key) | displayValuesFilter}}">-->
+                <!--</i>-->
 
-                <i class="fa"
-                   ng-class="{'fa-refresh': summary.isLower($parent.$index, key) || summary.isGreater($parent.$index, key)}"
-                   title="Reset to original value: {{summary.getStartValue($parent.$index, key) | displayValuesFilter}}"
-                   ng-click="summary.setOriginalValue($parent.$index, key, $index)">
-                </i>
-            </div>
+                <!--<i class="fa"-->
+                   <!--ng-class="{'fa-refresh': summary.isLower($parent.$index, key) || summary.isGreater($parent.$index, key)}"-->
+                   <!--title="Reset to original value: {{summary.getStartValue($parent.$index, key) | displayValuesFilter}}"-->
+                   <!--ng-click="summary.setOriginalValue($parent.$index, key, $index)">-->
+                <!--</i>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <div id="table-grid">
+        <div class="table-container">
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th ng-repeat="month in $ctrl.months">
+                        {{month}}
+                    </th>
+                </tr>
+
+                <tr ng-repeat="row in $ctrl.data">
+                    <td>{{row.name}}</td>
+                    <td ng-repeat="(key, value) in $ctrl.getCells($index)">
+                        <!--ng-if creates it's own scope, so unfortunately need to use $parent.$parent to access row $index-->
+
+                        <div class="modeling-container">
+                            <div  class="cell-input" ng-if="$index > 0 && $parent.$index < 3"
+                                 ng-class="{'hide': !$ctrl.modelingMode, 'percent': $ctrl.isPercent(row.name)}">
+                                <input class="form-control"
+                                       type="number"
+                                       step="1.00"
+                                       ng-model="$ctrl.data[$parent.$parent.$index][key]"
+                                       ng-keyup="$ctrl.updateOnChange($parent.$parent.$index, $index)"
+                                       model-view-format="{{$parent.$parent.$index > 0 && $parent.$parent.$index < 3}}"
+                                       ng-value="$ctrl.data[$parent.$parent.$index][key]">
+                            </div>
+
+                            <div ng-class="{'hide': $ctrl.modelingMode && $parent.$index < 3 && $index > 0}">
+                                {{value | displayValuesFilter : $ctrl.isPercent(row.name)}}
+                            </div>
+
+
+                            <div class="icons-container"
+                                 ng-show="($ctrl.modelingMode && $parent.$index < 3 && $index > 0)">
+                                <i class="fa"
+                                   ng-class="{'fa-arrow-up': summary.isGreater($parent.$index, key), 'fa-arrow-down': summary.isLower($parent.$index, key)}"
+                                   title="Original Value: {{summary.getStartValue($parent.$index, key) | displayValuesFilter}}">
+                                </i>
+                                <br>
+                                <i class="fa"
+                                   ng-class="{'fa-refresh': summary.isLower($parent.$index, key) || summary.isGreater($parent.$index, key)}"
+                                   title="Reset to original value: {{summary.getStartValue($parent.$index, key) | displayValuesFilter}}"
+                                   ng-click="summary.setOriginalValue($parent.$index, key, $index)">
+                                </i>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
         </div>
     </div>
 
+
     <div class="button-group">
-        <buttor class="btn btn-primary" ng-show="$ctrl.modelingMode" ng-click="$ctrl.resetGrid()">Reset to Original Values</buttor>
+        <buttor class="btn btn-primary" ng-show="$ctrl.modelingMode" ng-click="$ctrl.resetGrid()">Reset to Original
+            Values
+        </buttor>
     </div>
 </div>

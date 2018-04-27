@@ -90,20 +90,24 @@
 
 /*** Grid that is made by <table> tag ****/
 
-#table-grid{
+#table-grid {
   font-size: 11px;
   background-color: $white;
   margin-bottom: 5px;
+
   .table-container{
     overflow:auto;
+
     table{
       width:100%;
+      font-size: 14px;
       th{
         background-color: $blue;
         color: #fff;
         vertical-align:middle;
         white-space:nowrap;
         text-align: center;
+        font-weight: 600;
       }
       th i{
         vertical-align:middle;
@@ -118,8 +122,14 @@
         text-align:center;
         vertical-align:middle;
       }
+
+      td {
+        text-align:left;
+      }
+
       td:first-child{
         white-space:nowrap;
+        font-weight: 600;
       }
     }
   }
