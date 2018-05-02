@@ -13,17 +13,22 @@
                 // ng-repeat delays the actual width of the element.
                 // this listens for the change and updates the scroll bar
                 function widthListener() {
-                    if (anchor.width() != lastWidth)
+                    if (anchor.outerWidth() != lastWidth)
                         updateScroll();
                 }
 
                 function updateScroll() {
                     // for whatever reason this gradually takes away 1 pixel when it sets the width.
-                    //del +1 to anchor.width() --> bug with increase of width
-                    $div2.width(anchor.width());
+                    // del +1 to anchor.width() --> bug with increase of width in Chrome
+                    // change method .width() to .outerWidth() --> bug with decrease of width in EE
+
+                    // add $div2.outerWidth(element.outerWidth()) to return the width when become smaller
+                    $div2.outerWidth(element.outerWidth()); //TODO: refactor  return from many to several columns in table
+
+                    $div2.outerWidth(anchor.outerWidth());
 
                     // make the scroll bars the same width
-                    $div1.width($div2.width());
+                    $div1.outerWidth($div2.outerWidth());
 
                     // sync the real scrollbar with the virtual one.
                     $wrapper1.scroll(function () {
@@ -37,7 +42,7 @@
                 }
 
                 var anchor = element.find('[data-anchor]'),
-                    lastWidth = anchor.width(),
+                    lastWidth = anchor.outerWidth(),
                     listener;
 
                 // so that when you go to a new link it stops listening
