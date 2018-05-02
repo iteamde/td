@@ -55,9 +55,7 @@
                 }
 
                 function getAnchorWidth() {
-                    // use .width() or .outerWidth()
-                    scope.anchorWidth = anchor.outerWidth();
-                    return scope.anchorWidth;
+                    return anchor.outerWidth();
                 }
 
                 scope.$watch(getAnchorWidth, function () {
