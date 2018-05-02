@@ -61,7 +61,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'resources')));
+// app.use(express.static(path.join(__dirname, 'resources')));
 
 /*
  * Cross Domain
@@ -126,7 +126,7 @@ app.use('/api', routes);
 
 app.get('*', function(req, res) {
     console.log("Calling to root");
-    res.sendFile('./public'); // load the single view file (angular will handle the page changes on the front-end)
+    res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
 // catch 404 and forward to error handler

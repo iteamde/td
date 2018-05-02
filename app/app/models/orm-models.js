@@ -858,6 +858,11 @@ models.Chart = orm.define('Chart', {
         allowNull: false,
         defaultValue: 'total'
     },
+    trendata_chart_is_kueri: {
+        type: ORM.BOOLEAN,
+        allowNull: false,
+        defaultValue: 0
+    },
     /*trendata_chart_id: {
         type: ORM.INTEGER.UNSIGNED,
         allowNull: true

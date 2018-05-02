@@ -10,19 +10,40 @@
 
     function nlpSearchService(BASE_URL, $http) {
 
-        var service = {
-            getSearchResults: getSearchResults
+        return {
+            getSearchResults: getSearchResults,
+            getAutocompleteResults: getAutocompleteResults,
+            addToDashboard: addToDashboard,
+            getChartData: getChartData
         };
 
-        return service;
+        function getAutocompleteResults(text) {
+            var apiUrl = BASE_URL + "nlp/autocomplete",
+                loadingBarIgnore = {ignoreLoadingBar: true},
+                data = { text: text};
 
-        function getSearchResults(tags) {
-            var apiUrl = BASE_URL + "/nlp-search/by-tags";
-            return $http.post(apiUrl, {
-                tags: tags
-            }).then(function(res) {
-                return res.data;
-            });
+            return $http.post(apiUrl, data, loadingBarIgnore)
+                .then(function(res) {
+                    return res.data;
+                });
+        }
+
+        function getSearchResults(data) {
+            var apiUrl = BASE_URL + "nlp/request";
+            return $http.post(apiUrl, data);
+        }
+
+        function addToDashboard(request) {
+            var apiUrl = BASE_URL + "nlp/add-to-dashboard";
+
+            return $http.post(apiUrl, request);
+        }
+
+        function getChartData(token) {
+            var apiUrl = BASE_URL + "nlp/get-chart-data";
+            var data = {token: token};
+
+            return $http.post(apiUrl, data);
         }
     }
 })();

@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('../../config').config;
 var fs = require('fs');
 var path = require('path');
@@ -9,8 +11,9 @@ var csvParser = require('../components/csv-parser/parser');
 var ConnectorCsvModel = require('../models/orm-models').ConnectorCsv;
 var HttpResponse = require('../components/http-response');
 var cache = require('../components/cache');
+var knex = require('../components/knex');
 var distance = require('google-distance');
-distance.apiKey = 'AIzaSyDvrXInBinjB904T2O5TyEg0gTkDJ_1dmE';
+distance.apiKey = 'AIzaSyDMqCW83bOviY-0PX7P2nkLAYqQIIUI3E0';
 
 var addressFields = {
     personal: [
@@ -31,7 +34,7 @@ var calculateDistance = function() {
     orm.query('SELECT * FROM `trendata_bigdata_user`', {
         type: ORM.QueryTypes.SELECT,
     }).then(function(rows) {
-        _.each(rows, function(user) {
+        _.each(rows, function(user, i) {
             new Promise(function(resolve, reject) {
                 var personalAddress = _.reduce(addressFields.personal, function(accum, field) {
                     return accum + ', ' + user[field];
@@ -40,16 +43,18 @@ var calculateDistance = function() {
                     return accum + ', ' + user[field];
                 }, '');
 
-                distance.get(
-                  {
-                    origin: personalAddress,
-                    destination: businessAddress
-                  },
-                  function(err, data) {
-                    if (err) return reject(err);
+                setTimeout(function() {
+                    distance.get(
+                        {
+                            origin: personalAddress,
+                            destination: businessAddress
+                        },
+                        function (err, data) {
+                            if (err) return reject(err);
 
-                    resolve(data);
-                });
+                            resolve(data);
+                        });
+                }, 10 * i);
             }).then(function(data) {
                 let approximateDistance = '';
                 let distanceInMiles = data.distanceValue * 0.621371;
@@ -70,11 +75,12 @@ var calculateDistance = function() {
                     replacements: [distanceInMiles, approximateDistance, user.trendata_bigdata_user_id]
                 });
             }).catch(function(err) {
-                
+                console.log('ERROR: ', err.message);
             });
         });
     });
 };
+var knex = require('../components/knex');
 
 module.exports = {
     /**

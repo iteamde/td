@@ -56,6 +56,10 @@ module.exports.config = {
         viewsPath: 'path/to/views'
     },
 
+    kueri: {
+        api_url: 'https://nlp.techgenies.com/admin/api'
+    },
+
     connector_csv_files_dir: __dirname + '/connector-csv-files',
     connector_csv_files_archive_dir: __dirname + '/connector-csv-files-archive',
 

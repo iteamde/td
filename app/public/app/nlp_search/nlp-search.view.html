@@ -9,7 +9,7 @@
 
                 <!-- Search bar  -->
 
-                <form name="search" class="search-bar" ng-submit="vm.submit()">
+                <form name="search" class="search-bar" ng-submit="vm.submit(vm.request)">
 
                     <span class="search-title">{{ getTranslation('showing_results_for') }}:</span>
 
@@ -18,10 +18,11 @@
                         <input type="text"
                                class="form-control form-control-small"
                                placeholder="{{ getTranslation('search_the_system_in_natural_language') }}"
-                               ng-model="vm.selected"
-                               ng-change="vm.onChange()"
-                               uib-typeahead="query for query in vm.match($viewValue)"
-                               typeahead-on-select="vm.addToString($item)"
+                               ng-model="vm.request.text"
+                               ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                               uib-typeahead="query for query in vm.getQueries($viewValue)"
+                               typeahead-focus-first="false"
+                               typeahead-on-select="vm.submit(vm.request)"
                         >
 
                     </div>
@@ -29,7 +30,7 @@
                     <button class="search-button"
                             type="submit">
 
-                    <i class="fa fa-search form-control-feedback"></i>
+                        <i class="fa fa-search form-control-feedback"></i>
                         {{ getTranslation('search') }}
                     </button>
 
@@ -39,54 +40,79 @@
 
         </div>
 
-    <div ng-show="!vm.queryResults"><h4>No Results Found</h4></div>
-    <!-- Chart -->
-    <div class="chart chart-recommended-charts"
-         ng-show="vm.queryResults">
+        <div ng-show="!vm.queryResults.length && !vm.error"><h4>No Results Found</h4></div>
+        <div ng-show="!vm.queryResults.length && vm.error"><h4 class="error">{{vm.error}}</h4></div>
 
-        <!-- Chart content -->
-        <div class="chart-content clearfix" uib-collapse="isRCCollapsed">
+        <div class="chart nlp" ng-if="vm.queryResults.length">
+            <div class="chart-header chart-header-buttons">
+                <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
+                <span> {{getTranslation('rows')}} : {{vm.total}}</span>
+            </div>
+            <div gridstack class="grid-stack grid1"
+                 ng-repeat="w in widgets">
 
-            <!-- List of resulting charts -->
-            <div class="container-fluid container-gutter-10">
-                <div class="row">
+                <div gridstack-item
+                     class="grid-stack-item"
+                     gs-item-x="0"
+                     gs-item-y="0"
+                     gs-item-width="w.width"
+                     gs-item-height="w.height"
+                     gs-item-min-width ="2"
+                     gs-item-min-height="2"
+                     on-item-added="vm.onItemAdded()">
 
-                    <div class="col-md-12 col-lg-12"
-                         ng-repeat="result in vm.queryResults">
+                    <div class="chart-content">
+                        <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
+                    </div>
+                </div>
 
-                        <div class="media">
+            </div>
+        </div>
 
-                            <a class="link-wrap"
-                               href="#/drill-down/{{result.Chart.trendata_chart_id}}"></a>
+        <div class="chart chart-grid" ng-if="vm.queryResults.length">
+            <div id="table-grid" class="nlp" double-scroll-bars>
+                <div class="table-container" data-anchor>
+                    <table>
+                        <tr>
+                            <th class="grid-cell" ng-repeat="(key, val) in vm.queryResults[0] | filterObjectKeysByArray:vm.checkedColumns" title="{{ key | capitalizeFilter }}">
+                                {{ key | capitalizeFilter }}
+                            </th>
+                        </tr>
 
-                            <div class="media-left">
-                                <a href="#">
-                                    <div class="Reco-Circle-Big inline-block"></div>
-                                    <!-- <img class="media-object" ng-src="content/images/drill_down/{{result.img}}.jpg"> -->
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">{{getTranslation(result.Chart.trendata_chart_title_token)}}</h4>
+                        <tr ng-repeat="result in vm.queryResults">
+                            <td ng-repeat="(key, val) in result  | filterObjectKeysByArray:vm.checkedColumns">{{val}}</td>
+                        </tr>
+                    </table>
+                </div>
 
-                                <p>{{getTranslation(result.Chart.trendata_chart_description_token) || 'No description'}}</p>
+                <div class="grid-bottom">
+                    <div ng-if="vm.total && vm.total > 10">
+                        <span>Limit grid to:</span>
 
-                                <div class="divider"></div>
-
-                                <div>
-                                    <p class="title">{{ getTranslation('last_update') }}:</p>
-                                    <p>{{result.Chart.updated_at | date : 'HH:mm on MMM d, yyyy'}}</p>
-                                </div>
-
-                            </div>
-                        </div>
+                        <select ng-model="vm.request.page_size" ng-options="x for x in [10,25,50,100]" ng-change="vm.submit(vm.request)"></select>
                     </div>
 
+                    <div class="flex-1 text-center">
+                <span class="column-manage"
+                      ng-click="vm.manageColumns()">
+                    Manage Columns
+                </span>
+                    </div>
+
+                    <ul ng-if="vm.total && vm.total > 10"
+                        uib-pagination
+                        boundary-link-numbers="true"
+                        items-per-page="vm.request.page_size"
+                        total-items="vm.total"
+                        ng-model="vm.request.page_number"
+                        max-size="5"
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        ng-change="vm.submit(vm.request)">
+                    </ul>
                 </div>
             </div>
-
-
         </div>
-    </div>
 
     </div>
 

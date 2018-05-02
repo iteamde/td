@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var orm = require('../orm/orm');
 var ORM = require('sequelize');
@@ -7,6 +9,7 @@ var filterValues = require('./filter-values');
 var strToStream = require('string-to-stream');
 var separateThread = require('../separate-thread');
 var knex = require('../knex');
+var config = require('../../../config').config;
 require('../../config/global');
 
 /**
@@ -191,22 +194,26 @@ module.exports = {
                         transaction: t
                     });
                 }).then(function () {
-                    return orm.query('SELECT * FROM `trendata_bigdata_custom_field`', {
-                        type: ORM.QueryTypes.SELECT,
-                        transaction: t
-                    }).then(function (rows) {
-                        return Promise.each(rows, function (item) {
-                            return orm.query(knex.raw('ALTER TABLE `trendata_bigdata_user` DROP ??', [
-                                item.trendata_bigdata_custom_field_name + ''
-                            ]).toString(), {
+                    return knex('INFORMATION_SCHEMA.COLUMNS')
+                        .select('COLUMN_NAME')
+                        .where({
+                            TABLE_SCHEMA: config.sequelize.database,
+                            TABLE_NAME: 'trendata_bigdata_user'
+                        }).where(
+                            'COLUMN_NAME',
+                            'LIKE',
+                            'custom %'
+                        ).map(function (item) {
+                            return item.COLUMN_NAME;
+                        }).each(function (item) {
+                            return knex.raw('ALTER TABLE `trendata_bigdata_user` DROP ??', [
+                                item
+                            ]);
+                        }).then(function () {
+                            return orm.query('TRUNCATE TABLE `trendata_bigdata_custom_field`', {
                                 transaction: t
                             });
                         });
-                    }).then(function () {
-                        return orm.query('TRUNCATE TABLE `trendata_bigdata_custom_field`', {
-                            transaction: t
-                        });
-                    });
                 }).then(function () {
                     var _customColumns = Object.keys(_this.getCustomFieldsByOneRow(csv.data[0], csv.header));
 
@@ -280,7 +287,6 @@ module.exports = {
                         for (var i = 0; i < arrayOfHeaderColumns.length; ++i) {
                             result[arrayOfHeaderColumns[i]] = item[mapping[i]]
                         }
-
 
                         return Object.assign({}, result, _this.getCustomFieldsByOneRow(item, csv.header));
                     });

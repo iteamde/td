@@ -221,7 +221,7 @@
       chartHeight = chart.height();
 
       width = chart.width();
-      height = parseInt((chartHeight - headerHeight), 10);
+      height = parseInt((chartHeight - (headerHeight || 0)), 10);
 
       // remove padding on chart inside wrapper
       height = (height - 47);

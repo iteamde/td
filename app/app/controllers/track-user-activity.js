@@ -34,7 +34,7 @@ module.exports = function (req, res) {
     }).then(function () {
         res.json({
             status: 'success'
-        })
+        });
     }).catch(function (err) {
         res.status(500).send(err.stack);
     });

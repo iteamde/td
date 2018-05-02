@@ -252,6 +252,7 @@ module.exports = {
                             }
                         }
                     }).then(function () {
+
                         if (parserSettings) {
                             parserListData.header = _.chain(JSON.parse(parserSettings.trendata_setting_value))
                                 .filter('use')
@@ -264,7 +265,7 @@ module.exports = {
                 } else {
                     return {'err' : [], 'data' : parserListData};
                 }
-            }).catch(function (err) {console.log(err.stack);
+            }).catch(function (err) {
                 return {'err' : [], 'data' : false};
             });
         });

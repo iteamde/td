@@ -27,11 +27,10 @@ inject-vendor:js
 <script src="content/bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="content/bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="content/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
-<script src="content/bower_components/ui-bootstrap-custom-build/ui-bootstrap-custom-2.5.0.js"></script>
-<script src="content/bower_components/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-2.5.0.js"></script>
+<script src="content/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="content/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="content/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="content/bower_components/angular-loading-bar/build/loading-bar.js"></script>
-
 
  Gridstack with its dependencies
 <script src="content/bower_components/lodash/dist/lodash.min.js"></script>
@@ -50,12 +49,9 @@ inject-vendor:js
  end angular translate
 
 <script src="content/bower_components/moment/moment.js"></script>
-
 <script src="content/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script src="content/libs/angular-noty/angular-noty.js"></script>
-
 <script src="content/bower_components/angular-ui-select/dist/select.js"></script>
-
 <script src="content/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="content/bower_components/jquery-validation/dist/additional-methods.min.js"></script>
 <script src="content/bower_components/jpkleemans-angular-validate/dist/angular-validate.min.js"></script>
@@ -63,13 +59,6 @@ inject-vendor:js
  Start Chart libs
 <script src="content/bower_components/fusioncharts/fusioncharts.js"></script>
 <script src="content/bower_components/fusioncharts/fusioncharts.charts.js"></script>
-&lt;!&ndash;<script src="content/bower_components/fusioncharts/fusioncharts.powercharts.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.gantt.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.treemap.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.zoomscatter.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.maps.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.widgets.js"></script>
-<script src="content/bower_components/fusioncharts/themes/fusioncharts.theme.fint.js"></script>&ndash;&gt;
 <script src="content/libs/fusioncharts/fusioncharts.theme.tren.js"></script>
 <script src="content/libs/fusioncharts/angular-fusioncharts.js"></script>
  End Chart libs
@@ -103,6 +92,7 @@ inject-vendor:js
 <script src="app/core/common-components/users-grid/users-grid.controller.js"></script>
 <script src="app/core/common-filters/common.chart-type.filter.js"></script>
 <script src="app/core/common-filters/common.object-keys.filter.js"></script>
+<script src="app/core/common-filters/common.object-keys-by-array.filter.js"></script>
 <script src="app/core/common-filters/common.display-values.filter.js"></script>
 <script src="app/core/common-filters/common.capitalize.filter.js"></script>
 <script src="app/core/common.service.js"></script>
@@ -216,6 +206,9 @@ Financial Data
 <script src="app/nlp_search/nlp-search.routes.js"></script>
 <script src="app/nlp_search/nlp-search.service.js"></script>
 <script src="app/nlp_search/nlp-search.controller.js"></script>
+<script src="app/nlp_search/manage-columns/nlp.modal.manage-columns.controller.js"></script>
+<script src="app/nlp_search/nlp_overview/nlp-overview.routes.js"></script>
+<script src="app/nlp_search/add_to_dashboard/nlp.modal.add-to-dashboard.controller.js"></script>
 
  Profile
 <script src="app/settings/profile/profile.module.js"></script>

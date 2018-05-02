@@ -109,6 +109,7 @@
                     if (video)
                         $scope.videoUrl = video.trendata_video_video;
                 });
+            console.log($scope.widgets)
         }
 
         function serviceError(error) {

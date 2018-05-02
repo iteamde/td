@@ -18,7 +18,5 @@ var knex = require('../components/knex');
  * @param res
  */
 module.exports = function (req, res) {
-    commonChartData.makeTimeSpanOffsets(10, 1).then(function (data) {
-        res.json(data);
-    });
+
 };

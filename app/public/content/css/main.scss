@@ -56,8 +56,8 @@
 @import "../bower_components/gridstack/dist/gridstack";
 
 /*JS social styles*/
-@import "../bower_components/jssocials/styles/jssocials";
-@import "../bower_components/jssocials/styles/jssocials-theme-flat";
+@import "../bower_components/jssocials/dist/jssocials";
+@import "../bower_components/jssocials/dist/jssocials-theme-flat";
 
 @include sprites($spritesheet-sprites)
 
@@ -221,6 +221,11 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 
 }
 
+.with-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .angselect-control-primary-multiple {
 
   border-width: 0;
@@ -335,15 +340,23 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
   @include button-variant($th-white, $gray-light, $gray);
 }
 
-.search-button-icon {
+.button-icon {
   position: absolute;
-  right: 10px;
-  top: 3px;
   background: none;
   padding: 0;
 
   .fa {
     font-size: 20px;
+  }
+
+  &.search {
+    right: 10px;
+    top: 3px;
+  }
+
+  &.question {
+    right: 35px;
+    top: 3px;
   }
 }
 
@@ -390,6 +403,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
     }
   }
 
+  &.nlp {
+    margin-top: 20px;
+  }
+
   .chart-header {
     position: relative;
     border-bottom: 1px solid $th-gray;
@@ -404,6 +421,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         display: inline-block;
         font-size: 11px;
       }
+    }
+
+    ul.dropdown-menu-1 {
+      min-width: 38px;
     }
 
     .chart-header-tab-title {
@@ -554,7 +575,6 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         cursor: pointer;
       }
     }
-
   }
 
   .chart-filter {
@@ -599,6 +619,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 
     &.with-loader {
       position: relative;
+    }
+
+    &.table {
+      overflow: auto;
     }
 
     .scroll-box {
@@ -1360,7 +1384,6 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 .side-menu.left {
   background: $th-blue;
   position: absolute;
-  top: 50px;
   border-right: 1px solid #eee;
 }
 
@@ -1389,7 +1412,6 @@ body.mobile .slimscroller {
 
 .content-page {
   margin-left: 215px;
-  overflow: hidden;
   position: relative;
 }
 
@@ -1397,6 +1419,7 @@ body.mobile .slimscroller {
   margin-top: 50px;
   position: relative;
   padding: 20px;
+  min-height: 100vh;
 }
 
 .side-menu.right {
@@ -2896,6 +2919,14 @@ label.inactive {
 
 @import "../../app/nlp_search/nlp-search.styles";
 
+/* =Nlp Overview
+ **********************************************/
+@import "../../app/nlp_search/nlp_overview/nlp-overview.styles.sass";
+
+/* =Nlp Add To Dashboard
+ *********************************************/
+@import "../../app/nlp_search/add_to_dashboard/add-to-dashboard.style";
+
 /* =Profile
  **********************************************/
 
@@ -2909,7 +2940,7 @@ label.inactive {
 /* =Grid
  **********************************************/
 
-@import "../../app/core/common-components/grid/grid.component";
+@import "../../app/core/common-components/grid/grid.component.scss";
 
 /* =Grid Manage Columns
  **********************************************/

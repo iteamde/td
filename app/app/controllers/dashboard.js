@@ -147,8 +147,9 @@ function getDashboardCharts(req, res) {
                 set_height: item.trendata_dashboard_chart_height,
                 set_width: item.trendata_dashboard_chart_width,
                 chart_type: item.Chart.trendata_chart_type,
-                title: TranslationModel.getTranslation(item.Chart.trendata_chart_title_token),
-                description: TranslationModel.getTranslation(item.Chart.trendata_chart_description_token),
+                title: item.Chart.trendata_chart_is_kueri ? item.Chart.trendata_chart_title_token : TranslationModel.getTranslation(item.Chart.trendata_chart_title_token),
+                description: item.Chart.trendata_chart_is_kueri ? item.Chart.trendata_chart_description_token : TranslationModel.getTranslation(item.Chart.trendata_chart_description_token),
+                is_kueri: item.Chart.trendata_chart_is_kueri,
                 sql_template: item.Chart.SqlQuery
             }).then(function (data) {
                 var chart_key = item.Chart.trendata_chart_key;
@@ -170,21 +171,46 @@ function getDashboardCharts(req, res) {
                 };
 
                 if (sqlTemplate && sqlTemplate.trendata_sql_query_template && (sqlTemplate.trendata_sql_query_custom_source || sqlTemplate.trendata_sql_query_module_path)) {
-                    data.chart_data = orm.query(sqlTemplate.trendata_sql_query_template, {
-                        type: ORM.QueryTypes.SELECT
-                    }).then(function (rows) {
-                        if (sqlTemplate.trendata_sql_query_module_path) {
-                            return loadChartModuleSrc(sqlTemplate.trendata_sql_query_module_path).then(function (code) {
-                                return jsVm(code, rows, {
+                    if (data.is_kueri) {
+                        data.chart_data = orm.transaction(function (t) {
+                            return orm.query('SET sql_mode=(SELECT REPLACE(@@sql_mode,\'ONLY_FULL_GROUP_BY\',\'\'))', {
+                                transaction: t,
+                            }).then(function () {
+                                return orm.query(sqlTemplate.trendata_sql_query_template, {
+                                    type: ORM.QueryTypes.SELECT,
+                                    transaction: t
+                                });
+                            }).then(function (rows) {
+                                if (sqlTemplate.trendata_sql_query_module_path) {
+                                    return loadChartModuleSrc(sqlTemplate.trendata_sql_query_module_path).then(function (code) {
+                                        return jsVm(code, rows, {
+                                            contextProps: context
+                                        });
+                                    });
+                                }
+
+                                return jsVm(sqlTemplate.trendata_sql_query_custom_source, rows, {
                                     contextProps: context
                                 });
                             });
-                        }
-
-                        return jsVm(sqlTemplate.trendata_sql_query_custom_source, rows, {
-                            contextProps: context
                         });
-                    });
+                    } else {
+                        data.chart_data = orm.query(sqlTemplate.trendata_sql_query_template, {
+                            type: ORM.QueryTypes.SELECT
+                        }).then(function (rows) {
+                            if (sqlTemplate.trendata_sql_query_module_path) {
+                                return loadChartModuleSrc(sqlTemplate.trendata_sql_query_module_path).then(function (code) {
+                                    return jsVm(code, rows, {
+                                        contextProps: context
+                                    });
+                                });
+                            }
+
+                            return jsVm(sqlTemplate.trendata_sql_query_custom_source, rows, {
+                                contextProps: context
+                            });
+                        });
+                    }
                 } else if (sqlTemplate && (sqlTemplate.trendata_sql_query_custom_source || sqlTemplate.trendata_sql_query_module_path)) {
                     data.chart_data = Promise.resolve().then(function () {
                         if (sqlTemplate.trendata_sql_query_module_path) {
@@ -340,11 +366,33 @@ function removeChart(req, res) {
         var chartId = req.body.chart_id;
         var dashboardId = req.body.dashboard_id || 1;
 
-        DashboardChartModel.destroy({
+        DashboardChartModel.count({
             where: {
                 trendata_dashboard_id: dashboardId,
                 trendata_chart_id: chartId
             }
+        }).then(function (count) {
+            if (!count) {
+                return Promise.reject(new HttpResponse({
+                    success: false,
+                    message: 'Chart not found'
+                }, 404));
+            }
+
+            return DashboardChartModel.destroy({
+                where: {
+                    trendata_dashboard_id: dashboardId,
+                    trendata_chart_id: chartId
+                }
+            })
+        }).then(function () {
+            return ChartModel.findByPrimary(chartId).then(function (chart) {
+                console.log(chart.trendata_chart_is_kueri, typeof chart.trendata_chart_is_kueri);
+
+                if (chart.trendata_chart_is_kueri) {
+                    return chart.destroy();
+                }
+            });
         }).then(function (rows) {
             trackApi(req);
             res.json({

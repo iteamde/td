@@ -18,6 +18,7 @@ var connectorCsv    = require('../controllers/connector-csv');
 var trackUserActivity = require('../controllers/track-user-activity');
 var nlpSearch       = require('../controllers/nlp-search');
 var video           = require('../controllers/video');
+var nlp             = require('../controllers/nlp');
 var share           = require('../controllers/share');
 var performance     = require('../controllers/performance');
 var chartViews     = require('../controllers/chart-view');
@@ -123,6 +124,11 @@ router.post('/performance/delete', authMiddleware, performance.deletePerformance
 router.get('/default_chart_view', authMiddleware, chartViews.getChartViews),
 // router.get('/available_chart_view', authMiddleware, chartViews.getAvailableChartViews),
 router.post('/update_chart_view', authMiddleware, chartViews.updateChartViews),
+
+router.post('/nlp/autocomplete', authMiddleware, nlp.autocomplete);
+router.post('/nlp/request', authMiddleware, nlp.request);
+router.post('/nlp/add-to-dashboard', authMiddleware, nlp.addToDashboard);
+router.post('/nlp/get-chart-data', authMiddleware, nlp.getChartData);
 
 router.get('/test', disableCache, require('./test-route'));
 router.get('/stat', disableCache, require('./stat'));

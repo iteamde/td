@@ -42,8 +42,7 @@
         'app.surveys',
         'app.release_notes',
         'app.site_settings',
-        'app.default_chart_view',
-        'dndLists'
+        'app.default_chart_view'
     ]);
 
 

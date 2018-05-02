@@ -112,13 +112,14 @@
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </button>
                             <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
+                                ng-class="{'dropdown-menu-1': w.default_chart_display_type == 'table'}"
                                 aria-labelledby="chart-dropdown-{{$index}}">
-                                <li>
+                                <li ng-if="!w.is_kueri">
                                     <button ng-click="vm.shareChart($index, w.title, 'Metric')" class="dropdown-item-btn" title="{{ getTranslation('share_chart') }}">
                                         <span class="fa fa-share-alt"></span>
                                     </button>
                                 </li>
-                                <li>
+                                <li ng-if="!w.is_kueri">
                                     <button ng-click="vm.exportChart($index)" class="dropdown-item-btn" title="{{ getTranslation('download_chart') }}">
                                         <span class="fa fa-download"></span>
                                     </button>
@@ -132,15 +133,39 @@
                         </div>
                     </div>
 
-                    <div class="chart-content">
+                    <div class="chart-content" ng-if="!vm.isTable(w)">
                         <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
 
 
                         <!-- Chart navigation buttons -->
-                        <div class="chart-button-group">
+                        <div class="chart-button-group" ng-if="!w.is_kueri">
                             <a class="" href="#/drill-down/{{w.id}}">{{ getTranslation('drilldown') }}</a>
                             <a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>
                             <a class="" href="#/predictive/{{w.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                        </div>
+
+                        <div class="chart-button-group" ng-if="w.is_kueri">
+                            <a class="" href="#/nlp-search/{{w.title}}">Show More<!--{{ getTranslation('show_more') }}--></a>
+                        </div>
+                    </div>
+
+                    <div class="chart-content table" ng-if="vm.isTable(w)">
+                        <div id="grid" class="nlp">
+                            <div class="grid-row first">
+                                <div class="grid-cell" ng-repeat="(key, val) in w.chart_data[0]" title="{{ key | capitalizeFilter }}">
+                                    {{ key | capitalizeFilter }}
+                                </div>
+                            </div>
+
+                            <div class="grid-row" ng-repeat="result in w.chart_data | limitTo:3">
+                                <div class="grid-cell" ng-repeat="(key, val) in result">{{val}}</div>
+                            </div>
+                        </div>
+
+
+                        <!-- Chart navigation buttons -->
+                        <div class="chart-button-group">
+                            <a class="" href="#/nlp-search/{{w.title}}">Show More<!--{{ getTranslation('show_more') }}--></a>
                         </div>
                     </div>
                 </div>

@@ -10,7 +10,7 @@
     "async-loop2": "^4.0.1",
     "atpl": "^0.9.3",
     "babyparse": "^0.4.6",
-    "bluebird": "^3.4.7",
+    "bluebird": "^3.5.1",
     "body-parser": "~1.15.1",
     "compression": "^1.6.2",
     "connect-flash": "^0.1.1",
@@ -44,6 +44,7 @@
     "passport-local": "^1.0.0",
     "python-shell": "^0.4.0",
     "request": "^2.75.0",
+    "request-promise": "^4.2.2",
     "sendmail": "^1.1.1",
     "sequelize": "^3.30.2",
     "sequelize-cli": "^2.5.1",
@@ -52,7 +53,9 @@
     "sqlstring": "^2.3.1",
     "string-to-stream": "^1.1.0",
     "uglify-js": "^2.7.3",
-    "useragent": "^2.1.13"
+    "useragent": "^2.1.13",
+    "uuid": "^3.1.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

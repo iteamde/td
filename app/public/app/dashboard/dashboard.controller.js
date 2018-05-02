@@ -25,6 +25,7 @@
         vm.lastUploadedBg = lastUploadedBg;
         vm.shareChart = commonService.shareChart;
         vm.choosePeriod = choosePeriod;
+        vm.isTable = isTable;
 
         // charts setting defined in core constants
         vm.TILE_MIN_WIDTH = TILE_MIN_WIDTH;
@@ -123,6 +124,10 @@
         function lastUploadedBg() {
             var days = moment().diff(moment(vm.lastUploaded), 'days');
             return  days <= 30 ? '#33B297' : days <= 60 ? '#FFA300' : '#FF0700';
+        }
+
+        function isTable(chart) {
+            return chart.default_chart_display_type == 'table';
         }
 
         function choosePeriod() {
