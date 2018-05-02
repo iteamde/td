@@ -70,9 +70,10 @@
         </div>
 
         <div class="chart chart-grid" ng-if="vm.queryResults.length">
-            <div id="table-grid" class="nlp" double-scroll-bars>
-                <div class="table-container" data-anchor>
-                    <table>
+            <div id="table-grid" class="nlp" >
+
+                <div class="table-container" double-scroll-bars >
+                    <table data-anchor>
                         <tr>
                             <th class="grid-cell" ng-repeat="(key, val) in vm.queryResults[0] | filterObjectKeysByArray:vm.checkedColumns" title="{{ key | capitalizeFilter }}">
                                 {{ key | capitalizeFilter }}

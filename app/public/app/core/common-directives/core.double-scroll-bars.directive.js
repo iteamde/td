@@ -4,9 +4,12 @@
     angular.module('app.core')
         .directive('doubleScrollBars', doubleScrollBars);
 
-    function doubleScrollBars() {
+    doubleScrollBars.$inject = ['$interval'];
+
+    function doubleScrollBars($interval) {
         return {
-            link: function(scope, element, attrs) {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
                 // ng-repeat delays the actual width of the element.
                 // this listens for the change and updates the scroll bar
                 function widthListener() {
@@ -16,18 +19,19 @@
 
                 function updateScroll() {
                     // for whatever reason this gradually takes away 1 pixel when it sets the width.
-                    $div2.width(anchor.width() + 1);
+                    //del +1 to anchor.width() --> bug with increase of width
+                    $div2.width(anchor.width());
 
                     // make the scroll bars the same width
                     $div1.width($div2.width());
 
                     // sync the real scrollbar with the virtual one.
-                    $wrapper1.scroll(function(){
+                    $wrapper1.scroll(function () {
                         $wrapper2.scrollLeft($wrapper1.scrollLeft());
                     });
 
                     // sync the virtual scrollbar with the real one.
-                    $wrapper2.scroll(function(){
+                    $wrapper2.scroll(function () {
                         $wrapper1.scrollLeft($wrapper2.scrollLeft());
                     });
                 }
@@ -37,8 +41,8 @@
                     listener;
 
                 // so that when you go to a new link it stops listening
-                element.on('remove', function() {
-                    clearInterval(listener);
+                element.on('remove', function () {
+                    $interval.cancel(listener);
                 });
 
                 // creates the top virtual scrollbar
@@ -72,12 +76,12 @@
                     overflowY: "hidden"
                 });
 
-                listener = setInterval(function() {
+                listener = $interval(function () {
                     widthListener();
                 }, 650);
 
                 updateScroll();
             }
-        }
+        };
     }
 })();
