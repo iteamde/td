@@ -30,12 +30,6 @@
                         chartEl = $element.parent().find('fusioncharts');
                         $compile(chartEl)($scope.$parent);
 
-                        // FusionCharts.ready(function(){
-                        //
-                        //     console.log("ready");
-                        //
-                        // })
-
                         FusionCharts.addEventListener("rendered", function (eventObject) {
                             $scope.$emit('chartIsReady');
 

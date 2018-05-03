@@ -12,12 +12,7 @@
 
         var vm = this;
 
-       $scope.isChartRendered = false;
-
-       $scope.$on('chartIsReady', function () {
-           console.log('chartIsReady');
-           $scope.isChartRendered = true;
-       });
+        $scope.isChartRendered = false;
 
         vm.submit = submit;
         vm.addToDashboard = addToDashboard;
@@ -37,6 +32,10 @@
             vm.request.text = $stateParams.query;
             vm.submit(vm.request);
         }
+
+        $scope.$on('chartIsReady', function () {
+            $scope.isChartRendered = true;
+        });
 
         $scope.$on('columnsChanged', function (e, data) {
             e.stopPropagation();
