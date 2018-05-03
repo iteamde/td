@@ -284,18 +284,21 @@ module.exports = function(grunt) {
 
         },
         watch: {
-                options: {
-                    livereload: 9000,
+            options: {
+                livereload: 9000,
+            },
 
-                },
-            css: {
+            html: {
+                files: ['public/app/**/*.html']
+
+            },
+            scss: {
                 files: ['public/content/css/main.scss'],
                 tasks: ['sass']
 
             },
             scripts: {
                 files: ['public/app/**/*.js'],
-                tasks: ['concat'],
                 options: {
                     spawn: false
                 }
@@ -330,5 +333,5 @@ module.exports = function(grunt) {
 
     // Register the default tasks.
     grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'sass', 'cssmin'/*, 'sprite'*/]);
-    grunt.registerTask('server', ['express', 'watch']);
+    grunt.registerTask('server', ['sass', 'express', 'watch']);
 };
