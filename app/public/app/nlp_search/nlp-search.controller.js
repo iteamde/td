@@ -12,6 +12,13 @@
 
         var vm = this;
 
+       $scope.isChartRendered = false;
+
+       $scope.$on('chartIsReady', function () {
+           console.log('chartIsReady');
+           $scope.isChartRendered = true;
+       });
+
         vm.submit = submit;
         vm.addToDashboard = addToDashboard;
         $scope.getTranslation = $scope.$parent.getTranslation;

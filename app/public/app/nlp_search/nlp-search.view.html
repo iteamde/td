@@ -1,5 +1,5 @@
 <div id="nlp-search">
-
+dededede {{isChartRendered}}
     <div class="margin-negative-10">
 
         <div class="container-fluid">
@@ -43,8 +43,9 @@
         <div ng-show="!vm.queryResults.length && !vm.error"><h4>No Results Found</h4></div>
         <div ng-show="!vm.queryResults.length && vm.error"><h4 class="error">{{vm.error}}</h4></div>
 
+        <div ng-style="isChartRendered ? {'visibility':'visible'}:{'visibility':'hidden'}">
         <div class="chart nlp" ng-if="vm.queryResults.length">
-            <div class="chart-header chart-header-buttons">
+            <div class="chart-header chart-header-buttons" >
                 <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
                 <span> {{getTranslation('rows')}} : {{vm.total}}</span>
             </div>
@@ -62,14 +63,14 @@
                      on-item-added="vm.onItemAdded()">
 
                     <div class="chart-content">
-                        <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
+                        <div add-chart id="fschart{{$index}}" status="isGridItemReady" is-chart-rendered = "isChartRendered" ></div>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <div class="chart chart-grid" ng-if="vm.queryResults.length">
+        <div class="chart chart-grid" ng-if="vm.queryResults.length && isChartRendered">
             <div id="table-grid" class="nlp" >
 
                 <div class="table-container" double-scroll-bars >
@@ -114,7 +115,7 @@
                 </div>
             </div>
         </div>
-
+        </div>
     </div>
 
 </div>
