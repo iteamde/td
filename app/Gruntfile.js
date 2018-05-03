@@ -237,6 +237,7 @@ module.exports = function(grunt) {
                         'public/app/site_settings/default_chart_view/default_chart_view.service.js',
                         'public/app/site_settings/default_chart_view/default_chart_view.controller.js',
                     ]
+
                 }
             }
         },
@@ -259,15 +260,75 @@ module.exports = function(grunt) {
                 destCss: 'public/content/css/sprite.scss',
                 padding: 3
             }
+        },
+        sass: { // Task
+            dist: {
+                files: [{
+                    'public/content/css/main.css': ['public/content/css/main.scss']
+                }]
+            }
+        },
+        cssmin: {
+            options: {
+                level: {
+                    1: {
+                        specialComments: 0
+                    }
+                }
+            },
+            target: {
+                files: {
+                    'my/main.min.css': ['my/main.css']
+                }
+            }
+
+        },
+        watch: {
+                options: {
+                    livereload: 9000,
+
+                },
+            css: {
+                files: ['public/content/css/main.scss'],
+                tasks: ['sass']
+
+            },
+            scripts: {
+                files: ['public/app/**/*.js'],
+                tasks: ['concat'],
+                options: {
+                    spawn: false
+                }
+            }
+        },
+        express: {
+            all: {
+                options: {
+                    port: 9000,
+                    hostname: 'localhost',
+                    bases: './public',
+                    open: true,
+                }
+            }
         }
+
+
     });
+
+
 
     // Load the Grunt plugins.
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-spritesmith');
+    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-express');
+
 
     // Register the default tasks.
-    grunt.registerTask('default', ['concat', 'jshint', 'uglify'/*, 'sprite'*/]);
+    grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'sass', 'cssmin'/*, 'sprite'*/]);
+    grunt.registerTask('server', ['express', 'watch']);
 };
