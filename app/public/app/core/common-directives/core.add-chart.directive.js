@@ -11,8 +11,7 @@
             restrict: 'A',
             //transclude: true,
             scope: {
-                status: '=',
-                isChartRendered: '='
+                status: '='
             },
             link: function ( $scope, $element, $attrs) {
                 var chartFrag, chartEl;
@@ -29,11 +28,6 @@
                         // access inserted element and compile it to render the chart
                         chartEl = $element.parent().find('fusioncharts');
                         $compile(chartEl)($scope.$parent);
-
-                        FusionCharts.addEventListener("rendered", function (eventObject) {
-                            $scope.$emit('chartIsReady');
-
-                        });
 
                         //$scope.$destroy();
                         $element.remove();

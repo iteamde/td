@@ -12,8 +12,7 @@
 
         var vm = this;
 
-        $scope.isChartRendered = false;
-
+        vm.isChartRendered = false;
         vm.submit = submit;
         vm.addToDashboard = addToDashboard;
         $scope.getTranslation = $scope.$parent.getTranslation;
@@ -33,9 +32,9 @@
             vm.submit(vm.request);
         }
 
-        $scope.$on('chartIsReady', function () {
-            $scope.isChartRendered = true;
-        });
+        // $scope.$on('chartIsReady', function () {
+        //     $scope.isChartRendered = true;
+        // });
 
         $scope.$on('columnsChanged', function (e, data) {
             e.stopPropagation();
@@ -56,6 +55,7 @@
         }
 
         function getSearchResultSuccess(res) {
+
             vm.token = res.token;
             vm.queryResults = res.result;
             vm.total = res.total_count;
@@ -127,6 +127,20 @@
         function getColumnKeys(obj) {
             return _.without(_.keys(obj), '$$hashKey');
         }
+
+
+        // get chart ready (render) status
+
+        function setChartStatus(){
+            vm.isChartRendered = true;
+        }
+
+        FusionCharts.addEventListener("rendered", setChartStatus);
+
+        vm.$onDestroy = function() {
+            FusionCharts.removeEventListener("rendered", setChartStatus);
+        };
+
     }
 })();
 
