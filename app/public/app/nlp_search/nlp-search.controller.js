@@ -32,9 +32,6 @@
             vm.submit(vm.request);
         }
 
-        // $scope.$on('chartIsReady', function () {
-        //     $scope.isChartRendered = true;
-        // });
 
         $scope.$on('columnsChanged', function (e, data) {
             e.stopPropagation();
@@ -93,7 +90,7 @@
                         return vm.metricStyles;
                     },
                     checkedColumns: function () {
-                        return vm.checkedColumns
+                        return vm.checkedColumns;
                     }
                 }
             });
@@ -117,7 +114,7 @@
                         return vm.checkedColumns;
                     }
                 }
-            })
+            });
         }
 
         function onItemAdded() {
@@ -128,17 +125,18 @@
             return _.without(_.keys(obj), '$$hashKey');
         }
 
-        // get chart ready (render) status
-
+        /* get chart ready (render) status
+         *********************************/
         function setChartStatus() {
             vm.isChartRendered = true;
         }
 
         FusionCharts.addEventListener("rendered", setChartStatus);
 
-        vm.$onDestroy = function () {
+        // or vm.$onDestroy = function () { }
+        $scope.$on("$destroy", function() {
             FusionCharts.removeEventListener("rendered", setChartStatus);
-        };
+        });
 
     }
 })();
