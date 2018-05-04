@@ -18,58 +18,58 @@
 <body resize="50" scroll="50" class="state-{{$state.current.name}}">
 <ui-view class="root-ui-view"></ui-view>
 
-<script src="dist/app.min.js"></script>
-<!--
+<!--<script src="dist/app.min.js"></script>-->
+
 inject-vendor:js
-<script src="content/bower_components/jquery/dist/jquery.js"></script>
-<script src="content/bower_components/angular/angular.js"></script>
-<script src="content/bower_components/angular-animate/angular-animate.js"></script>
-<script src="content/bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/angular/angular.js"></script>
+<script src="node_modules/angular-animate/angular-animate.js"></script>
+<script src="node_modules/angular-cookies/angular-cookies.js"></script>
 <script src="content/bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script src="content/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
-<script src="content/bower_components/ui-bootstrap-custom-build/ui-bootstrap-custom-2.5.0.js"></script>
+<script src="node_modules/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
+<script src="node_modules/bootstrap/dist/js/"></script>
 <script src="content/bower_components/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-2.5.0.js"></script>
 <script src="content/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="content/bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="node_modules/angular-loading-bar/build/loading-bar.js"></script>
 
 
  Gridstack with its dependencies
-<script src="content/bower_components/lodash/dist/lodash.min.js"></script>
-<script src="content/bower_components/jquery-ui/jquery-ui.min.js"></script>
-<script src="content/bower_components/gridstack/dist/gridstack.min.js"></script>
+<script src="node_modules/lodash/lodash.min.js"></script>
+<script src="node_modules/jquery-ui-dist/jquery-ui.js"></script>
+<script src="node_modules/gridstack/dist/gridstack.min.js"></script>
 <script src="content/libs/gridstack-angular/dist/gridstack-angular.js"></script>
 
  angular translate
-<script src="content/bower_components/angular-translate/angular-translate.js"></script>
-<script src="content/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-<script src="content/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-<script src="content/bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
-<script src="content/bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
-<script src="content/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
-<script src="content/bower_components/ngstorage/ngStorage.min.js"></script>
+<script src="node_modules/angular-translate/dist/angular-translate.js"></script>
+<script src="node_modules/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="node_modules/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+<script src="node_modules/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+<script src="node_modules/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+<script src="node_modules/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+<script src="node_modules/ngstorage/ngStorage.min.js"></script>
  end angular translate
 
-<script src="content/bower_components/moment/moment.js"></script>
+<script src="node_modules/moment/moment.js"></script>
 
-<script src="content/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+<script src="node_modules/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script src="content/libs/angular-noty/angular-noty.js"></script>
 
-<script src="content/bower_components/angular-ui-select/dist/select.js"></script>
+<script src="node_modules/angular-ui-select/select.js"></script>
 
-<script src="content/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="content/bower_components/jquery-validation/dist/additional-methods.min.js"></script>
-<script src="content/bower_components/jpkleemans-angular-validate/dist/angular-validate.min.js"></script>
+<script src="node_modules/jquery-validation/dist/jquery.validate.js"></script>
+<script src="node_modules/jquery-validation/dist/additional-methods.js"></script>
+<script src="node_modules/jpkleemans-angular-validate/dist/angular-validate.min.js"></script>
 
  Start Chart libs
-<script src="content/bower_components/fusioncharts/fusioncharts.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.charts.js"></script>
-&lt;!&ndash;<script src="content/bower_components/fusioncharts/fusioncharts.powercharts.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.gantt.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.treemap.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.zoomscatter.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.maps.js"></script>
-<script src="content/bower_components/fusioncharts/fusioncharts.widgets.js"></script>
-<script src="content/bower_components/fusioncharts/themes/fusioncharts.theme.fint.js"></script>&ndash;&gt;
+<script src="node_modules/fusioncharts/fusioncharts.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.charts.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.powercharts.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.gantt.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.treemap.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.zoomscatter.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.maps.js"></script>
+<script src="node_modules/fusioncharts/fusioncharts.widgets.js"></script>
+<script src="node_modules/fusioncharts/themes/fusioncharts.theme.fint.js"></script>
 <script src="content/libs/fusioncharts/fusioncharts.theme.tren.js"></script>
 <script src="content/libs/fusioncharts/angular-fusioncharts.js"></script>
  End Chart libs
@@ -202,7 +202,7 @@ Financial Data
 <script src="app/connector/detailed/connector-detailed.routes.js"></script>
 <script src="app/connector/detailed/connector-detailed.modal-upload.service.js"></script>
 <script src="app/connector/detailed/connector-detailed.modal-upload.controller.js"></script>
-<script src="content/bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js"></script>
+<script src="node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js"></script>
 
  Drill Down
 <script src="app/detailed_view/drill_down/drill-down.module.js"></script>
@@ -241,11 +241,11 @@ Financial Data
 
  YouTube Video
 <script src="app/layout/layout-video.controller.js"></script>
-<script src="content/bower_components/youtube-video-js/dist/youtube-video-min.js"></script>
+<script src="node_modules/youtube-video-js/dist/youtube-video-min.js"></script>
 
  Share
 <script src="app/layout/layout-share.controller.js"></script>
-<script src="content/bower_components/jssocials/dist/jssocials.min.js"></script>
+<script src="node_modules/jssocials/dist/jssocials.min.js"></script>
 
  Site Settings
 <script src="app/site_settings/site_settings.module.js"></script>
@@ -257,7 +257,7 @@ Financial Data
 <script src="app/site_settings/default_chart_view/default_chart_view.routes.js"></script>
 <script src="app/site_settings/default_chart_view/default_chart_view.service.js"></script>
 <script src="app/site_settings/default_chart_view/default_chart_view.controller.js"></script>
--->
+
 
 </body>
 </html>

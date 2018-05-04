@@ -29,6 +29,15 @@ var cachebust = new CacheBuster();
 // Development Tasks
 // ===============================================================================
 
+// Concat js
+gulp.task('concatJs', function () {
+    log('Concat js ' + paths.js);
+    return gulp.src(paths.js)
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest('../my'));
+});
+
+
 
 // Compile Sass
 gulp.task('sass', function () {
