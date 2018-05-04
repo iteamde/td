@@ -31,8 +31,8 @@ var cachebust = new CacheBuster();
 
 // Concat js
 gulp.task('concatJs', function () {
-    log('Concat js ' + paths.js);
-    return gulp.src(paths.js)
+    log('Concat js to ../my');
+    return gulp.src([paths.vendorjs, paths.js].flatten())
         .pipe(concat('main.js'))
         .pipe(gulp.dest('../my'));
 });
