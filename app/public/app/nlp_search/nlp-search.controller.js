@@ -86,7 +86,7 @@
                 size: 'lg',
                 scope: $scope,
                 resolve: {
-                    token : function () {
+                    token: function () {
                         return vm.token;
                     },
                     metricStyles: function () {
@@ -128,16 +128,15 @@
             return _.without(_.keys(obj), '$$hashKey');
         }
 
-
         // get chart ready (render) status
 
-        function setChartStatus(){
+        function setChartStatus() {
             vm.isChartRendered = true;
         }
 
         FusionCharts.addEventListener("rendered", setChartStatus);
 
-        vm.$onDestroy = function() {
+        vm.$onDestroy = function () {
             FusionCharts.removeEventListener("rendered", setChartStatus);
         };
 
