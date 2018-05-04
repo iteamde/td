@@ -22,6 +22,7 @@ var gutil = require('gulp-util');
 var runSequence = require('gulp-run-sequence');
 var browserSync = require('browser-sync');
 var CacheBuster = require('gulp-cachebust');
+var angularOrder = require('gulp-angular-order');
 var cachebust = new CacheBuster();
 
 
@@ -31,10 +32,14 @@ var cachebust = new CacheBuster();
 
 // Concat js
 gulp.task('concatJs', function () {
-    log('Concat js to ../my');
-    return gulp.src([paths.vendorjs, paths.js].flatten())
+    log('Concat js to dist');
+    log('Uglify js to dist');
+    return gulp.src(paths.vendorjs)
         .pipe(concat('main.js'))
-        .pipe(gulp.dest('../my'));
+        .pipe(gulp.dest('dist/'))
+        // .pipe(rename('main.min.js'))
+        // .pipe(uglify())
+        // .pipe(gulp.dest('dist/'));
 });
 
 
