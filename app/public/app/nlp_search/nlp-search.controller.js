@@ -73,6 +73,8 @@
 
         function getChartDataSuccess(res) {
             $scope.widgets = [res];
+           $scope.widgets[0].default_chart_display_type = "zoomline";
+
         }
 
         function addToDashboard() {
