@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.event')
+        .module('app.connector')
         .controller('ConnectorModalController', ConnectorModalController);
 
     ConnectorModalController.$inject = ['$scope', '$uibModalInstance'];
