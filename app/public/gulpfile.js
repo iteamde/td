@@ -13,7 +13,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var webserver = require('gulp-webserver');
 var karma = require('gulp-karma');
 var jshint = require('gulp-jshint');
-var spritesmith = require('gulp.spritesmith');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
@@ -24,10 +23,12 @@ var browserify = require('browserify');
 var addsrc = require('gulp-add-src');
 var angularOrder = require('gulp-angular-order');
 var ngAnnotate = require('browserify-ngannotate');
-var  source = require('vinyl-source-stream');
+var source = require('vinyl-source-stream');
 var sprite = require('gulp-sprite-generator');
 var spritesmith = require('gulp.spritesmith');
-var  cachebust = new CacheBuster();
+var gulpsync = require('gulp-sync')(gulp);
+
+var cachebust = new CacheBuster();
 
 
 // ===============================================================================
@@ -70,7 +71,6 @@ var  cachebust = new CacheBuster();
 // });
 
 
-
 // Concat js
 gulp.task('concatJs', function () {
     //log([paths.vendorjs,'app/app.module.js', paths.js].flatten())
@@ -83,18 +83,20 @@ gulp.task('concatJs', function () {
 });
 
 
-
 // Sprites task - create sprite image
 gulp.task('sprites', function () {
     var spriteData = gulp.src("content/images/**/*.png")
         .pipe(spritesmith({
-        imgName: 'sprite.png',
-        cssName: 'sprite.scss',
-    }));
-    return spriteData.pipe(gulp.dest('./content/css'));
+            imgName: 'sprite.png',
+            cssName: 'sprite.scss',
+            padding: 3
+        }));
+
+   spriteData.img.pipe(gulp.dest('./content/css'));
+   spriteData.css.pipe(gulp.dest('./content/css'));
+
+
 });
-
-
 
 
 // Compile Sass
@@ -117,7 +119,7 @@ gulp.task('sass', function () {
 gulp.task('purifyCss', function () {
     return gulp.src(paths.css)
         .pipe(purify(paths.js.concat(paths.htmlTemplates)))
-        .pipe(gulp.dest(paths.destCss))
+        .pipe(gulp.dest(paths.destCss));
 });
 
 
@@ -133,8 +135,8 @@ gulp.task('browserSync', function () {
 
 // All Watchers
 gulp.task('watch', function () {
-    gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.scss, ['sass']);
+    gulp.watch(paths.sass, ['sass', browserSync.reload]);
+    gulp.watch(paths.scss, ['sass', browserSync.reload]);
     gulp.watch(paths.htmlTemplates, browserSync.reload);
     gulp.watch(paths.js, browserSync.reload);
 });
@@ -143,15 +145,6 @@ gulp.task('watch', function () {
 // Build Sequences
 // ---------------
 
-gulp.task('build', function (callback) {
-    runSequence(['sprites', 'concatJs', 'sass', 'purifyCss', 'browserSync' ], 'watch',
-        callback
-    )
-});
+gulp.task('build', gulpsync.sync(['sprites', 'concatJs', 'sass', 'purifyCss', 'browserSync']));
 
-
-gulp.task('default', function (callback) {
-    runSequence(['sass', 'purifyCss', 'browserSync'], 'watch',
-        callback
-    )
-});
+gulp.task('default', gulpsync.sync(['sass', 'purifyCss', 'browserSync', 'watch']));
