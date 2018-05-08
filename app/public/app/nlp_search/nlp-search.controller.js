@@ -164,7 +164,7 @@
                     isShow = false;
 
                 function setChartStatus() {
-                    chartEl = $element.find('fusioncharts');
+
                     chartEl = $element.find('svg').find('g');
                     chart = $element.parents()[2];
 
@@ -202,7 +202,7 @@
                     console.log(chartHeight)
 
                     toggleBtn.css({
-                        'bottom': legendElemHeight + 'px',
+                        'top': svgElHeightModify + "px",
                         'position': 'absolute',
                         'left':'50%',
                         'transform': 'translateX(-50%)',
@@ -218,14 +218,14 @@
                         if(isShow) {
                             legendElem.fadeIn();
                             chart.style.height = chartHeight + "px";
-                            toggleBtn.css('bottom', -legendElemHeight + "px");
+                            toggleBtn.css('top',  svgElHeight + "px");
                             svgEl.style.height = svgElHeight + "px";
 
                         }
                         else {
                             legendElem.fadeOut();
                             chart.style.height = chartHeightModify + "px";
-                            toggleBtn.css('bottom', legendElemHeight + "px");
+                            toggleBtn.css('top',  svgElHeightModify + "px");
                             svgEl.style.height = svgElHeightModify + "px";
 
                         }
