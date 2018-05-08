@@ -143,3 +143,103 @@
 
 
 
+(function () {
+
+    'use strict';
+
+    angular.module('app.nlpSearch')
+        .directive('hideChartLegend', hideChartLegend);
+
+    function hideChartLegend($document) {
+        return {
+
+            restrict: 'A',
+
+            link: function ( $scope, $element, $attrs) {
+                var  chartEl, toggleBtn, chart, svgEl, legendElem,
+                    svgElHeight, chartHeight,
+                    svgElHeightModify, chartHeightModify, legendElemHeight,
+                    isShow = false;
+
+                function setChartStatus() {
+                    chartEl = $element.find('fusioncharts');
+                    chartEl = $element.find('svg').find('g');
+                    chart = $element.parents()[2];
+
+                    legendElem = chartEl.filter(function(item, index, arr) {
+
+                        if(index.className.baseVal.includes('legend')) {
+
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    $element.append('<button id="toggleLegend">Legend</button>');
+
+                    toggleBtn = $element.find('#toggleLegend');
+                    svgEl = $element.find('svg')[0];
+
+
+
+                    legendElemHeight = legendElem[0].firstElementChild.attributes[3].nodeValue;
+                    svgElHeight = svgEl.getBoundingClientRect().height;
+                    chartHeight = chart.getBoundingClientRect().height;
+
+
+                    svgElHeightModify = svgElHeight - legendElemHeight;
+                    chartHeightModify = chartHeight - legendElemHeight;
+
+                    legendElem.css('display', 'none');
+
+                    chart.style.height = chartHeightModify + "px";
+                    svgEl.style.height = svgElHeightModify + "px";
+
+
+
+                    console.log(chartHeight)
+
+                    toggleBtn.css({
+                        'bottom': legendElemHeight + 'px',
+                        'position': 'absolute',
+                        'left':'50%',
+                        'transform': 'translateX(-50%)',
+                        'z-index': '9999',
+                        'border-radius': '5px',
+                        'background': '#005075',
+                        'color': '#fff'
+                    });
+
+                    toggleBtn.click(function() {
+                        isShow = !isShow;
+
+                        if(isShow) {
+                            legendElem.fadeIn();
+                            chart.style.height = chartHeight + "px";
+                            toggleBtn.css('bottom', -legendElemHeight + "px");
+                            svgEl.style.height = svgElHeight + "px";
+
+                        }
+                        else {
+                            legendElem.fadeOut();
+                            chart.style.height = chartHeightModify + "px";
+                            toggleBtn.css('bottom', legendElemHeight + "px");
+                            svgEl.style.height = svgElHeightModify + "px";
+
+                        }
+                    });
+
+                }
+
+
+                FusionCharts.addEventListener("rendered", setChartStatus);
+
+                $scope.$on("$destroy", function() {
+                    FusionCharts.removeEventListener("rendered", setChartStatus);
+                    toggleBtn.remove();
+                });
+
+            }
+        };
+    }
+})();
