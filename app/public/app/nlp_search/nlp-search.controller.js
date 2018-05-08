@@ -197,9 +197,7 @@
                     chart.style.height = chartHeightModify + "px";
                     svgEl.style.height = svgElHeightModify + "px";
 
-
-
-                    console.log(chartHeight)
+                    $element.css('position', 'relative');
 
                     toggleBtn.css({
                         'top': svgElHeightModify + "px",
