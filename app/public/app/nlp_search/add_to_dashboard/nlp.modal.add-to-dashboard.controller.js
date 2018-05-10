@@ -11,7 +11,8 @@
     function NlpModalAddToDashboard($scope, token, metricStyles, checkedColumns, nlpSearchService, commonService, TOOLTIP_MESSAGES, $uibModalInstance) {
 
         $scope.addToDashboard = addToDashboard;
-        $scope.metricStyles = metricStyles;
+        $scope.metricStylesAll =  ["donut", "bar", 'single-number'];
+        $scope.metricStyles =  metricStyles;
 
         $scope.request = {
             chart_type: metricStyles[0],

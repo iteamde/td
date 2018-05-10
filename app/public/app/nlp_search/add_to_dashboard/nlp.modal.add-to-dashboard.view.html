@@ -2,14 +2,17 @@
 
     <h3>Configurations</h3>
 
+
     <div class="flex align-center">
         <h4 class="flex-1">Metric Style</h4>
         <div class="flex flex-2">
-            <label ng-repeat="style in metricStyles" uib-btn-radio="'{{style}}'" ng-model="$parent.request.chart_type">
+            <label  ng-repeat="style in metricStylesAll" uib-btn-radio="'{{style}}'" ng-disabled ="!metricStyles.includes(style)" ng-model="$parent.request.chart_type">
                 <div class="title">{{style | capitalizeFilter}}</div>
                 <br>
                 <span class="{{style}}"></span>
                 <span ng-if="style == 'single-number'">Value: N</span>
+                <div class="overlay-chart" ng-if ="!metricStyles.includes(style)"  tooltip-placement="bottom"
+                     uib-tooltip="{{ getTranslation('not_relevant_chart') }}"></div>
             </label>
         </div>
     </div>

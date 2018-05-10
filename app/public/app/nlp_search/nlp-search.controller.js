@@ -70,7 +70,7 @@
 
         function getChartDataSuccess(res) {
             $scope.widgets = [res];
-           $scope.widgets[0].default_chart_display_type = "zoomline";
+           //$scope.widgets[0].default_chart_display_type = "zoomline";
 
         }
 
@@ -204,7 +204,7 @@
                         'position': 'absolute',
                         'left':'50%',
                         'transform': 'translateX(-50%)',
-                        'z-index': '9999',
+                        'z-index': '1',
                         'border-radius': '5px',
                         'background': '#005075',
                         'color': '#fff'
