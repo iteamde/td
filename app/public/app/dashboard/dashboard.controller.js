@@ -5,11 +5,9 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$rootScope','$scope', '$window', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', '$uibModal'];
+    DashboardController.$inject = ['$rootScope', '$scope', '$window', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', '$uibModal'];
 
     function DashboardController($rootScope, $scope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, videoService, $uibModal) {
-
-
 
 
         var vm;
@@ -17,7 +15,7 @@
         vm = this;
         vm.selectedPeriod = '';
 
-        setTimeout(function() {
+        setTimeout(function () {
             activate();
         });
 
@@ -64,18 +62,28 @@
 
             commonService.charts ? $scope.widgets = data.charts.concat(commonService.charts) : $scope.widgets = data.charts;
 
+            // $scope.widgets.forEach(function (item, index) {
+            //         // if (item.chart_data.data) {
+            //         //     item.chart_data.data.splice(4);
+            //         //     console.log('item' + index, item.chart_data.data);
+            //         // }
+            //             item.default_chart_display_type = 'column2d';
+            //
+            //     }
+            // )
 
+            console.log("widgets modify", $scope.widgets);
             videoService.getVideo()
-                .success(function(video) {
+                .success(function (video) {
                     if (video)
                         $scope.videoUrl = video.trendata_video_video;
                 });
             lastUploadedBg()
         }
 
-        $scope.$on('periodChanged', function(e, period) {
+        $scope.$on('periodChanged', function (e, period) {
             dashboardService.getDashboardCharts(vm.dashboard_id, period)
-                .success(function(data) {
+                .success(function (data) {
                     vm.valueBox = data.value_box;
                     commonService.changeFusionTheme(data.charts);
                     $scope.widgets = commonService.charts ? data.charts.concat(commonService.charts) : data.charts;
@@ -90,14 +98,14 @@
 
         function setChartsOrder(charts) {
             var sortedCharts = _.map(_.orderBy(charts, ['x', 'y'], ['asc', 'asc']), function (chart) {
-                    return {
-                        chartId : chart.id,
-                        chartHeight : chart.height,
-                        chartWidth : chart.width,
-                        chartX: chart.x,
-                        chartY: chart.y
-                    };
-                });
+                return {
+                    chartId: chart.id,
+                    chartHeight: chart.height,
+                    chartWidth: chart.width,
+                    chartX: chart.x,
+                    chartY: chart.y
+                };
+            });
 
             dashboardService.setChartsOrder(sortedCharts, vm.dashboard_id)
                 .catch(serviceError);
@@ -109,14 +117,14 @@
 
         function removeChart(chartId) {
             dashboardService.removeChart(vm.dashboard_id, chartId)
-                .success(function() {
+                .success(function () {
                     $window.location.reload();
                 })
                 .catch(serviceError);
         }
 
-        $scope.checkAutopos = function(charts) {
-            return _.every(charts, function(chart) {
+        $scope.checkAutopos = function (charts) {
+            return _.every(charts, function (chart) {
                 return !chart.x && !chart.y;
             });
         }
@@ -127,7 +135,7 @@
 
         function lastUploadedBg() {
             var days = moment().diff(moment(vm.lastUploaded), 'days');
-            return  days <= 30 ? '#33B297' : days <= 60 ? '#FFA300' : '#FF0700';
+            return days <= 30 ? '#33B297' : days <= 60 ? '#FFA300' : '#FF0700';
         }
 
         function isTable(chart) {
@@ -144,9 +152,9 @@
                 controllerAs: 'vm',
                 scope: $scope,
                 resolve: {
-                    periods: function() {
-                        var months = _.map(_.range(1, 13), function(i) {
-                            return  {
+                    periods: function () {
+                        var months = _.map(_.range(1, 13), function (i) {
+                            return {
                                 start: i,
                                 end: i,
                                 title: moment().subtract(i, 'month').format('MMMM YYYY')

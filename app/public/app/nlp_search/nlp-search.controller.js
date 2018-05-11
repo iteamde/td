@@ -10,7 +10,52 @@
 
     function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal) {
 
+
         var vm = this;
+
+
+        $scope.chartViews = [
+            'Cost Per Hire',
+            'Industry Salary',
+            'Salary',
+            'Salary 1 Year Ago',
+            'Salary 2 Year Ago',
+            'Salary 3 Year Ago',
+            'Salary 4 Year Ago',
+            'Performance Percentage This Year',
+            'Performance Percentage 1 Year Ago',
+            'Performance Percentage 2 Year Ago',
+            'Performance Percentage 3 Year Ago',
+            'Performance Percentage 4 Year Ago',
+            'Absences',
+            'Benefit Costs',
+            'Benefit Costs 1 Year Ago',
+            'Benefit Costs 2 Year Ago',
+            'Benefit Costs 3 Year Ago',
+            'Benefit Costs 4 Year Ago'
+        ];
+
+        vm.activeTab = 0;
+        vm.getFilterName = getFilterName
+
+        function setValue(name, index) {
+            vm[name] = index;console.log(vm[name]);
+        }
+
+        $scope.resizeChart = function(tab) {
+            setValue('activeTab', vm.activeTab === tab ? 0 : tab);
+        }
+
+        function getFilterName(filterName) {
+            return filterName && filterName.replace(/^custom\s+/gi, '') || '';
+        }
+
+
+
+
+
+
+
 
         vm.isChartRendered = false;
         vm.submit = submit;
