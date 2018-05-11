@@ -64,14 +64,6 @@
 
             commonService.charts ? $scope.widgets = data.charts.concat(commonService.charts) : $scope.widgets = data.charts;
 
-            // $scope.widgets.forEach( function(item, index){
-            //     if(item.chart_data.data) {
-            //         item.chart_data.data.splice(4);
-            //     }
-            //     console.log('item'+ index, item.chart_data.data);
-            // })
-
-            console.log("widgets modify", $scope.widgets);
 
             videoService.getVideo()
                 .success(function(video) {
