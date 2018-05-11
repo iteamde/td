@@ -6,7 +6,10 @@
     <div class="flex align-center">
         <h4 class="flex-1">Metric Style</h4>
         <div class="flex flex-2">
-            <label  ng-repeat="style in metricStylesAll" uib-btn-radio="'{{style}}'" ng-disabled ="!metricStyles.includes(style)" ng-model="$parent.request.chart_type">
+            <label  ng-repeat="style in metricStylesAll" uib-btn-radio="'{{style}}'"
+                    ng-disabled ="!metricStyles.includes(style)"
+                    ng-style ="{filter: !metricStyles.includes(style) ? 'grayscale(100%)' : 'grayscale(0%)' }"
+                    ng-model="$parent.request.chart_type">
                 <div class="title">{{style | capitalizeFilter}}</div>
                 <br>
                 <span class="{{style}}"></span>
