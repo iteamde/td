@@ -39,9 +39,8 @@
             return $http.post(apiUrl, request);
         }
 
-        function getChartData(token) {
+        function getChartData(data) {
             var apiUrl = BASE_URL + "nlp/get-chart-data";
-            var data = {token: token};
 
             return $http.post(apiUrl, data);
         }

@@ -84,7 +84,7 @@
         <!-- item -->
         <div class="grid-stack-item"
              gridstack-item
-             ng-repeat="w in widgets track by $index"
+             ng-repeat="w in widgets | limitTo:limit track by $index"
              data-grid-item-index="{{$index}}"
              gs-item-x="w.x"
              gs-item-y="w.y"

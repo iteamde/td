@@ -3,19 +3,25 @@
     <h3>Configurations</h3>
 
     <div class="flex align-center">
-        <h4 class="flex-1">Metric Style</h4>
+        <h4 class="flex-1">{{ getTranslation('chart_style') }}</h4>
         <div class="flex flex-2">
-            <label ng-repeat="style in metricStyles" uib-btn-radio="'{{style}}'" ng-model="$parent.request.chart_type">
+            <label  ng-repeat="style in metricStylesAll" uib-btn-radio="'{{style}}'" ng-disabled ="!metricStyles.includes(style)" ng-model="$parent.request.chart_type">
                 <div class="title">{{style | capitalizeFilter}}</div>
                 <br>
                 <span class="{{style}}"></span>
                 <span ng-if="style == 'single-number'">Value: N</span>
+                <div class="overlay-chart" ng-if ="!metricStyles.includes(style)"  tooltip-placement="bottom"
+                     uib-tooltip="{{ getTranslation('not_relevant_chart') }}"></div>
             </label>
         </div>
     </div>
     <div class="flex align-center">
-        <h4 class="flex-1">Metric Title</h4>
+        <h4 class="flex-1">{{ getTranslation('chart_title') }}</h4>
         <input class="form-control flex-2" type="text" ng-model="request.chart_title">
+    </div>
+    <div class="flex align-center">
+        <h4 class="flex-1">{{ getTranslation('chart_description') }}</h4>
+        <textarea class="form-control flex-2" type="text" ng-model="request.description"></textarea>
     </div>
     <div class="button-group form-group">
         <button class="btn btn-xlpad btn-danger" ng-click="$close()">{{ getTranslation('cancel') }}</button>

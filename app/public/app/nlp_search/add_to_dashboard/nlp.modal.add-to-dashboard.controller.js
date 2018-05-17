@@ -6,18 +6,21 @@
         .module('app.nlpSearch')
         .controller('NlpModalAddToDashboard', NlpModalAddToDashboard);
 
-    NlpModalAddToDashboard.$inject = ['$scope', 'token', 'metricStyles', 'checkedColumns', 'nlpSearchService', 'commonService', 'TOOLTIP_MESSAGES', '$uibModalInstance'];
+    NlpModalAddToDashboard.$inject = ['$scope', 'config', 'nlpSearchService', 'commonService', 'TOOLTIP_MESSAGES', '$uibModalInstance'];
 
-    function NlpModalAddToDashboard($scope, token, metricStyles, checkedColumns, nlpSearchService, commonService, TOOLTIP_MESSAGES, $uibModalInstance) {
+    function NlpModalAddToDashboard($scope, config, nlpSearchService, commonService, TOOLTIP_MESSAGES, $uibModalInstance) {
 
         $scope.addToDashboard = addToDashboard;
-        $scope.metricStyles = metricStyles;
+        $scope.metricStyles = config.metrics;
+        $scope.metricStylesAll =  ['donut', 'bar', 'single-number'];
 
         $scope.request = {
-            chart_type: metricStyles[0],
-            chart_title: '',
-            token: token,
-            fields : checkedColumns,
+            chart_view: config.chartView,
+            chart_type: config.metrics[0],
+            chart_title: config.title,
+            description: '',
+            token: config.token,
+            fields : config.columns,
             dashboard_id: 1
         };
 

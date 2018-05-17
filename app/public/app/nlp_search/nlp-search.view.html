@@ -40,80 +40,95 @@
 
         </div>
 
+        <div class="chart-loader" ng-show="!vm.isChartRendered" style="margin: 40vh 35vw;">
+            <i class="fa fa-spinner fa-5x fa-spin"></i>
+        </div>
+
         <div ng-show="!vm.queryResults.length && !vm.error"><h4>No Results Found</h4></div>
         <div ng-show="!vm.queryResults.length && vm.error"><h4 class="error">{{vm.error}}</h4></div>
 
-        <div class="chart nlp" ng-if="vm.queryResults.length">
-            <div class="chart-header chart-header-buttons">
-                <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
-                <span> {{getTranslation('rows')}} : {{vm.total}}</span>
+        <div ng-style="vm.isChartRendered ? {'visibility':'visible'}:{'visibility':'hidden'}">
+            <div class="chart nlp" ng-if="vm.queryResults.length">
+                <div class="chart-header chart-header-buttons">
+                    <div class="chart-filter" ng-if="vm.isTable">
+                        <label >{{ getTranslation('chart_view') }}:</label>
+                        <select ng-model="vm.chartView"
+                                ng-change="vm.getChartData()">
+                            <option ng-repeat="option in vm.chartViews"
+                                    value="{{option}}">
+                                {{ option }}
+                            </option>
+                        </select>
+                    </div>
+                    <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
+                    <span> {{getTranslation('rows')}} : {{vm.total}}</span>
+                </div>
+                <div gridstack class="grid-stack grid1"
+                     ng-repeat="w in widgets">
+
+                    <div gridstack-item
+                         class="grid-stack-item"
+                         gs-item-x="0"
+                         gs-item-y="0"
+                         gs-item-width="w.width"
+                         gs-item-height="w.height"
+                         gs-item-min-width ="2"
+                         gs-item-min-height="2"
+                         on-item-added="vm.onItemAdded()">
+
+                        <div class="chart-content">
+                            <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div gridstack class="grid-stack grid1"
-                 ng-repeat="w in widgets">
 
-                <div gridstack-item
-                     class="grid-stack-item"
-                     gs-item-x="0"
-                     gs-item-y="0"
-                     gs-item-width="w.width"
-                     gs-item-height="w.height"
-                     gs-item-min-width ="2"
-                     gs-item-min-height="2"
-                     on-item-added="vm.onItemAdded()">
+            <div class="chart chart-grid" ng-if="vm.queryResults.length">
+                <div id="table-grid" class="nlp">
+                    <div class="table-container" double-scroll-bars>
+                        <table data-anchor>
+                            <tr>
+                                <th class="grid-cell" ng-repeat="(key, val) in vm.queryResults[0] | filterObjectKeysByArray:vm.checkedColumns" title="{{ key | capitalizeFilter }}">
+                                    {{ key | capitalizeFilter }}
+                                </th>
+                            </tr>
 
-                    <div class="chart-content">
-                        <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
+                            <tr ng-repeat="result in vm.queryResults">
+                                <td ng-repeat="(key, val) in result  | filterObjectKeysByArray:vm.checkedColumns">{{val}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="grid-bottom">
+                        <div ng-if="vm.total && vm.total > 10">
+                            <span>Limit grid to:</span>
+
+                            <select ng-model="vm.request.page_size" ng-options="x for x in [10,25,50,100]" ng-change="vm.submit(vm.request)"></select>
+                        </div>
+
+                        <div class="flex-1 text-center">
+                    <span class="column-manage"
+                          ng-click="vm.manageColumns()">
+                        Manage Columns
+                    </span>
+                        </div>
+
+                        <ul ng-if="vm.total && vm.total > 10"
+                            uib-pagination
+                            boundary-link-numbers="true"
+                            items-per-page="vm.request.page_size"
+                            total-items="vm.total"
+                            ng-model="vm.request.page_number"
+                            max-size="5"
+                            previous-text="&lsaquo;"
+                            next-text="&rsaquo;"
+                            ng-change="vm.submit(vm.request)">
+                        </ul>
                     </div>
                 </div>
-
             </div>
         </div>
-
-        <div class="chart chart-grid" ng-if="vm.queryResults.length">
-            <div id="table-grid" class="nlp" double-scroll-bars>
-                <div class="table-container" data-anchor>
-                    <table>
-                        <tr>
-                            <th class="grid-cell" ng-repeat="(key, val) in vm.queryResults[0] | filterObjectKeysByArray:vm.checkedColumns" title="{{ key | capitalizeFilter }}">
-                                {{ key | capitalizeFilter }}
-                            </th>
-                        </tr>
-
-                        <tr ng-repeat="result in vm.queryResults">
-                            <td ng-repeat="(key, val) in result  | filterObjectKeysByArray:vm.checkedColumns">{{val}}</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="grid-bottom">
-                    <div ng-if="vm.total && vm.total > 10">
-                        <span>Limit grid to:</span>
-
-                        <select ng-model="vm.request.page_size" ng-options="x for x in [10,25,50,100]" ng-change="vm.submit(vm.request)"></select>
-                    </div>
-
-                    <div class="flex-1 text-center">
-                <span class="column-manage"
-                      ng-click="vm.manageColumns()">
-                    Manage Columns
-                </span>
-                    </div>
-
-                    <ul ng-if="vm.total && vm.total > 10"
-                        uib-pagination
-                        boundary-link-numbers="true"
-                        items-per-page="vm.request.page_size"
-                        total-items="vm.total"
-                        ng-model="vm.request.page_number"
-                        max-size="5"
-                        previous-text="&lsaquo;"
-                        next-text="&rsaquo;"
-                        ng-change="vm.submit(vm.request)">
-                    </ul>
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </div>

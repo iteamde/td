@@ -12,6 +12,7 @@
 
         var vm = this;
 
+        vm.isChartRendered = false;
         vm.submit = submit;
         vm.addToDashboard = addToDashboard;
         $scope.getTranslation = $scope.$parent.getTranslation;
@@ -19,12 +20,36 @@
         vm.onItemAdded = onItemAdded;
         vm.manageColumns = manageColumns;
         vm.addToDashboard = addToDashboard;
+        vm.getChartData = getChartData;
         vm.error = '';
         vm.request = {
             text: '',
             page_number: 1,
             page_size: 25
         };
+
+        vm.chartViews = [
+            'Cost Per Hire',
+            'Industry Salary',
+            'Salary',
+            'Salary 1 Year Ago',
+            'Salary 2 Year Ago',
+            'Salary 3 Year Ago',
+            'Salary 4 Year Ago',
+            'Performance Percentage This Year',
+            'Performance Percentage 1 Year Ago',
+            'Performance Percentage 2 Year Ago',
+            'Performance Percentage 3 Year Ago',
+            'Performance Percentage 4 Year Ago',
+            'Absences',
+            'Benefit Costs',
+            'Benefit Costs 1 Year Ago',
+            'Benefit Costs 2 Year Ago',
+            'Benefit Costs 3 Year Ago',
+            'Benefit Costs 4 Year Ago'
+        ];
+
+        vm.chartView = vm.chartViews[0];
 
         if ($stateParams.query) {
             vm.request.text = $stateParams.query;
@@ -50,14 +75,22 @@
         }
 
         function getSearchResultSuccess(res) {
+            handleResponse(res);
+            getChartData();
+        }
+
+        function handleResponse(res) {
             vm.token = res.token;
             vm.queryResults = res.result;
             vm.total = res.total_count;
             vm.gridColumns = _.keys(vm.queryResults[0]);
             vm.metricStyles = res.available_mestric_styles;
             vm.checkedColumns = vm.checkedColumns || _.take(vm.gridColumns, 7);
+        }
 
-            nlpSearchService.getChartData(res.token)
+        function getChartData() {
+            var request = {token: vm.token, chart_view: vm.chartView};
+            nlpSearchService.getChartData(request)
                 .success(getChartDataSuccess);
         }
 
@@ -66,6 +99,7 @@
         }
 
         function getChartDataSuccess(res) {
+            vm.isTable = res.type == 'table';
             $scope.widgets = [res];
         }
 
@@ -80,14 +114,14 @@
                 size: 'lg',
                 scope: $scope,
                 resolve: {
-                    token : function () {
-                        return vm.token;
-                    },
-                    metricStyles: function () {
-                        return vm.metricStyles;
-                    },
-                    checkedColumns: function () {
-                        return vm.checkedColumns
+                    config : function () {
+                        return {
+                            title: $stateParams.query,
+                            token: vm.token,
+                            metrics: vm.metricStyles,
+                            columns: vm.checkedColumns,
+                            chartView: vm.chartView
+                        };
                     }
                 }
             });
@@ -121,5 +155,19 @@
         function getColumnKeys(obj) {
             return _.without(_.keys(obj), '$$hashKey');
         }
+
+        function setChartStatus(){
+            vm.isChartRendered = true;
+        }
+
+        FusionCharts.addEventListener('rendered', setChartStatus);
+
+        vm.$onDestroy = function() {
+            FusionCharts.removeEventListener('rendered', setChartStatus);
+        };
+
     }
 })();
+
+
+

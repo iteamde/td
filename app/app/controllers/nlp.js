@@ -165,9 +165,33 @@ function serverGetKeywordSuggestions(text) {
 /**
  * @param data
  * @param kueriLog
- * @return {Promise}
+ * @param chartView
+ * @returns {Promise}
  */
-function nlpChartDataTable(data, kueriLog) {
+function nlpChartDataTable(data, kueriLog, chartView) {
+    var relations = {
+        'Cost Per Hire': 'cost per hire',
+        'Industry Salary': 'industry salary',
+        'Salary': 'salary',
+        'Salary 1 Year Ago': 'salary 1 year ago',
+        'Salary 2 Year Ago': 'salary 2 year ago',
+        'Salary 3 Year Ago': 'salary 3 year ago',
+        'Salary 4 Year Ago': 'salary 4 year ago',
+        'Performance Percentage This Year': 'performance percentage this year',
+        'Performance Percentage 1 Year Ago': 'performance percentage 1 year ago',
+        'Performance Percentage 2 Year Ago': 'performance percentage 2 year ago',
+        'Performance Percentage 3 Year Ago': 'performance percentage 3 year ago',
+        'Performance Percentage 4 Year Ago': 'performance percentage 4 year ago',
+        'Absences': 'absences',
+        'Benefit Costs': 'benefit costs',
+        'Benefit Costs 1 Year Ago': 'benefit costs 1 year ago',
+        'Benefit Costs 2 Year Ago': 'benefit costs 2 year ago',
+        'Benefit Costs 3 Year Ago': 'benefit costs 3 year ago',
+        'Benefit Costs 4 Year Ago': 'benefit costs 4 year ago',
+    };
+
+    chartView = relations[chartView] && chartView || 'Cost Per Hire';
+
     var chartData = {
         "chart": {
             "caption": kueriLog.trendata_kueri_log_text,
@@ -191,7 +215,8 @@ function nlpChartDataTable(data, kueriLog) {
             "xAxisName": "",
             "showValues": "0",
             "captionAlignment": "center",
-            "theme": "tren"
+            "theme": "tren",
+            "numberprefix": ""
         },
         "categories": [
             {
@@ -200,6 +225,10 @@ function nlpChartDataTable(data, kueriLog) {
         ],
         "dataset": [
             {
+                "seriesname": chartView,
+                "data": []
+            }
+            /*{
                 "seriesname": "Cost Per Hire",
                 "data": []
             },
@@ -270,7 +299,7 @@ function nlpChartDataTable(data, kueriLog) {
             {
                 "seriesname": "Benefit Costs 4 Year Ago",
                 "data": []
-            }
+            }*/
         ]
     };
 
@@ -282,6 +311,10 @@ function nlpChartDataTable(data, kueriLog) {
         });
 
         chartData.dataset[0].data.push({
+            value: Number(row[relations[chartView]]) || 0
+        });
+
+        /*chartData.dataset[0].data.push({
             value: Number(row['cost per hire']) || 0
         });
 
@@ -351,7 +384,7 @@ function nlpChartDataTable(data, kueriLog) {
 
         chartData.dataset[17].data.push({
             value: Number(row['benefit costs 4 year ago']) || 0
-        });
+        });*/
     }).then(function () {
         return chartData;
     });
@@ -395,7 +428,8 @@ function nlpChartDataGroup(data, kueriLog) {
             "xAxisName": "",
             "showValues": "0",
             "captionAlignment": "center",
-            "theme": "tren"
+            "theme": "tren",
+            "numberprefix": ""
         },
         "categories": [
             {
@@ -713,6 +747,7 @@ module.exports = {
      */
     getChartData: function (req, res) {
         var kueriLogToken = req.body.token || null;
+        var chartView = req.body.chart_view || 'Cost Per Hire';
 
         if (!kueriLogToken) {
             return res.status(400).json({
@@ -790,19 +825,19 @@ module.exports = {
                         break;
                     case 'table':
                     default:
-                        chartData = nlpChartDataTable(data.rows, kueriLog);
+                        chartData = nlpChartDataTable(data.rows, kueriLog, chartView);
                 }
 
                 return Promise.props({
                     chart_data: chartData,
                     width: 12,
                     height: 6,
-                    type: 'group',
+                    type: data.type,
                     default_chart_display_type: {
                         count: 'column2d',
-                        group: 'zoomlinedy',
-                        table: 'zoomlinedy'
-                    }[data.type] || 'zoomlinedy'
+                        group: 'scrollcolumn2d',
+                        table: 'scrollcolumn2d'
+                    }[data.type] || 'scrollcolumn2d'
                 });
             }).then(function (data) {
                 res.json(data);
@@ -820,8 +855,10 @@ module.exports = {
     addToDashboard: function (req, res) {
         var chartType = ['single-number', 'donut', 'bar'].indexOf(req.body.chart_type) > -1 ? req.body.chart_type : 'bar';
         var chartLabel = req.body.chart_title;
+        var chartView = req.body.chart_view || 'Cost Per Hire';
         var token = req.body.token;
         var dashboardId = req.body.dashboard_id;
+        var description = req.body.description;
         var pickFields = req.body.fields && req.body.fields.map(function (item) {
             return (item + '').toLowerCase();
         });
@@ -994,7 +1031,8 @@ module.exports = {
                             rows, 
                             {
                                 trendata_kueri_log_text: ${JSON.stringify(chartLabel || kueriLog.trendata_kueri_log_text)}
-                            }
+                            },
+                            ${JSON.stringify(chartView)}
                         );
                     }).then(_resolve).catch(_reject);
                 `;
@@ -1005,7 +1043,7 @@ module.exports = {
                 trendata_chart_created_by: req.user.trendata_user_id,
                 trendata_chart_last_modified_by: req.user.trendata_user_id,
                 trendata_chart_title_token: chartLabel || kueriLog.trendata_kueri_log_text,
-                trendata_chart_description_token: chartLabel || kueriLog.trendata_kueri_log_text,
+                trendata_chart_description_token: description || kueriLog.trendata_kueri_log_text,
                 trendata_chart_type: 'single-number' === chartType ? '2' : '1',
                 trendata_chart_default_chart_display_type: {
                     'count': {

@@ -44,7 +44,11 @@
         $scope.onWindowResize = commonService.onWindowResize($scope);
         $scope.setChartsOrder = setChartsOrder;
         $scope.videoUrl;
+        $scope.limit = 1;
 
+        FusionCharts.addEventListener("loaded", function () {
+            $scope.limit= $scope.limit + 3;
+        });
         function activate() {
             vm.dashboard_id = $stateParams.id || $rootScope.dashboardId;
             dashboardService.getDashboardCharts(vm.dashboard_id)
@@ -60,6 +64,10 @@
             commonService.changeFusionTheme(data.charts);
 
             commonService.charts ? $scope.widgets = data.charts.concat(commonService.charts) : $scope.widgets = data.charts;
+
+            $scope.widgets.sort(function (a,b) {
+                return a.chart_data.dataset && b.chart_data.dataset && (a.chart_data.dataset[0].data.length - b.chart_data.dataset[0].data.length);
+            });
 
             videoService.getVideo()
                 .success(function(video) {
