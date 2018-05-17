@@ -62,6 +62,7 @@
         });
 
         function submit(request) {
+            vm.isChartRendered = false;
             vm.error = '';
             vm.queryResults = [];
             vm.total = 0;
@@ -158,9 +159,13 @@
 
         function setChartStatus(){
             vm.isChartRendered = true;
+            $scope.$apply();
         }
 
-        FusionCharts.addEventListener('rendered', setChartStatus);
+        vm.$onInit = function() {
+            FusionCharts.addEventListener('rendered', setChartStatus);
+        }
+
 
         vm.$onDestroy = function() {
             FusionCharts.removeEventListener('rendered', setChartStatus);
