@@ -14,7 +14,9 @@
             getSearchResults: getSearchResults,
             getAutocompleteResults: getAutocompleteResults,
             addToDashboard: addToDashboard,
-            getChartData: getChartData
+            getChartData: getChartData,
+            feedBack: feedBack,
+            lookingFor: lookingFor
         };
 
         function getAutocompleteResults(text) {
@@ -41,6 +43,18 @@
 
         function getChartData(data) {
             var apiUrl = BASE_URL + "nlp/get-chart-data";
+
+            return $http.post(apiUrl, data);
+        }
+
+        function feedBack(data) {
+            var apiUrl = BASE_URL + "nlp/nlp-feedback";
+
+            return $http.post(apiUrl, data);
+        }
+
+        function lookingFor(data) {
+            var apiUrl = BASE_URL + "nlp/nlp-looking";
 
             return $http.post(apiUrl, data);
         }

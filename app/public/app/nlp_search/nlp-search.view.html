@@ -63,6 +63,22 @@
                     <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
                     <span> {{getTranslation('rows')}} : {{vm.total}}</span>
                 </div>
+                <div class="pull-right helpful-container">
+                    <div class="first-question"  ng-if="vm.questionIndex === 1">
+                        Was the result helpful?
+                        <button class="red pull-right" ng-click="vm.feedBack(false)"><i class="fa fa-thumbs-down"></i>NO</button>
+                        <button class="green pull-right" ng-click="vm.feedBack(true)"><i class="fa fa-thumbs-up"></i>YES</button>
+                    </div>
+                    <div class="second-question"  ng-if="vm.questionIndex === 2">
+                        <div class="pull-left text-center">
+                            What where you looking for?
+                            <input type="text" ng-model="vm.lookingForText">
+                        </div>
+                        <div class="pull-right">
+                            <button class="blue" ng-click="vm.saveLookingFor()">Save</button>
+                        </div>
+                    </div>
+                </div>
                 <div gridstack class="grid-stack grid1"
                      ng-repeat="w in widgets">
 

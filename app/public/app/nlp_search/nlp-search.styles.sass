@@ -1,5 +1,53 @@
 #nlp-search
 
+  .helpful-container
+    border-top: 1px dotted #404040
+    border-bottom: 1px dotted #404040
+    position: relative
+    z-index: 9999
+    font-size: 14px
+    background-color: #fff
+
+    .first-question
+      line-height: 60px
+
+    .second-question
+      padding: 5px 20px
+      input
+        display: block
+        margin: 10px 5px
+
+    button
+      border: 1px solid black
+      width: 80px
+      height: 30px
+      border-radius: 15px
+      margin: 15px
+      color: #fff
+      line-height: 25px
+      font-weight: bold
+
+      & i
+        margin-right: 5px
+
+      &:last-child
+        margin-right: 0
+
+      &.green
+        background-color: green
+
+      &.red
+        background-color: red
+
+      &.blue
+        background-color: #2d79b3
+        border-radius: 4px
+        margin: 28px 10px 0
+        font-weight: normal
+        height: 25px
+        line-height: 20px
+        border: none
+
   .search-bar
     width: 100%
     background: #ffffff

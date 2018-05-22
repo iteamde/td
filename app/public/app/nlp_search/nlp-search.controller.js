@@ -6,9 +6,9 @@
         .module('app.nlpSearch')
         .controller('NlpSearchController', NlpSearchController);
 
-    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams', '$uibModal'];
+    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams', '$uibModal', '$timeout'];
 
-    function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal) {
+    function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal, $timeout) {
 
         var vm = this;
 
@@ -21,12 +21,17 @@
         vm.manageColumns = manageColumns;
         vm.addToDashboard = addToDashboard;
         vm.getChartData = getChartData;
+        vm.feedBack = feedBack;
+        vm.saveLookingFor = saveLookingFor;
         vm.error = '';
         vm.request = {
             text: '',
             page_number: 1,
             page_size: 25
         };
+
+        vm.questionIndex = 1;
+        vm.lookingForText = "";
 
         vm.chartViews = [
             'Cost Per Hire',
@@ -65,6 +70,7 @@
             vm.error = '';
             vm.queryResults = [];
             vm.total = 0;
+            vm.questionIndex = 0;
             $scope.widgets = [];
 
             $stateParams.query = request.text;
@@ -101,6 +107,9 @@
         function getChartDataSuccess(res) {
             vm.isTable = res.type == 'table';
             $scope.widgets = [res];
+            $timeout(function () {
+                vm.questionIndex = 1;
+            }, 500)
         }
 
         function addToDashboard() {
@@ -165,6 +174,20 @@
         vm.$onDestroy = function() {
             FusionCharts.removeEventListener('rendered', setChartStatus);
         };
+        //TODO CREATE VALID FUNCTIONALITY WITH FLOW, API ,TOASTR MSG ETC.
+         function feedBack(result) {
+            vm.questionIndex = 0;
+            if(result) {
+               return  nlpSearchService.feedBack(result)
+            }else{
+                vm.questionIndex = 2;
+            }
+        }
+
+        function saveLookingFor() {
+            vm.questionIndex = 0;
+            return  nlpSearchService.lookingFor(vm.lookingForText)
+        }
 
     }
 })();
