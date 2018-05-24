@@ -8,14 +8,46 @@
     font-size: 14px
     background-color: #fff
 
+
     .first-question
+      display: flex
+      align-items: center
+      flex-wrap: wrap
       line-height: 60px
+
 
     .second-question
       padding: 5px 20px
       input
         display: block
         margin: 10px 5px
+
+
+
+
+    span
+      width: 40px
+      height: 35px
+      margin-left: 5px
+
+      &:hover
+        cursor: pointer
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.2)
+
+      &:active
+        position: relative
+        top: 1px
+
+
+      &.red
+        background: url("formbtn.png") no-repeat -1px 0
+        background-size: cover
+
+      &.green
+        background: url("formbtn.png") no-repeat -40px 0
+        background-size: cover
+
+
 
     button
       border: 1px solid black
