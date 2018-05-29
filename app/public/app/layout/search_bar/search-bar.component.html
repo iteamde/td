@@ -7,7 +7,6 @@
                ng-model="vm.text"
                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                uib-typeahead="query for query in vm.getQueries($viewValue)"
-               typeahead-on-select="vm.submit($item)"
                >
 
         <a class="btn button-icon question" href="#/nlp-overview"><i class="fa fa-question"></i></a>

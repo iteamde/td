@@ -22,7 +22,6 @@
                                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                                uib-typeahead="query for query in vm.getQueries($viewValue)"
                                typeahead-focus-first="false"
-                               typeahead-on-select="vm.submit(vm.request)"
                         >
 
                     </div>
@@ -66,13 +65,11 @@
 
 
 
-
                 <div class="pull-right helpful-container">
                     <div class="first-question"  ng-if="vm.questionIndex === 1">
                        Was the result helpful?
                         <!--<button class="red pull-right" ng-click="vm.feedBack(false)"><i class="fa fa-thumbs-down"></i>NO</button>-->
                         <!--<button class="green pull-right" ng-click="vm.feedBack(true)"><i class="fa fa-thumbs-up"></i>YES</button>-->
-
                         <span class="red pull-right formbtn3" ng-click="vm.feedBack(false)"></span>
                         <span class="green pull-right formbtn3" ng-click="vm.feedBack(true)"></span>
 
