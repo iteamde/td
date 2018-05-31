@@ -9,14 +9,17 @@
     ConnectorController.$inject = [
         '$scope',
         'logger',
-        '$uibModal'
-
+        '$uibModal',
+        '$timeout',
+        'commonService'
     ];
 
-    function ConnectorController($scope, logger, $uibModal) {
+    function ConnectorController($scope, logger, $uibModal, $timeout, commonService) {
 
         var vm;
         vm = this;
+
+        vm.isLoading = false;
 
         vm.connectors = [
             {
@@ -56,7 +59,7 @@
             {
                 title: "Deltek",
                 logo: "Deltek",
-                status: 0,
+                status: 1,
                 error: {
                     status: false,
                     count: 0
@@ -94,7 +97,7 @@
         ];
         vm.configureConnector = configureConnector;
         vm.getClassForConnectorStatus = getClassForConnectorStatus;
-
+        vm.isDeltek = isDeltek;
 
         function getClassForConnectorStatus(param, connector) {
             return connector.status === param;
@@ -110,6 +113,21 @@
                 controller: 'ConnectorModalController',
                 controllerAs: 'vm',
             });
+        }
+
+        function isDeltek(e, connector) {
+
+            if (connector.title === 'Deltek') {
+
+                e.preventDefault();
+                vm.isLoading = true;
+
+                $timeout(function () {
+                    vm.isLoading = false;
+                    commonService.notification("Data has been migrated", "success");
+                }, 7000);
+
+            }
         }
     }
 
