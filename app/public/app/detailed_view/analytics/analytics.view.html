@@ -74,7 +74,7 @@
                                     <div class="group-flex analytics-custom-datepicker">
                                         <div class="input-group">
                                             <span class="input-group-addon">{{ getTranslation('from') }}<sup>*</sup> :</span>
-                                            <input type="text" class="form-control" uib-datepicker-popup name="startDate"
+                                            <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM" name="startDate"
                                                    ng-model="vm.customTimeSpan.start" is-open="vm.open.start" ng-click="vm.toggleDatePicker('start')"
                                                    datepicker-options="vm.datePickerOptions" close-text="{{ getTranslation('close') }}">
                                             <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker('start')">
@@ -84,7 +84,7 @@
 
                                         <div class="input-group">
                                             <span class="input-group-addon">{{ getTranslation('to') }}<sup>*</sup> :</span>
-                                            <input type="text" class="form-control" uib-datepicker-popup name="endDate"
+                                            <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM" name="endDate"
                                                    ng-model="vm.customTimeSpan.end" is-open="vm.open.end" ng-click="vm.toggleDatePicker('end')"
                                                    datepicker-options="vm.datePickerOptions" close-text="{{ getTranslation('close') }}">
                                             <span class="input-group-addon cursor" ng-click="vm.toggleDatePicker('end')">
