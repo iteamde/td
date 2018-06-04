@@ -43,14 +43,13 @@
             <i class="fa fa-spinner fa-5x fa-spin"></i>
         </div>
 
-        <div ng-show="!vm.queryResults.length && !vm.error"><h4>No Results Found</h4></div>
-        <div ng-show="!vm.queryResults.length && vm.error"><h4 class="error">{{vm.error}}</h4></div>
+        <div ng-show="!vm.queryResults.length"><h4>No Results Found</h4></div>
 
         <div ng-style="vm.isChartRendered ? {'visibility':'visible'}:{'visibility':'hidden'}">
             <div class="chart nlp" ng-if="vm.queryResults.length">
                 <div class="chart-header chart-header-buttons">
                     <div class="chart-filter" ng-if="vm.isTable">
-                        <label >{{ getTranslation('chart_view') }}:</label>
+                        <label>{{ getTranslation('chart_view') }}:</label>
                         <select ng-model="vm.chartView"
                                 ng-change="vm.getChartData()">
                             <option ng-repeat="option in vm.chartViews"
@@ -59,22 +58,22 @@
                             </option>
                         </select>
                     </div>
-                    <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
+                    <i class="fa fa-plus" ng-click="vm.addToDashboard()"
+                       title="{{getTranslation('add_to_dashboard')}}"></i>
                     <span> {{getTranslation('rows')}} : {{vm.total}}</span>
                 </div>
 
 
-
                 <div class="pull-right helpful-container">
-                    <div class="first-question"  ng-if="vm.questionIndex === 1">
-                       Was the result helpful?
+                    <div class="first-question" ng-if="vm.questionIndex === 1">
+                        Was the result helpful?
                         <!--<button class="red pull-right" ng-click="vm.feedBack(false)"><i class="fa fa-thumbs-down"></i>NO</button>-->
                         <!--<button class="green pull-right" ng-click="vm.feedBack(true)"><i class="fa fa-thumbs-up"></i>YES</button>-->
                         <span class="red pull-right formbtn3" ng-click="vm.feedBack(false)"></span>
                         <span class="green pull-right formbtn3" ng-click="vm.feedBack(true)"></span>
 
                     </div>
-                    <div class="second-question"  ng-if="vm.questionIndex === 2">
+                    <div class="second-question" ng-if="vm.questionIndex === 2">
                         <div class="pull-left text-center">
                             What where you looking for?
                             <input type="text" ng-model="vm.lookingForText">
@@ -86,7 +85,6 @@
                 </div>
 
 
-
                 <div gridstack class="grid-stack grid1"
                      ng-repeat="w in widgets">
 
@@ -96,7 +94,7 @@
                          gs-item-y="0"
                          gs-item-width="w.width"
                          gs-item-height="w.height"
-                         gs-item-min-width ="2"
+                         gs-item-min-width="2"
                          gs-item-min-height="2"
                          on-item-added="vm.onItemAdded()">
 
@@ -113,13 +111,17 @@
                     <div class="table-container" double-scroll-bars>
                         <table data-anchor>
                             <tr>
-                                <th class="grid-cell" ng-repeat="(key, val) in vm.queryResults[0] | filterObjectKeysByArray:vm.checkedColumns" title="{{ key | capitalizeFilter }}">
+                                <th class="grid-cell"
+                                    ng-repeat="(key, val) in vm.queryResults[0] | filterObjectKeysByArray:vm.checkedColumns"
+                                    title="{{ key | capitalizeFilter }}">
                                     {{ key | capitalizeFilter }}
                                 </th>
                             </tr>
 
                             <tr ng-repeat="result in vm.queryResults">
-                                <td ng-repeat="(key, val) in result  | filterObjectKeysByArray:vm.checkedColumns">{{val}}</td>
+                                <td ng-repeat="(key, val) in result  | filterObjectKeysByArray:vm.checkedColumns">
+                                    {{val}}
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -128,7 +130,8 @@
                         <div ng-if="vm.total && vm.total > 10">
                             <span>Limit grid to:</span>
 
-                            <select ng-model="vm.request.page_size" ng-options="x for x in [10,25,50,100]" ng-change="vm.submit(vm.request)"></select>
+                            <select ng-model="vm.request.page_size" ng-options="x for x in [10,25,50,100]"
+                                    ng-change="vm.submit(vm.request)"></select>
                         </div>
 
                         <div class="flex-1 text-center">
