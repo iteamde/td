@@ -6,9 +6,9 @@
         .module('app.nlpSearch')
         .controller('NlpSearchController', NlpSearchController);
 
-    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams', '$uibModal', '$timeout'];
+    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams', '$uibModal', '$timeout', '$location'];
 
-    function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal, $timeout) {
+    function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal, $timeout, $location) {
 
         var vm = this;
 
@@ -72,8 +72,8 @@
             vm.total = 0;
             vm.questionIndex = 0;
             $scope.widgets = [];
-
             $stateParams.query = request.text;
+            $location.path('/nlp-search/' + request.text);
 
             nlpSearchService.getSearchResults(request)
                 .success(getSearchResultSuccess)
@@ -167,6 +167,7 @@
 
         function setChartStatus(){
             vm.isChartRendered = true;
+            $scope.$apply();
         }
 
         FusionCharts.addEventListener('rendered', setChartStatus);
