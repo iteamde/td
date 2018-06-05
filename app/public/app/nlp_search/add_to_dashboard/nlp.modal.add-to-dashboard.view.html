@@ -1,30 +1,35 @@
 <div class="add-to-dashboard-modal form-control-container">
 
-    <h3>Configurations</h3>
-
     <div class="flex align-center">
         <h4 class="flex-1">{{ getTranslation('chart_style') }}</h4>
         <div class="flex flex-2">
-            <label  ng-repeat="style in metricStylesAll" uib-btn-radio="'{{style}}'" ng-disabled ="!metricStyles.includes(style)" ng-model="$parent.request.chart_type">
-                <div class="title">{{style | capitalizeFilter}}</div>
+
+            <label ng-repeat="style in metricStylesAll" uib-btn-radio="'{{style}}'"
+                   ng-disabled="!metricStyles.includes(style)" ng-model="$parent.request.chart_type">
+                <div class="title" ng-if="!(style === 'single-number')">{{style | capitalizeFilter}}</div>
+                <div class="title" ng-if="style === 'single-number'">Single-value</div>
                 <br>
-                <span class="{{style}}"></span>
-                <span ng-if="style == 'single-number'">Value: N</span>
-                <div class="overlay-chart" ng-if ="!metricStyles.includes(style)"  tooltip-placement="bottom"
+                <span ng-class="{'nlp-donut': style === 'donut', 'nlp-bar': style === 'bar', 'nlp-single-value': style === 'single-number'}"></span>
+                <div class="overlay-chart" ng-if="!metricStyles.includes(style)" tooltip-placement="bottom"
                      uib-tooltip="{{ getTranslation('not_relevant_chart') }}"></div>
+                <span class="selected">Selected</span>
             </label>
+
         </div>
     </div>
     <div class="flex align-center">
         <h4 class="flex-1">{{ getTranslation('chart_title') }}</h4>
-        <input class="form-control flex-2" type="text" ng-model="request.chart_title">
+        <div class="flex-2"><input class="form-control" type="text" ng-model="request.chart_title"></div>
     </div>
     <div class="flex align-center">
         <h4 class="flex-1">{{ getTranslation('chart_description') }}</h4>
-        <textarea class="form-control flex-2" type="text" ng-model="request.description"></textarea>
+        <div class="flex-2"><textarea class="form-control" type="text" ng-model="request.description"></textarea></div>
     </div>
-    <div class="button-group form-group">
-        <button class="btn btn-xlpad btn-danger" ng-click="$close()">{{ getTranslation('cancel') }}</button>
-        <button class="btn btn-xlpad btn-success" ng-click="addToDashboard()">{{ getTranslation('save') }}</button>
+    <div class="button-group form-group flex">
+        <div class="flex-1"></div>
+        <div class="flex-2">
+            <button class="btn btn-xlpad btn-default btn-bordered" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+            <button class="btn btn-xlpad btn-primary" ng-click="addToDashboard()">{{ getTranslation('save') }}</button>
+        </div>
     </div>
 </div>

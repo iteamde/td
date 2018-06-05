@@ -25,20 +25,39 @@
   .flex-2
     flex: 2
 
+  .selected
+    position: absolute
+    display: none
+    left: 50%
+    transform: translate(-50%)
+    bottom: -25px
+    color: green
+    font-weight: normal
+
   label
     cursor: pointer
-    border: 1px solid white
-    height: 125px
-    width: 160px
-    margin-right: 20px
     position: relative
+    border: 1px solid #000
+    height: 120px
+    width: 120px
+    margin-right: 20px
+    margin-left: -1px
+
+    &[disabled]:hover
+       cursor: not-allowed
 
     &.active
-      border: 1px solid
+
+      .selected
+        display: inline-block
 
       .title
         width: 100%
-        background-color: beige
+        background-color: lightgreen
+
+    .title
+      line-height: 2
+      border-bottom: 1px solid #000
 
   .type-value
     vertical-align: middle
@@ -49,6 +68,7 @@
   .btn:first-child
     margin-right: 30px
 
-  .bar,
-  .donut
+  .nlp-bar,
+  .nlp-donut,
+  .nlp-single-value
     display: inline-block
