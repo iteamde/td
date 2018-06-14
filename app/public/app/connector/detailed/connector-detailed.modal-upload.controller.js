@@ -6,11 +6,12 @@
         .module('app.connector')
         .controller('ModalUploadController', ModalUploadController);
 
-    ModalUploadController.$inject = ['$scope', 'modalUploadService', 'commonService', 'exception'];
+    ModalUploadController.$inject = ['$scope', 'modalUploadService', 'commonService', 'exception', 'dictionary'];
 
-    function ModalUploadController($scope, modalUploadService, commonService, exception) {
+    function ModalUploadController($scope, modalUploadService, commonService, exception, dictionary) {
 
         var vm = this;
+        vm.dictionaryData = [];
         vm.save = save;
         vm.isLoading = false;
         vm.progressWidth = 0;
@@ -18,9 +19,17 @@
         vm.fileName = '';
         vm.fileName = '';
 
+        dictionary.forEach(function(item){
+            vm.dictionaryData.push(item.name);
+        })
+
         $scope.$on('fileUploadSuccess', function (e, data) {
             e.stopPropagation();
+            var pos = data.uploadedFile.indexOf('\r');
+            var getCsvData = data.uploadedFile.slice(0, pos);
+            vm.csvData = getCsvData.split(',');
             angular.extend(vm, data);
+
         });
 
         function save() {

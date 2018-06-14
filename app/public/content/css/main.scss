@@ -2951,8 +2951,13 @@ label.inactive {
  **********************************************/
 
 @import "../../app/core/common-components/users-grid/users-grid.component";
+
+
 /* =ConnectorDetailed
  **********************************************/
+@import "../../app/connector/detailed/upload.error.scss";
+
+
 
 #connectorDetailed {
   .flex-table {

@@ -50,7 +50,12 @@
                 templateUrl: 'app/connector/detailed/connector-detailed.modal.upload.view.html',
                 controller: 'ModalUploadController',
                 controllerAs: 'vm',
-                scope: $scope
+                scope: $scope,
+                resolve: {
+                    dictionary: function() {
+                        return vm.dictionary
+                    }
+                }
             });
         }
 

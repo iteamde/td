@@ -1,0 +1,21 @@
+.error-table-wrapper {
+  max-height: 400px;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+
+.error-table {
+  display: inline-block;
+
+  th, td {
+    padding: 10px 20px;
+    text-align: center;
+    border: 1px solid black;
+  }
+
+  td {
+    background: greenyellow;
+    text-align: left;
+  }
+}

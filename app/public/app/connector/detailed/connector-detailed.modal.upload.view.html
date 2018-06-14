@@ -29,6 +29,32 @@
                 </li>
             </ul>
 
+            <div class="error-table-wrapper" ng-if="vm.uploadErrors && !(vm.uploadErrors.Errors[0] ==='No file selected')">
+                <table class="error-table">
+                    <tr>
+                        <th>Data Dictionary</th>
+                    </tr>
+                    <tr ng-repeat="item in vm.dictionaryData">
+                        <td ng-style="{'background' : (vm.csvData[$index] === vm.dictionaryData[$index])? 'greenyellow' : 'red' }">
+                            {{item}}
+                        </td>
+                    </tr>
+                </table>
+                <table class="error-table">
+                    <tr>
+                        <th>CSV Headers</th>
+                    </tr>
+                    <tr ng-repeat="item in vm.csvData">
+                        <td ng-style="{'background' : (vm.csvData[$index] === vm.dictionaryData[$index]) ? 'greenyellow' : 'red' }">
+                            {{item}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+
             <div class="button-group form-group">
                 <button class="btn btn-xlpad btn-default btn-sm" ng-disabled="vm.isLoading" ng-click="$close()">{{ getTranslation('cancel') }}</button>
                 <button class="btn btn-xlpad btn-primary btn-sm pull-right" ng-disabled="vm.isLoading" ng-click="vm.save()">{{ getTranslation('save') }}</button>
