@@ -3,12 +3,18 @@
 
     angular.module("app.financialData")
         .directive('yearDrop', function () {
+
             return {
-                link: function (scope, element, attrs) {
+
+                link: function (scope, element, attrs, $scope) {
+
+                    console.log("directive", scope.warnMess);
+
                     scope.years = getYears(+attrs.offset, +attrs.range);
                     scope.selectedYear = scope.years[scope.years.length - 1];
+
                 },
-                template: '<select class="form-control select-control-blue"  ng-model="selectedYear" ng-options="y for y in years"></select>'
+                template: '<select ng-disabled="disableBtn" class="form-control select-control-blue"  ng-model="selectedYear" ng-options="y for y in years"></select>'
             };
 
 

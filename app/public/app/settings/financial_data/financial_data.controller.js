@@ -5,10 +5,12 @@
         .module('app.financialData')
         .controller('FinancialDataController', FinancialDataController);
 
-    FinancialDataController.$inject = ['$scope', '$uibModal', 'noty', '$http', 'BASE_URL', 'commonService'];
+    FinancialDataController.$inject = ['$transitions', '$rootScope', '$scope','$document', '$uibModal', 'noty', '$http', 'BASE_URL', 'commonService'];
 
-    function FinancialDataController($scope, $uibModal, noty, $http, BASE_URL, commonService) {
+    function FinancialDataController($transitions, $rootScope, $scope, $document, $uibModal, noty, $http, BASE_URL, commonService) {
         var vm = this;
+
+
 
         /**
          * @type {*[]}
@@ -95,6 +97,7 @@
                 method: 'POST',
                 data: $scope.data
             }).then(function (response) {
+                $scope.isDataSaved = true;
                 commonService.notification($scope.getTranslation('financial-data-saved'), 'success');
                 $scope.saveOldData();
             }).catch(function () {
@@ -115,5 +118,48 @@
         $scope.resetData = function () {
             $scope.data = angular.copy($scope.oldData);
         };
-    }
+
+
+        /**
+         *  Prevent router change when data is unsaved
+         *  TODO: find better way, it cause an error message in console (bu it don't crush app)
+         */
+        $transitions.onStart({}, function (trans) {
+            if (!$scope.isDataSaved) {
+                commonService.notyConfirm($scope.getTranslation('Your changes have not been saved yet. Do you want to leave without finishing?'), 'warning');
+                return false;
+            }
+        });
+
+        /**
+         *  Part of code to prevent the loss of unsaved data
+         *  watch for variables in common service (button action on prompt noty )
+         */
+        $scope.$watch(function(){
+            return commonService.showWarnMess;
+        }, function(newValue){
+            $scope.disableBtn = newValue;
+        });
+
+        $scope.$watch(function(){
+            return commonService.notSaved;
+        }, function(newValue){
+            $scope.isDataSaved= newValue;
+        });
+
+        $scope.makeChanges = function(){
+            $scope.isDataSaved = false;
+        };
+
+        $scope.warnMessage = function(e) {
+            if(!$scope.isDataSaved){
+                e.preventDefault();
+                commonService.notyConfirm($scope.getTranslation('Your changes have not been saved yet. Do you want to leave without finishing?'), 'warning');
+            }
+        };
+
+
+
+
+        };
 })();

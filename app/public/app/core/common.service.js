@@ -5,11 +5,16 @@
     .module('app.core')
     .factory('commonService', commonService);
 
-  commonService.$inject = ['logger', 'TOOLTIP_MESSAGES', 'TILE_MIN_WIDTH_TRENDLINE','TILE_MIN_HEIGHT_TRENDLINE', 'TILE_MIN_HEIGHT_WITH_FILTERS', 'ALLOWED_CHART_TYPES', 'noty', 'BASE_URL', '$window', '$http'];
+  commonService.$inject = [ '$rootScope', 'logger', 'TOOLTIP_MESSAGES', 'TILE_MIN_WIDTH_TRENDLINE','TILE_MIN_HEIGHT_TRENDLINE', 'TILE_MIN_HEIGHT_WITH_FILTERS', 'ALLOWED_CHART_TYPES', 'noty', 'BASE_URL', '$window', '$http'];
 
-  function commonService(logger, TOOLTIP_MESSAGES, TILE_MIN_WIDTH_TRENDLINE,TILE_MIN_HEIGHT_TRENDLINE, TILE_MIN_HEIGHT_WITH_FILTERS, ALLOWED_CHART_TYPES, noty, BASE_URL, $window, $http) {
+  function commonService( $rootScope, logger, TOOLTIP_MESSAGES, TILE_MIN_WIDTH_TRENDLINE,TILE_MIN_HEIGHT_TRENDLINE, TILE_MIN_HEIGHT_WITH_FILTERS, ALLOWED_CHART_TYPES, noty, BASE_URL, $window, $http) {
+
 
     var service = {
+
+      /* ------------ Variables for Financial Inputs ---------------*/
+      notSaved: true,
+      showWarnMess: false,
 
       getCommonData: getCommonData,
 
@@ -29,6 +34,7 @@
       /* ------------ OTHERS ---------------*/
       getColumnWidth: getColumnWidth,
       notification: notification,
+      notyConfirm: notyConfirm,
       getShareChart: getShareChart,
       exportUsersToCsv: exportUsersToCsv,
       exportSummaryToCsv: exportSummaryToCsv,
@@ -284,6 +290,44 @@
         type: type,
         killer: true
       });
+    }
+    /**
+     *  Confirm notification
+     */
+    function notyConfirm(text, type) {
+        service.notSaved = false;
+
+        noty.show({
+            text: text,
+            type: type,
+            layout: 'topCenter',
+            killer: true,
+            callback: {
+                onShow: function () {
+                    service.showWarnMess = true;
+                },
+                afterShow: function () {
+                },
+                //TODO: make without $rootScope.$apply
+                afterClose: function () {
+                    service.showWarnMess = false;
+                    $rootScope.$apply();
+                }
+            },
+            buttons: [
+                {
+                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                    service.notSaved = true;
+                    $noty.close();
+                }
+                },
+                {
+                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                    $noty.close();
+                }
+                }
+            ]
+        });
     }
 
     function chartConfig($scope, vm) {
