@@ -337,6 +337,23 @@
 }
 
 @media (max-width: 480px) {
+
+  #nlp-search {
+
+    .search-bar {
+      display: flex;
+      flex-direction: column;
+
+      .with-autocomplete {
+        margin-right: 0;
+        input {
+          font-size: 11px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+
   .box-info .icon-box {
     width: 100%;
     display: block;
