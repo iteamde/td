@@ -14,7 +14,7 @@
         /*
          * 3rd Party modules
          */
-        'ngStorage', /*'ngplus',*/ 'pascalprecht.translate', 'tmh.dynamicLocale', 'ngValidate', 'notyModule'
+        'ngStorage', /*'ngplus',*/ 'pascalprecht.translate', 'tmh.dynamicLocale', 'ngValidate', 'notyModule', 'dndLists'
     ]);
 })();
 

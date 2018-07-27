@@ -25,7 +25,8 @@
 
         // base api url
         //.constant('BASE_URL', window.location.origin + '/api/')
-        .constant('BASE_URL', 'https://rawanenlp.dev.trendata.com/api/') //gsvqAMIprcWYNIH
+        //.constant('BASE_URL', 'https://rawanenlp.dev.trendata.com/api/') //gsvqAMIprcWYNIH
+        .constant('BASE_URL', 'https://release3000.dev.trendata.com/api/') //5KuPhyVhloBANiO
 
         // tooltip
         .constant('TOOLTIP_MESSAGES', {
