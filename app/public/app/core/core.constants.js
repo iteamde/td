@@ -24,7 +24,8 @@
         })
 
         // base api url
-        .constant('BASE_URL', window.location.origin + '/api/')
+        //.constant('BASE_URL', window.location.origin + '/api/')
+        .constant('BASE_URL', 'https://rawanenlp.dev.trendata.com/api/') //gsvqAMIprcWYNIH
 
         // tooltip
         .constant('TOOLTIP_MESSAGES', {
