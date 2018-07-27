@@ -7,11 +7,14 @@
       <div class="modal-body">
         <div id="share-wrapper" class="text-center"></div>
         <div id="share-email-wrapper">
-          <span>{{getTranslation('email')}}</span>
-          <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="{{getTranslation('email_tooltip')}}"></i>
-          <input class="form-control" ng-model="vm.shareEmails">
+          <span>{{getTranslation('email_addresses')}}</span>
+          <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="Separate different emails by a comma"></i><br>
+          <input class="form-control" ng-model="vm.shareEmails"><br>
+          <span>{{getTranslation('comment')}}</span><br>
+          <textarea class="form-control clearfix" ng-model="vm.comment"></textarea><br>
           <input type="hidden" id="shared-url" value="">
-          <button class="btn btn-primary pull-right" ng-click="vm.sendEmail()">{{getTranslation('send')}}</button>
+          <button class="btn btn-default" ng-click="vm.closeModal()">{{ getTranslation('cancel') }}</button>
+          <button class="btn btn-primary" ng-click="vm.sendEmail()">{{getTranslation('send')}}</button>
         </div>
       </div>
     </div>

@@ -8,20 +8,24 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
         'FROM ' +
         '`trendata_bigdata_user` AS `tbu` ' +
         'WHERE ' +
-        '`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
+        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\')) ' +
+        'OR ' +
+        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\'))) ' +
+        /*'`tbu`.`trendata_bigdata_user_position_hire_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') ' +
         'AND ' +
-        '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') ' +
+        '`tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') ' +*/
         'AND ' +
         accessLevelSql.query +
         ' GROUP BY ' +
         '`tbu`.`trendata_bigdata_hire_source` ' +
-        'ORDER BY ' + 
+        'ORDER BY ' +
         '`tbu`.`trendata_bigdata_hire_source`',
         {
             type: ORM.QueryTypes.SELECT,
             replacements: [
-                undefined === req.query.start ? -1 : -parseInt(req.query.start),
-                undefined === req.query.end ? -1 : -parseInt(req.query.end)
+                -req.query.start || -1,
+                -req.query.end || -1,
+                -req.query.start || -1
             ].concat(accessLevelSql.replacements)
         }
     );
@@ -32,8 +36,8 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
     });
 }).then(function (data) {
     _resolve({
-        data: data,
+        data: _.some(data, 'value') ? data : [],
         legendItemFontSize: '8',
-        paletteColors: '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473'
+        paletteColors: colors.getAll()
     });
 }).catch(_reject);

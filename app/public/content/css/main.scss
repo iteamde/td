@@ -59,7 +59,7 @@
 @import "../bower_components/jssocials/styles/jssocials";
 @import "../bower_components/jssocials/styles/jssocials-theme-flat";
 
-@include sprites($spritesheet-sprites)
+@include sprites($spritesheet-sprites);
 
 // Theme Colors
 $th-white: #ffffff;
@@ -164,7 +164,7 @@ label.error {
 ------------------------------------------------------------------ */
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-weight: 300;
+  font-weight: 301;
 }
 
 /*  =GridGutters
@@ -219,6 +219,11 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
     background: transparent;
   }
 
+}
+
+.with-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .angselect-control-primary-multiple {
@@ -335,15 +340,23 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
   @include button-variant($th-white, $gray-light, $gray);
 }
 
-.search-button-icon {
+.button-icon {
   position: absolute;
-  right: 10px;
-  top: 3px;
   background: none;
   padding: 0;
 
   .fa {
     font-size: 20px;
+  }
+
+  &.search {
+    right: 10px;
+    top: 3px;
+  }
+
+  &.question {
+    right: 35px;
+    top: 3px;
   }
 }
 
@@ -390,6 +403,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
     }
   }
 
+  &.nlp {
+    margin-top: 20px;
+  }
+
   .chart-header {
     position: relative;
     border-bottom: 1px solid $th-gray;
@@ -404,6 +421,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         display: inline-block;
         font-size: 11px;
       }
+    }
+
+    ul.dropdown-menu-1 {
+      min-width: 38px;
     }
 
     .chart-header-tab-title {
@@ -554,7 +575,6 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         cursor: pointer;
       }
     }
-
   }
 
   .chart-filter {
@@ -599,6 +619,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 
     &.with-loader {
       position: relative;
+    }
+
+    &.table {
+      overflow: auto;
     }
 
     .scroll-box {
@@ -757,6 +781,10 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
     border: 1px solid lightgrey;
     width: 100%;
     min-height: 200px;
+  }
+
+  .grid-cell {
+    cursor: pointer;
   }
 }
 
@@ -1360,7 +1388,6 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 .side-menu.left {
   background: $th-blue;
   position: absolute;
-  top: 50px;
   border-right: 1px solid #eee;
 }
 
@@ -1389,7 +1416,6 @@ body.mobile .slimscroller {
 
 .content-page {
   margin-left: 215px;
-  overflow: hidden;
   position: relative;
 }
 
@@ -1397,6 +1423,7 @@ body.mobile .slimscroller {
   margin-top: 50px;
   position: relative;
   padding: 20px;
+  min-height: 100vh;
 }
 
 .side-menu.right {
@@ -2711,6 +2738,16 @@ label.inactive {
 
   text-align: center;
 
+  .skip-distance-label {
+    font-weight: normal;
+    margin-bottom: 15px;
+
+    #skip-distance {
+      position: relative;
+      top: 2px;
+    }
+  }
+
   .password-container {
     position: relative;
 
@@ -2896,6 +2933,14 @@ label.inactive {
 
 @import "../../app/nlp_search/nlp-search.styles";
 
+/* =Nlp Overview
+ **********************************************/
+@import "../../app/nlp_search/nlp_overview/nlp-overview.styles.sass";
+
+/* =Nlp Add To Dashboard
+ *********************************************/
+@import "../../app/nlp_search/add_to_dashboard/add-to-dashboard.style";
+
 /* =Profile
  **********************************************/
 
@@ -2909,7 +2954,7 @@ label.inactive {
 /* =Grid
  **********************************************/
 
-@import "../../app/core/common-components/grid/grid.component";
+@import "../../app/core/common-components/grid/grid.component.scss";
 
 /* =Grid Manage Columns
  **********************************************/
@@ -3012,10 +3057,6 @@ label.inactive {
   color: #f14844;
   margin-bottom: 10px;
   position: relative;
-}
-
-.line-number {
-  position: absolute;
 }
 
 .upload-errors-line ul {
@@ -3168,7 +3209,8 @@ label.inactive {
 }
 
 #share-email-wrapper {
-  padding: 0 40px 10px;
+  border-top: 1px solid #ccc;
+  padding: 20px 40px;
 
   .fa {
     color: #ccc;
@@ -3178,9 +3220,24 @@ label.inactive {
   .form-control {
     display: inline-block;
     width: 330px;
-    margin-right: 10px;
+    margin: 5px 10px 10px 0;
   }
 }
+
+#share-modal .btn {
+  margin-right: 5px;
+}
+
+#grid .grid-cell {
+  justify-content: flex-start;
+  min-height: 35px;
+  height: auto;
+
+  b {
+    margin-right: 5px;
+  }
+}
+
 .settings-grid {
   background-color: $white;
 
@@ -3247,5 +3304,41 @@ label.inactive {
 
   &.settings-grid .grid-cell {
     flex: 1;
+  }
+}
+
+.centerNumber{
+  float: none;
+  margin: 0 auto;
+  text-align: center;
+  border: 1px solid #bbbbbb;
+  border-radius: 2px;
+  min-height: 50px;
+  line-height: 50px;
+  color: #004f74;
+  font-size: 26px;
+}
+
+.add-chart-modal {
+  form {
+    margin-top: 20px;
+
+    label {
+      display: inline-block;
+      width: 25%;
+    }
+
+    .form-control {
+      display: inline-block;
+      width: 70%;
+    }
+
+    .button-group {
+      margin-top: 40px;
+
+      .btn {
+        margin: 0 10px;
+      }
+    }
   }
 }

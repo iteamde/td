@@ -11,7 +11,7 @@
     function PredictiveController($scope, $q, data, events, $stateParams, exception, predictiveService, mockDataService, commonService, commonChartService, debounceService, PREDICTIVE_CHART_CORRECTION, videoService, analyticsService) {
 
         var vm = this;
-
+        var rel = '?rel=0';
         vm.toggleCheckbox = toggleCheckbox;
         vm.update = update;
         vm.saveToDashboard = saveToDashboard;
@@ -25,12 +25,12 @@
         vm.activeTab = 0;
         vm.activeGrid = 0;
         vm.yearRange = ['1 year'];
-        vm.chartView = ['Total', 'Performance', 'City', 'State', 'Country', 'Department', 'Division', 'Cost Center', 'Gender','Job Level', 'Performance Rating'];
-        
+        vm.chartView = ['Total', 'Performance', 'City', 'State', 'Country', 'Department', 'Division', 'Cost Center', 'Gender', 'Job Level', 'Performance Rating'];
+
         vm.showSpinner = true;
         vm.showData = false;
         vm.isLoading = false;
-        
+
         $scope.summaryValues = [];
         $scope.videoUrl;
 
@@ -55,33 +55,32 @@
             $scope.chartId = data.id;
             $scope.customFields = _.chain(data.chart_data.available_filters)
                 .keys()
-                .filter(function(field) {
+                .filter(function (field) {
                     return field.indexOf('custom') === 0;
                 })
-                .map(function(field) {
+                .map(function (field) {
                     return field.slice(7);
                 })
                 .value();
 
             $scope.gridFilter = commonChartService.createFilter($scope.data);
-            _.each($scope.gridFilter, function(val, key) {
+            _.each($scope.gridFilter, function (val, key) {
                 showMoreLess(val);
             });
             $scope.curveDebounce = debounceService(predictiveService.getCurvePoints, 1000, false);
 
-            //commonService.updateGrid($scope, $scope.data);
-            
+            // commonService.updateGrid($scope, $scope.data);
             vm.showSpinner = false;
             vm.showData = true;
 
             videoService.getVideo()
-                .success(function(video) {
+                .success(function (video) {
                     if (video)
-                        $scope.videoUrl = video.trendata_video_video;
+                        $scope.videoUrl = video.trendata_video_video + rel;
                 });
         }
 
-        $scope.$on('summaryChanged', function(event, values) {
+        $scope.$on('summaryChanged', function (event, values) {
             event.stopPropagation();
             $scope.chartData = values;
             $scope.summaryValues = values;
@@ -98,20 +97,20 @@
                 user_pagination: $scope.pagination
             };
             analyticsService.changeChart(options)
-                .success(function(res){
-                    $scope.users=res.chart_data.users;
+                .success(function (res) {
+                    $scope.users = res.chart_data.users;
                     $scope.totalUsers = res.chart_data.users_count;
                 });
         });
 
         function toggleCheckbox(filter) {
 
-            _.forIn(filter.values, function(value, key) {
+            _.forIn(filter.values, function (value, key) {
                 filter.values[key] = filter.all;
             });
-            if(filter.all)
+            if (filter.all)
                 showMoreLess(filter);
-            else{
+            else {
                 filter.loadMore = false;
                 filter.loadLess = false;
             }
@@ -122,33 +121,33 @@
             var max = 15;
             if (typeof count != 'undefined') {
                 var ind = 0;
-                _.each(filter.values, function(val, key) {
+                _.each(filter.values, function (val, key) {
                     filter.values[key] = true;
                     ind++;
                 });
-                if(ind > max){
+                if (ind > max) {
                     filter.loadMore = false;
                     filter.loadLess = true;
-                }else{
+                } else {
                     filter.loadMore = false;
                     filter.loadLess = false;
                 }
             } else {
                 var ind = 0;
-                _.each(filter.values, function(val, key) {
-                    filter.values[key] = (ind >= max)?false:true;
+                _.each(filter.values, function (val, key) {
+                    filter.values[key] = (ind >= max) ? false : true;
                     ind++;
                 });
-                if(ind > max){
+                if (ind > max) {
                     filter.loadMore = true;
                     filter.loadLess = false;
-                }else{
+                } else {
                     filter.loadMore = false;
                     filter.loadLess = false;
                 }
             }
         }
-        
+
         function update() {
             vm.isLoading = true;
             //create mediator (chart, every grid tab)
@@ -162,13 +161,15 @@
 
         function curvePoints() {
 
-            $scope.defaultBarData = _.find($scope.chartData, {name: 'Total Turnover'});
+            $scope.defaultBarData = _.find($scope.chartData, {
+                name: 'Total Turnover'
+            });
 
             if ($scope.widgets[0].trendline) {
                 var debounce = $scope.curveDebounce($stateParams.id, $scope.barData || $scope.defaultBarData);
 
                 debounce.then(curvePointsSuccess)
-                        .catch(serviceError);
+                    .catch(serviceError);
             }
         }
 
@@ -215,15 +216,15 @@
         }
 
         function annotations() {
-            return $scope.widgets[0].annotation ? commonChartService.createAnnotations($scope.eventsArr, PREDICTIVE_CHART_CORRECTION, $scope.widgets[0].range, 'predictive'): [];
+            return $scope.widgets[0].annotation ? commonChartService.createAnnotations($scope.eventsArr, PREDICTIVE_CHART_CORRECTION, $scope.widgets[0].range, 'predictive') : [];
         }
 
-        $scope.resizeChart = function(tab) {
+        $scope.resizeChart = function (tab) {
             vm.setValue('activeTab', vm.activeTab === tab ? 0 : tab);
             angular.element('.grid-stack-item-content').addClass('resizing');
 
             var chart = FusionCharts.items[_.keys(FusionCharts.items)[0]];
-            setTimeout(function() {
+            setTimeout(function () {
                 var height = angular.element('.grid-stack-item-content').height() - angular.element('.chart-header').height();
                 chart.resizeTo(chart.width, height - 35);
                 angular.element('.grid-stack-item-content').removeClass('resizing');

@@ -60,6 +60,11 @@ var requestData = 'POST' === req.method ? req.body : {
     }
 };
 
+if (fromDashboard) {
+    requestData = reqData;
+}
+
+
 requestData = _.merge({
     data: {
         chart_view: undefined,
@@ -117,8 +122,12 @@ function getChartDataTemplate(hireSources, verticalAxisTypeConverter) {
         ],
         dataset: [],
         numberSuffix: verticalAxisTypeConverter.suffix,
-        paletteColors: '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473'
+        paletteColors: colors.getAll()
     };
+
+    if (requestData.type === 'fromDashboard') {
+        templpate.numberPrefix = '';
+    }
 
     for (var i in hireSources) {
         templpate.dataset.push({
@@ -287,6 +296,48 @@ switch (requestData.type) {
 
                     return data;
                 })
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // For Dashboard
+    case 'fromDashboard':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter).then(function (data) {
+                if (requestData.data.regression_analysis) {
+                    return Promise.map(data.dataset[0].data, function (_item, _index) {
+                        return Promise.reduce(data.dataset, function (accum, item, index) {
+                            return accum + (data.dataset[index].data[_index].value || 0);
+                        }, 0).then(function (sum) {
+                            return sum / data.dataset.length;
+                        });
+                    }).then(function (values) {
+                        return commonChartData.getTrendlineCurvePython(values);
+                    }).map(function (item) {
+                        return {
+                            color: '#008ee4',
+                            dashed: '0',
+                            value: _.round(item, 2)
+                        };
+                    }).then(function (values) {
+                        data.dataset.push({
+                            data: values,
+                            id: 'trendline',
+                            renderAs: 'line',
+                            showValues: '0'
+                        });
+                        return data;
+                    });
+                }
+
+                return data;
             });
         }).then(_resolve).catch(_reject);
         break;

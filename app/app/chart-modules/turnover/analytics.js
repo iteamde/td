@@ -60,6 +60,10 @@ var requestData = 'POST' === req.method ? req.body : {
     }
 };
 
+if (fromDashboard) {
+    requestData = reqData;
+}
+
 requestData = _.merge({
     data: {
         chart_view: undefined,
@@ -81,7 +85,7 @@ var timeSpan = requestData.data.time_span || {
 if (! timeSpan.end)
     timeSpan.end = 1;
 
-var userTypes = ['active', 'terminated'];
+var userTypes = ['terminated'];
 
 /**
  * @param chartView
@@ -111,7 +115,7 @@ function analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalA
                 return accum;
             }
 
-            data.paletteColors = '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473';
+            data.paletteColors = colors.getAll();
 
             return _.chain(data).merge({dataset: [dataset]}).value();
         });
@@ -129,6 +133,25 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
     var range = [];
     timeSpan.start = parseInt(timeSpan.start, 10) || 0;
     timeSpan.end = parseInt(timeSpan.end, 10) || 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'Total',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix,
+        paletteColors: '#0075c2'
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     if (timeSpan.start - timeSpan.end >= 12) {
         for (var i = timeSpan.start; i > timeSpan.end + +moment().subtract(timeSpan.end, 'month').format('M'); i -= 12)
@@ -203,7 +226,7 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
                     'WHERE ' +
                     '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
                     'AND ' +
-                    '`tbu`.`trendata_bigdata_user_position_hire_date` < ' + startDate +
+                    '`tbu`.`trendata_bigdata_user_position_hire_date` <= ' + startDate +
                     'AND ' +
                     '`tbu`.`trendata_bigdata_user_position_termination_date` >= ' + startDate + ') ' +
                     'OR ' +
@@ -250,7 +273,7 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
                     'WHERE ' +
                     '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
                     'AND ' +
-                    '`tbu`.`trendata_bigdata_user_position_hire_date` < ' + endDate +
+                    '`tbu`.`trendata_bigdata_user_position_hire_date` <= ' + endDate +
                     'AND ' +
                     '`tbu`.`trendata_bigdata_user_position_termination_date` >= ' + endDate + ') ' +
                     'OR ' +
@@ -299,21 +322,7 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
         });
 
         return accum;
-    }, {
-        categories: [
-            {
-                category: []
-            }
-        ],
-        dataset: [
-            {
-                seriesname: 'Total',
-                data: []
-            }
-        ],
-        numberSuffix: verticalAxisTypeConverter.suffix,
-        paletteColors: '#0075c2'
-    });
+    }, initObject);
 }
 
 /**
@@ -326,6 +335,29 @@ function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConve
     var range = [];
     timeSpan.start = parseInt(timeSpan.start, 10) || 0;
     timeSpan.end = parseInt(timeSpan.end, 10) || 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'High Performers',
+                data: []
+            },
+            {
+                seriesname: 'Non-High Performers',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix,
+        paletteColors: null
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     if (timeSpan.start - timeSpan.end >= 12) {
         for (var i = timeSpan.start; i > timeSpan.end + +moment().subtract(timeSpan.end, 'month').format('M'); i -= 12)
@@ -586,7 +618,7 @@ function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConve
                         'WHERE ' +
                         '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
                         'AND ' +
-                        '`tbu`.`trendata_bigdata_user_position_hire_date` < ' + startDate +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` <= ' + startDate +
                         'AND ' +
                         '`tbu`.`trendata_bigdata_user_position_termination_date` >= ' + startDate + ') ' +
                         'OR ' +
@@ -630,7 +662,7 @@ function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConve
                         'WHERE ' +
                         '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL ' +
                         'AND ' +
-                        '`tbu`.`trendata_bigdata_user_position_hire_date` < ' + endDate +
+                        '`tbu`.`trendata_bigdata_user_position_hire_date` <= ' + endDate +
                         'AND ' +
                         '`tbu`.`trendata_bigdata_user_position_termination_date` >= ' + endDate + ') ' +
                         'OR ' +
@@ -681,25 +713,7 @@ function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConve
             });
 
             return accum;
-        }, {
-            categories: [
-                {
-                    category: []
-                }
-            ],
-            dataset: [
-                {
-                    seriesname: 'High Performers',
-                    data: []
-                },
-                {
-                    seriesname: 'Non-High Performers',
-                    data: []
-                }
-            ],
-            numberSuffix: verticalAxisTypeConverter.suffix,
-            paletteColors: null
-        });
+        }, initObject);
     });
 }
 
@@ -731,6 +745,13 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                 column: '`tbu`.`trendata_bigdata_user_department`',
                 title: 'Department',
                 values: availableFilters.department
+            };
+
+            data['separation type'] = {
+                filters: requestData.data.filters,
+                column: '`tbu`.`trendata_bigdata_user_voluntary_termination`',
+                title: 'Separation Type',
+                values: availableFilters['separation type']
             };
 
             data.division = {
@@ -798,8 +819,12 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                 ],
                 dataset: [],
                 numberSuffix: verticalAxisTypeConverter.suffix,
-                paletteColors: '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473'
+                paletteColors: colors.getAll()
             };
+
+            if (requestData.type === 'fromDashboard') {
+                initObject.numberPrefix = '';
+            }
 
             _.each(data[chartView].values, function(item) {
                 initObject.dataset.push({
@@ -824,7 +849,7 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                         /**
                          *
                          */
-                        term: (function () {
+                        value: (function () {
                             var query = 'SELECT ' +
                                 'COUNT(*) AS `count`, ' +
                                 startDate + ' AS `month` ' +
@@ -862,7 +887,80 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                         /**
                          *
                          */
-                        activeOnStart: (function () {
+                        term: (function () {
+                            var query = 'SELECT ' +
+                                'COUNT(*) AS `count`, ' +
+                                startDate + ' AS `month` ' +
+                                'FROM ' +
+                                '`trendata_bigdata_user` AS `tbu` ' +
+                                'WHERE ' +
+                                '`tbu`.`trendata_bigdata_user_position_termination_date` >= ' + startDate +
+                                'AND ' +
+                                '`tbu`.`trendata_bigdata_user_position_termination_date` <= ' + endDate +
+                                'AND ' +
+                                filterSql.query +
+                                ' AND ' +
+                                accessLevelSql.query;
+
+                            var replacements = [
+                                -item,
+                                -item,
+                                -item
+                            ].concat(filterSql.replacements).concat(accessLevelSql.replacements);
+
+                            return orm.query(query, {
+                                type: ORM.QueryTypes.SELECT,
+                                replacements: replacements
+                            }).then(function (rows) {
+                                return {
+                                    month_name: moment(rows[0].month).format(dateFormat),
+                                    count: rows[0].count
+                                };
+                            });
+                        })()
+
+                        /**
+                         *
+                         */
+                        /*term: (function () {
+                            var query = 'SELECT ' +
+                                'COUNT(*) AS `count`, ' +
+                                startDate + ' AS `month` ' +
+                                'FROM ' +
+                                '`trendata_bigdata_user` AS `tbu` ' +
+                                'WHERE ' +
+                                '`tbu`.`trendata_bigdata_user_position_termination_date` >= ' + startDate +
+                                'AND ' +
+                                '`tbu`.`trendata_bigdata_user_position_termination_date` <= ' + endDate +
+                                'AND ' +
+                                data[chartView].column + ' = ? ' +
+                                'AND ' +
+                                filterSql.query +
+                                ' AND ' +
+                                accessLevelSql.query;
+
+                            var replacements = [
+                                -item,
+                                -item,
+                                -item,
+                                filterValue
+                            ].concat(filterSql.replacements).concat(accessLevelSql.replacements);
+
+                            return orm.query(query, {
+                                type: ORM.QueryTypes.SELECT,
+                                replacements: replacements
+                            }).then(function (rows) {
+                                return {
+                                    month_name: moment(rows[0].month).format(dateFormat),
+                                    count: rows[0].count
+                                };
+                            });
+                        })(),*/
+
+                        /**
+                         *
+                         */
+                        /*activeOnStart: (function () {
                             var query = 'SELECT ' +
                                 'COUNT(*) AS `count`, ' +
                                 startDate + ' AS `month` ' +
@@ -902,12 +1000,12 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                                     count: rows[0].count
                                 };
                             });
-                        })(),
+                        })(),*/
 
                         /**
                          *
                          */
-                        activeOnEnd: (function () {
+                        /*activeOnEnd: (function () {
                             var query = 'SELECT ' +
                                 'COUNT(*) AS `count`, ' +
                                 startDate + ' AS `month` ' +
@@ -947,11 +1045,11 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                                     count: rows[0].count
                                 };
                             });
-                        })()
+                        })()*/
                     }).then(function (data) {
                         return {
-                            month_name: data.activeOnStart.month_name,
-                            value: verticalAxisTypeConverter.convert(data.term.count, data.term.count + (data.activeOnStart.count + data.activeOnEnd.count) / 2)
+                            month_name: data.value.month_name,
+                            value: verticalAxisTypeConverter.convert(data.value.count, data.term.count)
                         };
                     });
                 });
@@ -1064,6 +1162,63 @@ switch (requestData.type) {
         }).then(_resolve).catch(_reject);
         break;
 
+    // For Dashboard
+    case 'fromDashboard':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return (function () {
+                var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || 'total';
+
+                if (customFields.indexOf(chartView) !== -1) {
+                    return analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalAxisTypeConverter);
+                }
+
+                switch (chartView) {
+                    case 'performance':
+                        return byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConverter);
+                    case 'total':
+                        return totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter);
+                    default:
+                        return customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, customFields);
+                }
+            })().then(function (data) {
+                if (requestData.data.regression_analysis) {
+                    return Promise.map(data.dataset[0].data, function (_item, _index) {
+                        return Promise.reduce(data.dataset, function (accum, item, index) {
+                            return accum + (data.dataset[index].data[_index].value || 0);
+                        }, 0).then(function (sum) {
+                            return sum / data.dataset.length;
+                        });
+                    }).then(function (values) {
+                        return commonChartData.getTrendlineCurvePython(values);
+                    }).map(function (item) {
+                        return {
+                            // color: '#008ee4',
+                            // dashed: '0',
+                            value: _.round(item, 2)
+                        };
+                    }).then(function (values) {
+                        data.dataset.push({
+                            data: values,
+                            // id: 'trendline',
+                            renderAs: 'line',
+                            showValues: '0'
+                        });
+                        return data;
+                    });
+                }
+
+                return data;
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
     // Init
     default:
         commonChartData.getCustomFields(req).then(function(customFields) {
@@ -1071,7 +1226,7 @@ switch (requestData.type) {
                 commonChartData.getAvailableFiltersForDrilldown(customFields),
                 commonChartData.makeAccessLevelSql(req),
                 commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
-                commonChartData.makeUsersFilter(timeSpan, ['active', 'terminated']),
+                commonChartData.makeUsersFilter(timeSpan, userTypes),
                 commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
                 customFields
             ]);
@@ -1166,15 +1321,15 @@ switch (requestData.type) {
                 /**
                  *
                  */
-                 users_filter_data: {
+                users_filter_data: {
                     timeSpan: timeSpan,
                     types: userTypes
-                 },
+                },
 
-                 /**
+                /**
                  *
                  */
-                 default_chart_view: defaultChartView
-        });
-    }).then(_resolve).catch(_reject);
+                default_chart_view: defaultChartView
+            });
+        }).then(_resolve).catch(_reject);
 }

@@ -15,11 +15,15 @@
             changeChart: changeChart,
             createFilter: createFilter,
             changePage: changePage,
-            exportUsersToCsv: exportUsersToCsv
+            exportUsersToCsv: exportUsersToCsv,
+            addToDashboard: addToDashboard
         };
 
-        function getCharts(id) {
+        function getCharts(id, dashboartChartId) {
             var apiUrl = BASE_URL + "sub-chart/drilldown/" + id;
+            if (dashboartChartId)
+                apiUrl += '/' + dashboartChartId;
+
             return $http.get(apiUrl);
         }
 
@@ -42,7 +46,7 @@
         }
 
 
-        function createFilter(filters) {
+        function createFilter(filters, _filters) {
             var obj = {};
 
             _.each(filters, function (value, key) {
@@ -50,7 +54,9 @@
                 obj[key].values = {};
                 obj[key].all = true;
                 _.each(value, function(v) {
-                    obj[key].values[v] = true;
+                    obj[key].values[v] = _filters && _filters[key] ? _filters[key].indexOf(v === null ? 'null' : v.toString()) > -1 : true;
+                    if (! obj[key].values[v])
+                        obj[key].all = false;
                 })
             });
 
@@ -62,9 +68,6 @@
 
             _.each(filter, function (value, name) {
                 var keys = _.keys(value.values);
-
-                if (keys.length === 1 && keys[0] === 'null')
-                    return;
 
                 serverFilter[name] = _.filter(keys, function (key) {
                     return value.values[key];
@@ -91,6 +94,23 @@
 
         function exportUsersToCsv(filters, pagination, usersFilter, chartId) {
             return commonService.exportUsersToCsv(extendReq(filters), pagination, usersFilter, chartId);
+        }
+
+        function addToDashboard(options) {
+            var req = {
+                chart_id: options.chart_id,
+                dashboard_id: options.dashboard_id,
+                chart_title: options.chart_title,
+                chart_description: options.chart_description,
+                chart_view: options.chart_view,
+                time_span: options.time_span,
+                vertical_axis: options.vertical_axis,
+                hide_empty: options.hide_empty,
+                filters: {}
+            }
+            angular.extend(req.filters, extendReq(options.filters));
+
+            return commonService.addToDashboard(req);
         }
     }
 })();

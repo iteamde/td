@@ -61,10 +61,14 @@
                 return _.map(this.data, function (obj1) {
 
                     var matchObj = _.find(self.data, {name: obj1.name});
+                    var values = [];
+                    for (var i = -5; i < 7; i++) {
+                        values.push(matchObj[moment().add(i - 1, 'month').format('MMMM')]);
+                    }
 
                     return {
                         name: obj1.name,
-                        data: _.values(angular.copy(matchObj)).splice(1)
+                        data: values
                     }
 
                 });

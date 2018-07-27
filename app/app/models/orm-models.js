@@ -171,6 +171,38 @@ models.DashboardChart = orm.define('DashboardChart', {
     y: {
         type: ORM.INTEGER.UNSIGNED,
         allowNull: true
+    },
+    trendata_dashboard_chart_view: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_dashboard_chart_filters: {
+        type: ORM.TEXT,
+        allowNull: true
+    },
+    trendata_dashboard_chart_time_span: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_dashboard_chart_vertical_axis: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_dashboard_chart_title: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_dashboard_chart_description: {
+        type: ORM.TEXT,
+        allowNull: true
+    },
+    trendata_dashboard_chart_regression: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: true
+    },
+    trendata_dashboard_chart_hide_empty: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: true
     }
 }, {
     tableName: 'trendata_dashboard_chart',
@@ -796,6 +828,10 @@ models.Chart = orm.define('Chart', {
         type: ORM.STRING(127),
         allowNull: false
     },
+    nlp_search_query: {
+        type: ORM.STRING(50),
+        allowNull: false
+    },
     trendata_chart_description_token: {
         type: ORM.STRING(127),
         allowNull: false
@@ -857,6 +893,11 @@ models.Chart = orm.define('Chart', {
         type: ORM.STRING(255),
         allowNull: false,
         defaultValue: 'total'
+    },
+    trendata_chart_is_kueri: {
+        type: ORM.BOOLEAN,
+        allowNull: false,
+        defaultValue: 0
     },
     /*trendata_chart_id: {
         type: ORM.INTEGER.UNSIGNED,
@@ -1455,6 +1496,113 @@ models.UsersGridSettings = orm.define('UsersGridSettings', {
         plural: 'UsersGridSettings'
     }
 });
+
+/**
+ * Performance
+ * @type {Model}
+ */
+models.Performance = orm.define('Performance', {
+    trendata_performance_id: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    trendata_performance_title: {
+        type: ORM.STRING(255),
+        allowNull: false
+    },
+    trendata_performance_value: {
+        type: ORM.FLOAT(2, 1),
+        allowNull: false
+    }
+}, {
+    tableName: 'trendata_performance',
+    name: {
+        singular: 'Performance',
+        plural: 'Performacnes'
+    }
+});
+
+/**
+ * Alerts
+ * @type {Model}
+ */
+models.Alert = orm.define('Alert', {
+    trendata_alert_id: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    trendata_alert_name: {
+        type: ORM.STRING(255),
+        allowNull: false
+    },
+    trendata_alert_type: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    trendata_alert_user_id: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    trendata_alert_criteria: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_alert_chart_id: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    trendata_alert_chart_type_id: {
+        type: ORM.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    trendata_alert_chart_view: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_alert_chart_view_item: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_alert_trigger: {
+        type: ORM.STRING(255),
+        allowNull: false
+    },
+    trendata_alert_status: {
+        type: ORM.INTEGER.UNSIGNED,
+        defaultValue: 1
+    },
+    trendata_alert_filters: {
+        type: ORM.TEXT,
+        allowNull: true
+    },
+    trendata_alert_condition: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_alert_value: {
+        type: ORM.FLOAT(10, 2),
+        allowNull: true
+    },
+    trendata_alert_points: {
+        type: ORM.STRING(255),
+        allowNull: true
+    },
+    trendata_alert_date: {
+        type: ORM.STRING(255),
+        allowNull: true
+    }
+}, {
+    tableName: 'trendata_alert',
+    name: {
+        singular: 'Alert',
+        plural: 'Alerts'
+    }
+});
+
 
 /**
  * Performance

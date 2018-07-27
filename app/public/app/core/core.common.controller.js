@@ -28,7 +28,7 @@
         }
 
         function getTranslation(token) {
-            return undefined === $scope.translations[token] ? '{{' + token + '}}' : $scope.translations[token];
+            return undefined === $scope.translations[token] ? token : $scope.translations[token];
         }
 
         commonService.getCommonData()

@@ -1,46 +1,125 @@
-#grid {
+#grid{
   font-size: 11px;
   background-color: $white;
   margin-bottom: 5px;
 
-  .grid-row {
-    display: flex;
+  .table-container {
+    overflow:auto;
 
-    border-bottom: 1px solid $gray;
+    table {
+      width:100%;
 
-    &.first {
-      border-top: 1px solid $gray;
-      background-color: $blue;
-      text-align: left;
-      color: $white;
-      font-weight: 600;
+      th {
+        background-color: $blue;
+        color: #fff;
+        vertical-align:middle;
+        white-space:nowrap;
+        text-align: center;
+      }
 
-      .grid-cell {
-        cursor: pointer;
+      th i {
+        vertical-align:middle;
+        padding-left: 10px;
+      }
+
+      tr:nth-child(even) {
+        background-color: $beige;
+      }
+
+      tr,th,td {
+        border:1px solid $gray;
+        padding: 10px;
+        text-align:center;
+        vertical-align:middle;
+      }
+
+      td:first-child{
+        white-space:nowrap;
       }
     }
 
-    &:nth-child(even) {
-      background-color: $beige;
+    &.flex-3 {
+      flex: 3
+    }
+
+    .fa {
+      margin-right: 10px;
     }
   }
 
-  .grid-cell {
-    height: 35px;
-    display: inline-flex;
+  .grid-bottom {
+    padding: 5px;
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 5px;
-    flex: 2;
-    border-right: 1px solid $gray;
+    background-color: beige;
+    border: 1px solid black;
 
-    &:first-child {
-      flex: 3;
-      border-left: 1px solid $gray;
-      text-align: left;
+    select {
+      margin: 0 10px;
     }
   }
 
+  .grid-manage {
+    font-size: 12px;
+    color: $blue;
+    cursor: pointer;
+  }
+
+  label {
+    padding: 5px;
+    cursor: pointer;
+    color: #005075;
+  }
+
+  input {
+    display: none;
+
+    &:checked + label {
+      background-color: #005075;
+      color: #fff;
+    }
+  }
+
+  .pagination {
+    margin: 0;
+  }
+}
+
+#table-grid{
+  font-size: 11px;
+  background-color: $white;
+  margin-bottom: 5px;
+
+  .table-container{
+    overflow:auto;
+    table{
+      width:100%;
+      th{
+        background-color: $blue;
+        color: #fff;
+        vertical-align:middle;
+        white-space:nowrap;
+        text-align: center;
+      }
+      th i{
+        vertical-align:middle;
+        padding-left: 10px;
+      }
+      tr:nth-child(even) {
+        background-color: $beige;
+      }
+      tr,th,td{
+        border:1px solid $gray;
+        padding: 10px;
+        text-align:center;
+        vertical-align:middle;
+      }
+      td:first-child{
+        white-space:nowrap;
+      }
+    }
+  }
   .grid-bottom {
     padding: 5px;
     display: flex;

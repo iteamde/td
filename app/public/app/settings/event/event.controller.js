@@ -35,8 +35,7 @@
         }
 
         function addNewEvent(category_id,index) {
-
-            var modalInstance = $uibModal.open({
+            $uibModal.open({
                 animation: false,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',

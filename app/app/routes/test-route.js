@@ -1,3 +1,6 @@
+'use strict';
+
+var config = require('../../config').config;
 var orm = require('../components/orm/orm');
 var ORM = require('sequelize');
 var jsVm = require('../components/js-virtual-machine');
@@ -12,13 +15,18 @@ var templateRender = require('../components/template-render');
 var separateThread = require('../components/separate-thread');
 var cache = require('../components/cache');
 var knex = require('../components/knex');
+var test = require('../components/similar-text/index');
+var kueriApi = require('../components/kueri-api')({
+    api_url: config.kueri.api_url,
+    debug: true
+});
+var TextClassifier = require('../components/text-classifier/index');
 
 /**
  * @param req
  * @param res
  */
 module.exports = function (req, res) {
-    commonChartData.makeTimeSpanOffsets(10, 1).then(function (data) {
-        res.json(data);
-    });
+    kueriApi.updateDataSource().then(console.log).catch(console.error);
+    res.send('OK!');
 };

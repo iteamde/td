@@ -1,0 +1,177 @@
+<div id="overview">
+
+    <section>
+        <div class="title">Overview</div>
+        <br>
+        <p>TrenData's Natural Language Processing (NLP) engine allows you to query your data using plain English sentences.
+            Once you view the result, you can add it to the dashboard for later references.</p>
+        <p>The engine also provides as-you-type real-time suggestions that help you construct your questions.</p>
+        <br>
+    </section>
+
+    <section>
+        <div class="title">Examples</div>
+        <br>
+        <span>Here are some example queries that can be run on your data:</span>
+        <ul>
+            <li>How many users with performance = 4</li>
+            <li>Show employees with salary > 100K</li>
+            <li>Employee Average of salary per country</li>
+        </ul>
+        <br>
+    </section>
+
+    <section>
+        <div class="title">Reserved Words</div>
+        <br>
+        <span>In this section, we list the various saved words that the system understands in each category.
+            For example, these sentences are all understood by the system to have the same meaning:
+        </span>
+
+        <ul>
+            <li>How many employees <span>per</span> department</li>
+            <li>How many employees <span>in each</span> department</li>
+            <li>How many employees <span>grouped</span> by department</li>
+            <li>How many employees <span>by</span> department</li>
+            <li>How many employees <span>for each</span> department</li>
+        </ul>
+        <br>
+    </section>
+
+    <b>Saved words by category</b>
+
+    <div id="grid">
+        <div class="grid-row first">
+            <div class="grid-cell">
+                Meaning
+            </div>
+            <div class="grid-cell">
+                Reserved words
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="grid-cell">Group by sets</div>
+            <div class="grid-cell">Range / distribution</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Show the rows</div>
+            <div class="grid-cell">Show / select / tell / search / find / look / list / display / get / retrieve</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Count values</div>
+            <div class="grid-cell">How many / number of / count / amount of / # of</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Add columns</div>
+            <div class="grid-cell">Add column / return / return also</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Aggregate (horizontal)</div>
+            <div class="grid-cell">By, group by, Grouped by,  per,  by each , for each, foreach, in each</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Aggregate (vertical)</div>
+            <div class="grid-cell">
+                Breakdown by
+                <br>
+                <div class="info">
+                    For single field breakdown and grouped by behaves the same. You will see the difference when using more than 1 field.
+                </div>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Sort</div>
+            <div class="grid-cell">Order by, sorted by, ordered by, sort by</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Sort order</div>
+            <div class="grid-cell">Ascending / descending, asc, desc, increasing, decreasing, new first, new last, old first, old last</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Basic functions</div>
+            <div class="grid-cell">	Sum / total / average / avg / mean / maximum /max / largest / highest / minimum / min / lowest / smallest</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Top / bottom </div>
+            <div class="grid-cell">
+                Top / leading / highest / largest / best / most / most popular / bottom / lowest / smallest / worst / least popular / least
+                <br>
+                <div class="info">
+                    Good for numbers
+                </div>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Last / first</div>
+            <div class="grid-cell">
+                Last / first
+                <br>
+                <div class="info">Good for dates</div>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Geography</div>
+            <div class="grid-cell">From</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">For text</div>
+            <div class="grid-cell">[not] Starting / containing / ending / between x any y / shortest</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">For numbers</div>
+            <div class="grid-cell">	More than / less than / at least / at most / less or equal to, >, <, =, <=, >=, !=, not equal</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Dates</div>
+            <div class="grid-cell">
+                In last n year / month / week
+
+                In this year / month / week
+
+                In next n year / month / weeks
+
+                Past week / month / year
+
+                Q1, quarter
+
+                In month, in year, in date
+
+                Between month [YEAR] and month [YEAR]
+
+                Yesterday, Today, tomorrow
+
+                After, before, between
+
+                n days / weeks / months / years ago
+
+                On day (on Sunday)
+
+                At least n weeks / months / years
+
+                In the first / last n day /week / month / quarter of YEAR
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Time</div>
+            <div class="grid-cell">After / before / between, am, pm, in last n hour, in 8am</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Grouping</div>
+            <div class="grid-cell">	Week over week, Month over month, quarter over quarter, year over year, year, year week, year month, year quarter, quarter, month, week, day of week, day of month, day of year, day hour, hour, minute</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Calculations</div>
+            <div class="grid-cell">+, -, /, *, add, plus, minus, sub, subtract, mul, multiply, div, divide, num as a percent of num, and parenthesis</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Not</div>
+            <div class="grid-cell">None, non, exclude, excluding, without, never</div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-cell">Or</div>
+            <div class="grid-cell"></div>
+        </div>
+    </div>
+
+</div>

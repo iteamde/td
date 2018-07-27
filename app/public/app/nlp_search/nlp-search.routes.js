@@ -22,7 +22,6 @@
                     views: {
                         'container@layout': 'nlpSearch'
                     }
-
                 }
             }
         ];

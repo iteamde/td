@@ -28,8 +28,8 @@ module.exports = {
          * @returns {*}
          */
         email: function (value, column, line, errors) {
-            if ('' != value && ! /^[^\@]+\@[^\@]+$/g.test(value)) {
-                errors.push(this.createMessage(line, column, value, 'Email is incorrect'));
+            if ('' != value && ! /^[^\@]+\@[^\@]+\.[^\@]{2,}$/g.test(value)) {
+                errors.push(this.createMessage(line, column, value, 'Email format is incorrect'));
             }
         },
 
@@ -41,7 +41,7 @@ module.exports = {
          */
         number: function (value, column, line, errors) {
             if ('' != value && ! /^(\d*\.)?\d+$/g.test(value)) {
-                errors.push(this.createMessage(line, column, value, 'Number is incorrect'));
+                errors.push(this.createMessage(line, column, value, 'Number format is incorrect'));
             }
         },
 
@@ -131,8 +131,7 @@ module.exports = {
             _this.findParserByHeader(csv.header, parserName)
                 .then(function (_parser){
                     if (_parser.err.length) {
-                        // return resolve(_parser.err);
-                        return reject(new Error('CSV file headers and Data-Dictionary configurations do not match!'));
+                        return reject(_parser.err);
                     }
                     _parser = _parser.data;
                     if (! _parser) {
@@ -145,7 +144,11 @@ module.exports = {
                                 return _this.validateOneItem(_parser, value, csv.header[valueIndex], rowIndex + 1, errors);
                             });
                         }).then(function () {
-                            resolve(errors);
+                            if (errors.length) {
+                                return reject(errors);
+                            }
+
+                            resolve();
                         });
                     });
                 });
@@ -164,7 +167,7 @@ module.exports = {
         var _this = this;
 
         if (undefined === rules[column]) {
-            // errors.push(this.createMessage(line, column, value, 'Rule not found'));
+            // errors.push(_this.createMessage(line, column, value, 'Rule not found'));
             return;
         }
 
@@ -199,11 +202,8 @@ module.exports = {
             return typeof item === 'string' ? item.trim() : item;
         });
 
-        // Ignore custom fields
-        var ignoreFlag = true;
-
         header = _.filter(header, function (item) {
-            return ignoreFlag && (!/^Custom\s+?.+?$/gi.test(item) ? true : (ignoreFlag = false));
+            return !/^Custom\s+.+$/gi.test(item);
         });
 
         header = JSON.stringify(header);
@@ -234,14 +234,26 @@ module.exports = {
             }).then(function () {
                 if (parserListData) {
                     var headerArr = JSON.parse(header);
-                    if (parserListData.header.length !== headerArr.length)
-                        return {'err' : ['error!'], 'data' : parserListData};
+                    var missedColumns = _.difference(parserListData.header, headerArr);
+                    var redundantColumns = _.difference(headerArr, parserListData.header);
+
+                    if (missedColumns.length) {
+                        errorObj.push('Missed columns: ' + missedColumns.join(', '));
+                    }
+
+                    if (redundantColumns.length) {
+                        errorObj.push('Redundant columns: ' + redundantColumns.join(', '));
+                    }
+
+                    if (errorObj.length) {
+                        return {'err': errorObj, 'data': parserListData};
+                    }
 
                     return new Promise.each(parserListData.header, function (item, index) {
                         if (!headerArr[index] || item.toLowerCase() !== headerArr[index].toLowerCase()) {
                             flag = true;
                             for (var i = 0; i < headerArr.length; i++) {
-                                if (item.toLowerCase() == headerArr[i].toLowerCase()) {
+                                if (item.toLowerCase() === headerArr[i].toLowerCase()) {
                                     flag = false;
                                     errorObj.push('"' + item + '" found at ' + _this.numerToXLColumn(i) + " instead of " + _this.numerToXLColumn(index));
                                     break;
@@ -264,7 +276,7 @@ module.exports = {
                 } else {
                     return {'err' : [], 'data' : parserListData};
                 }
-            }).catch(function (err) {console.log(err.stack);
+            }).catch(function (err) {
                 return {'err' : [], 'data' : false};
             });
         });
@@ -283,6 +295,6 @@ module.exports = {
      * @returns {string}
      */
     createMessage: function (line, column, value, msg) {
-        return '[Line: ' + line + '][Column: ' + column + '][Value: ' + value + ']: ' + msg;
+        return '[' + line + ']' + column + ': ' + msg;
     }
 };

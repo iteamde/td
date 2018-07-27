@@ -15,15 +15,31 @@
     }
   }
 
-  .manage-columns select {
+  .selected-columns div:nth-child(odd) {
+    background: #f5f5dc;
+  }
+
+  .manage-columns .manage-columns-list {
+    border: 1px solid #aaa;
     width: 200px;
     height: 250px;
+    margin: 0 auto;
     overflow: auto;
+    text-align: left;
     text-transform: capitalize;
 
-    option {
+    div {
       cursor: pointer;
       padding: 0 10px;
+    }
+
+    .selected {
+      background: #ddd;
+    }
+
+    .dragging {
+      height: 0;
+      overflow: hidden;
     }
   }
 
@@ -52,5 +68,9 @@
     button {
       margin: 0 10px;
     }
+  }
+
+  .column-manage {
+    cursor: pointer;
   }
 }

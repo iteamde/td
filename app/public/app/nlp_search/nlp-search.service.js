@@ -10,19 +10,53 @@
 
     function nlpSearchService(BASE_URL, $http) {
 
-        var service = {
-            getSearchResults: getSearchResults
+        return {
+            getSearchResults: getSearchResults,
+            getAutocompleteResults: getAutocompleteResults,
+            addToDashboard: addToDashboard,
+            getChartData: getChartData,
+            feedBack: feedBack,
+            checkChart: checkChart
         };
 
-        return service;
+        function getAutocompleteResults(text) {
+            var apiUrl = BASE_URL + "nlp/autocomplete",
+                loadingBarIgnore = {ignoreLoadingBar: true},
+                data = {text: text};
 
-        function getSearchResults(tags) {
-            var apiUrl = BASE_URL + "/nlp-search/by-tags";
-            return $http.post(apiUrl, {
-                tags: tags
-            }).then(function(res) {
-                return res.data;
-            });
+            return $http.post(apiUrl, data, loadingBarIgnore)
+                .then(function(res) {
+                    return res.data;
+                });
+        }
+
+        function getSearchResults(data) {
+            var apiUrl = BASE_URL + "nlp/request";
+            return $http.post(apiUrl, data);
+        }
+
+        function addToDashboard(request) {
+            var apiUrl = BASE_URL + "nlp/add-to-dashboard";
+
+            return $http.post(apiUrl, request);
+        }
+
+        function getChartData(data) {
+            var apiUrl = BASE_URL + "nlp/get-chart-data";
+
+            return $http.post(apiUrl, data);
+        }
+
+        function feedBack(data) {
+            var apiUrl = BASE_URL + "nlp/nlp-feedback";
+
+            return $http.post(apiUrl, data);
+        }
+
+        function checkChart(data) {
+            var apiUrl = BASE_URL + "nlp/check-chart";
+
+            return $http.post(apiUrl, data);
         }
     }
 })();

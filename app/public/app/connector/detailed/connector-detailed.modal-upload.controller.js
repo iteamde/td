@@ -6,9 +6,9 @@
         .module('app.connector')
         .controller('ModalUploadController', ModalUploadController);
 
-    ModalUploadController.$inject = ['$scope', 'modalUploadService', 'commonService', 'exception'];
+    ModalUploadController.$inject = ['$scope', 'modalUploadService', 'commonService', 'exception', '$timeout', '$rootScope'];
 
-    function ModalUploadController($scope, modalUploadService, commonService, exception) {
+    function ModalUploadController($scope, modalUploadService, commonService, exception, $timeout, $rootScope) {
 
         var vm = this;
         vm.save = save;
@@ -16,7 +16,8 @@
         vm.progressWidth = 0;
         var progressInterval;
         vm.fileName = '';
-        vm.fileName = '';
+        vm.isAdmin = $scope.$root.user.id == 1;
+        vm.enableDistance = !vm.isAdmin;
 
         $scope.$on('fileUploadSuccess', function (e, data) {
             e.stopPropagation();
@@ -25,17 +26,18 @@
 
         function save() {
             vm.isLoading = true;
+            vm.progressWidth = 0;
             var tick = 3000000 / vm.size;
             progressInterval = setInterval(function() {
                 if (vm.progressWidth + tick < 98) {
                     vm.progressWidth += tick;
                 } else {
-                    clearInterval(progressInterval)
+                    clearInterval(progressInterval);
                     vm.progressWidth = 99;
                 }
             }, 450);
 
-            modalUploadService.uploadFile(vm.uploadedFile)
+            modalUploadService.uploadFile(vm.fileName, vm.uploadedFile, vm.isAdmin && !vm.enableDistance)
                 .success(uploadSuccess)
                 .catch(serviceError);
         }
@@ -43,7 +45,7 @@
         function uploadSuccess() {
             vm.progressWidth = 100;
             clearInterval(progressInterval);
-            setTimeout(function() {
+            $timeout(function() {
                 vm.isLoading = false;
                 vm.progressWidth = 0;
             });
@@ -62,9 +64,13 @@
             vm.uploadErrorsCount = res.data.errors.length;
             vm.uploadErrors = _.reduce(res.data.errors, function(result, error) {
                 var indexTmp = error.indexOf(']');
-                var line = error.substr(1, indexTmp - 1) || 'Errors';
-                result[line] = result[line] || [];
-                result[line].push(error.substr(indexTmp + 1));
+                var line = error.substr(1, indexTmp - 1);
+                var message = error.substr(indexTmp + 1);
+                result[message] = result[message] || [];
+                if (line) {
+                    result[message].push(line);
+                }
+
                 return result;
             }, {});
 

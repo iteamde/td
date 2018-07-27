@@ -36,7 +36,7 @@ module.exports = {
         options = _.clone(options || {});
 
         offsetStart = parseInt(offsetStart, 10) || 0;
-        offsetEnd = parseInt(offsetEnd, 10) || 0;
+        offsetEnd = parseInt(offsetEnd, 10) || 1;
         var result = [];
         var momentObject;
         var tmp = {};
@@ -292,79 +292,75 @@ module.exports = {
             performance: '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`'
         };
 
-        _.reduce(customFields, function (accum, item) {
+        columns = _.reduce(customFields, function (accum, item) {
             accum[item] = '`tbu`.' + sqlstring.escapeId(item, true);
             return accum;
         }, columns);
 
-        for (var filter in filters) {
-            if (filters[filter]) {
-                if (filters[filter].length) {
-                    let condition = '';
-                    let nullIndex = filters[filter].indexOf('null');
-                    if (nullIndex > -1) {
-                        condition = columns[filter] + ' IS NULL';
-                        filters[filter].splice(nullIndex, 1);
+        return Promise.all([
+            this.getAvailableFiltersForDrilldown(customFields),
+            this.getAvailableFiltersForAnalytics()
+        ]).spread(_.merge).then(function (availableFilters) {
+            for (var filter in filters) {
+                if (filters[filter]) {
+                    var filterIntersect = _.intersection(
+                        _.map(availableFilters[filter] || [], String),
+                        _.map(filters[filter], String)
+                    );
 
-                        if (filters[filter].length) {
-                            condition = ' OR ' + condition;
+                    filterIntersect = _.map(filterIntersect, function (item) {
+                        return 'null' === item ? null : item;
+                    });
+
+                    if (! filterIntersect.length) {
+                        return {
+                            query: ' (1 = 2) ',
+                            replacements: []
+                        };
+                    } else if (filterIntersect.length === (availableFilters[filter] || []).length) {
+                        continue;
+                    }
+
+                    var nullIndex = -1;
+                    var filterQuery = '';
+                    if (filterIntersect.length > ((availableFilters[filter] || []).length / 2)) {
+                        var filterValues = _.difference(
+                            _.map(availableFilters[filter] || [], String),
+                            _.map(filterIntersect, String)
+                        );
+                        nullIndex = filterIntersect.indexOf(null);
+                        if (nullIndex > -1) {
+                            filterQuery += columns[filter] + ' IS NULL ';
+                        }
+
+                        if (filterValues.length) {
+                            filterQuery += (nullIndex > -1 ? 'OR ' : '') + columns[filter] + ' NOT IN (?)';
+                            replacements.push(filterValues);
+                        }
+                    } else {
+                        nullIndex = filterIntersect.indexOf(null);
+                        if (nullIndex > -1) {
+                            filterQuery += columns[filter] + ' IS NULL ';
+                            filterIntersect.splice(nullIndex, 1);
+                        }
+
+                        if (filterIntersect.length) {
+                            filterQuery += (nullIndex > -1 ? 'OR ' : '') + columns[filter] + ' IN (?)';
+                            replacements.push(filterIntersect);
                         }
                     }
 
-                    if (filters[filter].length) {
-                        condition = '(' + columns[filter] + ' IN (?)' + condition + ')';
-                        replacements.push(filters[filter]);
+                    if (filterQuery.length) {
+                        query.push(filterQuery);
                     }
-
-                    query.push(condition);
-                } else {
-                    query.push('1 = 2');
                 }
             }
-        }
 
-        return {
-            query: ' (' + (query.length ? query.join(' AND ') : '1 = 1') + ') ',
-            replacements: replacements
-        };
-
-        // return Promise.all([
-        //     this.getAvailableFiltersForDrilldown(),
-        //     this.getAvailableFiltersForAnalytics()
-        // ]).spread(_.merge).then(function (availableFilters) {
-        //     return Promise.resolve(customFields).reduce(function (accum, item) {
-        //         accum[item] = '`tbu`.' + sqlstring.escapeId(item, true);
-        //         return accum;
-        //     }, columns).then(function (columns) {
-        //         for (var filter in filters) {
-        //             if (filters[filter]) {
-        //                 var filterIntersect = _.intersection(availableFilters[filter] || [], filters[filter]);
-        //
-        //                 if (!filterIntersect.length) {
-        //                     return {
-        //                         query: ' (1 = 2) ',
-        //                         replacements: []
-        //                     };
-        //                 } else if (filterIntersect.length === (availableFilters[filter] || []).length) {
-        //                     continue;
-        //                 }
-        //
-        //                 if (filterIntersect.length > ((availableFilters[filter] || []).length / 2)) {
-        //                     query.push(columns[filter] + ' NOT IN (?)');
-        //                     replacements.push(filterMap(_.difference(availableFilters[filter] || [], filterIntersect), filter));
-        //                 } else {
-        //                     query.push(columns[filter] + ' IN (?)');
-        //                     replacements.push(filterMap(filterIntersect, filter));
-        //                 }
-        //             }
-        //         }
-        //
-        //         return {
-        //             query: ' (' + (query.length ? query.join(' AND ') : '1 = 1') + ') /*debug*/ ',
-        //             replacements: replacements
-        //         };
-        //     });
-        // });
+            return {
+                query: ' (' + (query.length ? query.join(' AND ') : '1 = 1') + ') ',
+                replacements: replacements
+            };
+        });
     },
 
     /**
@@ -372,7 +368,7 @@ module.exports = {
      * @param chartId
      * @return {Promise}
      */
-     getUsersGridSettings: function(chartId, userId) {
+    getUsersGridSettings: function(chartId, userId) {
         var query = 'SELECT ' +
             '`trendata_users_grid_settings_fields` AS `fields` ' +
             'FROM ' +
@@ -396,18 +392,18 @@ module.exports = {
             }
 
             if (chartId > 0) {
-                return module.exports.getUsersGridSettings(0);
+                return module.exports.getUsersGridSettings(0, userId);
             }
 
             return null;
         });
-     },
+    },
 
     /**
      * Create WHERE string for users grid
      * @param types
      * @param timeSpan
-    */
+     */
     makeUsersFilter: function(timeSpan, types) {
         timeSpan = timeSpan || {
             start: 1,
@@ -540,16 +536,20 @@ module.exports = {
             var pageSize = parseInt(pagination.page_size) || 10;
             pageSize = pageSize < 1 ? 10 : pageSize;
 
-            var tableColumns = _.map(columns || pagination.table_columns || [
-                'Full Name',
-                'Location',
-                'Manager',
-                'Department'
-            ], function (item) {
+            if (!pagination.table_columns || !pagination.table_columns.length) {
+                pagination.table_columns = [
+                    'Full Name',
+                    'Location',
+                    'Manager',
+                    'Department'
+                ];
+            }
+
+            var tableColumns = _.map(columns || pagination.table_columns, function (item) {
                 return item && item.toString().toLowerCase();
             });
 
-            tableColumns = _.intersection(defaultTableColumns, tableColumns);
+            tableColumns = _.intersection(tableColumns, defaultTableColumns);
 
             var sortColumn = dateColumns[pagination.sort_column] || columnToDbFieldRelation[pagination.sort_column && pagination.sort_column.toString().toLocaleLowerCase() || 'full name'] || '`tbu`.`full_name`';
 
@@ -680,7 +680,7 @@ module.exports = {
             /**
              *
              */
-             'job level': orm.query(
+            'job level': orm.query(
                 'SELECT ' +
                 '`tbu`.`trendata_bigdata_user_job_level` AS `job_level` ' +
                 'FROM ' +
@@ -693,6 +693,23 @@ module.exports = {
                 }
             ).map(function (item) {
                 return item.job_level;
+            }),
+
+            /**
+             *
+             */
+            'separation type': orm.query(
+                'SELECT ' +
+                '`tbu`.`trendata_bigdata_user_voluntary_termination` AS `value` ' +
+                'FROM ' +
+                '`trendata_bigdata_user` AS `tbu` ' +
+                'GROUP BY ' +
+                '`tbu`.`trendata_bigdata_user_voluntary_termination`',
+                {
+                    type: ORM.QueryTypes.SELECT
+                }
+            ).map(function (item) {
+                return item.value;
             })
         }).then(function (filters) {
             return knex('trendata_bigdata_custom_field').reduce(function (accum, item) {
@@ -874,7 +891,6 @@ module.exports = {
                 '`tbu`.`trendata_bigdata_user_approximate_distance_to_work`',
                 {
                     type: ORM.QueryTypes.SELECT
-                    // replacements: []
                 }
             ).map(function (item) {
                 return item.commute_distance;
@@ -892,10 +908,26 @@ module.exports = {
                 '`tbu`.`trendata_bigdata_user_performance_percentage_this_year`',
                 {
                     type: ORM.QueryTypes.SELECT
-                    // replacements: []
                 }
             ).map(function (item) {
                 return item.performance;
+            }),
+
+            /**
+             *
+             */
+            'separation type': orm.query(
+                'SELECT ' +
+                '`tbu`.`trendata_bigdata_user_voluntary_termination` AS `value` ' +
+                'FROM ' +
+                '`trendata_bigdata_user` AS `tbu` ' +
+                'GROUP BY ' +
+                '`tbu`.`trendata_bigdata_user_voluntary_termination`',
+                {
+                    type: ORM.QueryTypes.SELECT
+                }
+            ).map(function (item) {
+                return item.value;
             })
         }).then(function (filters) {
             return knex('trendata_bigdata_custom_field').reduce(function (accum, item) {
@@ -973,6 +1005,72 @@ module.exports = {
                         '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\')) ' +
                         'OR ' +
                         '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (1 + ?) MONTH, \'%Y-%m-01\'))) ' +
+                        'AND ' +
+                        filterSql.query +
+                        ' AND ' +
+                        accessLevelSql.query;
+
+                    var replacements = [
+                        -i,
+                        -i,
+                        -i,
+                        -i
+                    ].concat(filterSql.replacements).concat(accessLevelSql.replacements);
+
+                    return orm.query(query, {
+                        type: ORM.QueryTypes.SELECT,
+                        replacements: replacements
+                    }).then(function(rows) {
+                        return rows && rows[0] ? rows[0].count : 0;
+                    });
+                })(),
+
+                /**
+                 *
+                 */
+                activeOnStart: (function() {
+                    var query = 'SELECT ' +
+                        'COUNT(*) AS `count`, ' +
+                        'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
+                        'FROM ' +
+                        '`trendata_bigdata_user` AS `tbu` ' +
+                        'WHERE ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` <= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\')) ' +
+                        'OR ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` <= DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\'))) ' +
+                        'AND ' +
+                        filterSql.query +
+                        ' AND ' +
+                        accessLevelSql.query;
+
+                    var replacements = [
+                        -i,
+                        -i,
+                        -i,
+                        -i
+                    ].concat(filterSql.replacements).concat(accessLevelSql.replacements);
+
+                    return orm.query(query, {
+                        type: ORM.QueryTypes.SELECT,
+                        replacements: replacements
+                    }).then(function(rows) {
+                        return rows && rows[0] ? rows[0].count : 0;
+                    });
+                })(),
+
+                /**
+                 *
+                 */
+                activeOnEnd: (function() {
+                    var query = 'SELECT ' +
+                        'COUNT(*) AS `count`, ' +
+                        'DATE_FORMAT(NOW() + INTERVAL ? MONTH, \'%Y-%m-01\') AS `month` ' +
+                        'FROM ' +
+                        '`trendata_bigdata_user` AS `tbu` ' +
+                        'WHERE ' +
+                        '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` <= LAST_DAY(NOW() + INTERVAL ? MONTH) AND `tbu`.`trendata_bigdata_user_position_termination_date` >= LAST_DAY(NOW() + INTERVAL ? MONTH)) ' +
+                        'OR ' +
+                        '(`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` <= LAST_DAY(NOW() + INTERVAL ? MONTH))) ' +
                         'AND ' +
                         filterSql.query +
                         ' AND ' +
@@ -1410,7 +1508,7 @@ module.exports = {
                 result[3][currentMonth] = _.round(data.hiredEmployees, 2);
 
                 //Total Turnover
-                result[4][currentMonth] = _.round(100 * data.terminatedEmployees / (data.activeEmployees + data.terminatedEmployees), 2);
+                result[4][currentMonth] = _.round(100 * data.terminatedEmployees / (data.terminatedEmployees + (data.activeOnStart + data.activeOnEnd) / 2), 2);
 
                 //HP Turnover
                 result[5][currentMonth] = _.round(100 * data.hpTerminatedEmployees / data.hpEmployees, 2);

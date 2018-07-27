@@ -226,12 +226,31 @@
   footer {
     text-align: center;
   }
+
+  .topbar.ng-scope {
+    width: 100vw;
+  }
+  .sidebar-inner{
+    margin-top: 120px;
+  }
+  #wrapper .content-page > .content {
+    margin-top: 100px;
+  }
+
+  .navbar.navbar-custom {
+    max-width:100%;
+  }
+
   .navbar-nav {
     float: left;
     margin: 0px;
   }
   .navbar {
     border: none;
+  }
+
+  .search-form, .search-form .form-group.has-feedback {
+    width:100%;
   }
 
   .navbar-nav .open .dropdown-menu {
@@ -244,8 +263,10 @@
   }
 
   .navbar-nav.navbar-right:last-child {
-    margin-right: -15px;
     height: 50px;
+    display: block;
+    float:none;
+    clear:both;
   }
 
   .open > .dropdown-menu {
@@ -268,6 +289,14 @@
   .navbar-nav > li {
     display: inline-block;
   }
+
+  .navbar-nav > li.dropdown {
+    position: absolute;
+    z-index: 9999;
+    top:0;
+    right:0;
+  }
+
   .lock-screen {
     text-align: center;
   }
@@ -374,6 +403,10 @@
 @media (max-width: 420px) {
   .hide-phone {
     display: none !important;
+  }
+
+  .search-form  .form-group.has-feedback input.form-control {
+    font-size: 12px;
   }
 
 }

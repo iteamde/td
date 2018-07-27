@@ -3,13 +3,18 @@
 commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
     return orm.query(
         'SELECT ' +
-        'COUNT(`tbu`.`trendata_bigdata_user_employee_id`) AS `count` ' +
+        'COUNT(*) AS `count` ' +
         'FROM ' +
         '`trendata_bigdata_user` AS `tbu` ' +
         'INNER JOIN ' +
         '`trendata_bigdata_user` AS `mngr` ' +
-        'ON ' +
-        '`tbu`.`trendata_bigdata_user_employee_id` = `mngr`.`trendata_bigdata_user_manager_employee_id` ' +
+        'ON (' +
+        '`tbu`.`trendata_bigdata_user_manager_employee_id` = `mngr`.`trendata_bigdata_user_employee_id` ' +
+        ' AND ' +
+        '((`mngr`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `mngr`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') AND `mngr`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\')) ' +
+        'OR ' +
+        '(`mngr`.`trendata_bigdata_user_position_termination_date` IS NULL AND `mngr`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\'))) ' +
+        ') ' +
         'WHERE ' +
         '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\')) ' +
         'OR ' +
@@ -17,12 +22,16 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
         'AND ' +
         accessLevelSql.query +
         'AND ' +
-        '`tbu`.`trendata_bigdata_user_employee_id` IS NOT NULL ' +
+        '`tbu`.`trendata_bigdata_user_manager_employee_id` IS NOT NULL ' +
         'GROUP BY ' +
-        '`tbu`.`trendata_bigdata_user_employee_id`',
+        '`tbu`.`trendata_bigdata_user_manager_employee_id`',
         {
             type: ORM.QueryTypes.SELECT,
             replacements: [
+                -req.query.start || -1,
+                -req.query.end || -1,
+                -req.query.start || -1,
+
                 -req.query.start || -1,
                 -req.query.end || -1,
                 -req.query.start || -1
@@ -32,8 +41,8 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
 }).then(function (data) {
     _resolve({
         data: [{
-            label: '',
-            value: _.chain(data).meanBy('count').round(2).value()
+            label: 'Reports',
+            value: _.chain(data).meanBy('count').round(2).value() || 0
         }],
         legendItemFontSize: '8',
     });

@@ -16,9 +16,12 @@
         'metricService',
         'commonService',
         'ALLOWED_CHART_TYPES',
-        'TOOLTIP_MESSAGES'];
+        'TOOLTIP_MESSAGES',
+        '$http',
+        'BASE_URL',
+        'alertsService'];
 
-    function MetricController($scope, $rootScope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, metricService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES) {
+    function MetricController($scope, $rootScope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, metricService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES, $http, BASE_URL, alertsService) {
 
         var vm = this;
 
@@ -32,7 +35,7 @@
         vm.exportChart = commonService.exportChart;
         vm.changeChartType = commonService.changeChartType;
         vm.addToDashboard = addToDashboard;
-        vm.shareChart = commonService.shareChart;
+        vm.openAlertsModal = openAlertsModal;
 
         activate();
 
@@ -59,9 +62,13 @@
                 .catch(serviceError);
         }
 
+        vm.shareChart = function(index, title) {
+            var date = 'for ' + moment().subtract(1, 'month').format('MMMM YYYY');
+
+            commonService.shareChart(index, title, 'Metric', date);
+        };
 
         function getMetricChartsComplete(data) {
-            
             /**
             * HIDE "Quality of Hires" Metric From Source Of Hire Page for now
             */
@@ -83,7 +90,6 @@
             if (data.table.length > 0) {
                 commonService.configGrid(data.table[0]);
             }
-
         }
 
         function setChartsOrder() {
@@ -117,10 +123,13 @@
         }
 
         function addToDashboardComplete() {
-            commonService.notification(vm.TOOLTIP_TILES_MESSAGES.ADD_TO_DASHBOARD_NOTY, "success");
+            commonService.notification($scope.getTranslation('alert_add_success'), "success");
+        }
+
+        function openAlertsModal(chart) {
+            alertsService.openModal($scope, chart.id, chart, 1);
         }
 
     }
-
 
 })();

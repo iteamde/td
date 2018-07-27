@@ -41,9 +41,9 @@
         'app.languages',
         'app.surveys',
         'app.release_notes',
+        'app.alerts',
         'app.site_settings',
-        'app.default_chart_view',
-        'dndLists'
+        'app.default_chart_view'
     ]);
 
 

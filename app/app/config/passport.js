@@ -24,13 +24,13 @@ module.exports = function (passport) {
                     trendata_user_email: email
                 }
             }).then(function (user) {
-                if (! user) {
+                if (!user) {
                     return done(null, false, {
                         message: 'No user found.'
                     });
                 }
 
-                if (! user.validatePassword(password)) {
+                if (!user.validatePassword(password)) {
                     return done(null, false, {
                         message: 'Oops! Wrong password.'
                     });

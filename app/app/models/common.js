@@ -37,7 +37,6 @@ function getTranslation(token, cb) {
  */
 function getEmailTemplateValues(key, cb) {
     var query = "SELECT * FROM `trendata_email_template` WHERE  trendata_email_template_key='" + key + "'";
-    console.log(query);
     db.get().query(query, function (err, rows) {
         if (err){          
             return callback(err);  

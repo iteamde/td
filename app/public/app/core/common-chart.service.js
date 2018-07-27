@@ -18,7 +18,6 @@
         };
 
         function makeChartData (settings) {
-
             var obj = {};
             obj.categories = [];
             obj.dataset = [];

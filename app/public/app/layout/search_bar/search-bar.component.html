@@ -4,13 +4,16 @@
         <input type="text"
                class="form-control form-control-small"
                placeholder="{{ getTranslation('search_the_system_in_natural_language') }}"
-               ng-model="vm.selected"
-               ng-change="vm.onChange()"
-               uib-typeahead="query for query in vm.match($viewValue)"
-               typeahead-on-select="vm.addToString($item)"
+               ng-model="vm.text"
+               ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+               uib-typeahead="query for query in vm.getQueries($viewValue)"
+               typeahead-focus-first="false"
                >
 
-        <button type="submit" class="btn search-button-icon"><i class="fa fa-search"></i></button>
+        <a class="btn button-icon question" href="#/nlp-overview">
+            <i class="fa fa-question" uib-tooltip="{{ getTranslation('help') }}" tooltip-placement="bottom"></i>
+        </a>
+        <button type="submit" class="btn button-icon search"><i class="fa fa-search"></i></button>
 
     </form>
 </div>

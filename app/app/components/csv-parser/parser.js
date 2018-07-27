@@ -1,5 +1,7 @@
+'use strict';
+
 var fs = require('fs');
-var orm = require('../orm/orm');
+var orm = require('../orm/orm-upload-csv');
 var ORM = require('sequelize');
 var parse = require('csv-parse');
 var validator = require('./validator');
@@ -7,6 +9,7 @@ var filterValues = require('./filter-values');
 var strToStream = require('string-to-stream');
 var separateThread = require('../separate-thread');
 var knex = require('../knex');
+var config = require('../../../config').config;
 require('../../config/global');
 
 /**
@@ -106,6 +109,10 @@ module.exports = {
                      *
                      */
                     header: Promise.map(dataMapping, function (item) {
+                        if (/^custom\s+/gi.test(data.header[item])) {
+                            return data.header[item].substr(0, 64);
+                        }
+
                         return data.header[item];
                     }),
 
@@ -191,31 +198,46 @@ module.exports = {
                         transaction: t
                     });
                 }).then(function () {
-                    return orm.query('SELECT * FROM `trendata_bigdata_custom_field`', {
-                        type: ORM.QueryTypes.SELECT,
-                        transaction: t
-                    }).then(function (rows) {
-                        return Promise.each(rows, function (item) {
-                            return orm.query(knex.raw('ALTER TABLE `trendata_bigdata_user` DROP ??', [
-                                item.trendata_bigdata_custom_field_name + ''
-                            ]).toString(), {
+                    return knex('INFORMATION_SCHEMA.COLUMNS')
+                        .select('COLUMN_NAME')
+                        .where({
+                            TABLE_SCHEMA: config.sequelize.database,
+                            TABLE_NAME: 'trendata_bigdata_user'
+                        }).where(function (qb) {
+                            qb.where(
+                                'COLUMN_NAME',
+                                'LIKE',
+                                'custom_%'
+                            ).orWhere(
+                                'COLUMN_NAME',
+                                'LIKE',
+                                'custom %'
+                            );
+                        }).map(function (item) {
+                            return item.COLUMN_NAME;
+                        }).each(function (item) {
+                            return knex.raw('ALTER TABLE `trendata_bigdata_user` DROP ??', [
+                                item
+                            ]);
+                        }).then(function () {
+                            return orm.query('TRUNCATE TABLE `trendata_bigdata_custom_field`', {
                                 transaction: t
                             });
                         });
-                    }).then(function () {
-                        return orm.query('TRUNCATE TABLE `trendata_bigdata_custom_field`', {
-                            transaction: t
-                        });
-                    });
                 }).then(function () {
                     var _customColumns = Object.keys(_this.getCustomFieldsByOneRow(csv.data[0], csv.header));
 
-                    return Promise.each(_customColumns, function (item) {
+                    return Promise.each(_customColumns, function (item, index) {
                         return orm.query(knex.raw('ALTER TABLE `trendata_bigdata_user` ADD ?? varchar(255) COLLATE \'utf8_unicode_ci\' NULL', [
                             item
                         ]).toString(), {
                             transaction: t
                         }).then(function () {
+                            if (index >= 15) {
+                                // There are already 49 indexes in the table, so we can add only 15 indices
+                                return;
+                            }
+
                             return orm.query(knex.raw('ALTER TABLE `trendata_bigdata_user` ADD INDEX ?? (??)', [
                                 item,
                                 item
@@ -243,36 +265,86 @@ module.exports = {
                     return accum;
                 }, {}).then(function (_customFields) {
                     customFields = _customFields;
+                    var customFieldsSql =  '';
 
-                    /*var sql = 'CREATE OR REPLACE VIEW `trendata_bigdata_user` AS ';
-                    var join = [];
-                    var select = ['`trendata_bigdata_user`.*'];
-                    var selectBind = [];
-
-                    for (var _customField in customFields) {
-                        join.push(`
-                            LEFT JOIN
-                                \`trendata_bigdata_custom_field_value\` AS \`field_${join.length}\`
-                                ON
-                                (
-                                    \`field_${join.length}\`.\`trendata_bigdata_custom_field_id\` = ${customFields[_customField]}
-                                    AND
-                                    \`field_${join.length}\`.\`trendata_bigdata_user_id\` = \`trendata_bigdata_user\`.\`trendata_bigdata_user_id\`
-                                )
-                        `);
-                        select.push(
-                            `\`field_${select.length - 1}\`.\`trendata_bigdata_custom_field_value_value\` AS ??`
-                        );
-                        selectBind.push(_customField);
+                    for (var customField in customFields) {
+                        customFieldsSql += knex.raw(' ,`tbu`.?? ', [
+                            customField
+                        ]).toString();
                     }
 
-                    sql += ' SELECT ' + select.join(', ') + ' FROM `trendata_bigdata_user` ' + join.join(' ');
+                    var viewSql = "CREATE OR REPLACE VIEW `trendata_bigdata_user_view` AS " +
+                        "SELECT " +
+                        "`tbu`.`trendata_bigdata_user_first_name` AS `first_name`," +
+                        "`tbu`.`trendata_bigdata_user_middle_name` AS `middle_name`," +
+                        "`tbu`.`trendata_bigdata_user_last_name` AS `last_name`," +
+                        "`tbu`.`trendata_bigdata_user_email` AS `email`," +
+                        "`tbu`.`trendata_bigdata_user_dob` AS `dob`," +
+                        "`tbu`.`trendata_bigdata_user_department` AS `department`," +
+                        "`tbu`.`trendata_bigdata_user_division` AS `division`," +
+                        "`tbu`.`trendata_bigdata_user_cost_center` AS `cost_center`," +
+                        "`tbu`.`trendata_bigdata_user_rehire_date` AS `rehire_date`," +
+                        "`tbu`.`trendata_bigdata_user_cost_per_hire` AS `cost_per_hire`," +
+                        "`tbu`.`trendata_bigdata_user_position_start_date` AS `position_start_date`," +
+                        "`tbu`.`trendata_bigdata_user_previous_position_start_date` AS `previous_position_start_date`," +
+                        "`tbu`.`trendata_bigdata_user_country` AS `country`," +
+                        "`tbu`.`trendata_bigdata_user_country_personal` AS `country_personal`," +
+                        "`tbu`.`trendata_bigdata_user_ethnicity` AS `ethnicity`," +
+                        "`tbu`.`trendata_bigdata_user_job_level` AS `job_level`," +
+                        "`tbu`.`trendata_bigdata_user_current_job_code` AS `current_job_code`," +
+                        "`tbu`.`trendata_bigdata_user_industry_salary` AS `industry_salary`," +
+                        "`tbu`.`trendata_bigdata_user_salary` AS `salary`," +
+                        "`tbu`.`trendata_bigdata_user_salary_1_year_ago` AS `salary_1_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_salary_2_year_ago` AS `salary_2_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_salary_3_year_ago` AS `salary_3_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_salary_4_year_ago` AS `salary_4_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_performance_percentage_this_year` AS `performance_percentage_this_year`," +
+                        "`tbu`.`trendata_bigdata_user_performance_percentage_1_year_ago` AS `performance_percentage_1_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_performance_percentage_2_year_ago` AS `performance_percentage_2_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_performance_percentage_3_year_ago` AS `performance_percentage_3_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_performance_percentage_4_year_ago` AS `performance_percentage_4_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_remote_employee` AS `remote_employee`," +
+                        "`tbu`.`trendata_bigdata_user_voluntary_termination` AS `voluntary_termination`," +
+                        "`tbu`.`trendata_bigdata_user_prof_development` AS `prof_development`," +
+                        "`tbu`.`trendata_bigdata_user_posting_date` AS `posting_date`," +
+                        "`tbu`.`trendata_bigdata_user_absences` AS `absences`," +
+                        "`tbu`.`trendata_bigdata_user_successor` AS `successor`," +
+                        "`tbu`.`trendata_bigdata_user_benefit_costs` AS `benefit_costs`," +
+                        "`tbu`.`trendata_bigdata_user_benefit_costs_1_year_ago` AS `benefit_costs_1_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_benefit_costs_2_year_ago` AS `benefit_costs_2_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_benefit_costs_3_year_ago` AS `benefit_costs_3_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_benefit_costs_4_year_ago` AS `benefit_costs_4_year_ago`," +
+                        "`tbu`.`trendata_bigdata_user_employee_id` AS `employee_id`," +
+                        "`tbu`.`trendata_bigdata_user_manager_employee_id` AS `manager_employee_id`," +
+                        "`tbu`.`trendata_bigdata_user_reports_per_manager` AS `reports_per_manager`," +
+                        "`tbu`.`trendata_bigdata_employee_type` AS `employee_type`," +
+                        "`tbu`.`trendata_bigdata_user_gender` AS `gender`," +
+                        "`tbu`.`trendata_bigdata_user_custom_fields` AS `custom_fields`," +
+                        "`tbu`.`trendata_bigdata_hire_source` AS `hire_source`," +
+                        "`tbu`.`trendata_bigdata_user_education_history_level` AS `education_history_level`," +
+                        "`tbu`.`trendata_bigdata_user_position_hire_date` AS `position_hire_date`," +
+                        "`tbu`.`trendata_bigdata_user_position_termination_date` AS `position_termination_date`," +
+                        "`tbu`.`trendata_bigdata_user_position_current_job_code` AS `position_current_job_code`," +
+                        "`tbu`.`trendata_bigdata_user_address_address` AS `address_address`," +
+                        "`tbu`.`trendata_bigdata_user_address_address_personal` AS `address_address_personal`," +
+                        "`tbu`.`trendata_bigdata_user_address_city` AS `address_city`," +
+                        "`tbu`.`trendata_bigdata_user_address_city_personal` AS `address_city_personal`," +
+                        "`tbu`.`trendata_bigdata_user_address_state` AS `address_state`," +
+                        "`tbu`.`trendata_bigdata_user_address_state_personal` AS `address_state_personal`," +
+                        "`tbu`.`trendata_bigdata_user_address_zipcode` AS `address_zipcode`," +
+                        "`tbu`.`trendata_bigdata_user_address_zipcode_personal` AS `address_zipcode_personal`," +
+                        "`tbu`.`trendata_bigdata_user_distance_to_work` AS `commute_distance`," +
+                        "IF (`tbu`.`trendata_bigdata_user_successor` IS NOT NULL, 'Yes', 'No') AS `successors_identified`,  " +
+                        "IF (((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (-1 + 1) MONTH, '%Y-%m-01') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (-1 + 1) MONTH, '%Y-%m-01')) OR (`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (-1 + 1) MONTH, '%Y-%m-01'))), 1, 0) AS `active`, " +
+                        "IF (((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (-1 + 1) MONTH, '%Y-%m-01') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (-1 + 1) MONTH, '%Y-%m-01')) OR (`tbu`.`trendata_bigdata_user_position_termination_date` IS NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (-1 + 1) MONTH, '%Y-%m-01'))), 0, 1) AS `terminated`, " +
+                        "DATEDIFF(`tbu`.`trendata_bigdata_user_position_hire_date`, `tbu`.`trendata_bigdata_user_posting_date`) AS `time_to_fill` " +
+                        customFieldsSql +
+                        "FROM " +
+                        "`trendata_bigdata_user` AS `tbu`";
 
-                    console.log(sql);
-
-                    return orm.query(knex.raw(sql, selectBind).toString(), {
+                    return orm.query(viewSql, {
                         transaction: t
-                    });*/
+                    });
                 }).then(function () {
                     return Promise.map(csv.data, function (item) {
                         var result = {};
@@ -280,7 +352,6 @@ module.exports = {
                         for (var i = 0; i < arrayOfHeaderColumns.length; ++i) {
                             result[arrayOfHeaderColumns[i]] = item[mapping[i]]
                         }
-
 
                         return Object.assign({}, result, _this.getCustomFieldsByOneRow(item, csv.header));
                     });
@@ -411,13 +482,9 @@ module.exports = {
      */
     getCustomFieldsByOneRow: function (row, header) {
         return _.reduce(header, function (accum, headerName, index) {
-            headerName = headerName.replace(/\s+/g, ' ').toLowerCase();
+            headerName = headerName.trim().replace(/\s+/g, '_').toLowerCase();
 
-            if (headerName.length > 64) {
-                return accum;
-            }
-
-            if (/^custom\s+?.+?$/g.test(headerName)) {
+            if (/^custom_?.+?$/g.test(headerName)) {
                 accum[headerName] = row[index];
             }
 

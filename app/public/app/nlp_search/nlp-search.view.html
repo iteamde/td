@@ -1,4 +1,4 @@
-<div id="nlp-search">
+<div id="nlp-search" ng-show="vm.showView">
 
     <div class="margin-negative-10">
 
@@ -9,7 +9,7 @@
 
                 <!-- Search bar  -->
 
-                <form name="search" class="search-bar" ng-submit="vm.submit()">
+                <form name="search" class="search-bar" ng-submit="vm.submit(vm.request)">
 
                     <span class="search-title">{{ getTranslation('showing_results_for') }}:</span>
 
@@ -18,10 +18,10 @@
                         <input type="text"
                                class="form-control form-control-small"
                                placeholder="{{ getTranslation('search_the_system_in_natural_language') }}"
-                               ng-model="vm.selected"
-                               ng-change="vm.onChange()"
-                               uib-typeahead="query for query in vm.match($viewValue)"
-                               typeahead-on-select="vm.addToString($item)"
+                               ng-model="vm.request.text"
+                               ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                               uib-typeahead="query for query in vm.getQueries($viewValue)"
+                               typeahead-focus-first="false"
                         >
 
                     </div>
@@ -29,7 +29,7 @@
                     <button class="search-button"
                             type="submit">
 
-                    <i class="fa fa-search form-control-feedback"></i>
+                        <i class="fa fa-search form-control-feedback"></i>
                         {{ getTranslation('search') }}
                     </button>
 
@@ -39,55 +39,116 @@
 
         </div>
 
-    <div ng-show="!vm.queryResults"><h4>No Results Found</h4></div>
-    <!-- Chart -->
-    <div class="chart chart-recommended-charts"
-         ng-show="vm.queryResults">
+        <div class="chart-loader" ng-show="!vm.isChartRendered" style="margin: 40vh 35vw;">
+            <i class="fa fa-spinner fa-5x fa-spin"></i>
+        </div>
 
-        <!-- Chart content -->
-        <div class="chart-content clearfix" uib-collapse="isRCCollapsed">
+        <div ng-show="!vm.queryResults.length"><h4>No Results Found</h4></div>
 
-            <!-- List of resulting charts -->
-            <div class="container-fluid container-gutter-10">
-                <div class="row">
+        <div ng-style="vm.isChartRendered ? {'visibility':'visible'}:{'visibility':'hidden'}">
+            <div class="chart nlp" ng-if="vm.queryResults.length">
+                <div class="chart-header chart-header-buttons">
+                    <!-- <div class="chart-filter" ng-if="vm.isTable">
+                        <label >{{ getTranslation('chart_view') }}:</label>
+                        <select ng-model="vm.chartView"
+                                ng-change="vm.getChartData()">
+                            <option ng-repeat="option in vm.chartViews"
+                                    value="{{option}}">
+                                {{ option }}
+                            </option>
+                        </select>
+                    </div> -->
+                    <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
+                    <span ng-if="vm.isChartView"> {{getTranslation('rows')}} : {{vm.total}}</span>
+                </div>
+                <div class="pull-right helpful-container">
+                    <div class="first-question"  ng-if="vm.questionIndex === 1">
+                        Was the result helpful?
+                        <span class="yes-btn pull-right" ng-click="vm.feedBack(true)"></span>
+                        <span class="no-btn pull-right" ng-click="vm.feedBack(false)"></span>
+                    </div>
+                    <div class="second-question"  ng-if="vm.questionIndex === 2">
+                        <div class="pull-left text-center">
+                            What where you looking for?
+                            <input type="text" ng-model="vm.lookingForText">
+                        </div>
+                        <div class="pull-right">
+                            <button class="blue" ng-click="vm.feedBack(vm.lookingForText)">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="vm.isChartView">
+                    <div gridstack class="grid-stack grid1"
+                         ng-repeat="w in widgets">
+                        <div gridstack-item
+                             class="grid-stack-item"
+                             gs-item-x="0"
+                             gs-item-y="0"
+                             gs-item-width="w.width"
+                             gs-item-height="w.height"
+                             gs-item-min-width ="2"
+                             gs-item-min-height="2"
+                             on-item-added="vm.onItemAdded()">
 
-                    <div class="col-md-12 col-lg-12"
-                         ng-repeat="result in vm.queryResults">
-
-                        <div class="media">
-
-                            <a class="link-wrap"
-                               href="#/drill-down/{{result.Chart.trendata_chart_id}}"></a>
-
-                            <div class="media-left">
-                                <a href="#">
-                                    <div class="Reco-Circle-Big inline-block"></div>
-                                    <!-- <img class="media-object" ng-src="content/images/drill_down/{{result.img}}.jpg"> -->
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">{{getTranslation(result.Chart.trendata_chart_title_token)}}</h4>
-
-                                <p>{{getTranslation(result.Chart.trendata_chart_description_token) || 'No description'}}</p>
-
-                                <div class="divider"></div>
-
-                                <div>
-                                    <p class="title">{{ getTranslation('last_update') }}:</p>
-                                    <p>{{result.Chart.updated_at | date : 'HH:mm on MMM d, yyyy'}}</p>
-                                </div>
-
+                            <div class="chart-content">
+                                <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div ng-if="!vm.isChartView">
+                    <div class="row">
+                        <div class="col-md-3 centerNumber">
+                            <span>{{vm.total}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <div class="chart chart-grid" ng-if="vm.users.length">
+                <div id="table-grid" class="nlp">
+                    <div class="table-container" double-scroll-bars>
+                        <table data-anchor>
+                            <tr>
+                                <th class="grid-cell" ng-repeat="(key, val) in vm.users[0] | filterObjectKeysByArray:vm.checkedColumns" ng-click="vm.sortUsers(key)" title="{{ key | capitalizeFilter }}">
+                                    {{ key | capitalizeFilter }}
+                                </th>
+                            </tr>
 
+                            <tr ng-repeat="user in vm.users | limitTo:vm.pagination.page_size:vm.pagination.page_size * (vm.pagination.page_number - 1)">
+                                <td ng-repeat="field in user  | filterObjectKeysByArray:vm.checkedColumns">{{field}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="grid-bottom">
+                        <div ng-if="vm.users.length && vm.users.length > 10">
+                            <span>Limit grid to:</span>
+
+                            <select ng-model="vm.pagination.page_size" ng-options="x for x in [10,25,50,100]"></select>
+                        </div>
+
+                        <div class="flex-1 text-center">
+                    <span class="column-manage"
+                          ng-click="vm.manageColumns()">
+                        Manage Columns
+                    </span>
+                        </div>
+
+                        <ul ng-if="vm.users.length && vm.users.length > 10"
+                            uib-pagination
+                            boundary-link-numbers="true"
+                            items-per-page="vm.pagination.page_size"
+                            total-items="vm.users.length"
+                            ng-model="vm.pagination.page_number"
+                            max-size="5"
+                            previous-text="&lsaquo;"
+                            next-text="&rsaquo;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
     </div>
 
 </div>

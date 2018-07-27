@@ -1,11 +1,72 @@
 #nlp-search
 
+  .helpful-container
+    border-top: 1px dotted #404040
+    border-bottom: 1px dotted #404040
+    position: relative
+    z-index: 9
+    font-size: 14px
+    background-color: #fff
+
+    .first-question
+      display: flex
+      align-items: center
+      flex-wrap: wrap
+      line-height: 60px
+
+    .second-question
+      padding: 5px 20px
+      input
+        display: block
+        margin: 10px 5px
+
+    span
+      margin-left: 5px
+
+      &:hover
+        cursor: pointer
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.2)
+
+      &:active
+        position: relative
+        top: 1px
+
+    button
+      border: 1px solid black
+      width: 80px
+      height: 30px
+      border-radius: 15px
+      margin: 15px
+      color: #fff
+      line-height: 25px
+      font-weight: bold
+
+      & i
+        margin-right: 5px
+
+      &:last-child
+        margin-right: 0
+
+      &.green
+        background-color: green
+
+      &.red
+        background-color: red
+
+      &.blue
+        background-color: #2d79b3
+        border-radius: 4px
+        margin: 28px 10px 0
+        font-weight: normal
+        height: 25px
+        line-height: 20px
+        border: none
+
   .search-bar
     width: 100%
     background: #ffffff
     min-height: 65px
     padding: 10px 20px
-    margin-bottom: 20px
     display: flex
     align-items: center
 
@@ -16,17 +77,17 @@
     font-size: 18px
 
   .search-button
-    display: flex
-    padding: 7px 25px 4px
-    font-size: 20px
+    min-width: 110px
+    font-size: 14px
+    height: 30px
     font-weight: 600
-    line-height: 32px
     border: 1px solid #8ce4c6
     border-radius: 6px
     color: #46be8a
     background-color: #ffffff
 
     .form-control-feedback
+      width: 20px
       position: initial
       display: inline-block
 
@@ -93,4 +154,42 @@
   .title
     width: 120px
 
+  .error
+    color: red
+
+  .chart-header-buttons
+    background: #f5f5dc
+    border-bottom: 1px solid #e3e3e3
+    padding: 5px 10px
+    margin-bottom: 15px
+    text-align: right
+
+  .fa-plus
+    font-size: 17px
+    cursor: pointer
+    margin-right: 5px
+
+  .column-manage
+    cursor: pointer
+    color: #005075
+
+  #grid
+
+    .grid-cell:first-child
+      flex: auto
+
+    .grid-bottom
+      width: auto
+
+  .col-count-width
+    width: 80vw
+
+  [class*='-TB_MASTER2']
+    display: none
+
+  .flex-1
+    flex: 1
+
+[type='pills'] .nav-pills
+  display: none
 

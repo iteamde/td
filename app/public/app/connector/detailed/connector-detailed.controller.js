@@ -20,29 +20,30 @@
     function ConnectorDetailedController($scope, $uibModal, mockDataService, commonService, $stateParams, $http, BASE_URL, videoService) {
 
         var vm = this;
+        var rel = '?rel=0';
         $scope.BASE_URL = BASE_URL;
         $scope.videoUrl;
 
         videoService.getVideo()
-            .success(function(video) {
+            .success(function (video) {
                 if (video)
-                    $scope.videoUrl = video.trendata_video_video;
+                    $scope.videoUrl = video.trendata_video_video + rel;
             });
 
-        var init = function() {
+        var init = function () {
             vm.dictionary = defaultDictionary;
 
             $http.get(BASE_URL + 'connector-csv/get-settings')
-                .then(function(response) {
+                .then(function (response) {
                     if (response.data)
                         vm.dictionary = JSON.parse(response.data);
                 });
-        }
+        };
 
-        vm.uploadData = function() {
+        vm.uploadData = function () {
             var modalInstance = $uibModal.open({
-                backdrop  : 'static',
-                keyboard  : false,
+                backdrop: 'static',
+                keyboard: false,
                 animation: false,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -52,31 +53,31 @@
                 controllerAs: 'vm',
                 scope: $scope
             });
-        }
+        };
 
-        vm.moveCursorToEnd = function(e){
+        vm.moveCursorToEnd = function (e) {
             var copyInputValue = e.target.value;
             e.target.value = '';
             e.target.value = copyInputValue;
-        }
-        vm.stopDrag = function(e){
+        };
+        vm.stopDrag = function (e) {
             e.target.parentElement.parentElement.removeAttribute("draggable");
-        }
-        vm.addDrag = function(e){
-            e.target.parentElement.parentElement.setAttribute("draggable",true);
-        }
+        };
+        vm.addDrag = function (e) {
+            e.target.parentElement.parentElement.setAttribute("draggable", true);
+        };
 
-        vm.dragEnd = function(item) {
+        vm.dragEnd = function (item) {
             item.dragging = false;
             vm.saveSettings();
-        }
+        };
 
-        vm.playVideo = function() {
+        vm.playVideo = function () {
             videoService.playVideo($scope.videoUrl);
-        }
+        };
 
-        vm.changeEditing = function(item) {
-            if (! item.title) {
+        vm.changeEditing = function (item) {
+            if (!item.title) {
                 commonService.notification($scope.getTranslation('fields_name_cant_be_empty'), 'warning');
                 return;
             }
@@ -86,7 +87,7 @@
                 return;
             }
 
-            var uniqDictionary = _.uniqBy(vm.dictionary, function(item) {
+            var uniqDictionary = _.uniqBy(vm.dictionary, function (item) {
                 return item.title.toLowerCase();
             });
 
@@ -95,28 +96,27 @@
                 return;
             }
 
-            item.editing = ! item.editing;
+            item.editing = !item.editing;
 
             if (item.editing) {
-                setTimeout(function() {
+                setTimeout(function () {
                     angular.element('.dictionary-item-input:visible').focus();
                 });
             } else {
                 vm.saveSettings();
             }
-        }
+        };
 
-        vm.saveSettings = function() {
-            _.each(vm.dictionary, function(field) {
+        vm.saveSettings = function () {
+            _.each(vm.dictionary, function (field) {
                 if (field.required)
                     field.use = true;
             });
 
             $http.post(BASE_URL + 'connector-csv/save-settings', vm.dictionary);
-        }
+        };
 
-        var defaultDictionary = [
-            {
+        var defaultDictionary = [{
                 name: 'First Name',
                 title: 'First Name',
                 description: 'first_name_data_dictionary_field_description',

@@ -5,16 +5,16 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$rootScope','$scope', '$window', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', '$uibModal'];
+    DashboardController.$inject = ['$rootScope', '$scope', '$window', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', 'alertsService', '$uibModal'];
 
-    function DashboardController($rootScope, $scope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, videoService, $uibModal) {
+    function DashboardController($rootScope, $scope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, videoService, alertsService, $uibModal) {
 
         var vm;
-
+        var rel = '?rel=0';
         vm = this;
         vm.selectedPeriod = '';
 
-        setTimeout(function() {
+        setTimeout(function () {
             activate();
         });
 
@@ -23,16 +23,21 @@
         vm.removeChart = removeChart;
         vm.playVideo = playVideo;
         vm.lastUploadedBg = lastUploadedBg;
-        vm.shareChart = commonService.shareChart;
+        vm.openAlertsModal = openAlertsModal;
         vm.choosePeriod = choosePeriod;
+        vm.isTable = isTable;
 
         // charts setting defined in core constants
         vm.TILE_MIN_WIDTH = TILE_MIN_WIDTH;
         vm.TILE_MIN_HEIGHT = TILE_MIN_HEIGHT;
 
         // show charts handler all the time.
-        $scope.labelBoxOptions = {alwaysShowResizeHandle: true};
-        $scope.options = {alwaysShowResizeHandle: true};
+        $scope.labelBoxOptions = {
+            alwaysShowResizeHandle: true
+        };
+        $scope.options = {
+            alwaysShowResizeHandle: true
+        };
 
         // Chart Events: on chart add to inform chart directive
         $scope.isChartResizing = false;
@@ -42,14 +47,30 @@
         $scope.onResizeStop = commonService.onResizeStop($scope, setChartsOrder);
         $scope.onWindowResize = commonService.onWindowResize($scope);
         $scope.setChartsOrder = setChartsOrder;
+        $scope.checkAutopos = checkAutopos;
         $scope.videoUrl;
+        $scope.limit = 1;
 
+        FusionCharts.addEventListener("loaded", function () {
+            $scope.limit= $scope.limit + 3;
+        });
         function activate() {
             vm.dashboard_id = $stateParams.id || $rootScope.dashboardId;
             dashboardService.getDashboardCharts(vm.dashboard_id)
                 .success(getDashboardChartsComplete)
                 .catch(serviceError);
         }
+
+        vm.shareChart = function(index, title) {
+            var date = 'for ' + moment().subtract(1, 'month').format('MMMM YYYY');
+            if (vm.selectedPeriod) {
+                date = vm.selectedPeriod.indexOf('-') < 0
+                    ? 'for ' + vm.selectedPeriod
+                    : 'since ' + vm.selectedPeriod.split('-')[0];
+            }
+
+            commonService.shareChart(index, title, 'Metric', date);
+        };
 
         function getDashboardChartsComplete(data) {
             vm.valueBox = data.value_box;
@@ -60,17 +81,21 @@
 
             commonService.charts ? $scope.widgets = data.charts.concat(commonService.charts) : $scope.widgets = data.charts;
 
+            $scope.widgets.sort(function (a,b) {
+                return a.chart_data.dataset && b.chart_data.dataset && (a.chart_data.dataset[0].data.length - b.chart_data.dataset[0].data.length);
+            });
+
             videoService.getVideo()
-                .success(function(video) {
+                .success(function (video) {
                     if (video)
-                        $scope.videoUrl = video.trendata_video_video;
+                        $scope.videoUrl = video.trendata_video_video + rel;
                 });
             lastUploadedBg()
         }
 
-        $scope.$on('periodChanged', function(e, period) {
+        $scope.$on('periodChanged', function (e, period) {
             dashboardService.getDashboardCharts(vm.dashboard_id, period)
-                .success(function(data) {
+                .success(function (data) {
                     vm.valueBox = data.value_box;
                     commonService.changeFusionTheme(data.charts);
                     $scope.widgets = commonService.charts ? data.charts.concat(commonService.charts) : data.charts;
@@ -86,7 +111,7 @@
         function setChartsOrder(charts) {
             var sortedCharts = _.map(_.orderBy(charts, ['x', 'y'], ['asc', 'asc']), function (chart) {
                     return {
-                        chartId : chart.id,
+                        id : chart.id,
                         chartHeight : chart.height,
                         chartWidth : chart.width,
                         chartX: chart.x,
@@ -94,7 +119,7 @@
                     };
                 });
 
-            dashboardService.setChartsOrder(sortedCharts, vm.dashboard_id)
+            dashboardService.setChartsOrder(sortedCharts)
                 .catch(serviceError);
         }
 
@@ -102,15 +127,15 @@
             exception.catcher('XHR Failed for dashboard')(error);
         }
 
-        function removeChart(chartId) {
-            dashboardService.removeChart(vm.dashboard_id, chartId)
-                .success(function() {
+        function removeChart(id) {
+            dashboardService.removeChart(id)
+                .success(function () {
                     $window.location.reload();
                 })
                 .catch(serviceError);
         }
 
-        $scope.checkAutopos = function(charts) {
+         function checkAutopos(charts) {
             return _.every(charts, function(chart) {
                 return !chart.x && !chart.y;
             });
@@ -121,8 +146,16 @@
         }
 
         function lastUploadedBg() {
-            var days = moment().diff(moment(vm.lastUploaded), 'days');
-            return  days <= 30 ? '#33B297' : days <= 60 ? '#FFA300' : '#FF0700';
+            var days = moment().diff(moment(new Date(vm.lastUploaded)), 'days');
+            return days <= 30 ? '#33B297' : days <= 60 ? '#FFA300' : '#FF0700';
+        }
+
+        function isTable(chart) {
+            return chart.default_chart_display_type == 'table';
+        }
+
+        function openAlertsModal(chart) {
+            alertsService.openModal($scope, chart.chart_id, chart, 1);
         }
 
         function choosePeriod() {
@@ -135,17 +168,16 @@
                 controllerAs: 'vm',
                 scope: $scope,
                 resolve: {
-                    periods: function() {
-                        var months = _.map(_.range(1, 13), function(i) {
-                            return  {
+                    periods: function () {
+                        var months = _.map(_.range(1, 13), function (i) {
+                            return {
                                 start: i,
                                 end: i,
                                 title: moment().subtract(i, 'month').format('MMMM YYYY')
                             };
                         });
 
-                        return _.concat(months, [
-                            {
+                        return _.concat(months, [{
                                 start: moment().format('M') - 1,
                                 end: 1,
                                 title: 'YTD'

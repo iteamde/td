@@ -1,13 +1,32 @@
 'use strict';
 
 commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
+    var yearDiff = moment().format('Y') - moment().subtract(req.query.end, 'month').format('Y');
+    switch (yearDiff) {
+        case 4:
+            var salaryColumn = '`tbu`.`trendata_bigdata_user_salary_4_year_ago`';
+            break;
+        case 3:
+            var salaryColumn = '`tbu`.`trendata_bigdata_user_salary_3_year_ago`';
+            break;
+        case 2:
+            var salaryColumn = '`tbu`.`trendata_bigdata_user_salary_2_year_ago`';
+            break;
+        case 1:
+            var salaryColumn = '`tbu`.`trendata_bigdata_user_salary_1_year_ago`';
+            break;
+        case 0:
+        default:
+            var salaryColumn = '`tbu`.`trendata_bigdata_user_salary`';
+    }
+
     return Promise.props({
         /**
          *
          */
         average_salary: orm.query(
             'SELECT ' +
-            'ROUND(AVG(`tbu`.`trendata_bigdata_user_salary`), 0) as `average_salary` ' +
+            'ROUND(AVG(' + salaryColumn + '), 0) as `average_salary` ' +
             'FROM `trendata_bigdata_user` AS `tbu` ' +
             'WHERE ' +
             '((`tbu`.`trendata_bigdata_user_position_termination_date` IS NOT NULL AND `tbu`.`trendata_bigdata_user_position_hire_date` < DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\') AND `tbu`.`trendata_bigdata_user_position_termination_date` >= DATE_FORMAT(NOW() + INTERVAL (? + 1) MONTH, \'%Y-%m-01\')) ' +

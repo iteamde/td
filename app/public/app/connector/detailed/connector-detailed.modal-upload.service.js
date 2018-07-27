@@ -14,9 +14,11 @@
             uploadFile: uploadFile
         };
 
-        function uploadFile(data) {
+        function uploadFile(filename, data, skipDistance) {
             return $http.post(BASE_URL + 'upload/users-tuff-csv', {
-                data: data
+                filename: filename,
+                data: data,
+                skipDistance: skipDistance || false
             });
         };
     }

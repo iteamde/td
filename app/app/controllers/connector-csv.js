@@ -19,9 +19,11 @@ module.exports = {
             ConnectorCsvModel.findOne({
                 where: {
                     trendata_connector_csv_type: req.params.type,
-                    trendata_connector_csv_file_type: req.params.file_type,
-                    trendata_user_id: req.parentUser.trendata_user_id
-                }
+                    trendata_connector_csv_file_type: req.params.file_type
+                },
+                order: [
+                    ['trendata_connector_csv_id', 'DESC']
+                ]
             }).then(function (file) {
                 if (file) {
                     trackApi(req);
@@ -104,7 +106,7 @@ module.exports = {
         var file = path.resolve(config.connector_csv_files_dir, req.params.file);
         res.download(file, req.params.downloadAs + '.csv');
         setTimeout(function() {
-            fs.unlink(file);
+            fs.unlink(file, function () {});
         }, 60000)
     },
 

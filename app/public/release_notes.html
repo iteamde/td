@@ -1,4 +1,43 @@
 <div style='background-color:white; padding:10px;'>
+        <!---------------------- 2.7.0.0 -------------------------------->
+        <div class='version_number'><b>v2.7.0.0</b>&nbsp;&nbsp;<span class='release_date'>(June 28, 2018)</span></div><br>
+
+        <b><font color='#3b9b6d'>Enhancements</font></b>
+        <ul class='ul_margin'>
+			<li>Users can add comments when sharing charts by email. You can share a chart with your customized comments for all metrics, drilldowns, and analytics.</li>
+			<li>Reorder of columns in grids is as simple as drag and drop. Users can change columns to any order in grids if needed.</li>
+        </ul>
+        <br>
+
+        <b><font color='#3b9b6d'>Bug Fixes</font></b>
+        <ul class='ul_margin'>
+			<li>Fixed: Layout changes of a dashboard are not reflected for other users</li>
+			<li>Fixed: TUFF upload messages are more informative about the location of errors</li>
+			<li>Fixed: Grids with numerous columns show a horizontal bar for better layout</li>
+			<li>Fixed: Donut charts support many colors to avoid duplicates</li>
+			<li>Fixed: Regular internal bug fixes</li>
+        </ul><br>
+		
+        <!---------------------- 2.6.0.0 -------------------------------->
+        <div class='version_number'><b>v2.6.0.0</b>&nbsp;&nbsp;<span class='release_date'>(May 14, 2018)</span></div><br>
+
+        <b><font color='#3b9b6d'>Enhancements</font></b>
+        <ul class='ul_margin'>
+			<li>Add Drilldowns & Analytics to dashboard. Any drilldown or metric chart can be added to the dashboard for easier access. The dashboard chart will preserve the chosen chart view, filters, and vertical-axis unit.</li>
+			<li>Alerts help you watch any metric, drilldown, or analytics in the system. You can choose threshold alerts that notify you based on the data variation, or periodic that notify based on recurring time periods.</li>
+			<li>Separation Type has been added to Turnover chart views to see the reasons of termination (voluntary, involuntary, retirement, and others).</li>
+			<li>Overall system performance improvement for faster page loads.</li>
+        </ul>
+        <br>
+
+        <b><font color='#3b9b6d'>Bug Fixes</font></b>
+        <ul class='ul_margin'>
+			<li>Fixed: Reports per Manager calculations has been adjusted to count active employees only</li>
+			<li>Fixed: Turnover grids show terminated employees only, not active ones</li>
+			<li>Fixed: Grid columns show well after sorting</li>
+            <li>Fixed: Regular internal bug fixes</li>
+        </ul><br>
+		
         <!---------------------- 2.5.0.0 -------------------------------->
         <div class='version_number'><b>v2.5.0.0</b>&nbsp;&nbsp;<span class='release_date'>(April 16, 2018)</span></div><br>
 
@@ -38,259 +77,8 @@
 			<li>Fixed: Some page-load errors have been fixed</li>
             <li>Fixed: Regular internal bug fixes</li>
         </ul><br>
+		<style>
 		
-        <!---------------------- 2.3.0.0 -------------------------------->
-        <div class='version_number'><b>v2.3.0.0</b>&nbsp;&nbsp;<span class='release_date'>(Feb 1, 2018)</span></div><br>
-
-        <b><font color='#3b9b6d'>Enhancements</font></b>
-        <ul class='ul_margin'>
-            <li>Dynamic Fields are supported in TUFF uploads. Define the format of your TUFF file by choosing the name of the fields (CSV headers), their order, and their availability (enabled or disabled). This enhancement allows you configure TrenData system to match your file format instead of configuring your file to match the TrenData expected format.</li>
-			<li>Custom Fields are listed in "Manage Columns" popup that controls the visibility of columns in drilldown and analytics grids.</li>
-        </ul>
-        <br>
-
-        <b><font color='#3b9b6d'>Bug Fixes</font></b>
-        <ul class='ul_margin'>
-            <li>Fixed: Revenue per Employee drilldown shows bars and loads normally.</li>
-            <li>Fixed: "Custom" word has been removed from labels in drilldown and analytics filter panel.</li>
-            <li>Fixed: Cost per Hire drilldown loads with non-empty bars.</li>
-            <li>Fixed: Absence Average analytics shows non-empty bars when filtering by Custom Fields.</li>
-            <li>Fixed: Values in analytics are rounded to the nearest tenth.</li>
-            <li>Fixed: Vertical Axis setting reflects correctly on the chart by showing percentage, value, or dollar amounts.</li>
-            <li>Fixed: Benefit Costs reads from matching month in Financial Inputs when Metric History of that month is chosen.</li>
-            <li>Fixed: Regular internal bug fixes</li>
-        </ul><br>
-		
-        <!---------------------- 2.2.0.0 -------------------------------->
-        <div class='version_number'><b>v2.2.0.0</b>&nbsp;&nbsp;<span class='release_date'>(Nov 28, 2017)</span></div><br>
-
-        <b><font color='#3b9b6d'>Enhancements</font></b>
-        <ul class='ul_margin'>
-            <li>Show/Hide Custom Fields in drilldown and analytics filters by a checkbox</li>
-			<li>Support any Zip Code format in TUFF</li>
-			<li>Support different typing variations of genders in TUFF</li>
-			<li>Adding more filters to analytics charts to match drilldown filters</li>
-        </ul>
-        <br>
-
-        <b><font color='#3b9b6d'>Bug Fixes</font></b>
-        <ul class='ul_margin'>
-            <li>Fixed: Ignore salaries with value zero from financial calculations</li>
-			<li>Fixed: Individual grids in drilldowns and analytics show active employees only</li>
-			<li>Fixed: Vertical axis in drilldowns and analytics defaults to percentage, not value</li>
-			<li>Fixed: Regular internal bug fixes</li>
-        </ul><br>
-		
-        <!---------------------- 2.1.3.0 -------------------------------->
-        <div class='version_number'><b>v2.1.3.0</b>&nbsp;&nbsp;<span class='release_date'>(Oct 31, 2017)</span></div><br>
-
-        <b><font color='#3b9b6d'>Enhancements</font></b>
-        <ul class='ul_margin'>
-            <li>Last-Upload Bar color change. If your last TUFF upload is less than 30 days, the top bar on the dashboard will appear in green. If it is older than 30 days or 60 days, it will appear in orange or red respectively.</li>
-			<li>More fields have been added to the Manage Columns page in drilldowns and analytics, including custom fields.</li>
-        </ul>
-        <br>
-
-        <b><font color='#3b9b6d'>Bug Fixes</font></b>
-        <ul class='ul_margin'>
-            <li>Fixed: YTD metric history has a small calculation change to match the analytics values.</li>
-			<li>Fixed: Ethnicity metrics has been tied to the Demographics menu.</li>
-			<li>Fixed: Some architectural changes.</li>
-			<li>Fixed: Regular internal bug fixes</li>
-        </ul><br>
-		
-        <!---------------------- 2.1.2.0 -------------------------------->
-        <div class='version_number'><b>v2.1.2.0</b>&nbsp;&nbsp;<span class='release_date'>(Oct 23, 2017)</span></div><br>
-
-        <b><font color='#3b9b6d'>Enhancements</font></b>
-        <ul class='ul_margin'>
-            <li>Sharing on Social Media. You can share any chart in the system to LinkedIn, Facebook, Twitter, or by email using the “Share” icon. Only the chart image will be shared, and not access to the system or other data.</li>
-			<li>Custom Time-Span in Analytics is feasible as of now by choosing the “Custom” option from Time-Span field under Settings.</li>
-        </ul>
-        <br>
-
-        <b><font color='#3b9b6d'>Bug Fixes</font></b>
-        <ul class='ul_margin'>
-            <li>Fixed: Metrics of Time to Fill, Source of Hire, and Cost of Hire show proper values on the dashboard</li>
-			<li>Fixed: Resizing and reordering charts is saved after page refresh</li>
-			<li>Fixed: Hires vs. Terminations analytics shows total, not average</li>
-                <li>Fixed: Regular internal bug fixes</li>
-        </ul><br>
-		
-        <!---------------------- 2.1.1.0 -------------------------------->
-        <div class='version_number'><b>v2.1.1.0</b>&nbsp;&nbsp;<span class='release_date'>(Oct 12, 2017)</span></div><br>
-
-        <b><font color='#3b9b6d'>Enhancements</font></b>
-        <ul class='ul_margin'>
-            <li>Vertical Axis of all drilldowns and analytics can be represented by values or percentages, accessible from the settings panel.</li>
-            <li>Metrics History allows you to view the dashboard values of previous defined or custom time-slots.</li>
-        </ul>
-        <br>
-
-        <b><font color='#3b9b6d'>Bug Fixes</font></b>
-        <ul class='ul_margin'>
-            <li>Fixed: Ethnicity drilldown opens smoothly with no errors</li>
-            <li>Fixed: Different colors for bars in Turnover Analytics</li>
-            <li>Fixed: Performance Ratings in TUFF support decimals</li>
-                <li>Fixed: Regular internal bug fixes</li>
-        </ul><br>
-
-	<!---------------------- 2.1.0.0 -------------------------------->
-	<div class='version_number'><b>v2.1.0.0</b>&nbsp;&nbsp;<span class='release_date'>(Sept 28, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>Hiding Null bars. In drilldowns, you have the ability now to hide bars that have zero value from the settings panel. This allows you to see only ones that have values.</li>
-		<li>Job Level added to all "Chart Views" and "Filters".</li>
-		<li>Table columns in drilldowns and analytics can be wide spread across the system by choosing "All System Grids" from Manage Columns page.</li>
-		<li>New profile passwords have to be at least 6 characters long, have uppercase and lowercase, and have a number.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Source of Hire analytics with 3 years time-span is showing all values correctly.</li>
-		<li>Fixed: TUFF files with wrong headers show a more informative message.</li>
-		<li>Fixed: Stretching "Source of Hire" metric expands the chart to fill the parent box.</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-
-	<!---------------------- 2.0.6.0 -------------------------------->
-	<div class='version_number'><b>v2.0.6.0</b>&nbsp;&nbsp;<span class='release_date'>(Sept 21, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>Analytics charts have new "Chart View" options: City, State, Country, Department, Division, and Cost Center.</li>
-		<li>Drilldowns "Chart View" defaults to Department.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Reports per Manager metric calculation.</li>
-		<li>Fixed: Performance drilldown uses last year's scores if this year's scores do not exist.</li>
-		<li>Fixed: Ability to restore numeric charts after removing them from dashboard.</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-
-	<!---------------------- 2.0.5.0 -------------------------------->
-	<div class='version_number'><b>v2.0.5.0</b>&nbsp;&nbsp;<span class='release_date'>(Sept 14, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>Help Videos can be viewed on the dashboard, metrics, analytics, and TUFF upload page by clicking on the right-most camera icon on the action bar.</li>
-		<li>The ability to remove numeric metrics from the dashboard by clicking on the X under the ellipsis icon.</li>
-		<li>Turnover formula change. Metric, drilldown, and analytics turnover charts are calculating active employees of a month as an average. (Number of Employees End of Month + Number of Employees Beginning of Month)/2</li>
-		<li>Reports per Manager metric has been changed to numeric value showing the average number of employees per manager.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Events overlay shows events that share the same period of time in a non-overlapping layout.</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-	
-	<!---------------------- 2.0.4.0 -------------------------------->
-	<div class='version_number'><b>v2.0.4.0</b>&nbsp;&nbsp;<span class='release_date'>(Sept 7, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>Manage Columns. A new link "Manage Columns" has been added below tables in drilldowns and analytics that allows you to choose which columns to display in the table. You are allowed a minimum of 1 and maximum of 8 selections.</li>
-		<li>In the drilldown and analytics of Average Salary chart, Industry Salary bar has been added for comparison with organization's average salary.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Resize of numeric charts is now possible</li>
-		<li>Fixed: When viewing Analytics with time span of 3 or 5 years, the horizontal axis shows full year numbers.</li>
-		<li>Fixed: Bulk actions in Users Management page work properly</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-	
-	<!---------------------- 2.0.3.0 -------------------------------->
-	<div class='version_number'><b>v2.0.3.0</b>&nbsp;&nbsp;<span class='release_date'>(Aug 31, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>New Chart: Reports per Manager. A new chart (metric/drilldown/analytics) has been added that shows the average people reporting to managers at your company. You can drilldown to view the values in different criteria, and analytics view the change over time.
-		<li>Custom Fields: By adding new columns to the right-most of the TUFF file, custom fields can be added to the system where you can group data or filter by. Each custom field should start with the word "Custom" at the beginning of the header (such as "Custom Previous Employer").</li>
-		<li>Chart views in drilldowns and analytics support City, State, and Country (previously called Location).</li>
-		<li>A new menu called "Demographics" has been added to group population-related charts.</li>
-		<li>Mouse over events in events overlay to view their description.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Source of Hire drilldown shows same options as metric</li>
-		<li>Fixed: Source of Hire analytics page opens fine with no errors</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-	
-	<!---------------------- 2.0.2.0 -------------------------------->
-	<div class='version_number'><b>v2.0.2.0</b>&nbsp;&nbsp;<span class='release_date'>(Aug 23, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>New TUFF Field: Ethnicity. Add a new field on column "Y" in TUFF with header "Ethnicity", then track different ethnic backgrounds of employees.</li>
-		<li>New Chart: Ethnic Diversity. New metric/drilldown/analytics charts have been created to show the ethnic diversity you have at your organization. On the dashboard you will find the metric, and then you can drilldown and view analytics. This chart gets its values from the new TUFF field mentioned in the point above.</li>
-		<li>Release Notes page. Press on the version number at the footer of the page to view all release-notes history in reverse chronological order.</li>
-		<li>Interface change - Drilldowns and Analytics controls. In drilldowns and analytics, the chart is given more space in the page, and the controls are tied to icons at the actions bar. Press the "magnifier" icon to open Filters, and "gear" icon to open Settings.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: All departments in drilldown filters are selected by default</li>
-		<li>Fixed: Time Span dropdown is working properly to cover several years in "Average Age" and "Hires vs. Terminations" charts</li>
-		<li>Fixed: Values of filters reflect on employees-grid shown at the bottom of drilldown and analytics pages</li>
-		<li>Fixed: Events starting more than a year ago and ending less than a year ago are showing now in events overlay</li>
-		<li>Fixed: Source of Hire metric shows different colors for different values</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-
-	<!---------------------- 2.0.1.0 -------------------------------->
-	<div class='version_number'><b>v2.0.1.0</b>&nbsp;&nbsp;<span class='release_date'>(Aug 11, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>New Chart: Average Age. A new chart (metric/drilldown/analytics) has been added that shows the average age at your company. You can drilldown to view the values in different chart views, and analyticsview the average-age change over time.</li>
-		<li>Remove from dashboard icon: For each metric on the dashboard, click on the 3-dots that at the upper-right corner of the metric, and hide it if you do not need it. To restore it, go to the menu item of that metric, and add it again to the dashboard.</li>
-		<li>Better error message for invalid TUFF files: When uploading a TUFF that has incorrect headers (typo or missing header), an informative message is shown that clearly states the problem.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Event names are center-aligned in events overlay</li>
-		<li>Fixed: Deleted users are not allowed to login to the system</li>
-		<li>Fixed: Hires vs. Terminations show different bar colors in drilldown and analytics</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul><br>
-	
-	<!---------------------- 2.0.0.0 -------------------------------->
-	<div class='version_number'><b>v2.0.0.0</b>&nbsp;&nbsp;<span class='release_date'>(Aug 4, 2017)</span></div><br>
-
-	<b><font color='#3b9b6d'>Enhancements</font></b>
-	<ul class='ul_margin'>
-		<li>New Chart: Hires vs. Terminations. A new chart has been added to the system called "Hires vs. Terminations" that shows the recruitment activity of a certain period of time. The metric chart shows 2 bars (1 for hires and the other for terminations) for the period of last month, the drilldown gives you a different view of the same data with the ability of applying filters, and the analytics shows the progress during the last year.</li>
-		<li>Filters Display: Filters panel in drilldown and analytics shows now the first 15 values by default, and the rest when requested by pressing on "Show More" link.</li>
-	</ul>
-	<br>
-
-	<b><font color='#3b9b6d'>Bug Fixes</font></b>
-	<ul class='ul_margin'>
-		<li>Fixed: Resize & Sort Metrics. You can sort and resize metrics on the dashboard on a user level. In other words, each user can have different order and size of metrics on the dashboard.</li>
-		<li>Fixed: More informative text in the welcome email when a new user is added</li>
-		<li>Fixed: Summary grid calculations moved the server side for better performance</li>
-		<li>Fixed: Cost per Hire metric-calculation bug</li>
-		<li>Fixed: Regular internal bug fixes</li>
-	</ul>
-</div>
-
-<style>
 	.ul_margin li{margin: 7px 0;}
 	.version_number{text-align:center; background-color:#F2F2F2; color:#3b9b6d; border: 1px #999 solid; height:30px;}
 	.release_date{font-size:10px; color:#999;}

@@ -62,34 +62,34 @@ module.exports.getCommonData = function (req, res) {
             }, {});
         }),
 
-        dashboards: DashboardModel.findAll({
-            attributes: ['trendata_dashboard_id', 'created_at', 'trendata_dashboard_status', 'trendata_dashboard_icon', 'trendata_dashboard_title_token'],
-            where: {
-                trendata_dashboard_status: '1',
-                trendata_user_id: req.user && req.user.trendata_user_id || 1
-            }
-        }).then(function (item) {
-            if (item.length > 0){
-                return item;
-            } else {
-                return DashboardModel.findAll({
-                    where: {
-                        trendata_dashboard_status: '1',
-                        trendata_user_id: 0
-                    }
-                }).then(function (item1) {
-                    return item1;
-                });
-            }
-        }).map(function (item) {
-            return Promise.props({
-                id:         item.trendata_dashboard_id,
-                created_on: item.created_at,
-                status:     item.trendata_dashboard_status,
-                icon:       item.trendata_dashboard_icon,
-                title:      TranslationModel.getTranslation(item.trendata_dashboard_title_token)
-            });
-        }),
+        // dashboards: DashboardModel.findAll({
+        //     attributes: ['trendata_dashboard_id', 'created_at', 'trendata_dashboard_status', 'trendata_dashboard_icon', 'trendata_dashboard_title_token'],
+        //     where: {
+        //         trendata_dashboard_status: '1',
+        //         trendata_user_id: req.user && req.user.trendata_user_id || 1
+        //     }
+        // }).then(function (item) {
+        //     if (item.length > 0){
+        //         return item;
+        //     } else {
+        //         return DashboardModel.findAll({
+        //             where: {
+        //                 trendata_dashboard_status: '1',
+        //                 trendata_user_id: 0
+        //             }
+        //         }).then(function (item1) {
+        //             return item1;
+        //         });
+        //     }
+        // }).map(function (item) {
+        //     return Promise.props({
+        //         id:         item.trendata_dashboard_id,
+        //         created_on: item.created_at,
+        //         status:     item.trendata_dashboard_status,
+        //         icon:       item.trendata_dashboard_icon,
+        //         title:      TranslationModel.getTranslation(item.trendata_dashboard_title_token)
+        //     });
+        // }),
 
         /**
          *
@@ -102,8 +102,8 @@ module.exports.getCommonData = function (req, res) {
         }).map(function (item) {
             return Promise.props({
                 id:         item.trendata_metric_id,
-                created_on: item.created_at,
-                status:     item.trendata_metric_status,
+                //created_on: item.created_at,
+                //status:     item.trendata_metric_status,
                 icon:       item.trendata_metric_icon,
                 title:      TranslationModel.getTranslation(item.trendata_metric_title_token)
             });

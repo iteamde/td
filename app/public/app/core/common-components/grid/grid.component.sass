@@ -1,0 +1,85 @@
+#grid
+  position: relative
+  font-size: 11px
+  background-color: $white
+
+  .grid-row
+    display: flex
+
+    border-bottom: 1px solid $gray
+
+    &.first
+      border-top: 1px solid $gray
+      background-color: $blue
+      text-align: left
+      color: $white
+      font-weight: 600
+
+      .grid-cell
+        cursor: pointer
+
+    &:nth-child(even)
+      background-color: $beige
+
+  &.nlp
+    white-space: nowrap
+    display: inline-block
+
+    .grid-cell
+      display: inline-block
+      padding: 10px
+      text-overflow: ellipsis
+      white-space: nowrap
+      overflow: hidden
+      width: 138px
+      line-height: 15px
+      box-sizing: border-box
+      flex: initial
+
+  .grid-cell
+    height: 35px
+    display: inline-flex
+    align-items: center
+    justify-content: space-between
+    padding: 0 5px
+    flex: 2
+    border-right: 1px solid $gray
+
+    &:first-child
+      flex: 3
+      border-left: 1px solid $gray
+      text-align: left
+
+  .grid-bottom
+    padding: 5px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    background-color: beige
+    border: 1px solid black
+
+    span
+      padding-right: 10px
+
+    select
+      margin: 0 10px
+
+  .grid-manage
+    font-size: 12px
+    color: $blue
+    cursor: pointer
+
+  label
+    padding: 5px
+    cursor: pointer
+    color: #005075
+
+  input
+    display: none
+
+    &:checked + label
+      background-color: #005075
+      color: #fff
+
+  .pagination
+    margin: 0

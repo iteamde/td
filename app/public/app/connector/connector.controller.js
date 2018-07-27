@@ -9,14 +9,17 @@
     ConnectorController.$inject = [
         '$scope',
         'logger',
-        '$uibModal'
-
+        '$uibModal',
+        '$timeout',
+        'commonService'
     ];
 
-    function ConnectorController($scope, logger, $uibModal) {
+    function ConnectorController($scope, logger, $uibModal, $timeout, commonService) {
 
         var vm;
         vm = this;
+
+        vm.isLoading = false;
 
         vm.connectors = [
             {
@@ -92,9 +95,11 @@
             }
 
         ];
+
+        !$scope.isAdmin || makeActive();
         vm.configureConnector = configureConnector;
         vm.getClassForConnectorStatus = getClassForConnectorStatus;
-
+        vm.showSpinner = showSpinner;
 
         function getClassForConnectorStatus(param, connector) {
             return connector.status === param;
@@ -110,6 +115,27 @@
                 controller: 'ConnectorModalController',
                 controllerAs: 'vm',
             });
+        }
+
+        function showSpinner(e, connector) {
+
+            if (connector.title !== 'TUFF' && $scope.isAdmin) {
+
+                e.preventDefault();
+                vm.isLoading = true;
+
+                $timeout(function () {
+                    vm.isLoading = false;
+                    commonService.notification("Data has been migrated", "success");
+                }, 7000);
+
+            }
+        }
+
+        function makeActive() {
+            _.each(vm.connectors, function (c) {
+                c.status = 1;
+            })
         }
     }
 

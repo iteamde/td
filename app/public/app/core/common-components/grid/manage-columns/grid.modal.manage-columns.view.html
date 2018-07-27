@@ -6,7 +6,18 @@
     <div class="row">
         <div class="manage-columns col-md-5">
             <h4>Available Fields</h4>
-            <select ng-model="toChecked" ng-options="cutCustom(column) for column in uncheckedColumns" multiple></select>
+
+            <div class="manage-columns-list" dnd-list="uncheckedColumns">
+                <div dnd-draggable="column"
+                     ng-repeat="column in uncheckedColumns"
+                     ng-class="{selected: column.selected, dragging: column.dragging}"
+                     ng-click="selectColumn($event, column, uncheckedColumns)"
+                     dnd-moved="uncheckedColumns.splice($index, 1)"
+                     dnd-dragstart="column.dragging = true;"
+                     dnd-dragend="column.dragging = false;">
+                    {{cutCustom(column.value)}}
+                </div>
+            </div>
         </div>
 
         <div class="manage-columns-buttons col-md-2">
@@ -14,9 +25,20 @@
             <button class="btn btn-primary" ng-click="moveToUnchecked()">&larr;</button>
         </div>
 
-        <div class="manage-columns col-md-5">
+        <div class="manage-columns selected-columns col-md-5">
             <h4>Selected Fields</h4>
-            <select ng-model="toUnchecked" ng-options="cutCustom(column) for column in checkedColumns" multiple></select>
+
+            <div class="manage-columns-list" dnd-list="checkedColumns">
+                <div dnd-draggable="column"
+                     ng-repeat="column in checkedColumns"
+                     ng-class="{selected: column.selected, dragging: column.dragging}"
+                     ng-click="selectColumn($event, column, checkedColumns)"
+                     dnd-moved="checkedColumns.splice($index, 1)"
+                     dnd-dragstart="column.dragging = true;"
+                     dnd-dragend="column.dragging = false;">
+                    {{cutCustom(column.value)}}
+                </div>
+            </div>
         </div>
     </div>
 

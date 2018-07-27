@@ -7,11 +7,14 @@
         theme: {
             base: {
                 chart: {
-                    paletteColors: '#33b297, #ee7774, #005075, #33B5E5, #AA66CC',
+                    paletteColors: '#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a' +
+                    '#ffffc4, #ff6fc4, #516fc4, #b17746, #ffeded, #ffff00, #007e7a, #aa7e7a, #ff0000, #00ff00, #ffa100' +
+                    '#00a100, #001200, #0012de, #b012de, #01a7de, #015300, #d95300, #005c69, #bd5c69, #bd0069, #bdff69' +
+                    '#FF3399, #CCFF33, #CC33CC, #9999FF, #333300, #FF3300, #FFCCFF, #CC9999, #9966CC, #CCFFFF, #33CC99, #B0B0B0, #663399,' +
+                    '#FF33CC, #FF9966, #FF0099, #CCFF00, #993366, #669900, #FFFFCC, #FF00FF, #00ffc0, #3366FF, #333333',
                     baseFontColor: '#36474D',
                     baseFont: 'Open Sans',
-
-                    "numberPrefix": "$",
+                    numberPrefix: "$",
                     showBorder: '0',
                     bgColor: '#ffffff',
                     showShadow: '0',

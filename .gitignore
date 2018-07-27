@@ -11,6 +11,7 @@ app/config.js
 nbproject
 .idea
 .DS_Store
+.vscode
 *.swp
 *.bak
 *.log
@@ -25,5 +26,8 @@ nbproject
 
 node_modules/
 bower_components/
+./app/public/content/bower_components
 app/public/content/images/logo/client_logo.png
 app/public/share/
+!app/logs/upload-tuff/.gitkeep
+app/logs/*

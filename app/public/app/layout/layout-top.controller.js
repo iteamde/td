@@ -59,7 +59,7 @@
         }
 
         setTimeout(function() {
-            console.log($rootScope.dashboardId);
+            console.log('Dashboard ID: ', $rootScope.dashboardId);
         }, 5000);
     }
 })();

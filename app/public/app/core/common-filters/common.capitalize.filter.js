@@ -8,7 +8,7 @@
     
     function capitalizeFilter() {
         return function (word) {
-            return (!!word) ? word.charAt(0).toUpperCase() + word.substr(1).toLowerCase() : '';
+            return (!!word) ? word.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()}) : '';
         };
     }
 })();

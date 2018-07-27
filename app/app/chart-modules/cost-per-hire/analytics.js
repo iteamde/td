@@ -60,6 +60,10 @@ var requestData = 'POST' === req.method ? req.body : {
     }
 };
 
+if (fromDashboard) {
+    requestData = reqData;
+}
+
 requestData = _.merge({
     data: {
         chart_view: undefined,
@@ -111,7 +115,7 @@ function analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalA
                 return accum;
             }
 
-            data.paletteColors = '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473';
+            data.paletteColors = colors.getAll();
 
             return _.chain(data).merge({dataset: [dataset]}).value();
         });
@@ -270,6 +274,25 @@ function totalChartViewByFinancialData(filterSql, accessLevelSql, verticalAxisTy
 function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, customField, customValue) {
     var startDate = moment().subtract(timeSpan.start, 'month');
     var monthsCount = 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'Total',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix,
+        paletteColors: '#0075c2'
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     return orm.query(
         'SELECT ' +
@@ -326,21 +349,7 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
         }
 
         return accum;
-    }, {
-        categories: [
-            {
-                category: []
-            }
-        ],
-        dataset: [
-            {
-                seriesname: 'Total',
-                data: []
-            }
-        ],
-        numberSuffix: verticalAxisTypeConverter.suffix,
-        paletteColors: '#0075c2'
-    });
+    }, initObject);
 }
 
 /* ********************************************* By performance chart view ****************************************** */
@@ -618,6 +627,29 @@ function byPerformanceChartViewByFinancialData(filterSql, accessLevelSql, vertic
 function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
     var startDate = moment().subtract(timeSpan.start, 'month');
     var monthsCount = 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'High Performers',
+                data: []
+            },
+            {
+                seriesname: 'Non-High Performers',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix,
+        paletteColors: null
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     return orm.query(
         'SELECT ' +
@@ -684,25 +716,7 @@ function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConve
             }
 
             return accum;
-        }, {
-            categories: [
-                {
-                    category: []
-                }
-            ],
-            dataset: [
-                {
-                    seriesname: 'High Performers',
-                    data: []
-                },
-                {
-                    seriesname: 'Non-High Performers',
-                    data: []
-                }
-            ],
-            numberSuffix: verticalAxisTypeConverter.suffix,
-            paletteColors: null
-        });
+        }, initObject);
     });
 }
 
@@ -721,6 +735,13 @@ function customChartViewByFinancialData(filterSql, accessLevelSql, verticalAxisT
                 column: '`tbu`.`trendata_bigdata_user_address_city`',
                 title: 'City',
                 values: availableFilters.city
+            };
+
+            data.gender = {
+                filters: requestData.data.filters,
+                column: '`tbu`.`trendata_bigdata_user_gender`',
+                title: 'Gender',
+                values: availableFilters.gender
             };
 
             data.department = {
@@ -784,9 +805,13 @@ function customChartViewByFinancialData(filterSql, accessLevelSql, verticalAxisT
                     }
                 ],
                 dataset: [],
-                paletteColors: '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473',
+                paletteColors: colors.getAll(),
                 numberSuffix: verticalAxisTypeConverter.suffix
             };
+
+            if (requestData.type === 'fromDashboard') {
+                initObject.numberPrefix = '';
+            }
 
             _.each(data[chartView].values, function(item) {
                 initObject.dataset.push({
@@ -795,7 +820,7 @@ function customChartViewByFinancialData(filterSql, accessLevelSql, verticalAxisT
                 });
             });
             return getHiringCostsValue().then(function (costsValues) {
-                return Promise.resolve(_.rangeRight(parseInt(timeSpan.end, 10) || 0, (parseInt(timeSpan.start, 10) || 0) + 1)).map(function (item) {
+                return Promise.resolve(_.rangeRight(parseInt(timeSpan.end, 10) || 0, (parseInt(timeSpan.start, 10) || 0) + 1)).map(function (item, index) {
                     return Promise.map(data[chartView].values, function(filterValue) {
                         var query = 'SELECT ' +
                             'COUNT(*) AS `avg`, ' +
@@ -971,9 +996,13 @@ function customChartViewByUserColumn(filterSql, accessLevelSql, verticalAxisType
                     }
                 ],
                 dataset: [],
-                paletteColors: '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473',
+                paletteColors: colors.getAll(),
                 numberSuffix: verticalAxisTypeConverter.suffix
             };
+
+            if (requestData.type === 'fromDashboard') {
+                initObject.numberPrefix = '';
+            }
 
             _.each(data[chartView].values, function(item) {
                 initObject.dataset.push({
@@ -1188,6 +1217,63 @@ switch (requestData.type) {
 
                     return data;
                 })
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // For Dashboard
+    case 'fromDashboard':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return (function () {
+                var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || 'total';
+
+                if (customFields.indexOf(chartView) !== -1) {
+                    return analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalAxisTypeConverter);
+                }
+
+                switch (chartView) {
+                    case 'performance':
+                        return byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConverter);
+                    case 'total':
+                        return totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter);
+                    default:
+                        return customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, customFields);
+                }
+            })().then(function (data) {
+                if (requestData.data.regression_analysis) {
+                    return Promise.map(data.dataset[0].data, function (_item, _index) {
+                        return Promise.reduce(data.dataset, function (accum, item, index) {
+                            return accum + (data.dataset[index].data[_index].value || 0);
+                        }, 0).then(function (sum) {
+                            return sum / data.dataset.length;
+                        });
+                    }).then(function (values) {
+                        return commonChartData.getTrendlineCurvePython(values);
+                    }).map(function (item) {
+                        return {
+                            color: '#008ee4',
+                            dashed: '0',
+                            value: _.round(item, 2)
+                        };
+                    }).then(function (values) {
+                        data.dataset.push({
+                            data: values,
+                            id: 'trendline',
+                            renderAs: 'line',
+                            showValues: '0'
+                        });
+                        return data;
+                    });
+                }
+
+                return data;
             });
         }).then(_resolve).catch(_reject);
         break;

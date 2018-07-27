@@ -49,6 +49,11 @@
                             <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
                                 aria-labelledby="chart-dropdown-a{{$index}}">
                                 <li>
+                                    <button ng-click="vm.openAlertsModal(box)" class="dropdown-item-btn" title="{{ getTranslation('alerts') }}">
+                                        <span class="fa fa-bell"></span>
+                                    </button>
+                                </li>
+                                <li>
                                     <button ng-click="vm.removeChart(box.id)" title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
                                         <span class="fa fa-times"></span>
                                     </button>
@@ -60,9 +65,9 @@
                     <div class="chart-content">
                         <span class="chart-text-number">{{box.chart_data.data[0].value}}</span><i class="fa text-info"></i>
                         <div class="chart-button-group">
-                            <a class="" href="#/drill-down/{{box.id}}">{{ getTranslation('drilldown') }}</a>
-                            <a class="" href="#/analytics/{{box.id}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/predictive/{{box.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                            <a class="" href="#/drill-down/{{box.parent_id || box.chart_id}}">{{ getTranslation('drilldown') }}</a>
+                            <a class="" href="#/analytics/{{box.parent_id || box.chart_id}}">{{ getTranslation('analytics') }}</a>
+                            <a class="" href="#/predictive/{{box.parent_id || box.chart_id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
                         </div>
                     </div>
                 </div>
@@ -84,7 +89,7 @@
         <!-- item -->
         <div class="grid-stack-item"
              gridstack-item
-             ng-repeat="w in widgets track by $index"
+             ng-repeat="w in widgets | limitTo:limit track by $index"
              data-grid-item-index="{{$index}}"
              gs-item-x="w.x"
              gs-item-y="w.y"
@@ -112,9 +117,16 @@
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </button>
                             <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
+                                ng-class="{'dropdown-menu-1': w.default_chart_display_type == 'table'}"
                                 aria-labelledby="chart-dropdown-{{$index}}">
+
                                 <li>
-                                    <button ng-click="vm.shareChart($index, w.title, 'Metric')" class="dropdown-item-btn" title="{{ getTranslation('share_chart') }}">
+                                    <button ng-click="vm.openAlertsModal(w)" class="dropdown-item-btn" title="{{ getTranslation('alerts') }}">
+                                        <span class="fa fa-bell"></span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button ng-click="vm.shareChart($index, w.title)" class="dropdown-item-btn" title="{{ getTranslation('share_chart') }}">
                                         <span class="fa fa-share-alt"></span>
                                     </button>
                                 </li>
@@ -132,15 +144,43 @@
                         </div>
                     </div>
 
-                    <div class="chart-content">
+                    <div class="chart-content" ng-if="!vm.isTable(w)">
                         <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
 
 
                         <!-- Chart navigation buttons -->
+                        <div class="chart-button-group" ng-if="!w.is_kueri">
+                            <a class="" href="#/drill-down/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}">{{ getTranslation('drilldown') }}</a>
+                            <a class="" href="#/analytics/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}">{{ getTranslation('analytics') }}</a>
+                            <a class="" href="#/predictive/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                        </div>
+
+                        <div class="chart-button-group" ng-if="w.is_kueri">
+                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('drilldown') }}</a>
+                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('analytics') }}</a>
+                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('predictive') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="chart-content table" ng-if="vm.isTable(w)">
+                        <div id="grid" class="nlp">
+                            <div class="grid-row first">
+                                <div class="grid-cell" ng-repeat="(key, val) in w.chart_data[0]" title="{{ key | capitalizeFilter }}">
+                                    {{ key | capitalizeFilter }}
+                                </div>
+                            </div>
+
+                            <div class="grid-row" ng-repeat="result in w.chart_data | limitTo:3">
+                                <div class="grid-cell" ng-repeat="(key, val) in result">{{val}}</div>
+                            </div>
+                        </div>
+
+
+                        <!-- Chart navigation buttons -->
                         <div class="chart-button-group">
-                            <a class="" href="#/drill-down/{{w.id}}">{{ getTranslation('drilldown') }}</a>
-                            <a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/predictive/{{w.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                            <a class="" href="#/nlp-search/{{w.title}}">{{ getTranslation('drilldown') }}</a>
+                            <a class="" href="#/nlp-search/{{w.title}}">{{ getTranslation('analytics') }}</a>
+                            <a class="" href="#/nlp-search/{{w.title}}">{{ getTranslation('predictive') }}</a>
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,6 @@
 
         function getUserList() {
             var apiUrl = BASE_URL + "user/userlist";
-            console.log(apiUrl);
             return $http.get(apiUrl);
         }
 

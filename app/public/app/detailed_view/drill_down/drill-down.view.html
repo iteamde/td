@@ -39,10 +39,11 @@
                             </div>
 
                             <div class="chart-header-buttons">
-
                                 <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
                                 <span class="fa fa-search" ng-class="{active: vm.activeTab === 2}" ng-click="resizeChart(2)" tooltip-placement="bottom" uib-tooltip="Filters"></span>
-                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title, 'Drilldown')" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
+                                <span class="fa fa-bell" ng-click="vm.openAlertsModal()" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('alerts') }}"></span>
+                                <span class="fa fa-share-alt" ng-click="vm.shareChart($index, w.title)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('share_chart') }}"></span>
+                                <span class="fa fa-plus" ng-click="vm.showModal()" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
                                 <span class="fa fa-download" ng-click="vm.exportChart($index)" tooltip-placement="bottom" uib-tooltip="{{ getTranslation('download_chart') }}"></span>
                                 <span ng-if="videoUrl" class="fa fa-video-camera" ng-click="vm.playVideo()" tooltip-placement="bottom-right" uib-tooltip="{{getTranslation('help_video')}}"></span>
                             </div>
@@ -83,7 +84,7 @@
                                      ng-repeat="(key, filter) in filters"
                                      uib-dropdown
                                      auto-close="outsideClick"
-                                     ng-hide="key.split(' ')[0].toLowerCase() === 'custom' && !vm.showCustom">
+                                     ng-hide="key.split('_')[0].toLowerCase() === 'custom' && !vm.showCustom">
 
                                     <label for="{{key + $index}}" class="btn btn-default">
                                         <input type="checkbox" id="{{key + $index}}" ng-model="filters[key].all" ng-change="vm.toggleCheckbox(filter, filters[key].all)">
@@ -94,12 +95,12 @@
                                         <span class="caret"></span>
                                     </button>
 
-                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                                        <li>
+                                    <ul class="dropdown-menu scroll-menu" infinite-scroll uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                        <li class="fix-on-top">
                                             <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
-                                        <li ng-repeat="(name, value) in filter.values | filterObjectKeys:filter.label">
-                                            <label for="{{value + key + $index}}">{{ value || ('--' + getTranslation('blank') + '--') }}
+                                        <li ng-repeat="(name, value) in filter.values | filterObjectKeys:filter.label | limitTo: addItems">
+                                            <label for="{{value + key + $index}}">{{ value != 'null' && value ? value : ('--' + getTranslation('blank') + '--') }}
                                                 <input type="checkbox" id="{{value + key + $index}}" ng-model="filters[key].values[value]" ng-change="vm.toggleCheckbox(filter)">
                                             </label>
                                         </li>
@@ -113,11 +114,11 @@
                                 </div>
 
                                 <div class="chart-filter-group">
-                                    <div ng-repeat="(key, filter) in filters" ng-hide="key.split(' ')[0].toLowerCase() === 'custom' && !vm.showCustom">
+                                    <div ng-repeat="(key, filter) in filters" ng-hide="key.split('_')[0].toLowerCase() === 'custom' && !vm.showCustom">
                                         <label class="filter-group">{{vm.getFilterName(key) | capitalizeFilter}} :</label>
                                         <span class="filter-value"
                                               ng-repeat="(name, value) in vm.filteredValues(filter.values) track by $index"
-                                              ng-show="value && (filter.expanded || $index < vm.maxFiltersCount)">{{name || ('--' + getTranslation('blank') + '--')}};
+                                              ng-show="value && (filter.expanded || $index < vm.maxFiltersCount)">{{name != 'null' && name ? name : ('--' + getTranslation('blank') + '--')}};
                                         </span>
                                         <span ng-if="vm.showMoreLessLink(filter.values)">
                                             <a class="text-danger" ng-hide="filter.expanded" style="cursor:pointer;" ng-click="vm.showMoreLess(filter, true)"><b>{{getTranslation('show_more')}} ...</b></a>
@@ -138,8 +139,8 @@
 
                         <!-- Chart navigation buttons -->
                         <div class="chart-button-group">
-                            <a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/predictive/{{w.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                            <a class="" href="#/analytics/{{w.id + (vm.dcid ? '?dcid=' + vm.dcid : '')}}">{{ getTranslation('analytics') }}</a>
+                            <a class="" href="#/predictive/{{w.id + (vm.dcid ? '?dcid=' + vm.dcid : '')}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
                         </div>
                     </div>
                 </div>

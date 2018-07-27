@@ -9,7 +9,7 @@
     GridController.$inject = ['$scope', '$uibModal'];
 
     function GridController($scope, $uibModal) {
-        $scope.contentInitialized = false;
+        var contentInitialized = false;
 
         $scope.sorting = {
             'full name': null,
@@ -41,14 +41,22 @@
             page_number: 1,
             sort_column: '',
             sort_type: '',
-            table_columns: ['full name', 'location', 'manager', 'department']
+            table_columns: []
         };
 
         $scope.$watch('pagination', function () {
-            if ($scope.contentInitialized) {
+            if (contentInitialized) {
                 $scope.$emit('paginationChange', $scope.pagination);
+            } else {
+                var keys = [];
+                if ($scope.$ctrl.users && $scope.$ctrl.users.length) {
+                    keys = _.keys($scope.$ctrl.users[0]);
+                }
+                keys.pop();
+                $scope.pagination.table_columns = keys;
             }
-            $scope.contentInitialized = true;
+
+            contentInitialized = true;
         }, true);
 
         $scope.$on('columnsChanged', function(e, columns) {
@@ -71,8 +79,8 @@
         };
 
         $scope.cutCustom = function(field) {
-            return field.indexOf('custom') === 0 ? field.slice(7) : field;
-        }
+            return field.indexOf('custom') === 0 ? field.slice(7).replace(/_/g, ' ') : field;
+        };
 
         $scope.manageColumns = function() {
             var keys = _.keys($scope.$ctrl.users[0]);
@@ -99,7 +107,7 @@
                     },
                     customFields: function() {
                         return _.map($scope.$ctrl.customFields, function(field) {
-                            return 'custom ' + field;
+                            return 'custom_' + field;
                         });
                     }
                 }

@@ -24,13 +24,7 @@
         })
 
         // base api url
-
-         .constant('BASE_URL', window.location.origin + '/api/')
-        // .constant('BASE_URL', 'http://localhost:8000/api/') // local
-        // .constant('BASE_URL', 'https://demo.trendata.com/api/') // demo
-        // .constant('BASE_URL', 'https://stage.dev.trendata.com/api/') // stage
-        // .constant('BASE_URL', 'https://customfield.dev.trendata.com/api/')
-        // .constant('BASE_URL', 'http://192.168.8.95:8000/api/') // from shashi system
+        .constant('BASE_URL', window.location.origin + '/api/')
 
         // tooltip
         .constant('TOOLTIP_MESSAGES', {
@@ -52,8 +46,7 @@
             TILES : {
                 DOWNLOAD_CHART : 'Download Chart',
                 CHART_OPTIONS: 'Chart Option',
-                ADD_TO_DASHBOARD: 'Add to Dashboard',
-                ADD_TO_DASHBOARD_NOTY: 'Chart successfully added to Dashboard'
+                ADD_TO_DASHBOARD: 'Add to Dashboard'
             },
             BACK_BUTTON: 'Back button',
             PROFILE_UPDATE: 'Profile updated successfully.',

@@ -9,14 +9,14 @@ module.exports = function(grunt) {
                         // inject-vendor:js
                         'public/content/bower_components/jquery/dist/jquery.js',
                         'public/content/bower_components/angular/angular.js',
-                        'public/content/bower_components/angular-cookies/angular-cookies.js',
                         'public/content/bower_components/angular-animate/angular-animate.js',
+                        'public/content/bower_components/angular-cookies/angular-cookies.js',
                         'public/content/bower_components/angular-sanitize/angular-sanitize.js',
-                        'public/content/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                         'public/content/bower_components/angular-ui-router/release/angular-ui-router.js',
+                        'public/content/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
+                        'public/content/bower_components/angular-bootstrap/ui-bootstrap.js',
+                        'public/content/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
                         'public/content/bower_components/angular-loading-bar/build/loading-bar.js',
-                        'public/content/libs/ui-bootstrap-custom-build/ui-bootstrap-custom-2.5.0.js',
-                        'public/content/libs/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-2.5.0.js',
 
                         // Gridstack with its dependencies
                         'public/content/bower_components/lodash/dist/lodash.min.js',
@@ -67,12 +67,15 @@ module.exports = function(grunt) {
                         'public/app/core/core.config.js',
                         'public/app/core/core.resize.directive.js',
                         'public/app/core/core.scroll.directive.js',
-                        'public/app/core/core.debounce.service.js',
+                        'public/app/core/core.draggable.directive.js',
                         'public/app/core/common-directives/core.add-chart.directive.js',
                         'public/app/core/common-directives/core.upload-csv.directive.js',
                         'public/app/core/common-directives/core.model-view-format.directive.js',
+                        'public/app/core/common-directives/core.double-scroll-bars.directive.js',
+                        'public/app/core/common-directives/core.infinite-scroll.directive.js',
                         'public/app/core/common-filters/common.chart-type.filter.js',
                         'public/app/core/common-filters/common.object-keys.filter.js',
+                        'public/app/core/common-filters/common.object-keys-by-array.filter.js',
                         'public/app/core/common-filters/common.display-values.filter.js',
                         'public/app/core/common-filters/common.capitalize.filter.js',
                         'public/app/core/common-components/grid/grid.component.js',
@@ -84,8 +87,8 @@ module.exports = function(grunt) {
                         'public/app/core/core.common.controller.js',
                         'public/app/core/core.page.service.js',
                         'public/app/core/common-chart.service.js',
+                        'public/app/core/core.debounce.service.js',
                         'public/app/core/mock-data.service.js',
-                        'public/app/core/core.draggable.directive.js',
                         'public/app/core/core.video.service.js',
 
                         // Auth
@@ -149,6 +152,7 @@ module.exports = function(grunt) {
                         'public/app/detailed_view/analytics/analytics.routes.js',
                         'public/app/detailed_view/analytics/analytics.service.js',
                         'public/app/detailed_view/analytics/analytics.controller.js',
+                        'public/app/detailed_view/analytics/analytics.modal.controller.js',
 
                         // Predictive
                         'public/app/detailed_view/predictive/predictive.module.js',
@@ -184,6 +188,7 @@ module.exports = function(grunt) {
                         'public/app/detailed_view/drill_down/drill-down.routes.js',
                         'public/app/detailed_view/drill_down/drill-down.service.js',
                         'public/app/detailed_view/drill_down/drill-down.controller.js',
+                        'public/app/detailed_view/drill_down/drill-down.modal.controller.js',
 
                         // Nlp Search
                         'public/app/nlp_search/nlp-search.module.js',
@@ -191,6 +196,9 @@ module.exports = function(grunt) {
                         'public/app/nlp_search/nlp-search.routes.js',
                         'public/app/nlp_search/nlp-search.service.js',
                         'public/app/nlp_search/nlp-search.controller.js',
+                        'public/app/nlp_search/manage-columns/nlp.modal.manage-columns.controller.js',
+                        'public/app/nlp_search/nlp_overview/nlp-overview.routes.js',
+                        'public/app/nlp_search/add_to_dashboard/nlp.modal.add-to-dashboard.controller.js',
 
                         // Profile
                         'public/app/settings/profile/profile.module.js',
@@ -214,9 +222,16 @@ module.exports = function(grunt) {
                         'public/app/settings/surveys/surveys.routes.js',
                         'public/app/settings/surveys/surveys.controller.js',
 
-                        //YouTube Videos
+                        // YouTube Videos
                         'public/app/layout/layout-video.controller.js',
                         'public/content/bower_components/youtube-video-js/dist/youtube-video-min.js',
+
+                        // Alerts
+                        'public/app/settings/alerts/alerts.module.js',
+                        'public/app/settings/alerts/alerts.routes.js',
+                        'public/app/settings/alerts/alerts.controller.js',
+                        'public/app/settings/alerts/alerts.service.js',
+                        'public/app/settings/alerts/alerts-modal/alerts.modal.controller.js',
 
                         //Share
                         'public/app/layout/layout-share.controller.js',
@@ -265,5 +280,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-spritesmith');
 
     // Register the default tasks.
-    grunt.registerTask('default', ['concat', 'jshint', 'uglify'/*, 'sprite'*/]);
+    grunt.registerTask('default', ['concat'/*, 'jshint'*/, 'uglify'/*, 'sprite'*/]);
 };

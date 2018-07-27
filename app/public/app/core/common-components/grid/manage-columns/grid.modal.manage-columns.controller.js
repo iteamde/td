@@ -9,38 +9,62 @@
     ModalManageColumnsController.$inject = ['$scope', 'columns', 'checkedColumns', 'chartId', 'customFields', 'BASE_URL', '$http'];
 
     function ModalManageColumnsController($scope, columns, checkedColumns, chartId, customFields, BASE_URL, $http) {
+        $scope.toChecked = [];
+        $scope.toUnchecked = [];
         $scope.columns = _.concat(columns, customFields);
-        $scope.checkedColumns = _.intersection(checkedColumns, $scope.columns);
-        $scope.uncheckedColumns = _.difference($scope.columns, checkedColumns);
+        $scope.checkedColumns = _.map(_.intersection(checkedColumns, $scope.columns), function(item) {
+            return {
+                value: item,
+                dragging: false,
+                selected: false
+            };
+        });
+        $scope.uncheckedColumns = _.map(_.difference($scope.columns, checkedColumns), function(item) {
+            return {
+                value: item,
+                dragging: false,
+                selected: false
+            };
+        });
 
         $scope.save = function() {
             var apiUrl = BASE_URL + 'user/user-grid-settings';
+            var checkedColumnsNew = _.map($scope.checkedColumns, 'value');
             $http.post(apiUrl, {
                 chartId: chartId,
-                fields: $scope.checkedColumns,
+                fields: checkedColumnsNew,
                 forAllCharts: $scope.forAllCharts
             }).then(function(resp) {
-                $scope.$emit('columnsChanged', $scope.checkedColumns);
+                $scope.$emit('columnsChanged', checkedColumnsNew);
                 $scope.$close();
             });
         };
 
         $scope.moveToChecked = function() {
-            if (! $scope.toChecked.length)
+            var toChecked = _.filter($scope.uncheckedColumns, 'selected');
+            if (! toChecked.length)
                 return;
 
-            $scope.uncheckedColumns = _.difference($scope.uncheckedColumns, $scope.toChecked);
-            $scope.checkedColumns = _.concat($scope.checkedColumns, $scope.toChecked);
-            $scope.toChecked = [];
+            $scope.uncheckedColumns = _.difference($scope.uncheckedColumns, toChecked);
+            $scope.checkedColumns = _.concat($scope.checkedColumns, toChecked);
         };
 
         $scope.moveToUnchecked = function() {
-            if (! $scope.toUnchecked.length)
+            var toUnchecked = _.filter($scope.checkedColumns, 'selected');
+            if (! toUnchecked.length)
                 return;
 
-            $scope.checkedColumns = _.difference($scope.checkedColumns, $scope.toUnchecked);
-            $scope.uncheckedColumns = _.concat($scope.uncheckedColumns, $scope.toUnchecked);
-            $scope.toUnchecked = [];
+            $scope.checkedColumns = _.difference($scope.checkedColumns, toUnchecked);
+            $scope.uncheckedColumns = _.concat($scope.uncheckedColumns, toUnchecked);
+        };
+
+        $scope.selectColumn = function($event, column, list) {
+            if (! $event.ctrlKey) {
+                _.each(list, function(item) {
+                    item.selected = false;
+                });
+            }
+            column.selected = ! column.selected;
         };
     }
 

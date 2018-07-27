@@ -74,6 +74,10 @@ var requestData = 'POST' === req.method ? req.body : {
     }
 };
 
+if (fromDashboard) {
+    requestData = reqData;
+}
+
 requestData = _.merge({
     data: {
         chart_view: undefined,
@@ -109,6 +113,28 @@ var userTypes = ['hired', 'terminated'];
 function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
     var startDate = moment().subtract(timeSpan.start, 'month');
     var monthsCount = 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'Hires',
+                data: []
+            },
+            {
+                seriesname: 'Terminations',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     return Promise.resolve(_.rangeRight(parseInt(timeSpan.end, 10) || 0, (parseInt(timeSpan.start, 10) || 0) + 1)).map(function (monthOffset) {
         return orm.query(
@@ -212,24 +238,7 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
             }
 
         return accum;
-    }, {
-        categories: [
-            {
-                category: []
-            }
-        ],
-        dataset: [
-            {
-                seriesname: 'Hires',
-                data: []
-            },
-            {
-                seriesname: 'Terminations',
-                data: []
-            }
-        ],
-        numberSuffix: verticalAxisTypeConverter.suffix
-    }).then(function (data) {
+    }, initObject).then(function (data) {
         for (var i = 0; i < data.dataset[0].data.length; ++i) {
             var total = data.dataset[0].data[i].value + data.dataset[1].data[i].value;
             data.dataset[0].data[i].value = verticalAxisTypeConverter.convert(data.dataset[0].data[i].value, total);
@@ -319,6 +328,49 @@ switch (requestData.type) {
 
                     return data;
                 })
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
+    // For Dashboard
+    case 'fromDashboard':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter).then(function (data) {
+                if (requestData.data.regression_analysis) {
+                    return Promise.map(data.dataset[0].data, function (_item, _index) {
+                        return Promise.reduce(data.dataset, function (accum, item, index) {
+                            return accum + (data.dataset[index].data[_index].value || 0);
+                        }, 0).then(function (sum) {
+                            return sum / data.dataset.length;
+                        });
+                    }).then(function (values) {
+                        return commonChartData.getTrendlineCurvePython(values);
+                    }).map(function (item) {
+                        return {
+                            color: '#008ee4',
+                            dashed: '0',
+                            value: _.round(item, 2)
+                        };
+                    }).then(function (values) {
+                        data.dataset.push({
+                            data: values,
+                            id: 'trendline',
+                            renderAs: 'line',
+                            showValues: '0'
+                        });
+
+                        return data;
+                    });
+                }
+
+                return data;
             });
         }).then(_resolve).catch(_reject);
         break;

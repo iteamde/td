@@ -14,7 +14,7 @@ function HttpResponse(data, status) {
     /**
      * @type {Number}
      */
-    this.status = parseInt(status) || 200;
+    this.status = parseInt(status, 10) || 200;
 }
 
 HttpResponse.prototype = Object.create(Error.prototype);

@@ -77,9 +77,10 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
         })
     });
 }).then(function (data) {
+    let check = data.costOfBenefitFromTuff || data.cashCompensation || data.costOfBenefit;
     _resolve({
         decimals: '2',
-        data: [
+        data: check ? [
             {
                 label: 'Cash compensation',
                 value: null === data.costOfBenefitFromTuff ? data.cashCompensation / 12 : data.cashCompensation
@@ -88,6 +89,6 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
                 label: 'Cost of benefit',
                 value: null === data.costOfBenefitFromTuff ? data.costOfBenefit : data.costOfBenefitFromTuff
             }
-        ]
+        ] : []
     });
 }).catch(_reject);

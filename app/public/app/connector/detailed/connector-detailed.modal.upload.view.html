@@ -5,27 +5,34 @@
         <br>
 
         <form name="">
+            <label for="skip-distance" ng-if="vm.isAdmin" class="skip-distance-label">
+                <input type="checkbox" id="skip-distance" ng-model="vm.enableDistance">
+                {{ getTranslation('enable_distance_calculation') }}
+            </label>
             <label class="btn btn-default btn-file">
-                Browse <input type="file" upload-csv>
+                Browse <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" upload-csv>
             </label>
 
             <span class="file-name-holder" ng-bind="vm.fileName" ng-if="vm.fileName"></span>
 
-            <div class="upload-loader text-center" ng-if="vm.isLoading">
+            <div class="upload-loader text-center" ng-show="vm.isLoading">
                 <div class="loader-progress" ng-style="{width: vm.progressWidth + '%'}"></div>
                 <span class="loader-percentage" ng-class="{'white-text': vm.progressWidth > 55}">{{vm.progressWidth | number:0}}%</span>
             </div>
 
             <ul class="nav" ng-if="vm.uploadErrors">
-                <div class="upload-errors-count">{{vm.uploadErrorsCount}} Errors Found!</div>
-                <li class="alert upload-errors-line text-left" ng-repeat="(line, errors) in vm.uploadErrors">
+                <div class="upload-errors-count">{{vm.uploadErrorsCount}} Error{{vm.uploadErrorsCount > 1 && 's' || ''}} Found!</div>
+                <li class="alert upload-errors-line text-left" ng-repeat="(message, lines) in vm.uploadErrors">
                     <div class="line-number">
                         <span class="fa fa-exclamation-circle"></span>
-                        {{line}}
+                        {{message}}
+
+                        <span ng-show="lines.length">
+                            : Line{{lines.length > 1 && 's' || ''}}
+                            {{lines.slice(0, 20).join(', ')}}
+                            <span ng-show="lines.length > 20"> etc.</span>
+                        </span>
                     </div>
-                    <ul>
-                        <li ng-repeat="error in errors">{{error}}</li>
-                    </ul>
                 </li>
             </ul>
 

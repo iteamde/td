@@ -36,7 +36,9 @@
 
       /*-------CHART CONFIGURATIONS -------*/
       chartConfig: chartConfig,
-      saveToDashboard: saveToDashboard
+      saveToDashboard: saveToDashboard,
+      updateGrid: updateGrid,
+      addToDashboard: addToDashboard
     };
 
     return service;
@@ -52,8 +54,7 @@
 
     // chart export
     function exportChart(index) {
-        var chartObjId;
-        chartObjId = angular.element("#fschart" + index).children()[0].id;
+        var chartObjId = angular.element("#fschart" + index).children()[0].id;
 
         FusionCharts.batchExport({
             "charts": [{
@@ -70,15 +71,15 @@
       type: 'Metric',
       url: ''
     };
-    function shareChart(index, title, type) {
-      shareInterceprot(title, type);
+    function shareChart(index, title, type, date) {
+      shareInterceprot(title, type, date);
 
-      var chartObjId;
-      chartObjId = angular.element("#fschart" + index).children()[0].id;
+      var chartObjId = angular.element("#fschart" + index).children()[0].id;
 
       FusionCharts.batchExport({
         charts: [{
-          id: chartObjId
+          id: chartObjId,
+          width: type === 'Metric' ? 400 : undefined
         }],
         exportFormats: 'png',
         exportAtClientSide: 0,
@@ -97,7 +98,7 @@
       return token + '_' + view + '_instructions';
     }
 
-    function shareInterceprot(title, type) {
+    function shareInterceprot(title, type, date) {
       var oldSend = XMLHttpRequest.prototype.send;
       // override the native send()
       XMLHttpRequest.prototype.send = function() {
@@ -123,12 +124,13 @@
             shareChartInfo = {
               title: title,
               type: type,
-              url: url
+              url: url,
+              date: date
             };
           }
 
           XMLHttpRequest.prototype.send = oldSend;
-        }
+        };
 
         oldSend.apply(this, arguments);
       }
@@ -151,6 +153,7 @@
         item.chart_data.chart = {
           "theme": "tren"
         };
+        item.chart_data.numberPrefix = '';
         if(item.set_height != 0)
           item.height = item.set_height;
         else
@@ -221,7 +224,7 @@
       chartHeight = chart.height();
 
       width = chart.width();
-      height = parseInt((chartHeight - headerHeight), 10);
+      height = parseInt((chartHeight - (headerHeight || 0)), 10);
 
       // remove padding on chart inside wrapper
       height = (height - 47);
@@ -282,7 +285,8 @@
         text: text,
         layout: 'topCenter',
         type: type,
-        killer: true
+        killer: true,
+        timeout: 2000
       });
     }
 
@@ -312,6 +316,20 @@
       $scope.onResizeStart = onResizeStart($scope);
       $scope.onResizeStop = onResizeStop($scope);
       $scope.onWindowResize = onWindowResize($scope);
+    }
+
+    function updateGrid($scope, data) {
+      $scope.gridOptions.data = _.filter(data, function (obj) {
+
+        return  $scope.gridFilter.location.values[obj.location] &&
+            $scope.gridFilter.gender.values[obj.gender] &&
+            $scope.gridFilter.department.values[obj.department];
+        /*return _.every(_.keys($scope.gridFilter), function (key) {
+          return $scope.gridFilter[key].values[obj[key]]
+        });*/
+      });
+
+      return $scope.gridOptions.data;
     }
 
     function saveToDashboard(chart) {
@@ -348,6 +366,11 @@
           window.location.href = encodeURI(BASE_URL + 'connector-csv/download-export/summary/' + resp.data);
         }
       });
+    }
+
+    function addToDashboard(options) {
+      var apiUrl = BASE_URL + 'dashboard/attach-chart';
+      return $http.post(apiUrl, options);
     }
 
   }

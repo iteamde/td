@@ -53,7 +53,6 @@
         }
 
         function updateOnChange(row, col) {
-            console.log(row, col)
             $scope.summary.recountPredictive(row, col);
         }
 

@@ -209,8 +209,7 @@ function login(req, res) {
                             token: token,
                             version: config.APP_VERSION,
                             is_admin: 1 == user.trendata_user_id,
-                            dashboardId: dashboardID,
-                            user: user
+                            dashboardId: dashboardID
                         });
                     }).catch(function (err) {
                         trackApi(req, err);

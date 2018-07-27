@@ -127,13 +127,13 @@
         //    $translateProvider.useMissingTranslationHandlerLog();// warns about missing translates
         //}
 
-        $translateProvider.useStaticFilesLoader({
+        /*$translateProvider.useStaticFilesLoader({
             prefix: 'content/lang/locale-',
             suffix: '.json'
-        });
+        });*/
 
-        $translateProvider.preferredLanguage(LOCALES.preferredLocale);
-        $translateProvider.useLocalStorage();
+        //$translateProvider.preferredLanguage(LOCALES.preferredLocale);
+        //$translateProvider.useLocalStorage();
     }
 
     tmhDynamicLocaleConfigure.$inject = ['tmhDynamicLocaleProvider'];

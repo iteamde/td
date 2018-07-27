@@ -32,6 +32,8 @@ var TranslationModel = require('../models/orm-models').Translation;
 var SqlQueryModel = require('../models/orm-models').SqlQuery;
 var UserActivityModel = require('../models/orm-models').UserActivity;
 
+var colors = require('./../components/colors');
+
 module.exports.getMetricList = getMetricList;
 module.exports.getMetricCharts = getMetricCharts;
 module.exports.getMetricSimilarCharts = getMetricSimilarCharts;
@@ -141,7 +143,8 @@ function getMetricCharts(req, res) {
                     translation: translation,
                     separateThread: separateThread,
                     moment: require('moment'),
-                    knex: require('../components/knex')
+                    knex: require('../components/knex'),
+                    colors: colors
                 };
 
                 if (sqlTemplate && sqlTemplate.trendata_sql_query_template && (sqlTemplate.trendata_sql_query_custom_source || sqlTemplate.trendata_sql_query_module_path)) {

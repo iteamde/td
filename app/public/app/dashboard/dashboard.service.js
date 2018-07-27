@@ -29,21 +29,20 @@
             });
         }
 
-        function setChartsOrder(data, dashboard_id) {
-            var apiUrl = BASE_URL + "dashboard/set-charts-order/" + dashboard_id;
+        function setChartsOrder(data) {
+            var apiUrl = BASE_URL + "dashboard/set-charts-order";
             return $http.post(apiUrl, data);
         }
 
-        function setChartSize(data, dashboard_id) {
-            var apiUrl = BASE_URL + "dashboard/set-chart-size/" + dashboard_id;
+        function setChartSize(data) {
+            var apiUrl = BASE_URL + "dashboard/set-chart-size";
             return $http.post(apiUrl, data);
         }
 
-        function removeChart(dashboard_id, chart_id) {
+        function removeChart(id) {
             var apiUrl = BASE_URL + "dashboard/remove-chart";
             return $http.post(apiUrl, {
-                dashboard_id: dashboard_id,
-                chart_id: chart_id
+                id: id
             });
         }
     }

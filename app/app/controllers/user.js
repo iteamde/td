@@ -10,12 +10,10 @@ var url = require('url');
 var sendResponse = require('../libs/utils').sendResponse;
 var HttpResponse = require('../components/http-response');
 
-var db = require('../config/db');
 var commonModel = require('../models/common');
 var userModel = require('../models/user');
 
 var http_status = require('../config/constant').HTTP_STATUS;
-var async = require('async');
 require('../config/global');
 require('../libs/utils');
 var crypto = require('crypto');
@@ -27,8 +25,9 @@ var apiCallTrack = require('../components/api-call-track');
 
 var UserModel = require('../models/orm-models').User;
 var LanguageModel = require('../models/orm-models').Language;
-var UserActivityModel = require('../models/orm-models').UserActivity;
 var UsersGridSettingsModel = require('../models/orm-models').UsersGridSettings;
+var DashboardModel = require('../models/orm-models').Dashboard;
+var DashboardChartModel = require('../models/orm-models').DashboardChart;
 
 module.exports = {
     getUserList: getUserList,
@@ -54,6 +53,51 @@ function fullUrl(req) {
     protocol: req.protocol,
     host: req.get('host')
   });
+}
+
+function createDashboard(userId) {
+    DashboardModel.create({
+        trendata_user_id: userId,
+        trendata_dashboard_created_by: userId,
+        trendata_dashboard_last_modified_by: userId,
+        trendata_dashboard_title_token: 'c0eadd82-4bff-4e2f-bbf2-c6ad630f6406',
+        trendata_dashboard_description_token: '',
+        trendata_dashboard_icon: 'fa fa-tachometer'
+    }).then(function(dashboard) {
+        let singleValueCharts = [58, 59, 61, 71, 73, 105];
+        let defaultCharts = [7, 30, 29, 17, 60, 55, 74, 75, 96, 99, 102];
+        singleValueCharts.forEach(function(chartId, index) {
+            DashboardChartModel.create({
+                trendata_dashboard_chart_created_by: userId,
+                trendata_dashboard_chart_last_modified_by: userId,
+                trendata_dashboard_chart_order: index,
+                trendata_dashboard_id: dashboard.trendata_dashboard_id,
+                trendata_chart_id: chartId,
+                trendata_dashboard_chart_width: 2,
+                trendata_dashboard_chart_height: 2,
+            }).catch(function(err) {
+                console.log('CHART ', chartId, err.message || err);
+            });
+        });
+
+        defaultCharts.forEach(function(chartId, index) {
+            DashboardChartModel.create({
+                trendata_dashboard_chart_created_by: userId,
+                trendata_dashboard_chart_last_modified_by: userId,
+                trendata_dashboard_chart_order: index,
+                trendata_dashboard_id: dashboard.trendata_dashboard_id,
+                trendata_chart_id: chartId,
+                trendata_dashboard_chart_width: 3,
+                trendata_dashboard_chart_height: 4,
+                x: (index % 4) * 3,
+                y: Math.ceil(index / 4) * 4
+            }).catch(function(err) {
+                console.log('CHART ', chartId, err.message || err);
+            });
+        });
+    }).catch(function(err) {
+        console.log(err.message || err);
+    })
 }
 
 /**
@@ -262,6 +306,7 @@ function addNewUser(req, res) {
             });
         }).then(function (user) {
             trackApi(req);
+            createDashboard(user.trendata_user_id);
             res.json({
                 id:             user.trendata_user_id,
                 firstname:      user.trendata_user_firstname,

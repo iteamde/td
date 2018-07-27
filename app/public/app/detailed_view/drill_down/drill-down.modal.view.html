@@ -1,0 +1,20 @@
+<div>
+    <div class="modal-body add-chart-modal">
+        <form name="addChartForm">
+            <div class="form-group">
+                <label for="chart-title">{{getTranslation('chart_title')}}</label>
+                <input type="text" class="form-control" ng-required="true" ng-model="vm.options.chart_title" name="chart-title" id="chart-title">
+            </div>
+
+            <div class="form-group">
+                <label for="chart-description">{{getTranslation('chart_description')}}</label>
+                <input type="text" class="form-control" ng-model="vm.options.chart_description" name="chart-description" id="chart-description">
+            </div>
+
+            <div class="button-group form-group text-center">
+                <button class="btn btn-xlpad btn-default" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+                <button class="btn btn-xlpad btn-primary" ng-click="vm.addToDashboard()">{{ getTranslation('save') }}</button>
+            </div>
+        </form>
+    </div>
+</div>

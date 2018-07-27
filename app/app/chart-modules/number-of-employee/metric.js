@@ -15,9 +15,9 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
         {
             type: ORM.QueryTypes.SELECT,
             replacements: [
+                -req.query.start || -1,
                 -req.query.end || -1,
-                -req.query.end || -1,
-                -req.query.end || -1
+                -req.query.start || -1
             ].concat(accessLevelSql.replacements)
         }
     );
@@ -25,7 +25,7 @@ commonChartData.makeAccessLevelSql(req).then(function (accessLevelSql) {
     _resolve({
         data: [
             {
-                labes: '',
+                label: '',
                 value: rows[0]['total_number_of_employees']
             }
         ]

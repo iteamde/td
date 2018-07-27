@@ -104,11 +104,11 @@
                                         <span class="caret"></span>
                                     </button>
 
-                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                                        <li>
+                                    <ul class="dropdown-menu scroll-menu" infinite-scroll uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                        <li class="fix-on-top">
                                             <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
-                                        <li ng-repeat="(key, value) in filter.values | filterObjectKeys:filter.label">
+                                        <li ng-repeat="(key, value) in filter.values | filterObjectKeys:filter.label | limitTo: addItems">
                                             <label for="{{value + $index}}">{{ value }}
                                                 <input type="checkbox" id="{{value + $index}}" ng-model="filter.values[value]" ng-change="vm.update()">
                                             </label>

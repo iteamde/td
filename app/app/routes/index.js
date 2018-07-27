@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var os = require('os');
+var uploadMulter  = require('multer')({
+    dest: os.tmpdir()
+});
 
 var authMiddleware  = require('../components/auth-middleware');
 
@@ -18,7 +22,9 @@ var connectorCsv    = require('../controllers/connector-csv');
 var trackUserActivity = require('../controllers/track-user-activity');
 var nlpSearch       = require('../controllers/nlp-search');
 var video           = require('../controllers/video');
+var nlp             = require('../controllers/nlp');
 var share           = require('../controllers/share');
+var alert           = require('../controllers/alert');
 var performance     = require('../controllers/performance');
 var chartViews     = require('../controllers/chart-view');
 var mail            = require('nodemailer').mail;
@@ -60,8 +66,8 @@ router.get('/dashboard/dashboardlist', authMiddleware, dashboard.getDashboardLis
 router.get('/dashboard/dashboardcharts', authMiddleware, dashboard.getDashboardCharts); // +
 router.post('/dashboard/attach-chart', authMiddleware, dashboard.attachChart); // +
 router.post('/dashboard/remove-chart', authMiddleware, dashboard.removeChart); // +
-router.post('/dashboard/set-charts-order/:id', authMiddleware, dashboard.setChartsOrder); // ***
-router.post('/dashboard/set-chart-size/:id', authMiddleware, dashboard.setChartSize); // ***
+router.post('/dashboard/set-charts-order', authMiddleware, dashboard.setChartsOrder); // ***
+router.post('/dashboard/set-chart-size', authMiddleware, dashboard.setChartSize); // ***
 
 router.get('/metrics/metriclist', authMiddleware, metric.getMetricList); // +
 router.get('/metrics/metriccharts', authMiddleware, metric.getMetricCharts); // +
@@ -70,7 +76,9 @@ router.get('/metrics/chartdetails', authMiddleware, metric.getChartDetails); // 
 router.get('/metrics/trendline', authMiddleware, metric.getTrendLineChart); // + (*)
 router.post('/metrics/set-charts-order/:id', authMiddleware, metric.setChartsOrder); // +
 
-router.get('/sub-chart/:type(drilldown|analytics|predictive)/:id(\\d+)', authMiddleware, subChart.getSubChart);
+router.use(require('../controllers/sso/index'));
+
+router.get('/sub-chart/:type(drilldown|analytics|predictive)/:id(\\d+)/:dashboardChartId?', authMiddleware, subChart.getSubChart);
 router.post('/sub-chart/:type(drilldown|analytics|predictive)/:id(\\d+)', authMiddleware, subChart.getSubChart);
 
 router.get('/events/eventlist', authMiddleware, event.getEventList);
@@ -90,7 +98,17 @@ router.post('/user/user-grid-settings', authMiddleware, user.saveUsersGridSettin
 
 router.get('/tag/get-all-tags', authMiddleware, tag.getAllTags);
 
+router.get('/alert/alertlist', disableCache, authMiddleware, alert.getAlertsList);
+router.post('/alert/create-alert', disableCache, authMiddleware, alert.createAlert);
+router.post('/alert/delete-alert', disableCache, authMiddleware, alert.deleteAlert);
+router.post('/alert/set-status', disableCache, authMiddleware, alert.setAlertStatus);
+
 router.post('/nlp-search/by-tags', authMiddleware, nlpSearch.searchByTags);
+
+router.get('/alert/alertlist', disableCache, authMiddleware, alert.getAlertsList);
+router.post('/alert/create-alert', disableCache, authMiddleware, alert.createAlert);
+router.post('/alert/delete-alert', disableCache, authMiddleware, alert.deleteAlert);
+router.post('/alert/set-status', disableCache, authMiddleware, alert.setAlertStatus);
 
 router.get('/financial-data/load-by-year/:year(\\d+)', authMiddleware, financialData.loadByYear); // +
 router.post('/financial-data/save-by-year/:year(\\d+)', authMiddleware, financialData.saveByYear); // +
@@ -99,7 +117,7 @@ router.get('/translation/:lngId', translation.getTranslations); // +
 router.get('/common/load-common-data/:lngId', common.getCommonData);
 
 router.post('/upload/users-tuff-csv', authMiddleware, upload.usersTuffCsv);
-router.post('/upload/recruitment-tuff-csv', authMiddleware, upload.recruitmentTuffCsv);
+router.post('/upload/users-tuff-csv-form', uploadMulter.single('csvfile'), upload.usersTuffCsvForm);
 
 router.get('/connector-csv/last-uploaded-file/:type/:file_type', authMiddleware, connectorCsv.getLastUploadedCsvFile);
 router.post('/connector-csv/export-users', authMiddleware, connectorCsv.exportUsersToCsv);
@@ -116,13 +134,20 @@ router.post('/track-user-activity', disableCache, trackUserActivity);
 
 router.post('/video', disableCache, authMiddleware, video.getVideo);
 
-router.get('/performance', authMiddleware, performance.getPerformances),
-router.post('/performance/create', authMiddleware, performance.createPerformance),
-router.post('/performance/delete', authMiddleware, performance.deletePerformance),
+router.get('/performance', authMiddleware, performance.getPerformances);
+router.post('/performance/create', authMiddleware, performance.createPerformance);
+router.post('/performance/delete', authMiddleware, performance.deletePerformance);
 
-router.get('/default_chart_view', authMiddleware, chartViews.getChartViews),
+router.get('/default_chart_view', authMiddleware, chartViews.getChartViews);
 // router.get('/available_chart_view', authMiddleware, chartViews.getAvailableChartViews),
-router.post('/update_chart_view', authMiddleware, chartViews.updateChartViews),
+router.post('/update_chart_view', authMiddleware, chartViews.updateChartViews);
+
+router.post('/nlp/autocomplete', authMiddleware, nlp.autocomplete);
+router.post('/nlp/request', authMiddleware, nlp.request);
+router.post('/nlp/add-to-dashboard', authMiddleware, nlp.addToDashboard);
+router.post('/nlp/get-chart-data', authMiddleware, nlp.getChartData);
+router.post('/nlp/nlp-feedback', authMiddleware, nlp.nlpFeedback);
+router.post('/nlp/check-chart', authMiddleware, nlp.checkChart);
 
 router.get('/test', disableCache, require('./test-route'));
 router.get('/stat', disableCache, require('./stat'));

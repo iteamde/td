@@ -60,6 +60,10 @@ var requestData = 'POST' === req.method ? req.body : {
     }
 };
 
+if (fromDashboard) {
+    requestData = reqData;
+}
+
 requestData = _.merge({
     data: {
         chart_view: undefined,
@@ -108,7 +112,7 @@ function analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalA
                 return accum;
             }
 
-            data.paletteColors = '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473';
+            data.paletteColors = colors.getAll();
 
             return _.chain(data).merge({dataset: [dataset]}).value();
         });
@@ -125,6 +129,25 @@ function analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalA
 function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, customField, customValue) {
     var startDate = moment().subtract(timeSpan.start, 'month');
     var monthsCount = 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'Total',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix,
+        paletteColors: '#0075c2'
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     return Promise.resolve(_.rangeRight(parseInt(timeSpan.end, 10) || 0, (parseInt(timeSpan.start, 10) || 0) + 1)).map(function (item) {
         var query = 'SELECT ' +
@@ -210,21 +233,7 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
             }
 
         return accum;
-    }, {
-        categories: [
-            {
-                category: []
-            }
-        ],
-        dataset: [
-            {
-                seriesname: 'Total',
-                data: []
-            }
-        ],
-        numberSuffix: verticalAxisTypeConverter.suffix,
-        paletteColors: '#0075c2'
-    });
+    }, initObject);
 }
 
 /**
@@ -235,6 +244,29 @@ function totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, cu
 function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConverter) {
     var startDate = moment().subtract(timeSpan.start, 'month');
     var monthsCount = 0;
+    var initObject = {
+        categories: [
+            {
+                category: []
+            }
+        ],
+        dataset: [
+            {
+                seriesname: 'High Performers',
+                data: []
+            },
+            {
+                seriesname: 'Non-High Performers',
+                data: []
+            }
+        ],
+        numberSuffix: verticalAxisTypeConverter.suffix,
+        paletteColors: null
+    };
+
+    if (requestData.type === 'fromDashboard') {
+        initObject.numberPrefix = '';
+    }
 
     return Promise.props({
         /**
@@ -417,25 +449,7 @@ function byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConve
                 }
 
             return accum;
-        }, {
-            categories: [
-                {
-                    category: []
-                }
-            ],
-            dataset: [
-                {
-                    seriesname: 'High Performers',
-                    data: []
-                },
-                {
-                    seriesname: 'Non-High Performers',
-                    data: []
-                }
-            ],
-            numberSuffix: verticalAxisTypeConverter.suffix,
-            paletteColors: null
-        });
+        }, initObject);
     });
 }
 
@@ -524,8 +538,12 @@ function customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, c
                 ],
                 dataset: [],
                 numberSuffix: verticalAxisTypeConverter.suffix,
-                paletteColors: '#33b297, #ee7774, #005075, #33b5e5, #73b234, #aa66cc, #b29234, #72eecf, #b23473'
+                paletteColors: colors.getAll()
             };
+
+            if (requestData.type === 'fromDashboard') {
+                initObject.numberPrefix = '';
+            }
 
             _.each(data[chartView].values, function(item) {
                 initObject.dataset.push({
@@ -722,6 +740,64 @@ switch (requestData.type) {
             });
         }).then(_resolve).catch(_reject);
         break;
+
+    // For Dashboard
+    case 'fromDashboard':
+        commonChartData.getCustomFields(req).then(function(customFields) {
+            return Promise.all([
+                commonChartData.makeAccessLevelSql(req),
+                commonChartData.makeFilterSqlByFilters(requestData.data.filters, customFields),
+                commonChartData.verticalAxisTypeConverter(requestData.data.vertical_axis_type),
+                customFields
+            ]);
+        }).spread(function (accessLevelSql, filterSql, verticalAxisTypeConverter, customFields) {
+            return (function () {
+                var chartView = requestData.data.chart_view && requestData.data.chart_view.toLowerCase() || 'total';
+
+                if (customFields.indexOf(chartView) !== -1) {
+                    return analyticsByCustomFields(chartView, filterSql, accessLevelSql, verticalAxisTypeConverter);
+                }
+
+                switch (chartView) {
+                    case 'performance':
+                        return byPerformanceChartView(filterSql, accessLevelSql, verticalAxisTypeConverter);
+                    case 'total':
+                        return totalChartView(filterSql, accessLevelSql, verticalAxisTypeConverter);
+                    default:
+                        return customChartView(filterSql, accessLevelSql, verticalAxisTypeConverter, customFields);
+                }
+            })().then(function (data) {
+                if (requestData.data.regression_analysis) {
+                    return Promise.map(data.dataset[0].data, function (_item, _index) {
+                        return Promise.reduce(data.dataset, function (accum, item, index) {
+                            return accum + (data.dataset[index].data[_index].value || 0);
+                        }, 0).then(function (sum) {
+                            return sum / data.dataset.length;
+                        });
+                    }).then(function (values) {
+                        return commonChartData.getTrendlineCurvePython(values);
+                    }).map(function (item) {
+                        return {
+                            color: '#008ee4',
+                            dashed: '0',
+                            value: _.round(item, 2)
+                        };
+                    }).then(function (values) {
+                        data.dataset.push({
+                            data: values,
+                            id: 'trendline',
+                            renderAs: 'line',
+                            showValues: '0'
+                        });
+                        return data;
+                    });
+                }
+
+                return data;
+            });
+        }).then(_resolve).catch(_reject);
+        break;
+
 
     // Init
     default:

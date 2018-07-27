@@ -15,9 +15,10 @@
         vm.translations  = {};
         vm.isActive = isActive;
         vm.showSubMenu = showSubMenu;
-        vm.dashboardMenu = $scope.commonData.dashboards;
-        vm.metricMenu = $scope.commonData.metrics;
-        $rootScope.dashboardId = $scope.commonData.dashboards ? $scope.commonData.dashboards.length ? $scope.commonData.dashboards[0].id : undefined : undefined;
+
+        $scope.$watchCollection('commonData', function () {
+            vm.metricMenu = $scope.commonData.metrics;
+        });
 
         /**
          * @param token
@@ -43,7 +44,7 @@
         $scope.$on('resize::resize', layoutService.updateSidebarHeight);
         $scope.$on('scroll::scroll', layoutService.updateSidebarHeight);
 
-        // activate();
+        activate();
 
         function activate() {
             // Load dashboard menu
@@ -54,12 +55,16 @@
 
 
         function getDashboardMenuComplete(data) {
-            vm.dashboardMenu = data;
-            
-            layoutService.getMetricMenu()
-                .success(getMetricMenuComplete)
-                .catch(serviceError);
+            if (data && data.length) {
+                $rootScope.dashboardId = data[0].id || 1;
+            }
 
+            vm.dashboardMenu = data;
+            $rootScope.dashboardId = data && data.length ? data[0].id : undefined;
+
+            // layoutService.getMetricMenu()
+            //     .success(getMetricMenuComplete)
+            //     .catch(serviceError);
         }
 
         function getMetricMenuComplete(data) {
