@@ -41,7 +41,7 @@
 @import "../css/sprite.scss";
 
 /*Google fonts*/
-//@import "../fonts/fonts";
+@import "../fonts/fonts";
 
 /*Font-awesome icons*/
 @import "../bower_components/font-awesome/scss/font-awesome";
@@ -50,14 +50,14 @@
 @import "main-responsive.scss";
 
 /*Loading bar*/
-//@import "../bower_components/angular-loading-bar/build/loading-bar.min";
+@import "../bower_components/angular-loading-bar/build/loading-bar.min";
 
 /*Gridstack*/
-//@import "../bower_components/gridstack/dist/gridstack";
+@import "../bower_components/gridstack/dist/gridstack";
 
 /*JS social styles*/
-//@import "../bower_components/jssocials/styles/jssocials";
-//@import "../bower_components/jssocials/styles/jssocials-theme-flat";
+@import "../bower_components/jssocials/styles/jssocials";
+@import "../bower_components/jssocials/styles/jssocials-theme-flat";
 
 @include sprites($spritesheet-sprites);
 
@@ -553,6 +553,8 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
       padding: 5px 10px;
       min-width: 110px;
       text-align: center;
+      max-height: 250px;
+      overflow-y: auto;
 
       .form-control {
         height: 22px;
