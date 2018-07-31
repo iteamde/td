@@ -64,6 +64,7 @@
         vm.filteredValues = _.pickBy;
         vm.getFilterName = getFilterName;
         vm.playVideo = playVideo;
+        vm.toggled = toggled;
         $scope.exportUsersToCsv = function () {
             vm.usersFilterData.timeSpan = vm.timeSpan;
             analyticsService.exportUsersToCsv($scope.filters, $scope.pagination, vm.usersFilterData, $scope.chartId);
@@ -415,6 +416,10 @@
             _.each($scope.widgets[0].chart_data.dataset, function(item) {
                 item.seriesname = item.seriesname ? $scope.getTranslation(item.seriesname.toLowerCase()) : $scope.getTranslation('blank');
             });
+        }
+
+        function toggled() {
+            $scope.$broadcast('scroll-menu');
         }
     }
 })();

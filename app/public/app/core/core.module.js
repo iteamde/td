@@ -16,6 +16,7 @@
          */
         'ngStorage', /*'ngplus',*/ 'pascalprecht.translate', 'tmh.dynamicLocale', 'ngValidate', 'notyModule', 'dndLists'
     ]);
+
 })();
 
 

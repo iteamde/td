@@ -549,12 +549,55 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
         border-color: #adadad;
       }
     }
+
+    .scroll-menu.dropdown-menu {
+      max-height: 250px;
+      overflow-y: auto;
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #888;
+        min-height: 60px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      &::-webkit-scrollbar-button {
+        width:10px;
+        height: 10px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 0 0;
+      }
+      &::-webkit-scrollbar-button:vertical:decrement{
+        background-image: url(./../images/others/arrow-up.png);
+
+      }
+      &::-webkit-scrollbar-button:vertical:increment{
+        background-image: url(./../images/others/arrow-down.png);
+      }
+    }
+
+
     .dropdown-menu {
       padding: 5px 10px;
       min-width: 110px;
       text-align: center;
-      max-height: 250px;
-      overflow-y: auto;
+
+
 
       .form-control {
         height: 22px;
@@ -3344,3 +3387,5 @@ label.inactive {
     }
   }
 }
+
+

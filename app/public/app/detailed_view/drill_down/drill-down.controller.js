@@ -59,6 +59,7 @@
         vm.playVideo = playVideo;
         vm.hideEmptyValues = hideEmptyValues;
         vm.showModal = showModal;
+        vm.toggled = toggled;
 
         $scope.exportUsersToCsv = function () {
             drillDownService.exportUsersToCsv($scope.filters, $scope.pagination, vm.usersFilterData, $scope.chartId);
@@ -356,6 +357,10 @@
             _.each($scope.widgets[0].chart_data.dataset, function(item) {
                 item.seriesname = item.seriesname ? $scope.getTranslation(item.seriesname.toLowerCase()) : $scope.getTranslation('blank');
             });
+        }
+
+        function toggled() {
+            $scope.$broadcast('scroll-menu');
         }
     }
 })();

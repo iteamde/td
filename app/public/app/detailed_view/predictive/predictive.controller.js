@@ -20,6 +20,7 @@
         vm.resetGrid = resetGrid;
         vm.showMoreLess = showMoreLess;
         vm.playVideo = playVideo;
+        vm.toggled = toggled;
         vm.createToken = commonService.createToken;
 
         vm.activeTab = 0;
@@ -233,6 +234,10 @@
 
         function playVideo() {
             videoService.playVideo($scope.videoUrl);
+        }
+
+        function toggled() {
+            $scope.$broadcast('scroll-menu');
         }
     }
 })();

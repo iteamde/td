@@ -100,11 +100,12 @@
                                         {{ filter.name }}
                                     </label>
 
-                                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                    <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="vm.toggled()">
                                         <span class="caret"></span>
                                     </button>
 
                                     <ul class="dropdown-menu scroll-menu" infinite-scroll uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                        <div  ng-style="{'height': (itemsCount + 1) * cellHeight }" style="width: 0;float: left"></div>
                                         <li class="fix-on-top">
                                             <input class="form-control" type="text" placeholder="{{ getTranslation('search_by_label') }}" ng-model="filter.label">
                                         </li>
