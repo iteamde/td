@@ -20,19 +20,20 @@
         vm = this;
 
         vm.isLoading = false;
+        vm.status = $scope.isAdmin ? 0 : 1;
 
         vm.connectors = [
             {
                 id: 4,
                 title: "TUFF",
                 logo: "TUFF",
-                status: 1,
+                status: vm.status,
                 error: {}
             },
             {
                 title: "ADP",
                 logo: "ADP",
-                status: 0,
+                status: vm.status,
                 error: {
                     status: false,
                     count: 0
@@ -41,7 +42,7 @@
             {
                 title: "PeopleSoft",
                 logo: "PeopleSoft",
-                status: 0,
+                status: vm.status,
                 error: {
                     status: false,
                     count: 0
@@ -50,7 +51,7 @@
             {
                 title: "SAP HR",
                 logo: "SAP_HR",
-                status: 0,
+                status: vm.status,
                 error: {
                     status: false,
                     count: 0
@@ -59,7 +60,7 @@
             {
                 title: "Deltek",
                 logo: "Deltek",
-                status: 0,
+                status: vm.status,
                 error: {
                     status: false,
                     count: 0
@@ -68,7 +69,7 @@
             {
                 title: "Workday",
                 logo: "Workday",
-                status: 0,
+                status: vm.status,
                 error: {
                     status: false,
                     count: 0
@@ -77,7 +78,7 @@
             {
                 title: "ExponentHR",
                 logo: "ExponentHR",
-                status: 0,
+                status: vm.status,
                 //syncInfo: "Last sync: May 7, 2016 1:26 am",
                 error: {
                     status: false,
@@ -87,7 +88,7 @@
             {
                 title: "UltiPro",
                 logo: "UltiPro",
-                status: 0,
+                status: vm.status,
                 error: {
                     status: false,
                     count: 0
