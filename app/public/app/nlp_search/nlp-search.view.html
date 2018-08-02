@@ -45,10 +45,11 @@
 
         <div ng-show="!vm.queryResults.length" class="noResults">
 
-            <img src="../../content/images/others/divi-search-icon.jpg" />
+            <img src="../../content/images/others/divi-search-icon.jpg"/>
             <h4>No Results Found</h4>
             <p>
-                There is no adequate data to calculate your result.<br />Please consult with your representative or contact
+                There is no adequate data to calculate your result.<br/>Please consult with your representative or
+                contact
                 <a href="mailto:support@trendata.com">support@trendata.com</a>
             </p>
 
@@ -67,16 +68,17 @@
                             </option>
                         </select>
                     </div> -->
-                    <i class="fa fa-plus" ng-click="vm.addToDashboard()" title="{{getTranslation('add_to_dashboard')}}"></i>
+                    <i class="fa fa-plus" ng-click="vm.addToDashboard()"
+                       title="{{getTranslation('add_to_dashboard')}}"></i>
                     <span ng-if="vm.isChartView"> {{getTranslation('rows')}} : {{vm.total}}</span>
                 </div>
                 <div class="pull-right helpful-container">
-                    <div class="first-question"  ng-if="vm.questionIndex === 1">
+                    <div class="first-question" ng-if="vm.questionIndex === 1">
                         Was the result helpful?
                         <span class="yes-btn pull-right" ng-click="vm.feedBack(true)"></span>
                         <span class="no-btn pull-right" ng-click="vm.feedBack(false)"></span>
                     </div>
-                    <div class="second-question"  ng-if="vm.questionIndex === 2">
+                    <div class="second-question" ng-if="vm.questionIndex === 2">
                         <div class="pull-left text-center">
                             What where you looking for?
                             <input type="text" ng-model="vm.lookingForText">
@@ -95,7 +97,7 @@
                              gs-item-y="0"
                              gs-item-width="w.width"
                              gs-item-height="w.height"
-                             gs-item-min-width ="2"
+                             gs-item-min-width="2"
                              gs-item-min-height="2"
                              on-item-added="vm.onItemAdded()">
 
@@ -119,13 +121,16 @@
                     <div class="table-container" double-scroll-bars>
                         <table data-anchor>
                             <tr>
-                                <th class="grid-cell" ng-repeat="(key, val) in vm.users[0] | filterObjectKeysByArray:vm.checkedColumns" ng-click="vm.sortUsers(key)" title="{{ key | capitalizeFilter }}">
+                                <th class="grid-cell"
+                                    ng-repeat="(key, val) in vm.users[0] | filterObjectKeysByArray:vm.checkedColumns"
+                                    ng-click="vm.sortUsers(key)" title="{{ key | capitalizeFilter }}">
                                     {{ key | capitalizeFilter }}
                                 </th>
                             </tr>
 
                             <tr ng-repeat="user in vm.users | limitTo:vm.pagination.page_size:vm.pagination.page_size * (vm.pagination.page_number - 1)">
-                                <td ng-repeat="field in user  | filterObjectKeysByArray:vm.checkedColumns">{{field}}</td>
+                                <td ng-repeat="field in user  | filterObjectKeysByArray:vm.checkedColumns">{{field}}
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -137,12 +142,20 @@
                             <select ng-model="vm.pagination.page_size" ng-options="x for x in [10,25,50,100]"></select>
                         </div>
 
+
                         <div class="flex-1 text-center">
-                    <span class="column-manage"
-                          ng-click="vm.manageColumns()">
-                        Manage Columns
-                    </span>
+                            <span class="column-manage"
+                                  ng-click="vm.manageColumns()">
+                                  Manage Columns
+                            </span>
+                            |
+                            <span class="grid-manage"
+                                  ng-click="vm.exportUsersToCsv()">
+                                  Export to CSV
+                            </span>
                         </div>
+
+
 
                         <ul ng-if="vm.users.length && vm.users.length > 10"
                             uib-pagination

@@ -100,6 +100,7 @@
         };
 
         function getChartsComplete(res) {
+
             $scope.widgets = mockDataService.widgets();
             $scope.widgets[0].default_chart_display_type = "mscombi2d";
             $scope.widgets[0].title = res.title;
@@ -226,6 +227,11 @@
         }
 
         function changeChartComplete(res) {
+
+            res.chart_data.chart_data.dataset.forEach(function (item) {
+                item.seriesname = item.seriesname.replace(/custom/gi, '');
+            });
+
             var newArray = [];
             var maxVal = 0;
             var valIndex = 0;

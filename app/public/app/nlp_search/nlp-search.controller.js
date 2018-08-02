@@ -6,9 +6,9 @@
         .module('app.nlpSearch')
         .controller('NlpSearchController', NlpSearchController);
 
-    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams', '$uibModal', '$timeout', '$location', '$localStorage'];
+    NlpSearchController.$inject = ['$scope', 'nlpSearchService', '$stateParams', '$uibModal', '$timeout', '$location', '$localStorage', 'commonService'];
 
-    function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal, $timeout, $location, $localStorage) {
+    function NlpSearchController($scope, nlpSearchService, $stateParams, $uibModal, $timeout, $location, $localStorage, commonService) {
 
         var vm = this;
 
@@ -16,6 +16,7 @@
         vm.isChartRendered = true;
         vm.submit = submit;
         vm.addToDashboard = addToDashboard;
+        vm.exportUsersToCsv = exportUsersToCsv;
         $scope.getTranslation = $scope.$parent.getTranslation;
         vm.getQueries = nlpSearchService.getAutocompleteResults;
         vm.onItemAdded = onItemAdded;
@@ -31,7 +32,9 @@
             page_number: 1,
             page_size: 10,
             sort_column: 'first name',
-            sort_type: 'asc'
+            sort_type: 'asc',
+            table_columns:  vm.checkedColumns
+
         };
         vm.request = {
             text: ''
@@ -110,6 +113,22 @@
             e.stopPropagation();
             vm.checkedColumns = data;
         });
+
+
+
+        function exportUsersToCsv() {
+            console.log('csv');
+            commonService.exportUsersToCsv(null, {
+                page_number: 1,
+                page_size: 10,
+                sort_column: 'first name',
+                sort_type: 'asc',
+                table_columns:  ["full name", "location", "manager", "department", "education level"]
+
+            }, {timeSpan:{start: 12, end: null, title: "1 year"}}, null);
+        }
+
+
 
         function submit(request) {
             if (vm.withoutFeedbackClick) {

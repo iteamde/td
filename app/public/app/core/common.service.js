@@ -347,8 +347,8 @@
       return $http.post(apiUrl, {
         filters: filters,
         pagination: pagination,
-        timeSpan: usersFilter.timeSpan || null,
-        userTypes: usersFilter.types || null,
+        timeSpan: (usersFilter && usersFilter.timeSpan) || null,
+        userTypes: (usersFilter && usersFilter.types) || null,
         chartId: chartId
       }).then(function(resp) {
         if (resp.status === 200) {
