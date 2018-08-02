@@ -98,7 +98,7 @@
                 .success(function (data) {
                     vm.valueBox = data.value_box;
                     commonService.changeFusionTheme(data.charts);
-                    $scope.widgets =  data.charts;
+                    $scope.widgets = commonService.charts ? data.charts.concat(commonService.charts) : data.charts;
                     if (period.start === period.end) {
                         vm.selectedPeriod = moment().subtract(period.start, 'month').format('MMMM YYYY');
                     } else {
