@@ -279,6 +279,21 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
   border-radius: 0;
 }
 
+
+.search-form .has-feedback.form-group {
+  .dropdown-menu {
+    max-height: 350px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    li > a{
+      white-space: normal;
+    }
+  }
+}
+
+
+
+
 /*  =Model
 ------------------------------------------------------------------ */
 
@@ -3209,14 +3224,14 @@ label.inactive {
 }
 
 .text-danger.error-label {
-  display: inline-block; 
-  text-align: left; 
-  width: 350px; 
-  margin-left: 170px; 
-  margin-top: 2px; 
-  font-size: 13px; 
-  line-height: 1.3; 
-  margin-right: 0; 
+  display: inline-block;
+  text-align: left;
+  width: 350px;
+  margin-left: 170px;
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.3;
+  margin-right: 0;
 }
 
 .form-group-password{position: relative;}
