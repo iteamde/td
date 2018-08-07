@@ -158,7 +158,7 @@
                         <div class="chart-button-group" ng-if="w.is_kueri">
                             <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('drilldown') }}</a>
                             <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('predictive') }}</a>
+                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
                         </div>
                     </div>
 
