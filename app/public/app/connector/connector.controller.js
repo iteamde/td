@@ -19,6 +19,7 @@
         var vm;
         vm = this;
         vm.isLoading = false;
+        vm.connectorStatus = $scope.isAdmin ? 1 : 0;
 
         vm.connectors = [
             {
@@ -31,7 +32,7 @@
             {
                 title: "ADP",
                 logo: "ADP",
-                status: 1,
+                status: vm.connectorStatus,
                 error: {
                     status: false,
                     count: 0
@@ -40,7 +41,7 @@
             {
                 title: "PeopleSoft",
                 logo: "PeopleSoft",
-                status: 1,
+                status: vm.connectorStatus,
                 error: {
                     status: false,
                     count: 0
@@ -49,7 +50,7 @@
             {
                 title: "SAP HR",
                 logo: "SAP_HR",
-                status: 1,
+                status: vm.connectorStatus,
                 error: {
                     status: false,
                     count: 0
@@ -58,7 +59,7 @@
             {
                 title: "Deltek",
                 logo: "Deltek",
-                status: 1,
+                status: vm.connectorStatus,
                 error: {
                     status: false,
                     count: 0
@@ -67,7 +68,7 @@
             {
                 title: "Workday",
                 logo: "Workday",
-                status: 1,
+                status: vm.connectorStatus,
                 error: {
                     status: false,
                     count: 0
@@ -76,7 +77,7 @@
             {
                 title: "ExponentHR",
                 logo: "ExponentHR",
-                status: 1,
+                status: vm.connectorStatus,
                 //syncInfo: "Last sync: May 7, 2016 1:26 am",
                 error: {
                     status: false,
@@ -86,7 +87,7 @@
             {
                 title: "UltiPro",
                 logo: "UltiPro",
-                status: 1,
+                status: vm.connectorStatus,
                 error: {
                     status: false,
                     count: 0
@@ -117,7 +118,7 @@
 
         function showSpinner(e, connector) {
 
-            if (connector.title !== 'TUFF') {
+            if (connector.title !== 'TUFF' && $scope.isAdmin) {
 
                 e.preventDefault();
                 vm.isLoading = true;
