@@ -6,7 +6,8 @@
     </div>
 
 
-    <div class="surveys-filter-container" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; margin-bottom: 20px">
+    <div class="surveys-filter-container"
+         style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; margin-bottom: 20px">
         <div style="display: inline-block">
             <label>{{ getTranslation('Department')}}:</label>
             <select>
@@ -29,7 +30,7 @@
         <div style="display: inline-block">
             <label>{{ getTranslation('Level')}}:</label>
             <select>
-                <option  selected>Staff</option>
+                <option selected>Staff</option>
             </select>
         </div>
     </div>
@@ -56,19 +57,22 @@
 
                     <td ng-repeat="score in [1,2,3,4,5,0]" style=" cursor: pointer;" ng-click="data['score']=score">
                         <label ng-class="{'fa fa-check': data['score'] === $index+1 || (!data['score'] && $index == 5)}">
-                        <input  type="radio"
-                                ng-model="data['score']"
-                                ng-value="score"
-                                style="display:inline-block; position: absolute; opacity: 0"/>
+                            <input type="radio"
+                                   ng-model="data['score']"
+                                   ng-value="score"
+                                   style="display:inline-block; position: absolute; opacity: 0"/>
                         </label>
                     </td>
 
                 </tr>
 
             </table>
+            <div style="color:red; font-size: 18px; text-align: right; padding-top: 10px">Engagement Score
+                {{vm.getScoreSum()}}
+            </div>
         </div>
     </div>
-    <div style="color:red; font-size: 18px; text-align: right; padding-top: 10px">Engagement Score {{vm.getScoreSum()}}</div>
+    
 </div>
 
 
