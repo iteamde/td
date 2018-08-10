@@ -17,7 +17,8 @@
         '$rootScope',
         '$uibModal',
         '$location',
-        'alertsService', '$localStorage'
+        'alertsService',
+        '$localStorage'
     ];
 
     function DrillDownController($scope,

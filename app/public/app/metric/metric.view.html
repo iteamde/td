@@ -1,5 +1,6 @@
 <!-- wrapper to shift child containers to -10px on left and right -->
-<div class="margin-negative-10">
+<!-- TODO: delete ng-if="!vm.isForSurveys"  when Survey will doesn`t need anymore -->
+<div class="margin-negative-10" ng-if="!vm.isForSurveys">
 
     <!-- Label Box Gridstack  -->
     <div class="grid-stack"
@@ -147,6 +148,76 @@
                             <a class="" href="#/drill-down/{{w.id}}">{{ getTranslation('drilldown') }}</a>
                             <a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>
                             <a class="" href="#/predictive/{{w.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- TODO: delete all that is down  when Survey will doesn`t need anymore -->
+<div class="margin-negative-10" ng-if="vm.isForSurveys">
+
+    <!-- Charts Gridstack -->
+    <div gridstack class="grid-stack grid1" is-chart-resizing="isChartResizing" options="options"
+         on-window-resize="onWindowResize(gridstack)" on-change="onChange(event,items)"
+         on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)"
+         on-resize-start="onResizeStart(event,ui)"
+         on-resize-stop="onResizeStop(event,ui)">
+
+        <!-- item -->
+        <div class="grid-stack-item"
+             gridstack-item
+             data-grid-item-index="{{$index}}"
+             ng-repeat="w in vm.surveyWidget"
+             gs-item-x="w.x"
+             gs-item-y="w.y"
+             gs-item-width="w.width"
+             gs-item-height="w.height"
+             gs-item-min-width="vm.TILE_MIN_WIDTH"
+             gs-item-min-height="vm.TILE_MIN_HEIGHT"
+             gs-item-autopos="1"
+             on-item-added="onItemAdded(item)"
+             on-item-removed="onItemRemoved(item)">
+
+            <div class="grid-stack-item-content">
+
+                <div class="chart">
+                    <div class="chart-header">
+                        <h2>{{w.title}}</h2>
+
+                        <i class="fa fa-question fa-absolute" uib-tooltip="{{w.description}}" tooltip-placement="auto bottom"></i>
+                        <!-- Chart option menu -->
+                        <div uib-dropdown class="dropdown chart-option-dropdown">
+                            <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
+                                    id="chart-dropdown-{{$index}}"
+                                    aria-haspopup="true" aria-expanded="true"
+                                    title="{{ getTranslation('chart_options') }}">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
+                                aria-labelledby="chart-dropdown-{{$index}}">
+                                <li>
+                                    <button ng-click="vm.addSurveysToDashboard()" class="dropdown-item-btn" title="{{ getTranslation('add_to_dashboard') }}">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chart-content">
+                        <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
+
+                        <!-- Chart navigation buttons -->
+                        <div class="chart-button-group">
+                            <a class="" href="#/drill-down-surveys/{{w.id}}">{{ getTranslation('drilldown') }}</a>
+                            <!--<a class="" href="#/analytics/{{w.id}}">{{ getTranslation('analytics') }}</a>-->
+                            <!--<a class="" href="#/predictive/{{w.id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>-->
                         </div>
                     </div>
                 </div>

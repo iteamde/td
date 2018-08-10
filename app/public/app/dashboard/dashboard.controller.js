@@ -5,9 +5,38 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$rootScope', '$scope', '$window', 'TILE_MIN_WIDTH', 'TILE_MIN_HEIGHT', 'exception', '$stateParams', 'dashboardService', 'commonService', 'videoService', 'alertsService', '$uibModal'];
+    DashboardController.$inject = [
+        '$rootScope',
+        '$scope',
+        '$window',
+        'TILE_MIN_WIDTH',
+        'TILE_MIN_HEIGHT',
+        'exception',
+        '$stateParams',
+        'dashboardService',
+        'commonService',
+        'videoService',
+        'alertsService',
+        '$uibModal',
+        'mockDataService',
+        '$localStorage'
+    ];
 
-    function DashboardController($rootScope, $scope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, dashboardService, commonService, videoService, alertsService, $uibModal) {
+    function DashboardController(
+        $rootScope,
+        $scope,
+        $window,
+        TILE_MIN_WIDTH,
+        TILE_MIN_HEIGHT,
+        exception,
+        $stateParams,
+        dashboardService,
+        commonService,
+        videoService,
+        alertsService,
+        $uibModal,
+        mockDataService,
+        $localStorage) {
 
         var vm;
         var rel = '?rel=0';
@@ -90,6 +119,15 @@
                     if (video)
                         $scope.videoUrl = video.trendata_video_video + rel;
                 });
+
+            // TODO: delete when Survey will doesn`t need anymore
+            if($localStorage.addChart) {
+                var surveysChart = mockDataService.getSurveysChart()[0];
+                surveysChart.default_chart_display_type = "doughnut2d";
+                surveysChart.chart_data.paletteColors = '#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a';
+                $scope.widgets.push(surveysChart)
+            }
+
             lastUploadedBg()
         }
 
@@ -207,5 +245,13 @@
                 }
             });
         }
+
+        // TODO: delete when Survey will doesn`t need anymore
+        vm.removeSurveysChart = function(index){
+            delete $localStorage.addChart;
+            $scope.widgets.splice(index,1);
+        }
+
+
     }
 })();

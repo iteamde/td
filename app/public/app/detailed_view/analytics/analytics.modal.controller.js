@@ -21,7 +21,7 @@
 
         function addToDashboardComplete() {
             $scope.$close();
-            commonService.notification($scope.getTranslation('chart_added_successfully'), "success");
+            commonService.notification($scope.getTranslation('chart_added_successfully'), "info");
         }
 
         function serviceError(error) {

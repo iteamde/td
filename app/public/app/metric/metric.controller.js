@@ -19,11 +19,49 @@
         'TOOLTIP_MESSAGES',
         '$http',
         'BASE_URL',
-        'alertsService'];
+        'alertsService',
+        'mockDataService',
+        '$localStorage'];
 
-    function MetricController($scope, $rootScope, $window, TILE_MIN_WIDTH, TILE_MIN_HEIGHT, exception, $stateParams, metricService, commonService, ALLOWED_CHART_TYPES, TOOLTIP_MESSAGES, $http, BASE_URL, alertsService) {
+    function MetricController($scope,
+                              $rootScope,
+                              $window,
+                              TILE_MIN_WIDTH,
+                              TILE_MIN_HEIGHT,
+                              exception,
+                              $stateParams,
+                              metricService,
+                              commonService,
+                              ALLOWED_CHART_TYPES,
+                              TOOLTIP_MESSAGES,
+                              $http,
+                              BASE_URL,
+                              alertsService,
+                              mockDataService,
+                              $localStorage) {
 
         var vm = this;
+
+
+        // TODO: delete when Survey will doesn`t need anymore
+        vm.isForSurveys = $stateParams.id === '100' ? true : false;
+        vm.surveyWidget = mockDataService.getSurveysChart();
+        vm.surveyWidget.forEach(function (item) {
+            item.default_chart_display_type = "doughnut2d";
+            item.chart_data.paletteColors = '#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a';
+        })
+
+        vm.addSurveysToDashboard = function () {
+            if (!$localStorage.addChart) {
+                $localStorage.addChart = true;
+                commonService.notification($scope.getTranslation('chart_added_successfully'), "success");
+            } else {
+                commonService.notification('Chart is already added', "warning");
+            }
+        }
+
+
+
 
         // charts setting defined in core constants
         vm.TILE_MIN_WIDTH = TILE_MIN_WIDTH;
@@ -62,7 +100,7 @@
                 .catch(serviceError);
         }
 
-        vm.shareChart = function(index, title) {
+        vm.shareChart = function (index, title) {
             var date = 'for ' + moment().subtract(1, 'month').format('MMMM YYYY');
 
             commonService.shareChart(index, title, 'Metric', date);
@@ -70,10 +108,12 @@
 
         function getMetricChartsComplete(data) {
             /**
-            * HIDE "Quality of Hires" Metric From Source Of Hire Page for now
-            */
+             * HIDE "Quality of Hires" Metric From Source Of Hire Page for now
+             */
             if ($stateParams.id == 3) {
-                data.charts = _.filter(data.charts, function(chart){ return chart.id != 41; });
+                data.charts = _.filter(data.charts, function (chart) {
+                    return chart.id != 41;
+                });
             }
 
 
@@ -105,7 +145,9 @@
                 .value();
 
             metricService.setChartsOrder(sortByID, $stateParams.id)
-                .success(function() {console.log('sorted')})
+                .success(function () {
+                    console.log('sorted')
+                })
                 .catch(serviceError);
         }
 
@@ -118,8 +160,8 @@
                 chart_id: id,
                 dashboard_id: $rootScope.dashboardId
             })
-            .success(addToDashboardComplete)
-            .catch(serviceError);
+                .success(addToDashboardComplete)
+                .catch(serviceError);
         }
 
         function addToDashboardComplete() {
@@ -129,6 +171,7 @@
         function openAlertsModal(chart) {
             alertsService.openModal($scope, chart.id, chart, 1);
         }
+
 
     }
 

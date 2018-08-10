@@ -1,0 +1,39 @@
+<div id="drill-down" ng-if="vm.isGridItemReady">
+
+    <!-- Gridstack -->
+
+    <div gridstack class="grid-stack" options="{cellHeight: 600,verticalMargin: 10}">
+
+        <!-- item -->
+        <div gridstack-item data-grid-item-index="{{$index}}" ng-repeat="w in vm.surveyWidget" class="grid-stack-item"
+             gs-item-x="0"
+             gs-item-y="0"
+             gs-item-width="12"
+             gs-item-height="4"
+             gs-item-autopos="1">
+
+            <div class="grid-stack-item-content">
+
+                <div class="chart">
+                    <div class="chart-header">
+                        <h2>{{w.title}}</h2>
+
+                        <div class="chart-filters well well-sm">
+                            <div class="chart-header-buttons">
+                                <span class="fa fa-plus" ng-click="vm.addToDashboard()" tooltip-placement="left" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-content">
+                        <div add-chart id="fschart{{$index}}" status="vm.isGridItemReady"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

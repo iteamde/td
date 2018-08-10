@@ -36,6 +36,7 @@
         'app.predictive',
         'app.connector',
         'app.drillDown',
+        'app.drillDownSurveys',
         'app.nlpSearch',
         'app.profile',
         'app.languages',

@@ -3,8 +3,10 @@
 
     <div class="header-bar text-center" ng-style="{'background-color': vm.lastUploadedBg()}">
         {{ getTranslation('last_uploaded_file') }}: {{ vm.lastUploaded }}
-        <span ng-if="videoUrl" class="fa fa-video-camera pull-right" ng-click="vm.playVideo()" uib-tooltip="{{getTranslation('help_video')}}"></span>
-        <span class="fa fa-clock-o pull-right" ng-click="vm.choosePeriod()" uib-tooltip="{{getTranslation('metric_history')}}"></span>
+        <span ng-if="videoUrl" class="fa fa-video-camera pull-right" ng-click="vm.playVideo()"
+              uib-tooltip="{{getTranslation('help_video')}}"></span>
+        <span class="fa fa-clock-o pull-right" ng-click="vm.choosePeriod()"
+              uib-tooltip="{{getTranslation('metric_history')}}"></span>
         <span class="pull-right">{{vm.selectedPeriod}}</span>
     </div>
 
@@ -37,7 +39,8 @@
                     <div class="chart-header">
                         <h2>{{box.title}}</h2>
 
-                        <i class="fa fa-question fa-absolute" uib-tooltip="{{box.description}}" tooltip-placement="auto bottom"></i>
+                        <i class="fa fa-question fa-absolute" uib-tooltip="{{box.description}}"
+                           tooltip-placement="auto bottom"></i>
                         <!-- Chart option menu -->
                         <div uib-dropdown class="dropdown chart-option-dropdown">
                             <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
@@ -49,12 +52,14 @@
                             <ul uib-dropdown-menu class="dropdown-menu dropdown-menu-right"
                                 aria-labelledby="chart-dropdown-a{{$index}}">
                                 <li>
-                                    <button ng-click="vm.openAlertsModal(box)" class="dropdown-item-btn" title="{{ getTranslation('alerts') }}">
+                                    <button ng-click="vm.openAlertsModal(box)" class="dropdown-item-btn"
+                                            title="{{ getTranslation('alerts') }}">
                                         <span class="fa fa-bell"></span>
                                     </button>
                                 </li>
                                 <li>
-                                    <button ng-click="vm.removeChart(box.id)" title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
+                                    <button ng-click="vm.removeChart(box.id)"
+                                            title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 </li>
@@ -63,11 +68,15 @@
                     </div>
                     <!-- Chart content -->
                     <div class="chart-content">
-                        <span class="chart-text-number">{{box.chart_data.data[0].value}}</span><i class="fa text-info"></i>
+                        <span class="chart-text-number">{{box.chart_data.data[0].value}}</span><i
+                            class="fa text-info"></i>
                         <div class="chart-button-group">
-                            <a class="" href="#/drill-down/{{box.parent_id || box.chart_id}}">{{ getTranslation('drilldown') }}</a>
-                            <a class="" href="#/analytics/{{box.parent_id || box.chart_id}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/predictive/{{box.parent_id || box.chart_id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                            <a class="" href="#/drill-down/{{box.parent_id || box.chart_id}}">{{
+                                getTranslation('drilldown') }}</a>
+                            <a class="" href="#/analytics/{{box.parent_id || box.chart_id}}">{{
+                                getTranslation('analytics') }}</a>
+                            <a class="" href="#/predictive/{{box.parent_id || box.chart_id}}" ng-if="isAdmin">{{
+                                getTranslation('predictive') }}</a>
                         </div>
                     </div>
                 </div>
@@ -107,7 +116,8 @@
                     <div class="chart-header">
                         <h2>{{w.title}}</h2>
 
-                        <i class="fa fa-question fa-absolute" uib-tooltip="{{w.description}}" tooltip-placement="auto bottom"></i>
+                        <i class="fa fa-question fa-absolute" uib-tooltip="{{w.description}}"
+                           tooltip-placement="auto bottom"></i>
                         <!-- Chart option menu -->
                         <div uib-dropdown class="dropdown chart-option-dropdown">
                             <button uib-dropdown-toggle class="btn btn-default dropdown-toggle" type="button"
@@ -120,26 +130,49 @@
                                 ng-class="{'dropdown-menu-1': w.default_chart_display_type == 'table'}"
                                 aria-labelledby="chart-dropdown-{{$index}}">
 
-                                <li>
-                                    <button ng-click="vm.openAlertsModal(w)" class="dropdown-item-btn" title="{{ getTranslation('alerts') }}">
-                                        <span class="fa fa-bell"></span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button ng-click="vm.shareChart($index, w.title)" class="dropdown-item-btn" title="{{ getTranslation('share_chart') }}">
-                                        <span class="fa fa-share-alt"></span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button ng-click="vm.exportChart($index)" class="dropdown-item-btn" title="{{ getTranslation('download_chart') }}">
-                                        <span class="fa fa-download"></span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button ng-click="vm.removeChart(w.id)" title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
-                                        <span class="fa fa-times"></span>
-                                    </button>
-                                </li>
+                                <!-- TODO: delete ng-if="w.title !== 'Surveys'"  when Survey will doesn`t need anymore -->
+                                <div ng-if="w.title !== 'Surveys'">
+                                    <li>
+                                        <button ng-click="vm.openAlertsModal(w)" class="dropdown-item-btn"
+                                                title="{{ getTranslation('alerts') }}">
+                                            <span class="fa fa-bell"></span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button ng-click="vm.shareChart($index, w.title)" class="dropdown-item-btn"
+                                                title="{{ getTranslation('share_chart') }}">
+                                            <span class="fa fa-share-alt"></span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button ng-click="vm.exportChart($index)" class="dropdown-item-btn"
+                                                title="{{ getTranslation('download_chart') }}">
+                                            <span class="fa fa-download"></span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button ng-click="vm.removeChart(w.id)"
+                                                title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
+                                            <span class="fa fa-times"></span>
+                                        </button>
+                                    </li>
+                                </div>
+
+                                <!-- TODO: all div  when Survey will doesn`t need anymore -->
+                                <div ng-if="w.title === 'Surveys'">
+                                    <li>
+                                        <button ng-click="vm.exportChart($index)" class="dropdown-item-btn"
+                                                title="{{ getTranslation('download_chart') }}">
+                                            <span class="fa fa-download"></span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button ng-click="vm.removeSurveysChart($index)"
+                                                title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
+                                            <span class="fa fa-times"></span>
+                                        </button>
+                                    </li>
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -147,25 +180,47 @@
                     <div class="chart-content" ng-if="!vm.isTable(w)">
                         <div add-chart id="fschart{{$index}}" status="isGridItemReady"></div>
 
+                        <!-- TODO: delete ng-if="w.title !== 'Surveys'"  when Survey will doesn`t need anymore -->
+                        <div ng-if="w.title !== 'Surveys'">
+                            <!-- Chart navigation buttons -->
+                            <div class="chart-button-group" ng-if="!w.is_kueri">
+                                <a class=""
+                                   href="#/drill-down/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}">{{
+                                    getTranslation('drilldown') }}</a>
+                                <a class=""
+                                   href="#/analytics/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}">{{
+                                    getTranslation('analytics') }}</a>
+                                <a class=""
+                                   href="#/predictive/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}"
+                                   ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                            </div>
 
-                        <!-- Chart navigation buttons -->
-                        <div class="chart-button-group" ng-if="!w.is_kueri">
-                            <a class="" href="#/drill-down/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}">{{ getTranslation('drilldown') }}</a>
-                            <a class="" href="#/analytics/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/predictive/{{w.parent_id ? w.parent_id + '?dcid=' + w.id : w.chart_id}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
+                            <div class="chart-button-group" ng-if="w.is_kueri">
+                                <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{
+                                    getTranslation('drilldown') }}</a>
+                                <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{
+                                    getTranslation('analytics') }}</a>
+                                <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}" ng-if="isAdmin">{{
+                                    getTranslation('predictive') }}</a>
+                            </div>
                         </div>
+                        <!-- TODO: all div  when Survey will doesn`t need anymore -->
+                        <div ng-if="w.title === 'Surveys'">
+                            <!-- Chart navigation buttons -->
+                            <div class="chart-button-group">
+                                <a class=""
+                                   href="#/drill-down-surveys/{{w.id}}">{{
+                                    getTranslation('drilldown') }}</a>
+                            </div>
 
-                        <div class="chart-button-group" ng-if="w.is_kueri">
-                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('drilldown') }}</a>
-                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}">{{ getTranslation('analytics') }}</a>
-                            <a class="" href="#/nlp-search/{{w.nlp_query?w.nlp_query:w.title}}" ng-if="isAdmin">{{ getTranslation('predictive') }}</a>
                         </div>
                     </div>
 
                     <div class="chart-content table" ng-if="vm.isTable(w)">
                         <div id="grid" class="nlp">
                             <div class="grid-row first">
-                                <div class="grid-cell" ng-repeat="(key, val) in w.chart_data[0]" title="{{ key | capitalizeFilter }}">
+                                <div class="grid-cell" ng-repeat="(key, val) in w.chart_data[0]"
+                                     title="{{ key | capitalizeFilter }}">
                                     {{ key | capitalizeFilter }}
                                 </div>
                             </div>

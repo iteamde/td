@@ -18,6 +18,10 @@
 
         $scope.$watchCollection('commonData', function () {
             vm.metricMenu = $scope.commonData.metrics;
+
+            // TODO: delete down string when Survey will doesn`t need anymore
+            if(vm.metricMenu)
+                vm.metricMenu = vm.metricMenu.concat([{id:100, icon:'fa fa-check',  title:'Surveys'}]);
         });
 
         /**

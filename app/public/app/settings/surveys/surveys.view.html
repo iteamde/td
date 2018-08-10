@@ -1,42 +1,74 @@
 <!-- Chart -->
 <div class="chart-2 chart-grid margin-negative-20">
     <!-- Chart Header -->
-    <div class="chart-header clearfix">
-
+    <div class="chart-header clearfix" style="border-bottom: 1px solid lightgrey; margin-bottom: 25px;">
         <h2>{{ getTranslation('surveys') }}</h2>
+    </div>
 
+
+    <div class="surveys-filter-container" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; margin-bottom: 20px">
+        <div style="display: inline-block">
+            <label>{{ getTranslation('Department')}}:</label>
+            <select>
+                <option>Development</option>
+            </select>
+        </div>
+
+        <div style="display: inline-block">
+            <label>{{ getTranslation('Country')}}:</label>
+            <select>
+                <option>India</option>
+            </select>
+        </div>
+        <div style="display: inline-block">
+            <label>{{ getTranslation('Gender')}}:</label>
+            <select>
+                <option>Male</option>
+            </select>
+        </div>
+        <div style="display: inline-block">
+            <label>{{ getTranslation('Level')}}:</label>
+            <select>
+                <option  selected>Staff</option>
+            </select>
+        </div>
     </div>
 
     <div id="grid">
-        <div class="grid-row first">
-            <div class="grid-cell">{{getTranslation('question')}}</div>
-            <div class="grid-cell">{{getTranslation('actions')}}</div>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th ng-repeat="column in  vm.columns">
+                        {{column | capitalizeFilter}}
+                    </th>
+                </tr>
+
+                <tr ng-repeat-start="question in vm.questions">
+                    <td colspan="{{vm.columns.length}}"
+                        ng-style="{'background-color': 'lightGrey', 'color': '#000', 'font-size': '20px'}">
+                        {{question.title}}
+                    </td>
+                </tr>
+                <tr ng-repeat-end ng-repeat="data in question.question"
+                    ng-style="{'background-color': $even ? 'beige' : '#fff'}">
+
+                    <td style="text-align: left">{{data.title}}</td>
+
+                    <td ng-repeat="score in [1,2,3,4,5,0]" style=" cursor: pointer;" ng-click="data['score']=score">
+                        <label ng-class="{'fa fa-check': data['score'] === $index+1 || (!data['score'] && $index == 5)}">
+                        <input  type="radio"
+                                ng-model="data['score']"
+                                ng-value="score"
+                                style="display:inline-block; position: absolute; opacity: 0"/>
+                        </label>
+                    </td>
+
+                </tr>
+
+            </table>
         </div>
-
-        <div class="grid-row" ng-repeat="question in vm.questions">
-            <div class="grid-cell" ng-repeat="(key, val) in question">{{val}}</div>
-            <div class="grid-cell">
-                <button type="button" class="btn btn-xs action-edit" title="{{ getTranslation('edit') }}" ng-click="vm.editToken(question)"> <i class="fa fa-pencil"></i></button>
-            </div>
-        </div>
-
     </div>
-
-    <div style="text-align: center; margin: 20px 0">
-    <label >{{ getTranslation('recipients') }}</label>
-    <select ng-model="vm.recipient"
-            ng-change="vm.update()">
-        <option ng-repeat="option in vm.recipients"
-                value="{{option}}">
-            {{option}}
-        </option>
-    </select>
-
-    <button class="btn btn-success" style="margin-left: 20px">
-        {{ getTranslation('send_survey') }}
-    </button>
-
-    </div>
-
-    </div>
+    <div style="color:red; font-size: 18px; text-align: right; padding-top: 10px">Engagement Score {{vm.getScoreSum()}}</div>
 </div>
+
+

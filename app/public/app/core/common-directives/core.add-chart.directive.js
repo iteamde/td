@@ -7,6 +7,8 @@
 
     addChart.$inject = ['$compile', 'commonService'];
     function addChart($compile, commonService) {
+
+
         return {
             restrict: 'A',
             //transclude: true,
@@ -16,8 +18,7 @@
 
                 // watch for status to change on chart item added even
                 $scope.$watch('status', function (newVal, oldVal) {
-                    if (newVal) {
-
+                    if ( newVal) {
 
                         commonService.setChartWidthHeight($element.closest('.grid-stack-item '), $scope.$parent.w);
 
