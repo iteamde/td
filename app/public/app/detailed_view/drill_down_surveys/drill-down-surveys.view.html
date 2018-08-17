@@ -34,4 +34,57 @@
         </div>
     </div>
 
+    <div class="chart chart-grid">
+        <div id="grid">
+            <div class="table-container">
+
+                <table>
+                    <tr>
+                        <th ng-repeat="(key, val) in vm.mockUsers[0]">
+                            {{vm.cut(key) | capitalizeFilter}}
+                        </th>
+                    </tr>
+
+                    <tr ng-repeat="user in vm.mockUsers">
+                        <td  ng-repeat="(key, val) in user">
+                            <span ng-if="val != 1 && val != 0">{{val}}</span>
+                            <i ng-if="val == 1 " ng-class="{'fa fa-check': val}"></i>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="grid-bottom">
+                <div>
+                    <span>Limit grid to:</span>
+
+                    <select ng-model="pagination.page_size || 10" ng-options="x for x in [10,25,50,100]"></select>
+
+                    <span>employees</span>
+                </div>
+                <div>
+            <span class="grid-manage">
+                Manage Columns
+            </span>
+                    |
+                    <span class="grid-manage">
+                Export to CSV
+            </span>
+                </div>
+                <ul class="pull-right" uib-pagination
+                    boundary-link-numbers="true"
+                    items-per-page="pagination.page_size"
+                    total-items="$ctrl.totalUsers"
+                    ng-model="pagination.page_number"
+                    max-size="5"
+                    previous-text="&lsaquo;"
+                    next-text="&rsaquo;">
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
 </div>

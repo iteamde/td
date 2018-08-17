@@ -167,7 +167,7 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button ng-click="vm.removeSurveysChart($index)"
+                                        <button ng-click="vm.removeSurveysChart($index, w)"
                                                 title="{{ getTranslation('remove_chart') }}" class="dropdown-item-btn">
                                             <span class="fa fa-times"></span>
                                         </button>
@@ -208,9 +208,9 @@
                         <div ng-if="w.title === 'Surveys'">
                             <!-- Chart navigation buttons -->
                             <div class="chart-button-group">
-                                <a class=""
-                                   href="#/drill-down-surveys/{{w.id}}">{{
-                                    getTranslation('drilldown') }}</a>
+                                <a class="" href="#/drill-down-surveys/{{w.id}}">{{getTranslation('drilldown')}}</a>
+                                <a class="" href="#/drill-down-surveys/{{w.id}}">{{getTranslation('analytics')}}</a>
+                                <a class="" ng-if="isAdmin" href="#/drill-down-surveys/{{w.id}}">{{getTranslation('predictive')}}</a>
                             </div>
 
                         </div>

@@ -123,9 +123,17 @@
             // TODO: delete when Survey will doesn`t need anymore
             if($localStorage.addChart) {
                 var surveysChart = mockDataService.getSurveysChart()[0];
+                surveysChart.mockType = 0;
                 surveysChart.default_chart_display_type = "doughnut2d";
                 surveysChart.chart_data.paletteColors = '#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a';
-                $scope.widgets.push(surveysChart)
+                $scope.widgets.push(surveysChart);
+            }
+            // TODO: delete when Survey will doesn`t need anymore
+            if($localStorage.addChart1) {
+                var surveysChart1 = mockDataService.getSurveysChart()[0];
+                surveysChart1.mockType = 1;
+                surveysChart1.chart_data.paletteColors = '#0075c2';
+                $scope.widgets.push(surveysChart1);
             }
 
             lastUploadedBg()
@@ -247,8 +255,12 @@
         }
 
         // TODO: delete when Survey will doesn`t need anymore
-        vm.removeSurveysChart = function(index){
-            delete $localStorage.addChart;
+        vm.removeSurveysChart = function(index, chart){
+            if(!chart.mockType) {
+                delete $localStorage.addChart;
+            } else {
+                delete $localStorage.addChart1;
+            }
             $scope.widgets.splice(index,1);
         }
 

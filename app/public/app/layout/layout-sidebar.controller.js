@@ -20,8 +20,8 @@
             vm.metricMenu = $scope.commonData.metrics;
 
             // TODO: delete down string when Survey will doesn`t need anymore
-            if( $scope.isAdmin && vm.metricMenu )
-                vm.metricMenu = vm.metricMenu.concat([{id:100, icon:'fa fa-check',  title:'Surveys'}]);
+            if ( $scope.isAdmin && vm.metricMenu )
+                vm.metricMenu = vm.metricMenu.concat([{id:100, icon:'fa fa-question',  title:'Surveys'}]);
         });
 
         /**
