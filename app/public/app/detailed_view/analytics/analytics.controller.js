@@ -287,6 +287,28 @@
             var maxVal = 0;
             var valIndex = 0;
 
+
+            if(res.chart_data.chart_data) {
+                res.chart_data.chart_data.dataset.forEach(function (item) {
+                    item.seriesname = item.seriesname.replace(/^custom/gi, '');
+                })
+
+                // filter data that has nothing to show (all values = 0)
+                res.chart_data.chart_data.dataset = res.chart_data.chart_data.dataset
+                    .filter(function (item) {
+                        return !(_.every(item.data, ['value', 0]));
+                    });
+            }
+
+
+            // If dataset === [] => Fusion chart displays 'No Data' and after it we need to reload chart
+            // to prevent reload we add mock dataset
+            if(!res.chart_data.chart_data.dataset.length) {
+                res.chart_data.chart_data.dataset = [{seriesname: 'No data to display', data: [{value:0}]}];
+            }
+
+
+
             if (res.chart_data.users) {
                 $scope.users = res.chart_data.users;
             }
