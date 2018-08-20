@@ -1,0 +1,47 @@
+<div>
+    <div class="modal-body configure-connector-modal">
+        <h4>{{ getTranslation('upload_file') }}</h4>
+
+        <br>
+
+        <form name="">
+
+            <label class="btn btn-default btn-file">
+                Browse <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" upload-csv>
+            </label>
+
+            <span class="file-name-holder" ng-bind="vm.fileName" ng-if="vm.fileName"></span>
+
+
+            <ul class="nav" ng-if="vm.uploadErrors">
+                <div class="upload-errors-count">{{vm.uploadErrorsCount}} Error{{vm.uploadErrorsCount > 1 && 's' || ''}} Found!</div>
+                <li class="alert upload-errors-line text-left" ng-repeat="(message, lines) in vm.uploadErrors">
+                    <div class="line-number">
+                        <span class="fa fa-exclamation-circle"></span>
+                        {{message}}
+
+                        <span ng-show="lines.length">
+                            : Line{{lines.length > 1 && 's' || ''}}
+                            {{lines.slice(0, 20).join(', ')}}
+                            <span ng-show="lines.length > 20"> etc.</span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+
+
+            <select style="margin: 20px 0;">
+                <option value="Commercial Banking">Commercial Banking</option>
+                <option value="Mortgage">Mortgage</option>
+                <option value="Securities">Securities</option>
+                <option value="Consumer Banking">Consumer Banking</option>
+                <option value="Private Wealth">Private Wealth</option>
+            </select>
+
+            <div class="button-group form-group">
+                <button class="btn btn-xlpad btn-default btn-sm" ng-disabled="vm.isLoading" ng-click="$close()">{{ getTranslation('cancel') }}</button>
+                <button class="btn btn-xlpad btn-primary btn-sm pull-right" ng-disabled="vm.isLoading" ng-click="vm.saveSurvey()">{{ getTranslation('save') }}</button>
+            </div>
+        </form>
+    </div>
+</div>

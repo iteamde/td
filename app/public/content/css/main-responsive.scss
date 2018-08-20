@@ -235,11 +235,18 @@
   .topbar.ng-scope {
     width: 100vw;
   }
-  .sidebar-inner{
-    margin-top: 120px;
+
+  .left.side-menu {
+    top: 0px;
+    padding-top: 106px;
   }
+
+  //.sidebar-inner{
+  //  margin-top: 120px;
+  //}
   #wrapper .content-page > .content {
     margin-top: 100px;
+    min-height: calc(100vh - 180px);
   }
 
   .navbar.navbar-custom {
@@ -461,3 +468,9 @@
 
 }
 
+@media (max-width: 326px) {
+
+  .left.side-menu {
+    padding-top: 156px;
+  }
+}

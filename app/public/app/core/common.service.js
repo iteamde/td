@@ -198,7 +198,7 @@
                 var gridItemIndex;
                 gridItemIndex = ui.element.data('grid-item-index');
                 setChartWidthHeight(ui.element, $scope.widgets[gridItemIndex]);
-            fn($scope.widgets);};
+           if(fn) fn($scope.widgets);};
         }
 
 

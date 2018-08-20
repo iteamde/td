@@ -160,14 +160,13 @@
 
 
 <!-- TODO: delete all that is down  when Survey will doesn`t need anymore -->
-<div class="margin-negative-10" ng-if="vm.isForSurveys">
+<div class="margin-negative-10" ng-if="vm.isForSurveys && vm.surveyWidget.length">
 
     <!-- Charts Gridstack -->
     <div gridstack class="grid-stack grid1" is-chart-resizing="isChartResizing" options="options"
-         on-window-resize="onWindowResize(gridstack)" on-change="onChange(event,items)"
+         on-change="onChange(event,items)"
          on-drag-start="onDragStart(event,ui)" on-drag-stop="onDragStop(event,ui)"
-         on-resize-start="onResizeStart(event,ui)"
-         on-resize-stop="onResizeStop(event,ui)">
+         on-resize-stop="vm.resizeSurveyChart(event,ui)">
 
         <!-- item -->
         <div class="grid-stack-item"

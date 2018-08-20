@@ -228,6 +228,7 @@ module.exports = function(grunt) {
                         'public/app/settings/surveys/surveys.module.js',
                         'public/app/settings/surveys/surveys.routes.js',
                         'public/app/settings/surveys/surveys.controller.js',
+                        'public/app/settings/surveys/surveys.modal-upload.controller.js',
 
                         // YouTube Videos
                         'public/app/layout/layout-video.controller.js',

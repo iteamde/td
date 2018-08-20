@@ -6,11 +6,37 @@
         .module('app.surveys')
         .controller('SurveysController', SurveysController);
 
-    SurveysController.$inject = ['$scope'];
+    SurveysController.$inject = ['$scope', '$uibModal', '$timeout', 'commonService'];
 
-    function SurveysController($scope) {
+    function SurveysController($scope, $uibModal, $timeout, commonService) {
 
         var vm = this;
+        vm.isLoading = false;
+
+        $scope.$on('showSpinner', function() {
+            vm.isLoading = true;
+            $timeout(function () {
+                vm.isLoading = false;
+                commonService.notification("Survey Uploaded Successfully", "success");
+            }, 7000);
+        });
+
+
+
+        vm.uploadData = function () {
+            var modalInstance = $uibModal.open({
+                backdrop: 'static',
+                keyboard: false,
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'sm',
+                templateUrl: 'app/settings/surveys/surveys.modal.upload.view.html',
+                controller: 'SurveysModalUploadController',
+                controllerAs: 'vm',
+                scope: $scope
+            });
+        };
 
         vm.getScoreSum = function(){
             var sum = 0;
@@ -32,23 +58,23 @@
                 question: [
                     {
                         title: 'I have the tools and resources I need to do my job well.',
-                        score: 5
+                        score: 0
                     },
                     {
                         title: 'Most days, I see positive results because of my work.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'My work is valued by this organization.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'I have received the training I need to do my job well.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'The amount of work I am expected to do is reasonable',
-                        score: 4
+                        score: 0
                     }
                 ]
             },
@@ -57,15 +83,15 @@
                 question: [
                     {
                         title: 'The people I work with take accountability and ownership for results.',
-                        score: 3
+                        score: 0
                     },
                     {
                         title: 'The people I work with treat me with respect.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'My coworkers and I openly talk about what needs to be done to be more effective.',
-                        score: 4
+                        score: 0
                     }
                 ]
             },
@@ -74,19 +100,19 @@
                 question: [
                     {
                         title: 'My supervisor helps me understand how my work is important to the organization.',
-                        score: 3
+                        score: 0
                     },
                     {
                         title: 'My supervisor is approachable and easy to talk to.',
-                        score: 3
+                        score: 0
                     },
                     {
                         title: 'My supervisor creates a motivating and energizing workplace.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'My supervisor sets high expectations for our team\'s performance.',
-                        score: 5
+                        score: 0
                     }
                 ]
             },
@@ -95,27 +121,27 @@
                 question: [
                     {
                         title: 'The vision and goals of this organization are important to me personally.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'This organization provides attractive opportunities for training and development.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'There are opportunities for my own advancement in this organization.',
-                        score: 3
+                        score: 0
                     },
                     {
                         title: 'My opinions are sought on issues that affect me and my job.',
-                        score: 3
+                        score: 0
                     },
                     {
                         title: 'This organization cares about employees.',
-                        score: 4
+                        score: 0
                     },
                     {
                         title: 'I would recommend this organization as a great place to work.',
-                        score: 4
+                        score: 0
                     }
 
                 ]

@@ -1,39 +1,26 @@
+<div style="margin: 40vh 35vw"  ng-if="vm.isLoading">
+    <i class="fa fa-spinner fa-5x fa-spin"></i>
+</div>
+
 <!-- Chart -->
-<div class="chart-2 chart-grid margin-negative-20">
+<div class="chart-2 chart-grid margin-negative-20" ng-if="!vm.isLoading">
+
+
     <!-- Chart Header -->
-    <div class="chart-header clearfix" style="border-bottom: 1px solid lightgrey; margin-bottom: 25px;">
+    <div  class="chart-header clearfix" style="border-bottom: 1px solid lightgrey; margin-bottom: 25px;">
         <h2>{{ getTranslation('surveys') }}</h2>
     </div>
 
-
-    <div class="surveys-filter-container"
-         style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; margin-bottom: 20px">
-        <div style="display: inline-block">
-            <label>{{ getTranslation('Department')}}:</label>
-            <select>
-                <option>Development</option>
-            </select>
-        </div>
-
-        <div style="display: inline-block">
-            <label>{{ getTranslation('Country')}}:</label>
-            <select>
-                <option>India</option>
-            </select>
-        </div>
-        <div style="display: inline-block">
-            <label>{{ getTranslation('Gender')}}:</label>
-            <select>
-                <option>Male</option>
-            </select>
-        </div>
-        <div style="display: inline-block">
-            <label>{{ getTranslation('Level')}}:</label>
-            <select>
-                <option selected>Staff</option>
-            </select>
+    <div class="row connector-btns" style="margin-bottom: 20px">
+        <div class="col-sm-12 text-center">
+            <button class="btn btn-xlpad btn-primary" ng-click="vm.uploadData()">
+                <i class="fa fa-cloud-upload"></i>
+                {{ getTranslation('upload_file') }}
+            </button>
         </div>
     </div>
+
+
 
     <div id="grid">
         <div class="table-container">

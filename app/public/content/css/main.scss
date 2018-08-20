@@ -1440,9 +1440,13 @@ input[type=text].form-control-primary, input[type=password].form-control-primary
 
 .side-menu {
   width: 215px;
-  top: 0;
+  top: 50px;
   bottom: 0;
-  z-index: 1000;
+  z-index: 500;
+
+  //#sidebar-menu > ul {
+  //  position: fixed;
+  //}
 }
 
 .side-menu.left {
@@ -1477,13 +1481,14 @@ body.mobile .slimscroller {
 .content-page {
   margin-left: 215px;
   position: relative;
+  overflow: hidden;
 }
 
 .content-page > .content {
   margin-top: 50px;
   position: relative;
   padding: 20px;
-  min-height: 100vh;
+  min-height: calc(100vh - 110px);
 }
 
 .side-menu.right {

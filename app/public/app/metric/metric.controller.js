@@ -74,6 +74,7 @@
         vm.changeChartType = commonService.changeChartType;
         vm.addToDashboard = addToDashboard;
         vm.openAlertsModal = openAlertsModal;
+        vm.resizeSurveyChart = resizeSurveyChart;
 
         activate();
 
@@ -170,6 +171,19 @@
 
         function openAlertsModal(chart) {
             alertsService.openModal($scope, chart.id, chart, 1);
+        }
+
+        // TODO: delete when mock surveys wil be deleted
+        function resizeSurveyChart(e, ui){
+
+            var gridItems = [].slice.call(e.currentTarget.children)
+
+            gridItems.forEach(function(item){
+                var chartContainer  = $(item)[0];
+                var chartId = $($(item).find('fusioncharts')[0])[0].children[0].getAttribute('id');
+                FusionCharts(chartId).resizeTo( chartContainer.clientWidth - 47, chartContainer.clientHeight - 80);
+            });
+
         }
 
 
