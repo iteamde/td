@@ -196,6 +196,11 @@ module.exports = function(grunt) {
                         'public/app/detailed_view/drill_down_surveys/drill-down-surveys.service.js',
                         'public/app/detailed_view/drill_down_surveys/drill-down-surveys.controller.js',
 
+                        // ANALYTICS Surveys
+                        'public/app/detailed_view/analytics_surveys/analytics-surveys.module.js',
+                        'public/app/detailed_view/analytics_surveys/analytics-surveys.routes.js',
+                        'public/app/detailed_view/analytics_surveys/analytics-surveys.service.js',
+                        'public/app/detailed_view/analytics_surveys/analytics-surveys.controller.js',
 
                         // Nlp Search
                         'public/app/nlp_search/nlp-search.module.js',

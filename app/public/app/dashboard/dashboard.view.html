@@ -131,7 +131,7 @@
                                 aria-labelledby="chart-dropdown-{{$index}}">
 
                                 <!-- TODO: delete ng-if="w.title !== 'Surveys'"  when Survey will doesn`t need anymore -->
-                                <div ng-if="w.title !== 'Surveys'">
+                                <div ng-if="w.title !== 'Engagement Scores'">
                                     <li>
                                         <button ng-click="vm.openAlertsModal(w)" class="dropdown-item-btn"
                                                 title="{{ getTranslation('alerts') }}">
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <!-- TODO: all div  when Survey will doesn`t need anymore -->
-                                <div ng-if="w.title === 'Surveys'">
+                                <div ng-if="w.title === 'Engagement Scores'">
                                     <li>
                                         <button ng-click="vm.exportChart($index)" class="dropdown-item-btn"
                                                 title="{{ getTranslation('download_chart') }}">
@@ -209,7 +209,7 @@
                             <!-- Chart navigation buttons -->
                             <div class="chart-button-group">
                                 <a class="" href="#/drill-down-surveys/{{w.id}}">{{getTranslation('drilldown')}}</a>
-                                <a class="" href="#/drill-down-surveys/{{w.id}}">{{getTranslation('analytics')}}</a>
+                                <a class="" href="#/analitics-surveys/{{w.id}}">{{getTranslation('analytics')}}</a>
                                 <a class="" ng-if="isAdmin" href="#/drill-down-surveys/{{w.id}}">{{getTranslation('predictive')}}</a>
                             </div>
 

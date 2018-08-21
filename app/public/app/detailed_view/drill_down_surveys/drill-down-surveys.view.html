@@ -18,11 +18,32 @@
                     <div class="chart-header">
                         <h2>{{w.title}}</h2>
 
-                        <div class="chart-filters well well-sm">
+                        <div class="chart-filters well well-sm" ng-class="{expanded: vm.activeTab > 0}">
+                            <div class="chart-header-tab-title pull-left">
+                                <span ng-if="vm.activeTab === 1">Settings</span>
+                            </div>
+
                             <div class="chart-header-buttons">
+                                <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
                                 <span class="fa fa-plus" ng-click="vm.addToDashboard()" tooltip-placement="left" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
                             </div>
+
+                            <div class="chart-header-tab" ng-show="vm.activeTab === 1">
+                                <div class="chart-filter">
+                                    <label >{{ getTranslation('chart_view') }}:</label>
+                                    <select ng-model="vm.view"
+                                            ng-change="vm.updateChart('change_chart_view')">
+                                        <option ng-repeat="option in vm.chartViews"
+                                                value="{{option}}">
+                                            {{option}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
                         </div>
+
                     </div>
 
                     <div class="chart-content">
@@ -35,55 +56,7 @@
     </div>
 
     <div class="chart chart-grid">
-        <div id="grid">
-            <div class="table-container">
-
-                <table>
-                    <tr>
-                        <th ng-repeat="(key, val) in vm.mockUsers[0]">
-                            {{vm.cut(key) | capitalizeFilter}}
-                        </th>
-                    </tr>
-
-                    <tr ng-repeat="user in vm.mockUsers">
-                        <td  ng-repeat="(key, val) in user">
-                            <span ng-if="val != 1 && val != 0">{{val}}</span>
-                            <i ng-if="val == 1 " ng-class="{'fa fa-check': val}"></i>
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div class="grid-bottom">
-                <div>
-                    <span>Limit grid to:</span>
-
-                    <select ng-model="pagination.page_size || 10" ng-options="x for x in [10,25,50,100]"></select>
-
-                    <span>employees</span>
-                </div>
-                <div>
-            <span class="grid-manage">
-                Manage Columns
-            </span>
-                    |
-                    <span class="grid-manage">
-                Export to CSV
-            </span>
-                </div>
-                <ul class="pull-right" uib-pagination
-                    boundary-link-numbers="true"
-                    items-per-page="pagination.page_size"
-                    total-items="$ctrl.totalUsers"
-                    ng-model="pagination.page_number"
-                    max-size="5"
-                    previous-text="&lsaquo;"
-                    next-text="&rsaquo;">
-                </ul>
-            </div>
-
-        </div>
+        <common-grid users="users" total-users="totalUsers" chart-id="29" custom-fields="customFields"></common-grid>
     </div>
 
 

@@ -1,0 +1,60 @@
+<div id="drill-down" ng-if="vm.isGridItemReady"> <div gridstack class="grid-stack" options="{cellHeight: 600,verticalMargin: 10}">
+
+    <!-- item -->
+    <div gridstack-item data-grid-item-index="{{$index}}" ng-repeat="w in vm.surveyWidget" class="grid-stack-item"
+         gs-item-x="0"
+         gs-item-y="0"
+         gs-item-width="12"
+         gs-item-height="4"
+         gs-item-autopos="1">
+
+        <div class="grid-stack-item-content">
+
+            <div class="chart">
+                <div class="chart-header">
+                    <h2>{{w.title}}</h2>
+
+                    <div class="chart-filters well well-sm" ng-class="{expanded: vm.activeTab > 0}">
+                        <div class="chart-header-tab-title pull-left">
+                            <span ng-if="vm.activeTab === 1">Settings</span>
+                        </div>
+
+                        <div class="chart-header-buttons">
+                            <span class="fa fa-cog" ng-class="{active: vm.activeTab === 1}" ng-click="resizeChart(1)" tooltip-placement="bottom-left" uib-tooltip="Settings"></span>
+                            <span class="fa fa-plus" ng-click="vm.addToDashboard()" tooltip-placement="left" uib-tooltip="{{ getTranslation('add_to_dashboard') }}"></span>
+                        </div>
+
+                        <div class="chart-header-tab" ng-show="vm.activeTab === 1">
+                            <div class="chart-filter">
+                                <label >{{ getTranslation('chart_view') }}:</label>
+                                <select ng-model="vm.view"
+                                        ng-change="vm.updateChart('change_chart_view')">
+                                    <option ng-repeat="option in vm.chartViews"
+                                            value="{{option}}">
+                                        {{option}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="chart-content">
+                    <div add-chart id="fschart{{$index}}" status="vm.isGridItemReady"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="chart chart-grid">
+        <common-grid users="users" total-users="totalUsers" chart-id="29" custom-fields="customFields"></common-grid>
+    </div>
+
+
+
+</div>

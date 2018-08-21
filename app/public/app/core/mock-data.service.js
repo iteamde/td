@@ -174,7 +174,7 @@
                 "id": 100,
                 "created_on": "0000-00-00 00:00:00",
                 "status": "1",
-                "title": "Surveys",
+                "title": "Engagement Scores",
                 "default_chart_display_type": "mscombi2d",
                 "position_x": 0,
                 "position_y": 0,
@@ -182,10 +182,19 @@
                 "height": 4,
                 "chart_type": "1",
                 "chart_data": {
-                    "paletteColors": "#0075c2",
+                    "paletteColors": "#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a",
                     "chart": {
                         "theme": "tren",
-                        "numberPrefix": ""
+                        "numberPrefix": "",
+                        "yAxisMaxValue": "5",
+                        "yAxisMinValue": "0",
+                        // "yAxisValueDecimals": "0",
+                        // "forceDecimals": "0",
+                        // "forceYAxisValueDecimals": "0",
+                        // "formatNumber": "0",
+                        // "numberScaleValue": "10",
+                        // "numberScaleUnit": " "
+
                     },
                     "categories": [
                         {
@@ -200,11 +209,11 @@
                     "dataset": [
                         {
                             data: [
-                                {value: '8'},
-                                {value: '46'},
-                                {value: '20'},
-                                {value: '46'},
-                                {value: '44'}
+                                {value: '1'},
+                                {value: '3'},
+                                {value: '2'},
+                                {value: '5'},
+                                {value: '4'}
                             ],
                             seriesname: ''
                         }

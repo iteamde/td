@@ -48,7 +48,7 @@
         vm.surveyWidget = mockDataService.getSurveysChart();
         vm.surveyWidget.forEach(function (item) {
             item.default_chart_display_type = "doughnut2d";
-            item.chart_data.paletteColors = '#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a';
+            //item.chart_data.paletteColors = '#33b297, #ee7774, #005075, #33B5E5, #AA66CC, #00002a, #00892a, #7a7730, #ddff2a';
         })
 
         vm.addSurveysToDashboard = function () {

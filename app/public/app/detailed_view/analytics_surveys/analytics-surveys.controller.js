@@ -4,14 +4,13 @@
 
     angular
         .module('app.drillDownSurveys')
-        .controller('DrillDownSurveysController', DrillDownSurveysController);
+        .controller('AnalyticsSurveysController', AnalyticsSurveysController);
 
-    DrillDownSurveysController.$inject = ['$scope', '$stateParams', 'mockDataService', '$localStorage', 'commonService', 'drillDownService', '$element'];
+    AnalyticsSurveysController.$inject = ['$scope', '$stateParams', 'mockDataService', '$localStorage', 'commonService', 'analyticsService'];
 
-    function DrillDownSurveysController($scope, $stateParams, mockDataService, $localStorage, commonService, drillDownService, $element) {
+    function AnalyticsSurveysController($scope, $stateParams, mockDataService, $localStorage, commonService, analyticsService) {
 
         var vm = this;
-
         vm.isForSurveys = $stateParams.id === '100' ? true : false;
         vm.isGridItemReady = false;
         vm.surveyWidget = mockDataService.getSurveysChart();
@@ -30,7 +29,7 @@
         activate();
 
         function activate() {
-            drillDownService.getCharts('29')
+            analyticsService.getCharts('29')
                 .success(getChartsComplete);
         }
 
@@ -57,7 +56,6 @@
                 .value();
 
             vm.isGridItemReady = true;
-
         }
 
         function updateChart() {
@@ -70,7 +68,7 @@
                 user_pagination: ''
             };
 
-            drillDownService.changeChart(options)
+            analyticsService.changeChart(options)
                 .success(changeChartComplete);
         }
 
