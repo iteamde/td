@@ -19,7 +19,9 @@
         'alertsService',
         '$uibModal',
         'mockDataService',
-        '$localStorage'
+        '$localStorage',
+        'drillDownService',
+        'analyticsService'
     ];
 
     function DashboardController(
@@ -36,7 +38,9 @@
         alertsService,
         $uibModal,
         mockDataService,
-        $localStorage) {
+        $localStorage,
+        drillDownService,
+        analyticsService) {
 
         var vm;
         var rel = '?rel=0';
@@ -88,6 +92,7 @@
             dashboardService.getDashboardCharts(vm.dashboard_id)
                 .success(getDashboardChartsComplete)
                 .catch(serviceError);
+
         }
 
         vm.shareChart = function(index, title) {
@@ -129,12 +134,51 @@
                 $scope.widgets.push(surveysChart);
             }
             // TODO: delete when Survey will doesn`t need anymore
-            if($localStorage.addChart1) {
-                var surveysChart1 = mockDataService.getSurveysChart()[0];
-                surveysChart1.mockType = 1;
-                surveysChart1.chart_data.paletteColors = '#0075c2';
-                $scope.widgets.push(surveysChart1);
-            }
+            var localstorageKeys = Object.keys($localStorage);
+            localstorageKeys.forEach(function(item){
+                var mockChart = mockDataService.getSurveysChart()[0];
+                var options = {};
+                var str ='';
+
+                if(item.includes('addChartDDS')) {
+                    mockChart.mock =item;
+                     str = item.replace('addChartDDS', '');
+                     options = {
+                        id: '29',
+                        type: 'change_chart_view',
+                        view: str,
+                        axis: 'Values',
+                        filter: '',
+                        user_pagination: ''
+                    };
+                    drillDownService.changeChart(options)
+                        .success(changeChartCompleteDD);
+                }
+                if(item.includes('addChartAS')) {
+                    mockChart.mock =item;
+                     str = item.replace('addChartAS', '');
+                     options = {
+                        id: '29',
+                        type: 'change_chart_view',
+                        view: str,
+                        axis: 'Values',
+                        filter: '',
+                        user_pagination: ''
+                    };
+                    analyticsService.changeChart(options)
+                        .success(changeChartCompleteDD);
+                }
+
+                function changeChartCompleteDD(res){
+                    mockChart.chart_data.dataset = res.chart_data.chart_data.categories;
+                    mockChart.chart_data.categories = res.chart_data.chart_data.categories;
+                    mockChart.chart_data.dataset = res.chart_data.chart_data.dataset;
+                    $scope.widgets.push(mockChart);
+                }
+
+            });
+
+
 
             lastUploadedBg()
         }
@@ -256,11 +300,9 @@
 
         // TODO: delete when Survey will doesn`t need anymore
         vm.removeSurveysChart = function(index, chart){
-            if(!chart.mockType) {
-                delete $localStorage.addChart;
-            } else {
-                delete $localStorage.addChart1;
-            }
+
+            if(!chart.mockType) delete $localStorage.addChart;
+            if($localStorage.hasOwnProperty(chart.mock)) delete $localStorage[chart.mock]
             $scope.widgets.splice(index,1);
         }
 

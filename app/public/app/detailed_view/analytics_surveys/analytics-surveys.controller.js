@@ -88,8 +88,8 @@
         }
 
         function addToDashboard() {
-            if (!$localStorage.addChart1) {
-                $localStorage.addChart1 = true;
+            if (!$localStorage['addChartAS' + vm.view]) {
+                $localStorage['addChartAS' + vm.view] = true;
                 commonService.notification($scope.getTranslation('chart_added_successfully'), 'success');
             } else {
                 commonService.notification($scope.getTranslation('Chart is already added'), 'warning');
